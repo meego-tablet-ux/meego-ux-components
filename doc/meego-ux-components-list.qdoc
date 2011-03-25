@@ -1,0 +1,56 @@
+/*!
+    \page MeeGo-Ux-Components List
+    \section1 Available components
+    The available components are listed below. 
+
+    \list
+      \o Basic widgets:
+        \list
+
+        \o  \l { Button }
+        \o  \l { IconButton }
+        \o  \l { ToggleButton }
+        \o  \l { RadioButton }
+        \o  \l { RadioGroup }
+        \o  \l { ExpandingBox }
+        \o  \l { PopupList }
+        \o  \l { Slider }
+        \o  \l { Slider }
+        \o  \l { VerticalSlider }
+        \o  \l { TextEntry }
+        \o  \l { AppPage }
+        \o  \l { PageStack }
+        \o  \l { ProgressBar }
+        \o  \l { Window }
+        \o  \l { Label }
+        \o  \l { BottomToolBar }
+        \endlist
+      \o Modal dialogs:
+        \list
+        \o  \l { DatePicker }
+        \o  \l { ModalContextMenu }
+        \o  \l { ModalMessageBox }
+        \o  \l { MusicPicker }
+        \o  \l { PhotoPicker }
+        \o  \l { TimePicker }
+        \o  \l { VideoPicker }
+        \o  \l { ContactsPicker }
+        \endlist
+      \o Basic components:
+        \list
+        \o  \l { MediaGridView }
+        \o  \l { ModalDialog }
+        \o  \l { ModalFog }
+        \o  \l { ScrollableMusicList }
+        \o  \l { Theme }
+        \o  \l { TopItem }
+        \endlist
+      \o Examples
+        \list
+        \o MeeGo-Ux-Widgetgallery
+        \o \l { MeeGo-Ux-App-Photo }
+        \o MeeGo-Ux-Tutorial
+        \endlist
+    \endlist
+
+*/

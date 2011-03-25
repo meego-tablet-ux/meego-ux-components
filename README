@@ -1,0 +1,146 @@
+
+meego-ux-components ReadMe
+=================================================================
+This version was tested on:
+- meego-tablet-ia32-pinetrail-1.1.90.7.20110308.6.iso
+- meego-handset-ia32-pinetrail-1.1.90.7.20110308.6.iso
+
+You can install the meego-ux-components via zypper:
+ sudo zypper install meego-ux-components
+ sudo zypper install meego-ux-components-devel
+
+or build them yourself:
+
+// necessary additional libraries:
+$ zypper in libXdamage-devel
+$ zypper in libXcomposite-devel
+$ zypper in libX11-devel
+$ zypper in kcalcore-devel
+$ zypper in qt-mobility-devel
+$ zypper in libqtopengl-devel
+$ zypper in libcontentaction-devel
+$ zypper in contextkit-devel
+
+// then build the project:
+$ qmake
+$ make install
+
+You can find detailed documentation in the qml-files themselves, create
+documentation files via qdoc3, see on bottom, and on:
+ https://otcshare.org/meego-tablet/node/831
+
+- Examples for meego-ux-components -
+===============================
+We provide two examples in which you can see and test the meego-ux-components in use.
+You can find these examples in the git repository:
+ meego-ux-components/examples/
+or if you installed them via zypper in:
+ usr/share/
+
+You can start the examples with:
+- on chroot in the folder of the example:
+  qmlviewer -frameless main.qml
+ 
+- on ExoPc, in the terminal started from home desktop: 
+  export DISPLAY=:0
+  meego-qml-launcher --fullscreen --opengl --app meego-ux-widgetgallery
+  meego-qml-launcher --fullscreen --opengl --app meego-ux-app-photos
+
+
+- Widget gallery -
+----------------------
+You can find a widget gallery under:
+git repository:  meego-components/examples/meego-ux-widgetgallery/
+
+All currently available meego-ux-components can be found here. 'Widgets' shows basic interface items,
+'Modal Dialogs' shows high level widgets like the PhotoPicker.
+
+
+- Photo App -
+----------------------
+An actual example for an meego-ux-components based application is the photos application found under:
+git repository: meego-ux-components/examples/meego-ux-app-photos
+
+- Tutorial -
+----------------------
+An step by step description of the Window-Book-Page concept and the usage of MeeGo-Components.
+Please refer to the Documentation for further information.
+git repository:  meego-ux-components/examples/meego-ux-tutorial
+
+
+- Getting started -
+====================
+To use the meego-components import them via:
+ import MeeGo.Components 0.1
+
+Start by simply building a first main window like:
+
+// import Qt 4.7
+// import MeeGo.Components 0.1
+//
+// Window {
+//     id: window
+//
+//     bookMenuModel: [ "My First Page" ]    // sets the book context menu
+//     bookMenuPayload: [ myFirstPage ]
+//
+//     Component.onCompleted: switchBook( myFirstPage )
+//
+//     Component {
+//         id: myFirstPage
+//         AppPage {
+//             Text { id: simpleText; anchors.centerIn: parent; text: "Hello World!" }
+//         }
+//     }
+// }
+
+
+- Available components -
+=============================
+The available components are listed below. 
+* Basic widgets provide basic UI-elements and structure.
+* Modal dialogs are high level widgets that provide complex functionality inside an meego-ux-components Window/Page structure.
+* Basic components are qml-files that provide basic functionality used by other components.
+
+Basic widgets:
+- Button
+- ExpandingBox
+- IconButton
+- PopupList
+- RadioButton
+- RadioGroup
+- Slider
+- ProgressBar
+- TextField
+- ToggleButton
+- Window-Page structure (Window, AppPage, PageStack)
+
+Modal dialogs:
+- DatePicker
+- ModalContextMenu
+- ModalMessageBox
+- MusicPicker
+- PhotoPicker
+- TimePicker
+- VideoPicker
+
+Basic components:
+- MediaGridView
+- ScrollableMusicList
+- ModalDialog
+- ModalFog
+- ScrollableMusicList
+- Theme
+- TopItem
+
+- Documentation -
+=============================
+
+To update the documentation with qdoc3 please type in your bash:
+$ cd doc
+$ qdoc3 meego-ux-components.qdocconf
+The documentation will be created in doc/html/meego-ux-components.html
+
+
+Written by Dennis Wadkien, 16nd March 2011
+Mail: dennis.wadkien@basyskom.de

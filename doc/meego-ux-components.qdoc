@@ -1,0 +1,185 @@
+/*!
+    \page  meego-ux-components
+    \title  meego-ux-components
+    \section1  meego-ux-components
+    \section2 Version
+    This version of the meego-ux-components was tested on:
+    \code
+    meego-handset-ia32-pinetrail-1.1.90.7.20110308.6.iso
+    meego-tablet-ia32-pinetrail-1.1.90.7.20110308.6.iso
+    \endcode
+    \section2 Available components
+    The available components are listed below. 
+    \list
+     \o Basic widgets provide basic UI-elements and structure.
+     \o Modal dialogs are high level widgets that provide complex functionality inside an  meego-ux-components Window/Page structure.
+     \o Basic components are qml-files that provide basic functionality used by other components.
+    \endlist
+
+    \list
+      \o Basic widgets:
+        \list
+        \o  \l { Button }
+        \o  \l { IconButton }
+        \o  \l { ToggleButton }
+        \o  \l { RadioButton }
+        \o  \l { RadioGroup }
+        \o  \l { ExpandingBox }
+        \o  \l { PopupList }
+        \o  \l { Slider }
+        \o  \l { Slider }
+        \o  \l { VerticalSlider }
+        \o  \l { TextEntry }
+        \o  \l { AppPage }
+        \o  \l { PageStack }
+        \o  \l { ProgressBar }
+        \o  \l { Window }
+        \o  \l { Label }
+        \o  \l { BottomToolBar }
+        \endlist
+      \o Modal dialogs:
+        \list
+        \o  \l { DatePicker }
+        \o  \l { ModalContextMenu }
+        \o  \l { ModalMessageBox }
+        \o  \l { MusicPicker }
+        \o  \l { PhotoPicker }
+        \o  \l { TimePicker }
+        \o  \l { VideoPicker }
+        \o  \l { ContactsPicker }
+        \endlist
+      \o Basic components:
+        \list
+        \o  \l { MediaGridView }
+        \o  \l { ModalDialog }
+        \o  \l { ModalFog }
+        \o  \l { ScrollableMusicList }
+        \o  \l { Theme }
+        \o  \l { TopItem }
+        \endlist
+      \o Examples
+        \list
+        \o MeeGo-Ux-Widgetgallery
+        \o \l { MeeGo-Ux-App-Photo }
+        \o MeeGo-Ux-Tutorial
+        \endlist
+    \endlist
+      
+    \section2 Installation 
+
+    You can install the  meego-ux-components via zypper:
+    \code
+    sudo zypper install meego-ux-components
+    sudo zypper install meego-ux-components-devel
+    \endcode
+    or build them yourself.
+
+    \code
+    // necessary additional libraries:
+    $ zypper in kcalcore-devel
+    $ zypper in qt-mobility-devel
+    $ zypper in libqtopengl-devel
+    $ zypper in libcontentaction-devel
+    $ zypper in contextkit-devel
+
+    // then build the project
+    $ qmake
+    $ make install
+    \endcode
+
+    You can find detailed documentation in the qml-files themselves, create documentation files via qdoc3, see on bottom, and on:
+    \l https://meegoshare.org/meego-tablet/node/831
+
+    \section2 Examples for  meego-ux-components
+
+    We provide two examples in which you can see and test the meego-ux-components in use.
+    You can find these examples in the git repository:
+    \code
+    meego-ux-components/examples/
+    \endcode
+    or if you installed them via zypper in:
+    \code
+    usr/share/
+    \endcode
+
+    You can start the examples with:    
+    \code
+    qmlviewer -frameless main.qml
+    \endcode
+    
+    On the ExoPc, in the terminal started from home desktop:
+    \code
+    meego-qml-launcher --fullscreen --opengl --app meego-ux-widgetgallery
+    meego-qml-launcher --fullscreen --opengl --app meego-ux-app-photo
+    \endcode
+
+    \section2 Widget gallery
+    You can find a widget gallery under:
+    \code
+    git repository:   meego-ux-components/examples/meego-ux-widgetgallery/
+    \endcode
+
+    All currently available  meego-ux-components can be found here. 'Widgets' shows basic interface items,
+    'Modal Dialogs' shows high level widgets like the PhotoPicker.
+
+    \section2 Photo App
+
+    An actual example for an  meego-ux-components based application is the photos application which found under:
+    \code
+    git repository:   meego-ux-components/examples/meego-ux-app-photos
+    \endcode
+    Note: Due to bugs in the branched photo models the 'favorite' functionality was disabled. These bugs do not appear in the current meego-ux-staging.
+    
+    \section2 Tutorial
+    
+    We provide a basic step by step tutorial for the Window-Book-Page concept and the usage of  meego-ux-components.
+    You can find it under:
+    \code
+    git repository:   meego-ux-components/examples/meego-ux-tutorial
+    \endcode
+
+    \section2 Getting started in QML
+
+    To use the  meego-ux-components import them via:
+    \qml
+    import MeeGo.Components 0.1
+    \endqml
+    
+    Start by simply building a first main window like:
+      
+    \qml
+    import Qt 4.7
+    import MeeGo.Components 0.1
+
+    Window {
+      id: window
+
+	  bookMenuModel: [ "My First Page" ]    // sets the book context menu
+	  bookMenuPayload: [ myFirstPage ]
+
+	Component.onCompleted: switchBook( myFirstPage )
+
+	Component {
+	    id: myFirstPage
+	    AppPage {
+		Text { id: simpleText; anchors.centerIn: parent; text: "Hello World!" }
+	    }
+	}
+    }
+    \endqml
+
+    \section2 Testing and QA
+
+    the documentation of testing and testcases can be found here:
+    \l {  meego-ux-components-test }
+
+    \section2 Build the Documentation
+
+    To update the documentation with qdoc3  please type in your bash:
+    \code
+    $ cd doc
+    $ qdoc3  meego-ux-components.qdocconf
+    \endcode
+    The documentation will be created in doc/html/ meego-ux-components.html of your project folder.
+
+*/

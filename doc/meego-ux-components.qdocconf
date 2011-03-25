@@ -1,0 +1,54 @@
+project = 	meego-ux-components
+version = 	0.2.0
+
+description = 	MeeGo Ux Components Documentation
+url = 		"http://meego.com"
+
+sourcedirs = 	../doc \
+		../src \
+                ../tests \
+                ../examples/meego-ux-tutorial \
+		../examples/meego-ux-app-photos
+
+headerdirs = 	../doc \
+		../src \
+                ../tests \
+		../examples/meego-ux-tutorial \
+		../examples/meego-ux-app-photos
+
+sources.fileextensions = "*.cpp *.doc *.qdoc *.h *.qml *.js"
+
+indexes = "meego-ux-components.index"
+
+outputdir =	html
+outputformats = HTML
+exampledirs = 	../doc
+imagedirs = 	../doc
+base =		../doc
+
+
+macro.qmlclass = 	"\\class"
+macro.qml = 		"\\code"
+macro.endqml = 		"\\endcode"
+macro.qmlproperty = 	"\\i"	
+alias.qmlproperty = 	"\\i"
+macro.qmlfn = 		"\\bold"
+macro.qmlsignal = 	"\\bold"
+macro.qmlcm.HTML = 	"<br/>"
+macro.param.HTML = 	"<div class=\"qmlparambox\"> <div class=\"qmlparam\">parameter: </div><div class=\"qmlparamname\"> "
+macro.endparam.HTML = 	"</div>  </div>"
+macro.retval.HTML = 	"<div class=\"qmlparambox\"> <div class=\"qmlretval\">return value: </div><div class=\"qmlparamname\"> "
+macro.qmlpcm.HTML = 	"</div> <div class=\"qmlparamcom\">"
+macro.endretval.HTML =  "</div>  </div>"
+macro.qmlnone.HTML = 	"<div class=\"qmlnone\">-</div>"
+
+macro.unittest          = "\\section1"
+macro.testcase.HTML     = "<div class=\"tcbox\"><div class=\"tc\">test case: </div><div class=\"tcname\">"
+macro.testcm.HTML       = "</div> <div class=\"testcm\">"
+macro.endtestcm.HTML    = "</div></div>"
+
+macro.todo.HTML         = "<br/>Todo: "
+
+HTML.stylesheets = meego-ux-components.css
+HTML.postheader = "<div class=\"header\"><a href=\"meego-ux-components.html\">Home</a><a href=\"meego-ux-components-list.html\">Components</a><a href=\"meego-ux-tutorial.html\">Tutorial</a><a href=\"meego-ux-tests.html\">Tests</a><a href=\"https://otcshare.org\">OtcShare.org</a> Intel MeeGo-UX-Components 0.2.0 - 03/09/2011 </div>"
+HTML.footer = "<div class=\"footer\"><a href=\"meego-ux-components.html#\">Top</a></div>"

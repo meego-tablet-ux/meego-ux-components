@@ -8,4 +8,6 @@ OTHER_FILES += tst_window.qml \
 	      tst_messagebox.qml \              
 	      tst_dialog.qml \
 	      tst_musicpicker.qml \
-	      tst_photopicker.qml
+              tst_photopicker.qml \
+              tst_timepicker.qml \
+              tst_datepicker.qml

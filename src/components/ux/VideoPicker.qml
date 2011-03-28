@@ -125,7 +125,7 @@ ModalDialog {
         if( gridView.selectedItem != "" )
             gridView.model.setSelected( gridView.selectedItem, false )
 
-        acceptButtonActive = false
+        acceptButtonEnabled = false
     }
 
     //use nearly the whole screen
@@ -178,7 +178,7 @@ ModalDialog {
                     PickerArray.remove( payload.muri, "uris" );
                     PickerArray.remove( payload.mthumburi, "thumbUris" );
                 }
-                videoPicker.acceptButtonActive = true; //enable OK button
+                videoPicker.acceptButtonEnabled = true; //enable OK button
             }else {
                 model.setSelected( selectedItem, false ); //deselect the former selected item
                 PickerArray.clear(); //use clear to delete the entry, so we don't have to store the title and thumburi all the time
@@ -190,7 +190,7 @@ ModalDialog {
                 PickerArray.push( payload.muri, "uris" );
 
                 selectedItem = payload.mitemid; //memorize the newly selected item
-                videoPicker.acceptButtonActive = true; //enable OK button
+                videoPicker.acceptButtonEnabled = true; //enable OK button
             }
         }
     }

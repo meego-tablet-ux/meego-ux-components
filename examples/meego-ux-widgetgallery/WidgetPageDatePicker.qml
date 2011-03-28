@@ -45,27 +45,27 @@ WidgetPage {
         },
 
         LabeledEntry {
-            id: minYearEntry
+            id: startYearEntry
 
-            label:  "minYear: "
-            defaultValue: datePicker.minYear
+            label:  "startYear: "
+            defaultValue: datePicker.startYear
 
             onTextUpdated: {
-                if( value >= 0 && value <= datePicker.maxYear ){
-                    datePicker.minYear = value
+                if( value >= 0 && value <= datePicker.startYear ){
+                    datePicker.startYear = value
                 }
             }
         },
 
         LabeledEntry {
-            id: maxYearEntry
+            id: endYearEntry
 
-            label:  "maxYear: "
-            defaultValue: datePicker.maxYear
+            label:  "endYear: "
+            defaultValue: datePicker.endYear
 
             onTextUpdated: {
-                if( value >= 0 && value >= datePicker.minYear ){
-                    datePicker.maxYear = value
+                if( value >= 0 && value >= datePicker.endYear ){
+                    datePicker.endYear = value
                 }
             }
         }
@@ -113,8 +113,9 @@ WidgetPage {
     DatePicker {
         id: datePicker
 
-        minYear: 1980
-        maxYear: 2030
+
+        minYear: 2009; minMonth: 3; minDay: 10
+        maxYear: 2012; maxMonth: 9; maxDay: 20
 
 //        width: height * 0.6
 //        height: topItem.topItem.height * 0.9

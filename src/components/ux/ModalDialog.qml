@@ -130,8 +130,8 @@ ModalFog {
     property alias showCancelButton: buttonCancel.visible
     property alias showAcceptButton: buttonAccept.visible
 
-    property alias cancelButtonActive: buttonCancel.enabled
-    property alias acceptButtonActive: buttonAccept.enabled
+    property alias cancelButtonEnabled: buttonCancel.enabled
+    property alias acceptButtonEnabled: buttonAccept.enabled
 
     property alias content: innerContentArea.children
     property alias buttonRow: footer.children

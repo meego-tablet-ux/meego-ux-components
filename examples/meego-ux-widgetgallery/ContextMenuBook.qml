@@ -97,17 +97,22 @@ AppPage {
 
         title: "Context"
 
-        subMenuModel: [ "Very long first entry", "Second entry", "Third entry", "Back", "Last entry" ]
+        subMenuModel: [ "Very long first entry", "Second entry", "Third entry", "Fourth entry", "Back" ]
 
         onSubMenuTriggered: {
-            contextMenu.subMenuVisible = false
+            if( index == 4 ){
+                contextMenu.subMenuVisible = false
+            }
+            else{
+                contextMenu.hide()
+            }
         }
 
         content:  ActionMenu{
             id: bookMenu
 
-            maxWidth: 500
-            minWidth: 400
+            maxWidth: 200
+            minWidth: 100
 
             model: model2
 

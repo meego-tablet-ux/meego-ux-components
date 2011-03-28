@@ -42,6 +42,32 @@ WidgetPage {
                     datePicker.height = value
                 }
             }
+        },
+
+        LabeledEntry {
+            id: minYearEntry
+
+            label:  "minYear: "
+            defaultValue: datePicker.minYear
+
+            onTextUpdated: {
+                if( value >= 0 && value <= datePicker.maxYear ){
+                    datePicker.minYear = value
+                }
+            }
+        },
+
+        LabeledEntry {
+            id: maxYearEntry
+
+            label:  "maxYear: "
+            defaultValue: datePicker.maxYear
+
+            onTextUpdated: {
+                if( value >= 0 && value >= datePicker.minYear ){
+                    datePicker.maxYear = value
+                }
+            }
         }
     ]
 
@@ -65,33 +91,6 @@ WidgetPage {
 
             label: "Date is: "
             value: "-"
-
-            states: [
-                State {
-                    name: "future"
-                    when: datePicker.isFuture
-                    PropertyChanges {
-                        target: futurePastEntry
-                        value: "future"
-                    }
-                },
-                State {
-                    name: "past"
-                    when: datePicker.isPast
-                    PropertyChanges {
-                        target: futurePastEntry
-                        value: "past"
-                    }
-                },
-                State {
-                    name: "today"
-                    when: !datePicker.isPast && !datePicker.isFuture
-                    PropertyChanges {
-                        target: futurePastEntry
-                        value: "today"
-                    }
-                }
-            ]
         }
     ]
 
@@ -123,10 +122,19 @@ WidgetPage {
         onDateSelected: {
             stateEntry.value = selectedDate.getDate() + "." + ( selectedDate.getMonth() + 1 ) + "." + selectedDate.getFullYear()
             signalEntry.value = "dateSelected"
+
+            if( datePicker.isFuture ){
+                futurePastEntry.value = "future"
+            }else if( datePicker.isPast ) {
+                futurePastEntry.value = "past"
+            }else{
+                futurePastEntry.value = "today"
+            }
         }
         onRejected: {
             stateEntry.value = "-"
             signalEntry.value = "rejected"
+            futurePastEntry.value = "-"
         }
     }
 

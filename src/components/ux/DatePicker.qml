@@ -18,11 +18,11 @@
   \qmlproperty variant selectedDate
   \qmlcm contains the currently selected date.
 
-  \qmlproperty int firstYear
-  \qmlcm sets the first year available in the year spinner. This can be set only once at object creation.
+  \qmlproperty int minYear
+  \qmlcm sets the first year available in the year spinner.
 
-  \qmlproperty int lastYear
-  \qmlcm sets the last year available in the year spinner. This can be set only once at object creation.
+  \qmlproperty int maxYear
+  \qmlcm sets the last year available in the year spinner.
 
   \section1  Private properties (for internal use only)
 
@@ -139,6 +139,11 @@
   \param   m    int, the new month
   \param   y    int, the new year
 
+  \qmlfn updateYears
+  \qmlcm called when minYear or maxYear have been changed. Updates the year model to contain only
+         the years from minYear to maxYear and sets the selected year into that range if needed.
+         At the end updateSelectedDate is called to propagate the new date and selection.
+
   \section1  Example
   \code
       //a button labeled with the selected date
@@ -222,7 +227,7 @@ ModalDialog {
 
     property int month: -1
     property int day: -1
-    property int year: -1 
+    property int year: -1
 
     property variant oldDate
 
@@ -303,42 +308,48 @@ ModalDialog {
     }
 
     function setFuturePast() {
-        var todaysDate = today()
-        var selectedDay = selectedDate.getDate()
-        var selectedMonth = selectedDate.getMonth()
-        var selectedYear = selectedDate.getFullYear()
-        var todaysDay = todaysDate.getDate()
-        var todaysMonth = todaysDate.getMonth()
-        var todaysYear = todaysDate.getFullYear()
+            var todaysDate = today()
+            var selectedDay = selectedDate.getDate()
+            var selectedMonth = selectedDate.getMonth()
+            var selectedYear = selectedDate.getFullYear()
+            var todaysDay = todaysDate.getDate()
+            var todaysMonth = todaysDate.getMonth()
+            var todaysYear = todaysDate.getFullYear()
 
-        if( selectedYear > todaysYear ) {
-            isFuture = true
-            isPast = false
-            return
-        }else if( selectedYear == todaysYear ) {
-            if( selectedMonth > todaysMonth ) {
+            if( selectedYear > todaysYear ) {
                 isFuture = true
                 isPast = false
                 return
-            }else if ( selectedMonth == todaysMonth ) {
-                if( selectedDay > todaysDay ) {
+            }else if( selectedYear == todaysYear ) {
+                if( selectedMonth > todaysMonth ) {
                     isFuture = true
                     isPast = false
                     return
-                }else if( selectedDay == todaysDay ) {
-                    isFuture = false
-                    isPast = false
-                    return
+                }else if ( selectedMonth == todaysMonth ) {
+                    if( selectedDay > todaysDay ) {
+                        isFuture = true
+                        isPast = false
+                        return
+                    }else if( selectedDay == todaysDay ) {
+                        isFuture = false
+                        isPast = false
+                        return
+                    }else{
+                        isFuture = false
+                        isPast = true
+                        return
+                    }
                 }else{
                     isFuture = false
                     isPast = true
+                    return
                 }
+            }else {
+                isFuture = false
+                isPast = true
+                return
             }
-        }else {
-            isFuture = false
-            isPast = true
         }
-    }
 
     function updateSelectedDate( d, m, y ) {
         if( allowUpdates ) {
@@ -349,7 +360,7 @@ ModalDialog {
 
         dayButton.value = "1"
         monthButton.value = shortMonths[m]
-        yearButton.value = y.toString()
+        yearButton.value = minYear.toString()
 
         dayButton.reInit()
         monthButton.reInit()
@@ -360,6 +371,9 @@ ModalDialog {
         var newDay = setDays( d, m, y )
         dayButton.value = newDay.toString()
         dayButton.reInit()
+
+        yearButton.value = y.toString()
+        yearButton.reInit()
 
         var tempDate = selectedDate
         tempDate.setDate(newDay)
@@ -393,6 +407,22 @@ ModalDialog {
         }
     }
 
+    function updateYears() {
+        var oldYear = selectedDate.getFullYear()
+        var newYear
+
+        setYears()
+
+        if( oldYear < minYear ){
+            newYear = minYear
+        }else if( oldYear > maxYear ) {
+            newYear = maxYear
+        }else{
+            newYear = oldYear
+        }
+        updateSelectedDate( selectedDate.getDate(), selectedDate.getMonth(), newYear )
+    }
+
     Component.onCompleted: { selectedDate = today(); }
 
     //when the DatePicker shows up, store the current date
@@ -405,6 +435,9 @@ ModalDialog {
     onRejected: { selectedDate = oldDate }
 
     onAccepted: { dateSelected( selectedDate ) }
+
+    onMinYearChanged: updateYears()
+    onMaxYearChanged: updateYears()
 
     width: height * 0.6
     height: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95    // ###
@@ -754,7 +787,10 @@ ModalDialog {
                 anchors.fill: todayButton
 
                 onClicked: {
-                    updateSelectedDate( today().getDate(), today().getMonth(), today().getFullYear() )
+                    var todayYear = today().getFullYear()
+                    if( todayYear >= minYear && todayYear <= maxYear ) {
+                        updateSelectedDate( today().getDate(), today().getMonth(), today().getFullYear() )
+                    }
                 }
             }
         }
@@ -791,18 +827,19 @@ ModalDialog {
         dayButton.allowSignal = false
         monthButton.allowSignal = false
         yearButton.allowSignal = false
-        for ( var i = minYear ; i < maxYear; i++ ) {
+        yModel.clear()
+        for ( var i = minYear ; i <= maxYear; i++ ) {
             yModel.append( { "tag": i } );
         }
         dayButton.allowSignal = true
         monthButton.allowSignal = true
         yearButton.allowSignal = true
-    }    
+    }
 
     ListModel {
         id: dModel
         Component.onCompleted: {
-            initializeDays()//setDays();
+            initializeDays()
         }
     }
 

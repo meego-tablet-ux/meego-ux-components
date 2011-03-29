@@ -119,7 +119,7 @@ WidgetPage {
             defaultValue: datePicker.minDay
 
             onTextUpdated: {
-                var dayLimit = datePicker.daysInMonth( datePicker.maxMonth, datePicker.maxYear )
+                var dayLimit = datePicker.daysInMonth( datePicker.maxMonth - 1, datePicker.maxYear )
                 if( datePicker.minYear == datePicker.maxYear && datePicker.minMonth == datePicker.maxMonth ) {
                     if( value >= 1 && value <= dayLimit ) {
                         datePicker.minDay = value
@@ -189,7 +189,7 @@ WidgetPage {
             defaultValue: datePicker.maxDay
 
             onTextUpdated: {
-                var dayLimit = datePicker.daysInMonth( datePicker.maxMonth, datePicker.maxYear )
+                var dayLimit = datePicker.daysInMonth( datePicker.maxMonth - 1, datePicker.maxYear )
                 if( datePicker.minYear == datePicker.maxYear && datePicker.minMonth == datePicker.maxMonth ) {
                     if( value >= datePicker.minDay && value <= dayLimit ) {
                         datePicker.maxDay = value

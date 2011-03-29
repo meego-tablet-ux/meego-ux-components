@@ -21,6 +21,7 @@ Item {
     property alias label: label.text
     property alias defaultValue: textEntry.defaultText
     property alias text: textEntry.text
+    property alias labelColor: label.color
 
     signal textUpdated( variant value )
 

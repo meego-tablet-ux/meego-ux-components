@@ -60,6 +60,12 @@
  \qmlproperty fullscreen
  \qmlcm bool, sets if the statusbar is shown or not
 
+ \qmlproperty bool actionMenuActive
+ \qmlcm activates/deactivates the windowMenuButton
+
+ \qmlproperty bool orientationLocked
+ \qmlcm bool, indicates if oriention was
+
  \section1 Private Properties
  \qmlproperty pageStack, statusBar, toolBar and actionMenu are convenient properties if
  for example you want to anchor something to these items.
@@ -170,13 +176,14 @@ Item {
     property bool inLandscape: true
     property bool inPortrait: false
 
+    property alias orientation: window_content_topitem.currentOrientation
+    property alias orientationLocked: window_content_topitem.orientationLocked
+
     property alias pageStack: pageStack
     property alias statusBar: statusBar
     property alias toolBar: toolBar
 
     property bool customActionMenu: false
-
-    property alias orientation: window_content_topitem.orientation
 
     property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullScreen ) ? 0 : statusBar.height )
 
@@ -222,15 +229,44 @@ Item {
     Item {
         id: window_content_topitem
 
-        property int orientation: 1
+        property bool orientationLocked: false
+
+        property int apiOrientation: 1
+        property int appOrientation: 1
+        property int currentOrientation: 1
+
         property string oldOrientation
+        property bool setFromQApp: false
 
         function setOrientation( orientationInt ) {
-            if( orientation != orientationInt) {
-                oldOrientation = state
-                orientation = orientationInt
+            appOrientation = orientationInt
+            if( !orientationLocked) {
+                setFromQApp = true
+                if( currentOrientation != orientationInt) {
+                    oldOrientation = state
+                    currentOrientation = appOrientation
+                    apiOrientation = appOrientation
+                }
             }
         }
+
+        Behavior on apiOrientation {
+            ScriptAction {
+                script: {
+                    if(!setFromQApp) {
+                        if( apiOrientation < 0) {
+                            orientationLocked = false
+                            currentOrientation = appOrientation
+                        } else {
+                            currentOrientation = apiOrientation
+                            orientationLocked = true
+                        }
+                    }
+                    setFromQApp = false
+                }
+            }
+        }
+
 
         anchors.centerIn: parent
 
@@ -527,7 +563,7 @@ Item {
         states:  [
             State {
                 name: "landscape"
-                when: (window_content_topitem.orientation == 1)
+                when: (window_content_topitem.currentOrientation == 1)
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -542,7 +578,7 @@ Item {
             },
             State {
                 name: "invertedlandscape"
-                when: (window_content_topitem.orientation == 3)
+                when: (window_content_topitem.currentOrientation == 3)
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -557,7 +593,7 @@ Item {
             },
             State {
                 name: "portrait"
-                when: (window_content_topitem.orientation == 2)
+                when: (window_content_topitem.currentOrientation == 2)
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -572,7 +608,7 @@ Item {
             },
             State {
                 name: "invertedportrait"
-                when: (window_content_topitem.orientation == 0)
+                when: (window_content_topitem.currentOrientation == 0)
                 PropertyChanges {
                     target: window
                     inLandscape: false

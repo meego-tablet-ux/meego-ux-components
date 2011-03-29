@@ -102,7 +102,7 @@ WidgetPage {
             width:  150
             height:  60
             text: "Label"
-            elide: (elideBox.isChecked) ? Text.ElideRight : Text.ElideNone
+            elideText: elideBox.isChecked
         }
     }
 }

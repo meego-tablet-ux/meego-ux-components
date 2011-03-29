@@ -56,7 +56,7 @@ BorderImage {
     property alias wrapMode: labelText.wrapMode
     property alias font: labelText.font
 	
-    property string background : "image://themedimage/email/frm_textfield_l"
+    property string background : "image://themedimage/text-area/text-area-background"
 
     source: background
     border.top: 10

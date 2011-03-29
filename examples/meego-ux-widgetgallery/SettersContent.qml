@@ -378,7 +378,8 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
 
                         Label {
-//                            width:  parent.width
+                            width:  150
+                            height:  60
                             anchors.centerIn: parent
 
                             text: "Label"

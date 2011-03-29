@@ -26,7 +26,7 @@ WidgetPage {
 
             onTextUpdated: {
                 if( value >= 0 ){
-                    button.width = value
+//                    button.width = value
                 }
             }
         },
@@ -98,10 +98,10 @@ WidgetPage {
             id: button
 
             anchors.centerIn: parent
-            width:  200
-            height:  80
+            width:  150
+            height:  60
             text: "Label"
-            elide: elideBox.isChecked
+            elide: (elideBox.isChecked) ? Text.ElideRight : Text.ElideNone
         }
     }
 }

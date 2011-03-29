@@ -70,7 +70,7 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.margins: 5
-        spacing: anchors.margins
+        spacing: 2
 
         visible: parent.visible
     }
@@ -82,7 +82,7 @@ Item {
         anchors.left: contentLeft.right
         anchors.right: contentRight.left
         anchors.margins: 5
-        spacing: anchors.margins
+        spacing: 2
 
         visible: parent.visible
     }
@@ -93,7 +93,7 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.margins: 5
-        spacing: anchors.margins
+        spacing: 2
 
         visible: parent.visible
     }

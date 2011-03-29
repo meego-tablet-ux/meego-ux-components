@@ -95,9 +95,13 @@ BorderImage {
             }
         }
 
-
-        anchors.fill: parent
-        anchors.margins: 4      // this value is the hardcoded margin to keep the text within the backgrounds text field
+        anchors {
+            fill: parent
+            topMargin: 3      // this value is the hardcoded margin to keep the text within the backgrounds text field
+            bottomMargin: 3
+            leftMargin: 4
+            rightMargin: 4
+        }
         contentWidth: edit.paintedWidth
         contentHeight: edit.paintedHeight
 

@@ -51,43 +51,59 @@ Item {
 
     // API
     property alias content: bottomToolBarSurface.children
-    property bool landscape: true;
+    property bool landscape: true
 
-    signal active;
-    signal inactive;
+    signal active
+    signal inactive
 
-    function show(){        
+    function show(){
         visible = true
-        scrollIn.running = true
+
+        background.extend = true
         focus = true
     }
 
     function hide(){
-        scrollOut.running = true
+        background.opened = false
+        background.extend = false
         focus = false
     }
 
     anchors.left: parent.left
     anchors.right: parent.right
-    y: parent.height
+    y: (background.extend) ? parent.height - height : parent.height
     clip: true
     height: 64
     visible: false
 
-    Behavior on height {
-        PropertyAction {
-            target: bottomToolBar
-            property: "y"
-            value: Math.min( 0, bottomToolBar.parent.height - bottomToolBar.height )
+    Behavior on y {
+        PropertyAnimation {
+            easing.type: Easing.InOutQuad
+            duration: (background.opened) ? 0 : theme.dialogAnimationDuration
         }
     }
 
-    Theme {
-        id: theme
+    onYChanged: {
+        if(bottomToolBar.visible){
+            if( bottomToolBar.y == parent.height ){
+                visible = false
+                inactive()
+            }
+            else if( bottomToolBar.y == parent.height - height ){
+                active()
+                background.opened = true
+            }
+        }
     }
+
+    Theme { id: theme }
 
     BorderImage {
         id: background
+
+        property bool extend: false   // hidden from extern
+        property bool opened: false
+
         anchors.fill: parent
         source: (landscape) ? "image://themedimage/navigationBar_l" : "image://themedimage/navigationBar_p"
         opacity: 1
@@ -101,34 +117,5 @@ Item {
         id: bottomToolBarSurface
         anchors.fill: parent
     }
-
-    PropertyAnimation {
-        id: scrollOut
-        duration: theme.dialogAnimationDuration
-        target: bottomToolBar
-        property: "y"
-        from: bottomToolBar.parent.height - bottomToolBar.height
-        to: bottomToolBar.parent.height
-        easing.type: Easing.InOutQuad
-        onCompleted: {
-            bottomToolBar.visible = false
-            inactive()
-        }
-    }
-
-    PropertyAnimation {
-        id: scrollIn
-        duration: theme.dialogAnimationDuration
-        target: bottomToolBar
-        property: "y"
-        from: bottomToolBar.parent.height
-        to: bottomToolBar.parent.height - bottomToolBar.height
-        easing.type: Easing.InOutQuad
-        onCompleted: {
-            bottomToolBar.visible = true
-            active()
-        }
-    }
-
 }
 

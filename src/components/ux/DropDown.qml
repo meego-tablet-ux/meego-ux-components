@@ -95,7 +95,7 @@ ExpandingBox {
 
         ActionMenu {
             id: actionMenu
-            anchors.fill: parent
+//            anchors.fill: parent
 
             onTriggered: {
                 dropDown.titleText = actionMenu.model[index]

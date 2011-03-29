@@ -73,6 +73,7 @@ Item {
         spacing: 2
 
         visible: parent.visible
+        opacity: visible ? 1 : 0    // force repaint
     }
     Row {
         id: contentCenter
@@ -85,6 +86,7 @@ Item {
         spacing: 2
 
         visible: parent.visible
+        opacity: visible ? 1 : 0    // force repaint
     }
     Row {
         id: contentRight
@@ -96,6 +98,7 @@ Item {
         spacing: 2
 
         visible: parent.visible
+        opacity: visible ? 1 : 0    // force repaint
     }
 }
 

@@ -73,6 +73,7 @@ Item {
         spacing: anchors.margins
 
         visible: parent.visible
+        opacity: visible ? 1 : 0
     }
     Row {
         id: contentCenter
@@ -85,6 +86,7 @@ Item {
         spacing: anchors.margins
 
         visible: parent.visible
+        opacity: visible ? 1 : 0
     }
     Row {
         id: contentRight
@@ -96,6 +98,7 @@ Item {
         spacing: anchors.margins
 
         visible: parent.visible
+        opacity: visible ? 1 : 0
     }
 }
 

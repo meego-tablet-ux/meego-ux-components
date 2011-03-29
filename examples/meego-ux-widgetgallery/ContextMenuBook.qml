@@ -97,7 +97,7 @@ AppPage {
 
         forceFingerMode: -1
 
-        title: "Context"
+        //title: "Context"
 
         subMenuModel: [ "Very long first entry", "Second entry", "Third entry", "Fourth entry", "Back" ]
 

@@ -38,7 +38,8 @@
 
 import Qt 4.7
 
-Rectangle {
+//Rectangle {
+BorderImage{
     id: container
 
     property real percentage: 50
@@ -47,22 +48,37 @@ Rectangle {
     height: 60
 
     clip:  true
-    color: "white"
-    radius: 3
+//    color: "white"
+//    radius: 3
 
-    border.width: 1
-    border.color: "#bbbbbb"
+//    border.width: 1
+//    border.color: "#bbbbbb"
+
+    border.left:   4
+    border.top:    4
+    border.bottom: 4
+    border.right:  4
+
+    source: "image://themedimage/progress-bar/progress-bar-backgound"
 
     Theme { id: theme }
 
-    Rectangle{
+//    Rectangle{
+    BorderImage{
         id: progressBar
 
         property real progressPercentage: (container.percentage < 0) ? (0) : ( ( container.percentage > 100) ? 100 : container.percentage )
 
-        radius:  container.radius
+//        radius:  container.radius
         clip:  true
-        color: "#2fa7d4"
+//        color: "#2fa7d4"
+
+        border.left:   4
+        border.top:    4
+        border.bottom: 4
+        border.right:  4
+
+        source: "image://themedimage/progress-bar/progress-bar-fill"
 
         anchors { top: container.top; bottom: container.bottom; left: parent.left }
 

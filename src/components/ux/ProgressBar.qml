@@ -43,16 +43,13 @@ BorderImage{
     id: container
 
     property real percentage: 50
+    property alias fontColor: blueText.color
+    property alias fontColorInverted: invertedText.color
 
     width: 210
     height: 60
 
     clip:  true
-//    color: "white"
-//    radius: 3
-
-//    border.width: 1
-//    border.color: "#bbbbbb"
 
     border.left:   4
     border.top:    4
@@ -63,15 +60,12 @@ BorderImage{
 
     Theme { id: theme }
 
-//    Rectangle{
     BorderImage{
         id: progressBar
 
         property real progressPercentage: (container.percentage < 0) ? (0) : ( ( container.percentage > 100) ? 100 : container.percentage )
 
-//        radius:  container.radius
         clip:  true
-//        color: "#2fa7d4"
 
         border.left:   4
         border.top:    4
@@ -98,7 +92,7 @@ BorderImage{
             verticalAlignment: Text.AlignVCenter
 
             font.pixelSize: theme.fontPixelSizeLarge
-            color: "white"
+            color: theme.fontColorHighlight
 
             text: parseInt( progressBar.progressPercentage ) + "%"
         }
@@ -116,7 +110,7 @@ BorderImage{
         z: 0
 
         font.pixelSize: theme.fontPixelSizeLarge
-        color: "#2fa7d4"       
+        color: theme.fontColorHighlightBlue
 
         text: parseInt( progressBar.progressPercentage ) + "%"
     }

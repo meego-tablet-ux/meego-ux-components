@@ -37,6 +37,8 @@ OTHER_FILES +=  qmldir \
                 CheckBox.qml \
                 Spinner.qml \
                 Label.qml \
-                BottomMenu.qml \
+                BottomToolBar.qml \
+                BottomToolBarRow \
+                DropDown.qml \
                 ContactsPicker.qml \
                 pickerArray.js 

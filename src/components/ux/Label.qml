@@ -15,7 +15,7 @@
   \section2  API Properties
   \qmlproperty alias color
   \qmlproperty alias smooth
-  \qmlproperty alias elide
+  \qmlproperty bool elideText
   \qmlproperty alias text
   \qmlproperty alias textFormat
   \qmlproperty alias wrapMode
@@ -50,13 +50,13 @@ BorderImage {
     // API
     property alias color: labelText.color
     property alias smooth: labelText.smooth
-    property alias elide: labelText.elide
+    property bool elideText: false
     property alias text: labelText.text
     property alias textFormat: labelText.textFormat
     property alias wrapMode: labelText.wrapMode
     property alias font: labelText.font
 	
-    property string background : "image://themedimage/text-area/text-area-background"
+    property string background : "image://themedimage/menu/menu-background"
 
     source: background
     border.top: 10
@@ -64,7 +64,7 @@ BorderImage {
     border.left: 10
     border.right: 10
 		
-    width: 0
+    width: 210
     height: 60
     visible: true
     opacity:  1
@@ -79,18 +79,11 @@ BorderImage {
         width:  parent.width - 20
         height:  parent.height - 4
         anchors.centerIn: parent
-        clip: container.clip
+        clip: true
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: theme.fontPixelSizeLargest
-
-        Component.onCompleted: {
-            if ( container.width == 0 )
-                container.width = labelText.paintedWidth + 20;
-
-            if ( container.height == 0 )
-                container.height = labelText.paintedHeight + 20;
-        }
+        elide: if( elideText ){ Text.ElideRight }else { Text.ElideNone }
     }
 }
 

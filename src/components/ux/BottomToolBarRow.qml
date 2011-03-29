@@ -71,6 +71,8 @@ Item {
         anchors.bottom: parent.bottom
         anchors.margins: 5
         spacing: anchors.margins
+
+        visible: parent.visible
     }
     Row {
         id: contentCenter
@@ -81,6 +83,8 @@ Item {
         anchors.right: contentRight.left
         anchors.margins: 5
         spacing: anchors.margins
+
+        visible: parent.visible
     }
     Row {
         id: contentRight
@@ -90,6 +94,8 @@ Item {
         anchors.bottom: parent.bottom
         anchors.margins: 5
         spacing: anchors.margins
+
+        visible: parent.visible
     }
 }
 

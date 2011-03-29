@@ -352,6 +352,59 @@ Item {
                     Component{ id: expandingComponent; WidgetPageExpandingBox{} }
                 }
 
+
+                Rectangle {
+                    id: dropDownBoxItem
+
+                    width: parent.width
+                    height: flickContainer.itemHeight
+
+                    border.width: 1
+                    border.color: "grey"
+
+                    color: flickContainer.backColor
+
+                    MouseArea {
+                        anchors.fill: dropDownBoxItem
+                        z: 1
+
+                        onClicked: addPage( dropDownComponent )
+                    }
+
+                    Item{
+                        id: dropDownBox
+
+                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        width:  parent.width  * flickContainer.leftFactor
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        DropDown {
+
+                            width:  parent.width
+                            anchors.centerIn: parent
+
+                            titleText: "DropDown"
+                            titleTextColor: "black"
+
+                        }
+                    }
+
+                    Text {
+                        x: parent.width / 2
+                        width: parent.width * flickContainer.rightFactor
+                        height: parent.height
+
+                        verticalAlignment: Text.AlignVCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: flickContainer.textSize
+                        text: "Drop Down, design/specs missing."
+                    }
+
+                    Component{ id: dropDownComponent; WidgetPageDropDown{} }
+                }
+
+
+
                 Rectangle {
                     id: labelItem
 

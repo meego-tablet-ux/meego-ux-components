@@ -14,6 +14,7 @@ TimePicker		0.1 TimePicker.qml
 DatePicker 		0.1 DatePicker.qml
 ActionMenu 		0.1 ActionMenu.qml
 ExpandingBox		0.1 ExpandingBox.qml
+DropDown		0.1 DropDown.qml
 Slider 			0.1 Slider.qml
 VerticalSlider		0.1 VerticalSlider.qml
 Button 			0.1 Button.qml

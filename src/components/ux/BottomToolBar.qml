@@ -74,14 +74,6 @@ Item {
     height: 64
     visible: false
 
-    Behavior on height {
-        PropertyAction {
-            target: bottomToolBar
-            property: "y"
-            value: Math.min( 0, bottomToolBar.parent.height - bottomToolBar.height )
-        }
-    }
-
     Theme {
         id: theme
     }

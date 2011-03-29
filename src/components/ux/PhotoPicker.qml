@@ -139,7 +139,7 @@ ModalDialog {
         if( gridView.selectedItem != "" )
             gridView.model.setSelected( gridView.selectedItem, false )
 
-        acceptButtonActive = false
+        acceptButtonEnabled = false
     }
 
     content: MediaGridView {
@@ -180,7 +180,7 @@ ModalDialog {
                     PickerArray.remove( payload.muri, "uris" );
                     PickerArray.remove( payload.mthumburi, "thumbUris" );
                 }
-                photoPicker.acceptButtonActive = true; //enable OK button
+                photoPicker.acceptButtonEnabled = true; //enable OK button
             }else {
                 model.setSelected( selectedItem, false ); //deselect the former selected item
                 PickerArray.clear(); //use clear to delete the entry, so we don't have to store the title and thumburi all the time
@@ -192,7 +192,7 @@ ModalDialog {
                 PickerArray.push( payload.mthumburi, "thumbUris" );
 
                 selectedItem = payload.mitemid; //memorize the newly selected item
-                photoPicker.acceptButtonActive = true; //enable OK button
+                photoPicker.acceptButtonEnabled = true; //enable OK button
             }
         }
 
@@ -200,7 +200,7 @@ ModalDialog {
         onSelectionModeChanged: {
             PickerArray.clear();
             selectedItem = "";
-            photoPicker.acceptButtonActive = false;
+            photoPicker.acceptButtonEnabled = false;
         }
     }
 

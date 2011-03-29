@@ -106,7 +106,7 @@ ModalFog {
     function setPosition( x, y ) {
         top.calcTopParent()
         baseX =  x / top.topWidth
-        baseY = (y - top.topDecorationHeight) / (top.topHeight - top.topDecorationHeight) // ###
+        baseY = (y - top.topDecorationHeight) / (top.topHeight - top.topDecorationHeight)
         menuContainer.mouseX = x
         menuContainer.mouseY = y
         menuContainer.rescale()

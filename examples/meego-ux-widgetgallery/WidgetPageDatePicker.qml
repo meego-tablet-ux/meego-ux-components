@@ -42,6 +42,32 @@ WidgetPage {
                     datePicker.height = value
                 }
             }
+        },
+
+        LabeledEntry {
+            id: startYearEntry
+
+            label:  "startYear: "
+            defaultValue: datePicker.startYear
+
+            onTextUpdated: {
+                if( value >= 0 && value <= datePicker.startYear ){
+                    datePicker.startYear = value
+                }
+            }
+        },
+
+        LabeledEntry {
+            id: endYearEntry
+
+            label:  "endYear: "
+            defaultValue: datePicker.endYear
+
+            onTextUpdated: {
+                if( value >= 0 && value >= datePicker.endYear ){
+                    datePicker.endYear = value
+                }
+            }
         }
     ]
 
@@ -65,33 +91,6 @@ WidgetPage {
 
             label: "Date is: "
             value: "-"
-
-            states: [
-                State {
-                    name: "future"
-                    when: datePicker.isFuture
-                    PropertyChanges {
-                        target: futurePastEntry
-                        value: "future"
-                    }
-                },
-                State {
-                    name: "past"
-                    when: datePicker.isPast
-                    PropertyChanges {
-                        target: futurePastEntry
-                        value: "past"
-                    }
-                },
-                State {
-                    name: "today"
-                    when: !datePicker.isPast && !datePicker.isFuture
-                    PropertyChanges {
-                        target: futurePastEntry
-                        value: "today"
-                    }
-                }
-            ]
         }
     ]
 
@@ -114,8 +113,9 @@ WidgetPage {
     DatePicker {
         id: datePicker
 
-        minYear: 1980
-        maxYear: 2030
+
+        minYear: 2009; minMonth: 3; minDay: 10
+        maxYear: 2012; maxMonth: 9; maxDay: 20
 
 //        width: height * 0.6
 //        height: topItem.topItem.height * 0.9
@@ -123,10 +123,19 @@ WidgetPage {
         onDateSelected: {
             stateEntry.value = selectedDate.getDate() + "." + ( selectedDate.getMonth() + 1 ) + "." + selectedDate.getFullYear()
             signalEntry.value = "dateSelected"
+
+            if( datePicker.isFuture ){
+                futurePastEntry.value = "future"
+            }else if( datePicker.isPast ) {
+                futurePastEntry.value = "past"
+            }else{
+                futurePastEntry.value = "today"
+            }
         }
         onRejected: {
             stateEntry.value = "-"
             signalEntry.value = "rejected"
+            futurePastEntry.value = "-"
         }
     }
 

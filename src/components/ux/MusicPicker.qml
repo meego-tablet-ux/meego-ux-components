@@ -217,7 +217,7 @@ ModalDialog {
                         PickerArray.remove( selectedAlbumThumbUri, "thumbUris" );
                     }
 
-                    musicPicker.acceptButtonActive = true; //enable OK button
+                    musicPicker.acceptButtonEnabled = true; //enable OK button
                     musicListView.highlightVisible = true
                 }else {
                     model.setSelected( selectedSong, false ); //deselect the former selected item
@@ -232,7 +232,7 @@ ModalDialog {
                     selectedSong = itemid
 
                     buttonAccept.enabled = true //enable OK button
-                    musicPicker.acceptButtonActive = true
+                    musicPicker.acceptButtonEnabled = true
                     musicListView.highlightVisible = true
                 }
             }
@@ -283,7 +283,7 @@ ModalDialog {
                             PickerArray.remove( payload.mthumburi, "thumbUris" );
                             PickerArray.remove( payload.uri, "uris" );
                         }
-                        musicPicker.acceptButtonActive = true; //enable OK button
+                        musicPicker.acceptButtonEnabled = true; //enable OK button
                     }else {
                         model.setSelected( selectedItem, false ); //deselect the former selected item
                         PickerArray.clear(); //use clear to delete the entry, so we don't have to store the title and thumburi all the time
@@ -295,7 +295,7 @@ ModalDialog {
                         PickerArray.push( payload.uri, "uris" );
 
                         selectedItem = payload.mitemid; //memorize the newly selected item
-                        musicPicker.acceptButtonActive = true; //enable OK button
+                        musicPicker.acceptButtonEnabled = true; //enable OK button
                     }
                     buttonAccept.enabled = true //enable OK button
                 } //end !selectSongs

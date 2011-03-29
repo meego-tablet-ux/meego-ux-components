@@ -146,7 +146,8 @@ Flickable {
                     height: parent.height + 1
                     anchors.verticalCenterOffset: -1
 
-                    opacity:  0
+                    opacity: 0  // this forces a repaint
+                    visible: opacity != 0
                 }
 
                 Text {
@@ -187,11 +188,11 @@ Flickable {
 
                     anchors.top: textItem.bottom
                     anchors.horizontalCenter: textItem.horizontalCenter
-                    width: parent.width - textMargin * 2
+                    width: parent.width // - textMargin * 2
 
                     visible: index < repeater.count - 1     // Seperator won't be visible for the last item
 
-                    source: "image://themedimage/menu_item_separator"
+                    source: "image://themedimage/menu/menu-item-separator"
                 }
 
                 MouseArea {

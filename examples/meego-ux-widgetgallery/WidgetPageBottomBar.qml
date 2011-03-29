@@ -80,16 +80,25 @@ WidgetPage {
                 leftContent: [
                     IconButton {
                         id: button1
+                        icon: "image://themedimage/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        hasBackground: false
+
+
                     },
                     IconButton {
                         id: button2
+                        icon: "image://themedimage/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        hasBackground: false
                     }
                 ]
 
                 centerContent: [
                     Slider {
                         id: slider
-                        width: 250
+                        width: 350
+                        anchors.centerIn: parent
                     }
                 ]
 
@@ -97,9 +106,15 @@ WidgetPage {
                 rightContent: [
                     IconButton {
                         id: button5
+                        icon: "image://themedimage/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        hasBackground: false
                     },
                     IconButton {
                         id: button6
+                        icon: "image://themedimage/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        hasBackground: false
                     }
                 ]
 

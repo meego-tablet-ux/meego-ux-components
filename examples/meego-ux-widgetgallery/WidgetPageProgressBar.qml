@@ -61,7 +61,7 @@ WidgetPage {
         Row {
             id: statusEntry
 
-            width: parent.width / 3
+            width: widgetPage.width / 4
             height: 70
 
             Button {

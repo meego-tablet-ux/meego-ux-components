@@ -110,7 +110,6 @@ Item {
                     height:  flickContainer.itemHeight
 
                     anchors.left: parent.left
-
                     anchors.right: parent.right
 
                     border.width: 1
@@ -132,9 +131,8 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
 
                         IconButton {
-
                             anchors.centerIn: parent
-
+                            icon: "image://themedimage/media/icn_addtoalbum_up"
                         }
                     }
 

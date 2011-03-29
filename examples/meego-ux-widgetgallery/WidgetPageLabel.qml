@@ -84,8 +84,8 @@ WidgetPage {
         }
     ]
 
-    description: "This is a button with customizable size and label. If the label is too big to be displayed in the button, "
-               + "activate the checkbox for elide if desired. \n"
+    description: "This is a text with a background image meant as a general label for look-alike reasons. \n "
+               + "If the text is too big to be displayed, activate the checkbox to elide if desired. \n"
 
     widget: Flickable {
 
@@ -98,10 +98,8 @@ WidgetPage {
             id: button
 
             anchors.centerIn: parent
-            width:  200
-            height:  80
             text: "Label"
-            elide: elideBox.isChecked
+            elideText: elideBox.isChecked
         }
     }
 }

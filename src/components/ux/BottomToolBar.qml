@@ -70,9 +70,9 @@ Item {
     anchors.left: parent.left
     anchors.right: parent.right
     y: parent.height
+    height: 64
 
     visible: false
-    opacity:  0.5
 
     Theme {
         id: theme
@@ -83,6 +83,7 @@ Item {
 
         anchors.fill: parent
         source: (landscape) ? "image://themedimage/navigationBar_l" : "image://themedimage/navigationBar_p"
+        opacity: theme.statusBarOpacity
     }
 
     // this item only sets up an orientation point for the content.
@@ -91,59 +92,36 @@ Item {
     // but none of the usual ways work.
     Item {
         id: bottomToolBarSurface
-
         anchors.fill: parent
     }
 
-    SequentialAnimation {
+    PropertyAnimation {
         id: scrollOut
-
-        PropertyAnimation {
-            id: moveOut
-            duration: theme.dialogAnimationDuration
-            target: bottomToolBar
-            property: "y"
-            from: bottomToolBar.parent.height - bottomToolBar.height
-            to: bottomToolBar.parent.height
-        }
-        PropertyAnimation {
-            id: fadeOut
-            running:  false
-            target: bottomToolBar
-            property: "opacity"
-            from: 0.5
-            to: 0
-            onCompleted: {
-                visible = false
-                inactive()
-            }
+        duration: theme.dialogAnimationDuration
+        target: bottomToolBar
+        property: "y"
+        from: bottomToolBar.parent.height - bottomToolBar.height
+        to: bottomToolBar.parent.height
+        easing.type: Easing.InOutQuad
+        onCompleted: {
+            bottomToolBar.visible = false
+            inactive()
         }
     }
 
-    SequentialAnimation{
+    PropertyAnimation {
         id: scrollIn
-
-        PropertyAnimation {
-            id: moveIn
-            duration: theme.dialogAnimationDuration
-            target: bottomToolBar
-            property: "y"
-            from: bottomToolBar.parent.height
-            to: bottomToolBar.parent.height - bottomToolBar.height
-        }
-        PropertyAnimation {
-            id: fadeIn
-            duration: 1
-            running:  false
-            target: bottomToolBar
-            property: "opacity"
-            from: 0
-            to: 0.5
-            onCompleted: {
-                visible = true
-                active()
-            }
+        duration: theme.dialogAnimationDuration
+        target: bottomToolBar
+        property: "y"
+        from: bottomToolBar.parent.height
+        to: bottomToolBar.parent.height - bottomToolBar.height
+        easing.type: Easing.InOutQuad
+        onCompleted: {
+            bottomToolBar.visible = true
+            active()
         }
     }
+
 }
 

@@ -21,7 +21,6 @@ WidgetPage {
     controlContent: [
         CheckBoxEntry {
             id: showExampleRow
-
             isChecked: true
             label: "show Example Row:"
         }
@@ -50,7 +49,7 @@ WidgetPage {
             anchors.centerIn: parent
             width: 400
             height: 60
-            text: qsTr( "Show BottomToolBar" )
+            text: bottomToolbar.visible? qsTr( "Hide BottomToolBar" ) :qsTr( "Show BottomToolBar" )
 
             onClicked: {
                 if( bottomToolbar.visible )
@@ -64,6 +63,40 @@ WidgetPage {
             id: bottomToolbar
             parent: widgetPage
 
+            content: BottomToolBarRow {
+                id: bottomToolbarRow
+                visible: showExampleRow.isChecked
+
+                leftContent: [
+                    IconButton {
+                        id: button1
+                    },
+                    IconButton {
+                        id: button2
+                    }
+                ]
+
+                centerContent: [
+                    Slider {
+                        id: slider
+                        width: 250
+                    }
+                ]
+
+
+                rightContent: [
+                    IconButton {
+                        id: button5
+                    },
+                    IconButton {
+                        id: button6
+                    }
+                ]
+
+
+
+
+            }
 
         }
     }

@@ -57,40 +57,43 @@ Item {
     id : bottomToolBarRow
 
     // API
-    property alias leftContent: bottomToolBarRowContentLeft.children
-    property alias centerContent: bottomToolBarRowContentCenter.children
-    property alias rightContent: bottomToolBarRowContentRight.children
+    property alias leftContent: contentLeft.children
+    property alias centerContent: contentCenter.children
+    property alias rightContent: contentRight.children
 
     anchors.fill: parent
 
-    Item {
+    Row {
         id: contentLeft
 
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: contentCenter.left
+        anchors.verticalCenter: parent.verticalCenter        
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.leftMargin: 15
+        anchors.margins: 5
+        spacing: anchors.margins
     }
-    Item {
+    Row {
         id: contentCenter
 
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        width: 200
+        anchors.left: contentLeft.right
+        anchors.right: contentRight.left
+        anchors.margins: 5
+        spacing: anchors.margins
     }
-    Item {
+    Row {
         id: contentRight
 
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: contentCenter.right
+        anchors.verticalCenter: parent.verticalCenter        
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.rightMargin: 15
+        anchors.margins: 5
+        spacing: anchors.margins
     }
 }
 

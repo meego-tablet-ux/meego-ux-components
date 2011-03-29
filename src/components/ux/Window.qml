@@ -247,6 +247,14 @@ Item {
                     currentOrientation = appOrientation
                     apiOrientation = appOrientation
                 }
+            } else if ( (appOrientation == 1 && currentOrientation == 3) ||
+                        (appOrientation == 3 && currentOrientation == 1) ) {
+                currentOrientation == appOrientation
+                apiOrientation == appOrientation
+            } else if ( (appOrientation == 0 && currentOrientation == 2) ||
+                        (appOrientation == 2 && currentOrientation == 0) ) {
+                currentOrientation == appOrientation
+                apiOrientation == appOrientation
             }
         }
 
@@ -258,8 +266,9 @@ Item {
                             orientationLocked = false
                             currentOrientation = appOrientation
                         } else {
-                            currentOrientation = apiOrientation
                             orientationLocked = true
+                            currentOrientation = apiOrientation
+
                         }
                     }
                     setFromQApp = false

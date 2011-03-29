@@ -116,7 +116,7 @@ BorderImage{
         z: 0
 
         font.pixelSize: theme.fontPixelSizeLarge
-        color: "#2fa7d4"
+        color: "#2fa7d4"       
 
         text: parseInt( progressBar.progressPercentage ) + "%"
     }

@@ -55,13 +55,13 @@ BorderImage {
 
     signal textChanged
 
-    border.top: 10
-    border.bottom: 10
-    border.left: 10
-    border.right: 10
+    border.top: 6
+    border.bottom: 6
+    border.left: 6
+    border.right: 6
 
     height: 50
-    source: "image://themedimage/email/frm_textfield_l"
+    source: (edit.focus && !readOnly) ? "image://themedimage/text-area/text-area-background-active" : "image://themedimage/text-area/text-area-background"
     clip: true
 
     opacity: readOnly ? 0.5 : 1.0

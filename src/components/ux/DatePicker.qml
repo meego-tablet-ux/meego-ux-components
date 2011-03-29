@@ -613,7 +613,7 @@ ModalDialog {
                                    return parent.height - 4
                                }
                 anchors { left:parent.left; top:parent.top; right:parent.right }
-                height: datePicker.height / 13 //prevMonthText.font.pixelSize + 30
+                height: datePicker.height / 13
 
                 Text {
                     id: prevMonthText;
@@ -625,7 +625,15 @@ ModalDialog {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: updateSelectedDate( selectedDate.getDate(), prevMonth( selectedDate ), selectedDate.getFullYear() )//selectedDate = prevMonth( calendarView.calendarShown )//calendarView.calendarShown = prevMonth( calendarView.calendarShown )
+
+                        onClicked: {
+                            var newMonth = prevMonth( selectedDate )
+                            var yearUpdate = 0
+                            if( newMonth == 11 ) {
+                                yearUpdate = - 1
+                            }
+                            updateSelectedDate( selectedDate.getDate(), prevMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
+                        }
                     }
                 }
                 Text {
@@ -648,7 +656,14 @@ ModalDialog {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: updateSelectedDate( selectedDate.getDate(), nextMonth( selectedDate ), selectedDate.getFullYear() )//selectedDate = nextMonth( calendarView.calendarShown )//calendarView.calendarShown = nextMonth( calendarView.calendarShown )
+                        onClicked: {
+                            var newMonth = nextMonth( selectedDate )
+                            var yearUpdate = 0
+                            if( newMonth == 0 ) {
+                                yearUpdate = 1
+                            }
+                            updateSelectedDate( selectedDate.getDate(), nextMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
+                        }
                     }
                 }
             } // month-year header

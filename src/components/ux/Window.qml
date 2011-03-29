@@ -176,6 +176,8 @@ Item {
 
     property bool customActionMenu: false
 
+    property alias orientation: window_content_topitem.orientation
+
     property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullScreen ) ? 0 : statusBar.height )
 
     signal search(string needle)
@@ -224,15 +226,9 @@ Item {
         property string oldOrientation
 
         function setOrientation( orientationInt ) {
-            oldOrientation = state
-            if(orientationInt == 2) {
-                state = "portrait"
-            } else if(orientationInt == 1) {
-                state = "landscape"
-            } else if(orientationInt == 0) {
-                state = "invertedportrait"
-            } else if(orientationInt == 3) {
-                state = "invertedlandscape"
+            if( orientation != orientationInt) {
+                oldOrientation = state
+                orientation = orientationInt
             }
         }
 
@@ -521,12 +517,9 @@ Item {
             } //end toolBar
         }
 
-
-
         //add a page stack to manage pages
         PageStack {
             id: pageStack
-
 
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
@@ -534,6 +527,7 @@ Item {
         states:  [
             State {
                 name: "landscape"
+                when: (window_content_topitem.orientation == 1)
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -548,6 +542,7 @@ Item {
             },
             State {
                 name: "invertedlandscape"
+                when: (window_content_topitem.orientation == 3)
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -562,6 +557,7 @@ Item {
             },
             State {
                 name: "portrait"
+                when: (window_content_topitem.orientation == 2)
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -576,6 +572,7 @@ Item {
             },
             State {
                 name: "invertedportrait"
+                when: (window_content_topitem.orientation == 0)
                 PropertyChanges {
                     target: window
                     inLandscape: false

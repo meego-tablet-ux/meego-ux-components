@@ -19,16 +19,27 @@ AppPage {
 
     pageTitle: "Book 1, widget gallery"
 
-    actionMenuModel: [ "Toggle Fullscreen" ]
-    actionMenuPayload: [ 0 ]
+    actionMenuModel: [ "Toggle Fullscreen", "Landscape", "Potrait", "Inv. Landscape", "Inv. Potrait" ]
+    actionMenuPayload: [ 0, 1, 2, 3, 4 ]
     actionMenuTitle: "Action Menu"
 
     onActionMenuTriggered: {
-        if( window.fullScreen ){
-            window.fullScreen = false
-        }
-        else{
-            window.fullScreen = true
+
+        if(selectedItem == 0 ) {
+            if( window.fullScreen ){
+                window.fullScreen = false
+            }
+            else{
+                window.fullScreen = true
+            }
+        } else if( selectedItem == 1) {
+            window.orientation = 1
+        } else if( selectedItem == 2) {
+            window.orientation = 2
+        } else if( selectedItem == 3) {
+            window.orientation = 3
+        } else if( selectedItem == 4) {
+            window.orientation = 0
         }
     }
 

@@ -66,7 +66,6 @@ Item {
     Row {
         id: contentLeft
 
-        anchors.verticalCenter: parent.verticalCenter        
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -76,8 +75,6 @@ Item {
     Row {
         id: contentCenter
 
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: contentLeft.right
@@ -88,7 +85,6 @@ Item {
     Row {
         id: contentRight
 
-        anchors.verticalCenter: parent.verticalCenter        
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom

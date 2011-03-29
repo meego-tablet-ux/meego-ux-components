@@ -23,6 +23,16 @@ WidgetPage {
             id: showExampleRow
             isChecked: true
             label: "show Example Row:"
+        },
+        LabeledEntry {
+            id: titleText
+
+            label: "height: "
+            defaultValue: bottomToolbar.height
+
+            onTextUpdated: {
+                bottomToolbar.height = value;
+            }
         }
     ]
 

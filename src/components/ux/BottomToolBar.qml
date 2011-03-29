@@ -51,7 +51,7 @@ Item {
 
     // API
     property alias content: bottomToolBarSurface.children
-    property bool landscape: false
+    property bool landscape: true;
 
     signal active;
     signal inactive;
@@ -70,9 +70,17 @@ Item {
     anchors.left: parent.left
     anchors.right: parent.right
     y: parent.height
+    clip: true
     height: 64
-
     visible: false
+
+    Behavior on height {
+        PropertyAction {
+            target: bottomToolBar
+            property: "y"
+            value: Math.min( 0, bottomToolBar.parent.height - bottomToolBar.height )
+        }
+    }
 
     Theme {
         id: theme
@@ -80,10 +88,9 @@ Item {
 
     BorderImage {
         id: background
-
         anchors.fill: parent
         source: (landscape) ? "image://themedimage/navigationBar_l" : "image://themedimage/navigationBar_p"
-        opacity: theme.statusBarOpacity
+        opacity: 1
     }
 
     // this item only sets up an orientation point for the content.

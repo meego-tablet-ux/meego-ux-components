@@ -243,7 +243,7 @@ WidgetPage {
         StatusEntry {
             id: maxDateEntry
 
-            label: "current min date: "
+            label: "current max date: "
             value: datePicker.maxYear + "." + datePicker.maxMonth + "." + datePicker.maxDay
         }
     ]
@@ -280,7 +280,7 @@ WidgetPage {
 //        height: topItem.topItem.height * 0.9
 
         onDateSelected: {
-            stateEntry.value = selectedDate.getDate() + "." + ( selectedDate.getMonth() + 1 ) + "." + selectedDate.getFullYear()
+            stateEntry.value = selectedDate.getFullYear() + "." + ( selectedDate.getMonth() + 1 ) + "." + selectedDate.getDate()
             signalEntry.value = "dateSelected"
 
             if( datePicker.isFuture ){

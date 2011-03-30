@@ -349,6 +349,7 @@ ModalDialog {
 
             text: "Back"
             height:  50
+            width:  musicPicker.width / 4
             visible: musicPicker.albumSelected
             anchors.verticalCenter: parent.verticalCenter
 
@@ -367,6 +368,7 @@ ModalDialog {
 
             text: "OK"
             height:  50
+            width:  musicPicker.width / 4
             anchors.verticalCenter: parent.verticalCenter
 
             bgSourceUp: acceptButtonImage
@@ -383,6 +385,7 @@ ModalDialog {
 
             text: "Cancel"
             height:  50
+            width:  musicPicker.width / 4
             anchors.verticalCenter: parent.verticalCenter
 
             bgSourceUp: cancelButtonImage

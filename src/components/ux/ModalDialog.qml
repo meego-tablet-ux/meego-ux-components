@@ -153,7 +153,7 @@ ModalFog {
     property int topMargin: 0
     property int bottomMargin: 0
 
-    property int buttonWidth: 210
+    property int buttonWidth: width / 3
     property int buttonHeight: 50
 
     property int decorationHeight: header.height + footer.height + topMargin + bottomMargin

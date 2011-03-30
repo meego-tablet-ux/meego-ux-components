@@ -69,6 +69,23 @@ BorderImage {
     opacity: readOnly ? 0.5 : 1.0
 
     Theme{ id: theme }
+    TextInput {
+        id: input
+
+        x: 15
+        y: 15
+        width: parent.width - 30
+        anchors.verticalCenter: parent.verticalCenter
+
+        font.pixelSize: theme.fontPixelSizeLarge
+
+        onTextChanged: {
+            container.textChanged ();
+            if( text.length > 0 ){
+                fakeText.firstUsage = false
+            }
+        }
+    }
 
     Text {
         id: fakeText
@@ -88,25 +105,6 @@ BorderImage {
             target: input
             onTextChanged: {
                 fakeText.visible = (input.text == "")
-            }
-        }
-
-    }
-
-    TextInput {
-        id: input
-
-        x: 15
-        y: 15
-        width: parent.width - 30
-        anchors.verticalCenter: parent.verticalCenter
-
-        font.pixelSize: theme.fontPixelSizeLarge
-
-        onTextChanged: {
-            container.textChanged ();
-            if( text.length > 0 ){
-                fakeText.firstUsage = false
             }
         }
     }

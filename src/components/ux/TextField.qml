@@ -115,7 +115,7 @@ BorderImage {
 
             width: flick.width
             height: flick.height
-            focus: false
+
             wrapMode: TextEdit.Wrap
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
             font.pixelSize: theme.fontPixelSizeNormal

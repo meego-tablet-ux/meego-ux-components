@@ -237,7 +237,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "TextEntry, for a single line of text."
+                        text: "TextField, for multiple lines of text."
                     }
 
                     Component{ id: textFieldComponent; WidgetPageTextField{} }
@@ -446,7 +446,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "Label, a clickable text without button graphics."
+                        text: "Label, a text with background graphics."
                     }
 
                     Component{ id: labelComponent; WidgetPageLabel{} }

@@ -79,7 +79,7 @@ WidgetPage {
         StatusEntry {
             id: statusEntry
 
-            label: "Text"
+            label: "Text: "
             value: button.text
         }
     ]

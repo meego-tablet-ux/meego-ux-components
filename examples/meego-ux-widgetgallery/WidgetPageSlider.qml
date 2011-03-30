@@ -93,6 +93,14 @@ WidgetPage {
             defaultValue: "0"
 
             onTextUpdated: slider.percentage = parseFloat( value )
+        },
+
+        CheckBoxEntry {
+            id: overlayBox
+
+            label: "textOverlyVisible:"
+
+            isChecked: true
         }
     ]
 
@@ -118,6 +126,7 @@ WidgetPage {
             id: slider
 
             anchors.centerIn: parent
+            textOverlayVisible: overlayBox.isChecked
             min: 0
             max: 100
         }

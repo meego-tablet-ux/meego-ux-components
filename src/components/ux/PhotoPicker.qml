@@ -13,8 +13,8 @@
   The PhotoPicker provides a modal dialog in which the user can choose an
   album or photo. The 'OK' button is disabled until a selection was made.
   On 'Ok'-clicked, depending on the selection mode, the fitting signal is
-  emitted which provides the selected item's data. Multi selection of items
-  is possible by setting set multiSelection: true.
+  emitted which provides the selected item's data. Multiselection of items
+  is possible by setting multiSelection to true.
 
   \section2 API Properties
 
@@ -27,20 +27,41 @@
   \section2 Signals
 
   \qmlsignal photoSelected
-  \qmlcm this is not triggered on cancel.
+  \qmlcm propagates data for the selected photo. Triggered if multiSelection is false.
     \param variant photoid
     \qmlpcm ID of the selected photo. \endparam
     \param string title
     \qmlpcm title of the selected photo. \endparam
     \param string uri
     \qmlpcm path to the photo. \endparam
+    \param string thumbUri
+    \qmlpcm path to the photo thumbnail. \endparam
+
+  \qmlsignal multiplePhotosSelected
+  \qmlcm propagates data for the selected photos. Triggered if multiSelection is true.
+    \param variant photoids
+    \qmlpcm ID of the selected photos. \endparam
+    \param string titles
+    \qmlpcm title of the selected photos. \endparam
+    \param string uris
+    \qmlpcm path to the photos. \endparam
+    \param string thumbUris
+    \qmlpcm path to the photo thumbnails. \endparam
+
 
   \qmlsignal  albumSelected
-  \qmlcm triggered if albumSelectionMode is true.
+  \qmlcm propagates data of the selected album. Triggered if albumSelectionMode is true and multiSelection is false.
     \param variant albumid
     \qmlpcm ID of the selected photo album. \endparam
     \param string title
     \qmlpcm title of the selected photo album. \endparam
+
+  \qmlsignal  multipleAlbumsSelected
+  \qmlcm propagates data of the selected albums. Triggered if albumSelectionMode and multiSelection is true.
+    \param variant albumids
+    \qmlpcm ID of the selected photo albums. \endparam
+    \param string titles
+    \qmlpcm title of the selected photo albums. \endparam
 
   \qmlsignal accepted
   \qmlcm emitted on 'OK' clicked.

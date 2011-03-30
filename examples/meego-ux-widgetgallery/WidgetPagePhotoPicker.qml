@@ -115,9 +115,8 @@ WidgetPage {
     description: "The PhotoPicker provides a modal dialog in which the user can choose an "
                  + "album or photo. The 'Ok' button is disabled until a selection was made. "
                  + "On 'Ok'-clicked, depending on the selection mode, the fitting signal is "
-                 + "emitted which provides the selected item's data. A double click automatically "
-                 + "closes the dialog and emits a selected signal. Multi selection of items "
-                 + "is possible by setting set multiSelection: true.<br>"
+                 + "emitted which provides the selected item's data. Multi selection of items "
+                 + "is possible by setting multiSelection to true.<br>"
                  + "Dialogs are centered by default with a vertical offset to to keep the toolbar visible."
 
 
@@ -176,6 +175,10 @@ WidgetPage {
             }
             PropertyChanges {
                 target: uriEntry
+                visible: false
+            }
+            PropertyChanges {
+                target: thumbUriEntry
                 visible: false
             }
             PropertyChanges {

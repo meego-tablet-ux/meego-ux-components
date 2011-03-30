@@ -19,6 +19,7 @@ WidgetPage {
     property string pickedTitle: "-"
     property string pickedId: "-"
     property string pickedUri: "-"
+    property string pickedThumbUri: "-"
     property string pickedItems: "-"
 
     pageTitle: "VideoPicker Testing"
@@ -59,6 +60,7 @@ WidgetPage {
                 pickedId = "-"
                 pickedTitle = "-"
                 pickedUri = "-"
+                pickedThumbUri = "-"
                 pickedItems = "-"
             }
         }
@@ -94,6 +96,13 @@ WidgetPage {
         },
 
         StatusEntry {
+            id: thumbUriEntry
+
+            label: "ThumbUri:"
+            value: pickedThumbUri
+        },
+
+        StatusEntry {
             id: itemsEntry
 
             label: "Selected items:"
@@ -105,8 +114,7 @@ WidgetPage {
     description: "The VideoPicker provides a modal dialog in which the user can choose an "
                   + "album or video. The 'Ok' button is disabled until a selection was made. "
                   + "On 'Ok'-clicked, depending on the selection mode, the fitting signal is "
-                  + "emitted which provides the selected item's data. A double click automatically "
-                  + "closes the dialog and emits a selected signal. Multi selection of items "
+                  + "emitted which provides the selected item's data. Multi selection of items "
                   + "is possible by setting multiSelection via the API property.<br>"
                   + "Dialogs are centered by default with a vertical offset to to keep the toolbar visible."
 
@@ -133,6 +141,7 @@ WidgetPage {
             pickedId = itemid
             pickedTitle = itemtitle
             pickedUri = uri
+            pickedThumbUri = thumbUri
         }
 
         onRejected: {
@@ -140,6 +149,7 @@ WidgetPage {
             pickedId = "no signal sent"
             pickedTitle = "no signal sent"
             pickedUri = "no signal sent"
+            pickedThumbUri = "no signal sent"
             pickedItems = "-"
         }
 
@@ -162,6 +172,10 @@ WidgetPage {
             }
             PropertyChanges {
                 target: uriEntry
+                visible: false
+            }
+            PropertyChanges {
+                target: thumbUriEntry
                 visible: false
             }
             PropertyChanges {

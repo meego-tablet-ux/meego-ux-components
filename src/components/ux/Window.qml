@@ -679,18 +679,18 @@ Item {
 
     Component.onCompleted: {
         try {
-            window_content_topitem.orientation = qApp.orientation;
-            window_content_topitem.setOrientation(  window_content_topitem.orientation )
+            window_content_topitem.currentOrientation = qApp.orientation;
+            window_content_topitem.setOrientation(  window_content_topitem.currentOrientation )
         } catch (err) {
-            window_content_topitem.orientation = 1
-            window_content_topitem.setOrientation( window_content_topitem.orientation )
+            window_content_topitem.currentOrientation = 1
+            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
         }
     }
     Connections {
         target: qApp
         onOrientationChanged: {
-            window_content_topitem.orientation = qApp.orientation;
-            window_content_topitem.setOrientation( window_content_topitem.orientation )
+            window_content_topitem.currentOrientation = qApp.orientation;
+            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
         }
     }
 }

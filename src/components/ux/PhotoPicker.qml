@@ -163,7 +163,8 @@ ModalDialog {
         width: cellWidth * estimateColumnCount
         anchors.horizontalCenter: parent.horizontalCenter
 
-        cellWidth: parent.width / theme.thumbColumnCount
+        cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
+                                                  : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
 
         onClicked: {
             if( photoPicker.multiSelection ) {
@@ -205,6 +206,7 @@ ModalDialog {
     }
 
     TopItem { id: topItem }
+    Theme { id: theme }
 
     PhotoListModel {
         id: theModel

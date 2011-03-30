@@ -81,7 +81,8 @@ Item {
 
     /* thumbnail properties */
     property int thumbSize: 230
-    property int thumbColumnCount: 5
+    property int thumbColumnCountLandscape: 5
+    property int thumbColumnCountPortrait: 3
 
     /* search bar properties */
 //    qreal searchbarFontPixelSize()

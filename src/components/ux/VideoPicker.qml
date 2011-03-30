@@ -162,6 +162,9 @@ ModalDialog {
         width: cellWidth * estimateColumnCount
         anchors.horizontalCenter: parent.horizontalCenter
 
+        cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
+                                                  : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
+
         //if an item is clicked, update the current data with that item's data
         onClicked: {
             if( videoPicker.multiSelection ) {
@@ -196,6 +199,7 @@ ModalDialog {
     }
 
     TopItem{ id: topItem }
+    Theme { id: theme }
 
     VideoListModel {
         id: allAlbumsListModel

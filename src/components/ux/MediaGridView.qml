@@ -172,8 +172,9 @@ GridView {
 
         width: gridView.cellWidth
         height: gridView.cellHeight
+        asynchronous: true
 
-        source: "image://themedimage/media/photos_thumb_med"
+//        source: "image://themedimage/media/photos_thumb_med"
         clip: true
 
         mtitle:{
@@ -244,14 +245,11 @@ GridView {
             a[0]== undefined ? "" : a[0]
         }
 
-        Theme{ id: theme }
-
         Item {
             id: thumbnailClipper
 
             anchors.fill:parent
             anchors.margins: spacing
-            z: -10
 
             Image {
                 id: thumbnail
@@ -262,7 +260,6 @@ GridView {
                 source: dinstance.mthumburi
                 smooth: true
                 clip: true
-                z: 0
 
                 Rectangle {
                     id: fog
@@ -278,12 +275,14 @@ GridView {
                 id: textBackground
 
                 source: "image://themedimage/media/music_text_bg_med"
+                asynchronous: true
+
                 border{ left: 3; right: 3; top: 3; bottom: 3 }
                 width: parent.width
                 height: 63
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
-                z: 1
+
                 visible: (type != 2)
 
                 Text {
@@ -324,8 +323,9 @@ GridView {
                 asynchronous: true
                 width: parent.width - 2 * frameBorderWidth
                 height: parent.height - 2 * frameBorderWidth
+                source: "image://themedimage/media/photos_selected_tick"
+                visible: false
                 smooth: true
-                z: 2
             }
         }
 
@@ -373,7 +373,7 @@ GridView {
                 when: selectionMode && !gridView.model.isSelected(itemid)
                 PropertyChanges {
                     target: frame
-                    source: "image://themedimage/media/photos_thumb_med"
+                    visible: false
                 }
             },
             State {
@@ -381,9 +381,11 @@ GridView {
                 when: selectionMode && gridView.model.isSelected(itemid)
                 PropertyChanges {
                     target: frame
-                    source: "image://themedimage/media/photos_selected_tick"
+                    visible: true
                 }
             }
         ]
     }
+
+    Theme{ id: theme }
 }

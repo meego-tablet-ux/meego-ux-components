@@ -65,10 +65,10 @@ Item {
     property Item topItem: null
     property int topWidth: 0
     property int topHeight: 0
-
     property int topDecorationHeight
 
     signal orientationChangeFinished()
+    signal ping
 
     topDecorationHeight: {
        try {
@@ -105,13 +105,16 @@ Item {
 
     Connections {
         target: window    // ###
-        onOrientationChangeFinished: { top.calcTopParent(), top.orientationChangeFinished() }
+        onOrientationChangeFinished: {
+            top.calcTopParent()
+            top.orientationChangeFinished()
+        }
         onWidthChanged: { top.calcTopParent() }
         onHeightChanged: { top.calcTopParent() }
     }
 
 
-    Component.onCompleted: calcTopParent()
+    Component.onCompleted: { calcTopParent(), ping() }
 
     onParentChanged: calcTopParent()
 }

@@ -263,6 +263,9 @@ ModalDialog {
 
             cacheBuffer: 5000
 
+            cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
+                                                      : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
+
             onClicked: {
                 if( musicPicker.selectSongs ) {
                     selectedAlbumName = payload.mtitle;
@@ -359,6 +362,7 @@ ModalDialog {
     ]
 
     TopItem { id: topItem }
+    Theme { id: theme }
 
     MusicListModel {
         id: musicAlbumsOnly

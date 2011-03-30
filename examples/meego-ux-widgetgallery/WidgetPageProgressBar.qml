@@ -98,6 +98,7 @@ WidgetPage {
             id: progressBar
 
             anchors.centerIn: parent
+            fontColor: "black"
             width:  200
             height:  80
         }

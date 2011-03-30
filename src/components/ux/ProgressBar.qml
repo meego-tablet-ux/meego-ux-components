@@ -43,8 +43,8 @@ BorderImage{
     id: container
 
     property real percentage: 50
-    property alias fontColor: blueText.color
-    property alias fontColorInverted: invertedText.color
+    property alias fontColor: backText.color
+    property alias fontColorFilled: filledText.color
 
     width: 210
     height: 60
@@ -81,10 +81,10 @@ BorderImage{
         z: 1
 
         Text {
-            id: invertedText
+            id: filledText
 
-            x: blueText.x
-            y: blueText.y
+            x: backText.x
+            y: backText.y
 
             width: container.width
             height: container.height
@@ -92,14 +92,14 @@ BorderImage{
             verticalAlignment: Text.AlignVCenter
 
             font.pixelSize: theme.fontPixelSizeLarge
-            color: theme.fontColorHighlight
+            color: theme.fontColorProgressFilled
 
             text: parseInt( progressBar.progressPercentage ) + "%"
         }
     }
 
     Text {
-        id: blueText
+        id: backText
 
         anchors.centerIn: container
 
@@ -110,7 +110,7 @@ BorderImage{
         z: 0
 
         font.pixelSize: theme.fontPixelSizeLarge
-        color: theme.fontColorHighlightBlue
+        color: theme.fontColorProgress
 
         text: parseInt( progressBar.progressPercentage ) + "%"
     }

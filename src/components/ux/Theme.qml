@@ -84,59 +84,16 @@ Item {
     property int thumbColumnCountLandscape: 5
     property int thumbColumnCountPortrait: 3
 
-    /* search bar properties */
-//    qreal searchbarFontPixelSize()
-//        { return realValue("searchbarFontPixelSize", 20); }
-//    QString searchbarFontColor()
-//        { return stringValue("searchbarFontColor", "white"); }
-
     /* context menu properties */
     property string contextMenuBackgroundColor: "grey"
     property string contextMenuFontColor: "#666666" // "white"
     property int contextMenuFontPixelSize: 20
 
-    /* application menu properties */
-//    QString appMenuBackgroundColor()
-//        { return stringValue("appMenuBackgroundColor", "grey"); }
-//    QString appMenuFontColor()
-//        { return stringValue("appMenuFontColor", "white"); }
-//    int appMenuFontPixelSize()
-//        { return intValue("appMenuFontPixelSize", 30); }
+    /* progress bar properties */
+    property string fontColorProgress: "black"
+    property string fontColorProgressFilled: "white"
 
-    /* window properties */
-//    QString backgroundColor()
-//        { return stringValue("backgroundColor", "black"); }
-//    QString sidepanelBackgroundColor()
-//        { return stringValue("sidepanelBackgroundColor", "black"); }
-//    QString highlightColor()
-//        { return stringValue("highlightColor", "yellow"); }
-//    QString textInputBackgroundColor()
-//        { return stringValue("textInputBackgroundColor", "white"); }
-
-    /* launcher properties */
-//    qreal iconFontPixelSize()
-//        { return realValue("iconFontPixelSize", 16); }
-//    QString iconFontColor()
-//        { return stringValue("iconFontColor", "white"); }
-//    QString iconFontBackgroundColor()
-//        { return stringValue("iconFontBackgroundColor", "slategray"); }
-
-    /* taskswitcher properties */
-//    int taskSwitcherNumRows()
-//        { return intValue("taskSwitcherNumRows", 3); }
-//    int taskSwitcherNumCols()
-//        { return intValue("taskSwitcherNumCols", 3); }
-//    bool taskSwitcherShowGridIcon()
-//        { return boolValue("taskSwitcherShowGridIcon", true); }
-//    int taskSwitcherIconWidth()
-//        { return intValue("taskSwitcherIconWidth", 100); }
-//    int taskSwitcherIconHeight()
-//        { return intValue("taskSwitcherIconHeight", 100); }
-//    int taskSwitcherIconContainerWidth()
-//        { return intValue("taskSwitcherIconContainerWidth", 120); }
-//    int taskSwitcherIconContainerHeight()
-//        { return intValue("taskSwitcherIconContainerHeight", 120); }
-
+    /* status bar properties */
     property int statusBarFontPixelSize: 10
     property string statusBarFontColor: "white"
     property string statusBarBackgroundColor: "black"

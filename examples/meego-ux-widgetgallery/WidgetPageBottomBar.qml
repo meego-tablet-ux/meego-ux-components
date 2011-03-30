@@ -98,6 +98,7 @@ WidgetPage {
                         id: slider
                         width: 320
                         anchors.centerIn: parent
+                        textOverlayVisible: false
                     }
                 ]
 

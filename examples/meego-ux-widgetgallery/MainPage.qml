@@ -46,7 +46,7 @@ AppPage {
     Item {
         id: contentButtons
 
-        property int buttonWidth: 200
+        property int buttonWidth: parent.width * 0.2 //200
         property int buttonHeight: 60
         property int buttonMargins: 2
 
@@ -106,7 +106,7 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; left: settersButton.right }
-            text: "Modal Dialogs"
+            text: "Dialogs"
 
 //            bgSourceUp: (mainPage.state == "pickers") ? contentButtons.activeButtonImage : contentButtons.buttonImage
 //            bgSourceDn: contentButtons.buttonImagePressed

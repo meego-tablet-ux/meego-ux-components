@@ -32,7 +32,7 @@ WidgetPage {
             id: heightEntry
 
             label:  "height: "
-            defaultValue: ebox1.height
+            defaultValue: ddown.height
 
             onTextUpdated: {
                 ddown.height = value
@@ -42,7 +42,7 @@ WidgetPage {
             id: titleText
 
             label: "titleText: "
-            defaultValue: ebox1.titleText
+            defaultValue: ddown.titleText
 
             onTextUpdated: {
                 ddown.titleText = value;
@@ -57,8 +57,8 @@ WidgetPage {
     widget: Flickable {
 
         anchors.fill: parent
-        contentHeight: height > ebox1.height ? height : ebox1.height
-        contentWidth: width > ebox1.width ? width : ebox1.width
+        contentHeight: height > ddown.height ? height : ddown.height
+        contentWidth: width > ddown.width ? width : ddown.width
         clip: true
 
         DropDown {

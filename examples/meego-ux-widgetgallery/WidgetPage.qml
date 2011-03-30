@@ -129,20 +129,29 @@ AppPage {
                 Flickable {
                     id: statusFlickable
 
+                    property bool hFlick: contentWidth > width
+                    property bool vFlick: contentHeight > height
+
                     anchors.fill: parent
                     anchors.margins: 4
-                    flickableDirection: Flickable.VerticalFlick
+                    flickableDirection: if( hFlick && vFlick ) {
+                                            return Flickable.HorizontalAndVerticalFlick
+                                        }else if( hFlick ) {
+                                            return Flickable.HorizontalFlick
+                                        }else if( vFlick ) {
+                                            return Flickable.VerticalFlick
+                                        }
                     clip: true
-                    contentHeight: statusColumn.height + 6
-                    interactive: contentHeight > height
+                    contentHeight: statusColumn.height + 0
+                    contentWidth: statusColumn.width + 0
+                    interactive: hFlick || vFlick
 
                     Column {
                         id: statusColumn
 
+                        width:  childrenRect.width
                         anchors.top: parent.top
-                        anchors.topMargin: 4
                         anchors.left: parent.left
-                        anchors.leftMargin: 4
                     }
                 }
             }

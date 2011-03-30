@@ -32,7 +32,6 @@ Item {
         Flickable {
             id: flickContainer
             property int itemHeight: 80
-            property int itemMargin: 50
             property int textMargin: 20
             property int textSize: 16
             property real leftFactor: 0.3
@@ -69,6 +68,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: sliderItem
@@ -80,7 +80,7 @@ Item {
                     Item{
                         id: slider
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         Slider {
@@ -114,6 +114,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: vsliderItem
@@ -125,7 +126,7 @@ Item {
                     Item{
                         id: vslider
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         Slider {
@@ -158,6 +159,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: textEntryItem
@@ -169,7 +171,7 @@ Item {
                     Item{
                         id: textEntry
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -206,6 +208,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: textFieldItem
@@ -217,7 +220,7 @@ Item {
                     Item{
                         id: textField
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -253,6 +256,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: progressBarItem
@@ -264,7 +268,7 @@ Item {
                     Item{
                         id: progressBar
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         ProgressBar {
@@ -298,6 +302,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: expandingBoxItem
@@ -309,7 +314,7 @@ Item {
                     Item{
                         id: expandingBox
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -363,6 +368,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: dropDownBoxItem
@@ -374,7 +380,7 @@ Item {
                     Item{
                         id: dropDownBox
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -415,6 +421,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: labelItem
@@ -426,12 +433,12 @@ Item {
                     Item{
                         id: label
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
                         Label {
-//                            width:  parent.width
+                            width:  parent.width
                             anchors.centerIn: parent
 
                             text: "Label"
@@ -462,6 +469,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: popupListItem
@@ -473,7 +481,7 @@ Item {
                     Item{
                         id: popupListButton
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 

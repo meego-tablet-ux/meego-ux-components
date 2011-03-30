@@ -20,7 +20,7 @@ Item {
     property alias label: outputText1.text
     property alias value: outputText2.text
 
-    width: parent.width
+    width: outputText1.paintedWidth + outputText2.paintedWidth  + outputText2.anchors.leftMargin
     height: 50
 
     Text {

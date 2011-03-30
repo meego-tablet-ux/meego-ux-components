@@ -12,6 +12,10 @@
   \qmlcm Displays control elements to choose a date by day, month and year. The values
          can either be chosen using the three PopupLists at the top or by the calender
          grid in the center.
+         The min... and max... properties can be used to restrict the choosable date
+         to a specific date. Selecting a date outside that range will disable the ok
+         button. Make sure valid values for min and max are set, otherwise the datePicker
+         might not work as expected.
 
   \section1  API properties
 
@@ -19,28 +23,28 @@
   \qmlcm contains the currently selected date.
 
   \qmlproperty int startYear
-  \qmlcm sets the first year available in the year spinner.
+  \qmlcm sets the first year available in the year spinner, needs a positive value smaller or equal to endYear.
 
   \qmlproperty int endYear
-  \qmlcm sets the last year available in the year spinner.
+  \qmlcm sets the last year available in the year spinner, needs a positive value bigger or equal to startYear.
 
   \qmlproperty int minYear
-  \qmlcm sets the first selectable year.
+  \qmlcm sets the first selectable year, needs a positive value smaller or equal to maxYear.
 
   \qmlproperty int minMonth
-  \qmlcm sets the first selectable month.
+  \qmlcm sets the first selectable month, needs a value from 1 to 12.
 
   \qmlproperty int minDay
-  \qmlcm sets the first selectable day.
+  \qmlcm sets the first selectable day, needs a value from 1 to 31.
 
   \qmlproperty int maxYear
-  \qmlcm sets the last selectable year.
+  \qmlcm sets the last selectable year, needs a positive value bigger or equal to minYear.
 
   \qmlproperty int maxMonth
-  \qmlcm sets the last selectable month.
+  \qmlcm sets the last selectable month, needs a value from 1 to 12.
 
   \qmlproperty int maxDay
-  \qmlcm sets the last selectable day.
+  \qmlcm sets the last selectable day, needs a value from 1 to 31.
 
   \qmlproperty bool isDateInRange
   \qmlcm true if the selected date is in range of the min and max values.

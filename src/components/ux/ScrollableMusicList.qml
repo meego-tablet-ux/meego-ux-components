@@ -99,6 +99,8 @@ Item {
     ListView {
         id: listView
 
+        property int textMargin: 20 // enlarges the entries serving as a spacing and making it easier to click
+
         focus: true
         spacing: 1
 
@@ -113,6 +115,7 @@ Item {
             color: listView.currentItem.selected ? "white" : "red"
             border.color: "black"
             border.width: 1
+            height: trackTitle.font.pixelSize + listView.textMargin - 2 // -2 to keep the border inside the item
 
             z: 100
             width: parent.width - 1
@@ -128,7 +131,7 @@ Item {
             id: songDelegate
 
             width: parent.width
-            height: trackTitle.font.pixelSize + 20
+            height: trackTitle.font.pixelSize + listView.textMargin
 
             property string mtitle: title
             property string muri: uri

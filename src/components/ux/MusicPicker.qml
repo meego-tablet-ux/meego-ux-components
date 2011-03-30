@@ -310,7 +310,7 @@ ModalDialog {
         Button {
             id: buttonBack
 
-            text: "Back"
+            text: qsTr( "Back" )
             height:  50
             visible: musicPicker.albumSelected
             anchors.verticalCenter: parent.verticalCenter
@@ -328,7 +328,7 @@ ModalDialog {
         Button {
             id: buttonAccept
 
-            text: "OK"
+            text: qsTr( "OK" )
             height:  50
             anchors.verticalCenter: parent.verticalCenter
 
@@ -344,7 +344,7 @@ ModalDialog {
         Button {
             id: buttonCancel
 
-            text: "Cancel"
+            text: qsTr( "Cancel" )
             height:  50
             anchors.verticalCenter: parent.verticalCenter
 

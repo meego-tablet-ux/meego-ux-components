@@ -136,8 +136,8 @@ ModalFog {
     property alias content: innerContentArea.children
     property alias buttonRow: footer.children
 
-    property string cancelButtonText: "Cancel"
-    property string acceptButtonText: "OK"
+    property string cancelButtonText: qsTr( "Cancel" )
+    property string acceptButtonText: qsTr( "OK" )
 
     property string title: ""
     property bool aligneTitleCenter: false

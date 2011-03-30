@@ -672,7 +672,19 @@ Item {
         } // end transitions
     } // end window_content_topitem
 
+    // repositions the context menu after orientation change
     onOrientationChangeFinished: {
+        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+    }
+
+    // Repositions the context menu after the windows width and/or height have changed.
+    onWidthChanged: {
+        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+    }
+
+    onHeightChanged: {
         pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
     }

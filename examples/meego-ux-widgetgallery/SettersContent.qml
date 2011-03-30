@@ -378,15 +378,15 @@ Item {
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
-                        DropDown {
+//                        DropDown {
 
-                            width:  parent.width
-                            anchors.centerIn: parent
+//                            width:  parent.width
+//                            anchors.centerIn: parent
 
-                            titleText: "DropDown"
-                            titleTextColor: "black"
+//                            titleText: "DropDown"
+//                            titleTextColor: "black"
 
-                        }
+//                        }
                     }
 
                     Text {
@@ -400,7 +400,7 @@ Item {
                         text: "Drop Down, design/specs missing."
                     }
 
-                    Component{ id: dropDownComponent; WidgetPageDropDown{} }
+//                    Component{ id: dropDownComponent; WidgetPageDropDown{} }
                 }
 
 

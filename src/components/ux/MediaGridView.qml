@@ -151,6 +151,7 @@ GridView {
     interactive: contentHeight > height
 
     cacheBuffer: 3000
+    flickDeceleration: 250
 
     Component.onCompleted: gridView.currentIndex = 0
 
@@ -271,13 +272,15 @@ GridView {
                 }
             }
 
-            BorderImage {
+            Rectangle {
                 id: textBackground
 
-                source: "image://themedimage/media/music_text_bg_med"
-                asynchronous: true
+//                source: "image://themedimage/media/music_text_bg_med"
+//                asynchronous: true
 
-                border{ left: 3; right: 3; top: 3; bottom: 3 }
+//                border{ left: 3; right: 3; top: 3; bottom: 3 }
+                color:  "black"
+                opacity: 0.7
                 width: parent.width
                 height: 63
                 anchors.bottom: parent.bottom
@@ -285,35 +288,66 @@ GridView {
 
                 visible: (type != 2)
 
-                Text {
-                    id: titleText
+//                Text {
+//                    id: titleText
 
-                    text: mtitle
-                    anchors.top: parent.top
-                    anchors.topMargin: 10
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    width: parent.width - 20
-                    elide: Text.ElideRight
-                    font.pixelSize: theme.fontPixelSizeMedium
-                    font.bold: true
-                    color:theme.fontColorMediaHighlight
-                }
+//                    text: mtitle
+//                    anchors.top: parent.top
+//                    anchors.topMargin: 10
+//                    anchors.left: parent.left
+//                    anchors.leftMargin: 10
+//                    width: parent.width - 20
+//                    elide: Text.ElideRight
+//                    font.pixelSize: theme.fontPixelSizeMedium
+//                    font.bold: true
+//                    color:theme.fontColorMediaHighlight
+//                }
 
-                Text {
-                    id: artistText
+//                Text {
+//                    id: artistText
 
-                    text: ( type == 1 ) ? ( ( formatMinutes( length ) == 1 ) ? qsTr( "%1 Minute" ).arg( formatMinutes( length ) ) : qsTr( "%1 Minutes").arg( formatMinutes( length ) ) ) : martist
-                    font.pixelSize: theme.fontPixelSizeMedium
-                    anchors.top: titleText.bottom
-                    anchors.topMargin: 4
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    width: parent.width - 20
-                    elide: Text.ElideRight
-                    color:theme.fontColorMediaHighlight
-                    visible: text
-                }
+//                    text: ( type == 1 ) ? ( ( formatMinutes( length ) == 1 ) ? qsTr( "%1 Minute" ).arg( formatMinutes( length ) ) : qsTr( "%1 Minutes").arg( formatMinutes( length ) ) ) : martist
+//                    font.pixelSize: theme.fontPixelSizeMedium
+//                    anchors.top: titleText.bottom
+//                    anchors.topMargin: 4
+//                    anchors.left: parent.left
+//                    anchors.leftMargin: 10
+//                    width: parent.width - 20
+//                    elide: Text.ElideRight
+//                    color:theme.fontColorMediaHighlight
+//                    visible: text
+//                }
+            }
+
+            Text {
+                id: titleText
+
+                text: mtitle
+                anchors.top: textBackground.top
+                anchors.topMargin: 10
+                anchors.left: textBackground.left
+                anchors.leftMargin: 10
+                width: textBackground.width - 20
+                elide: Text.ElideRight
+                font.pixelSize: theme.fontPixelSizeMedium
+                font.bold: true
+                color:theme.fontColorMediaHighlight
+                visible: textBackground.visible
+            }
+
+            Text {
+                id: artistText
+
+                text: ( type == 1 ) ? ( ( formatMinutes( length ) == 1 ) ? qsTr( "%1 Minute" ).arg( formatMinutes( length ) ) : qsTr( "%1 Minutes").arg( formatMinutes( length ) ) ) : martist
+                font.pixelSize: theme.fontPixelSizeMedium
+                anchors.top: titleText.bottom
+                anchors.topMargin: 4
+                anchors.left: textBackground.left
+                anchors.leftMargin: 10
+                width: textBackground.width - 20
+                elide: Text.ElideRight
+                color:theme.fontColorMediaHighlight
+                visible: textBackground.visible
             }
 
             BorderImage {

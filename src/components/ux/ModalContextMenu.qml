@@ -484,9 +484,6 @@ ModalFog {
         id: top
 
         onOrientationChangeFinished: {
-
-            top.calcTopParent()
-
             menuContainer.mouseX = baseX * top.topWidth
             menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
 

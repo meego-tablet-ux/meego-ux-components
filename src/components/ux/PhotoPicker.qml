@@ -108,7 +108,6 @@ ModalDialog {
     property bool albumSelectionMode: false
     property bool multiSelection: false
 
-        // ###
     property real topHeight: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95  // maximum height relativ to top item height
 
     signal photoSelected( variant photoid, string title, string uri, string thumbUri )

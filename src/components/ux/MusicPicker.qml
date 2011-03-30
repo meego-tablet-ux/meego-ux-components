@@ -146,7 +146,7 @@ ModalDialog {
     // Private
     property variant model: ( showAlbums ? (showPlaylists ? musicAlbumsAndPlaylistsMixed : musicAlbumsOnly) :
                              (showPlaylists ? musicPlaylistsOnly : musicAlbumsAndPlaylistsMixed) ) // don't allow nothing
-        // ###
+
     property real topHeight: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95   // maximum height relativ to top item height
 
     property bool albumSelected: false

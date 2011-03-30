@@ -43,8 +43,7 @@ WidgetPage {
         }
     ]
 
-    description: "This is a BottomToolBar with customizable content, value ranges and options to set the current value. \n"
-               + "Note: the 'value' entry under API Properties is not linked to the current value property for demonstration reasons."
+    description: "This is a BottomToolBar with customizable content. Which by default will be a ButtonToolBarRow. \n"
 
     widget: Flickable {
 
@@ -82,14 +81,14 @@ WidgetPage {
                         id: button1
                         icon: "image://themedimage/media/icn_addtoalbum_up"
                         iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        width: 60
                         hasBackground: false
-
-
                     },
                     IconButton {
                         id: button2
                         icon: "image://themedimage/media/icn_addtoalbum_up"
                         iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        width: 60
                         hasBackground: false
                     }
                 ]
@@ -97,7 +96,7 @@ WidgetPage {
                 centerContent: [
                     Slider {
                         id: slider
-                        width: 350
+                        width: 320
                         anchors.centerIn: parent
                     }
                 ]
@@ -108,12 +107,14 @@ WidgetPage {
                         id: button5
                         icon: "image://themedimage/media/icn_addtoalbum_up"
                         iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        width: 60
                         hasBackground: false
                     },
                     IconButton {
                         id: button6
                         icon: "image://themedimage/media/icn_addtoalbum_up"
                         iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        width: 60
                         hasBackground: false
                     }
                 ]

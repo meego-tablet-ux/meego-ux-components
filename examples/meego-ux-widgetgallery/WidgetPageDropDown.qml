@@ -50,9 +50,9 @@ WidgetPage {
         }
     ]
 
-    description: "This page shows an expanding box. The controls to the left can be used to change the width, "
+    description: "This page shows an drop down box. The controls to the left can be used to change the width, "
                  + "height and the title of the box to see how its elements adapt to the new properties. "
-                 + "Choosing too small sizes will break the expanding box."
+                 + "Choosing too small sizes will break the dropdown box."
 
     widget: Flickable {
 

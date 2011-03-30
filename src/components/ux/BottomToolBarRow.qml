@@ -70,9 +70,10 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.margins: 5
-        spacing: anchors.margins
+        spacing: 2
 
         visible: parent.visible
+        opacity: visible ? 1 : 0    // force repaint
     }
     Row {
         id: contentCenter
@@ -82,9 +83,10 @@ Item {
         anchors.left: contentLeft.right
         anchors.right: contentRight.left
         anchors.margins: 5
-        spacing: anchors.margins
+        spacing: 2
 
         visible: parent.visible
+        opacity: visible ? 1 : 0    // force repaint
     }
     Row {
         id: contentRight
@@ -93,9 +95,10 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.margins: 5
-        spacing: anchors.margins
+        spacing: 2
 
         visible: parent.visible
+        opacity: visible ? 1 : 0    // force repaint
     }
 }
 

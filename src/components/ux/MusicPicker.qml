@@ -37,17 +37,51 @@
          the dialog was accepted.
          \param	string	title
          \qmlpcm title of the selected item. \endparam
+         \param	string	uri
+         \qmlpcm path to the album or playlist. \endparam
+         \param	string	thumbUri
+         \qmlpcm path to the thumbnail of the album or playlist. \endparam
          \param int	type
          \qmlpcm type of the item. \endparam
 
+  \qmlsignal multipleAlbumsOrPlaylistsSelected
+  \qmlcm Signal which returns the selected albums and/or playlists if
+         the dialog was accepted.
+         \param	string	titles
+         \qmlpcm title of the selected items. \endparam
+         \param	string	uris
+         \qmlpcm path to the albums or playlists. \endparam
+         \param	string	thumbUris
+         \qmlpcm path to the thumbnails of the albums or playlists. \endparam
+         \param int	types
+         \qmlpcm type of the items. \endparam
+
+
   \qmlsignal songSelected
-  \qmlcm Signal which returns the selected song of the dialog was accepted.
+  \qmlcm Signal which returns the selected song if the dialog was accepted.
     \param string title
     \qmlpcm title of the selected item. \endparam
+    \param  string  uri
+    \qmlpcm path to the song. \endparam
+    \param  string  thumbUri
+    \qmlpcm path to the thumbnail of the song. \endparam
     \param string album
     \qmlpcm title of the selected album. \endparam
     \param int type
     \qmlpcm type of the item. \endparam
+
+  \qmlsignal multipleSongsSelected
+  \qmlcm Signal which returns the selected songs if the dialog was accepted.
+    \param string titles
+    \qmlpcm titles of the selected items. \endparam
+    \param  string  uris
+    \qmlpcm paths to the songs. \endparam
+    \param  string  thumbUris
+    \qmlpcm paths to the thumbnails of the songs. \endparam
+    \param string album
+    \qmlpcm title of the selected album. \endparam
+    \param int types
+    \qmlpcm types of the items. \endparam
 
   \qmlsignal accepted
   \qmlcm emitted on 'OK' clicked.
@@ -105,8 +139,8 @@ ModalDialog {
     property bool multiSelection: false
 
     signal albumOrPlaylistSelected( string title, string uri, string thumbUri, int type )
-    signal multipleAlbumsOrPlaylistsSelected( variant titles, string uri, string thumbUri, variant types )
-    signal songSelected( string title, string album, string uri, string thumbUri, int type )
+    signal multipleAlbumsOrPlaylistsSelected( variant titles, string uris, string thumbUris, variant types )
+    signal songSelected( string title, string uri, string thumbUri, string album, int type )
     signal multipleSongsSelected( variant titles, variant uris, variant thumbUris, string album, variant types )
 
     // Private
@@ -127,7 +161,7 @@ ModalDialog {
 
         if( selectSongs ) {
             if( multiSelection ){
-                multipleSongsSelected( PickerArray.titles, PickerArray.uris, selectedAlbumName, PickerArray.types )
+                multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, selectedAlbumName, PickerArray.types )
             }else {
                 songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
             }

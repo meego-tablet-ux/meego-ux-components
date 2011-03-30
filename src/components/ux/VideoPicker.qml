@@ -27,20 +27,44 @@
   \section2 Signals
 
   \qmlsignal videoSelected
-  \qmlcm triggered on accpeted if albumSelectionMode is false
+  \qmlcm propagates data of the selected video. Triggered on accepted if albumSelectionMode is false
+         and multiSelection is false
     \param string itemid
     \qmlpcm  ID of the selected video. \endparam
     \param string uri
     \qmlpcm  path to the selected video. \endparam
     \param string itemtitle
     \qmlpcm  title of the selected video. \endparam
+    \param string thumbUri
+    \qmlpcm  path to the thumbnail. \endparam
+
+  \qmlsignal multipleVideosSelected
+  \qmlcm propagates data of the selected videos. Triggered on accepted if albumSelectionMode is false
+         and multiSelection is true
+    \param string itemids
+    \qmlpcm  ID of the selected videos. \endparam
+    \param string uris
+    \qmlpcm  path to the selected videos. \endparam
+    \param string itemtitles
+    \qmlpcm  title of the selected videos. \endparam
+    \param string thumbUris
+    \qmlpcm  path to the thumbnails. \endparam
 
   \qmlsignal albumSelected
-  \qmlcm triggered on accpeted if albumSelectionMode is true
+  \qmlcm propagates data of the selected album. Triggered on accpeted if albumSelectionMode is true
+         and multiSelection is false
     \param string albumid
     \qmlpcm ID of the selected photo album. \endparam
     \param string title
     \qmlpcm title of the selected photo album. \endparam
+
+  \qmlsignal multipleAlbumsSelected
+  \qmlcm propagates data of the selected albums. Triggered on accpeted if albumSelectionMode is true
+         and multiSelection is true
+    \param string albumids
+    \qmlpcm ID of the selected photo albums. \endparam
+    \param string titles
+    \qmlpcm title of the selected photo albums. \endparam
 
   \qmlsignal accepted
   \qmlcm emitted on 'OK' clicked.

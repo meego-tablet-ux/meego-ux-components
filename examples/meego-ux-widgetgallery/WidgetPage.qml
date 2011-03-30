@@ -138,7 +138,7 @@ AppPage {
                                             return Flickable.HorizontalAndVerticalFlick
                                         }else if( hFlick ) {
                                             return Flickable.HorizontalFlick
-                                        }else if( vFlick ) {
+                                        }else{
                                             return Flickable.VerticalFlick
                                         }
                     clip: true

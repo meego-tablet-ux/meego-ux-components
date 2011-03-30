@@ -629,7 +629,7 @@ ModalDialog {
                         onClicked: {
                             var newMonth = prevMonth( selectedDate )
                             var yearUpdate = 0
-                            if( newMonth == 11 ) {
+                            if( newMonth == 11 && selectedDate.getFullYear() > datePicker.startYear  ) {
                                 yearUpdate = - 1
                             }
                             updateSelectedDate( selectedDate.getDate(), prevMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
@@ -659,7 +659,7 @@ ModalDialog {
                         onClicked: {
                             var newMonth = nextMonth( selectedDate )
                             var yearUpdate = 0
-                            if( newMonth == 0 ) {
+                            if( newMonth == 0 && selectedDate.getFullYear() < datePicker.endYear) {
                                 yearUpdate = 1
                             }
                             updateSelectedDate( selectedDate.getDate(), nextMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )

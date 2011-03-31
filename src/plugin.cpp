@@ -30,14 +30,11 @@
 #include "kernel/fuzzydatetime.h"
 #include "kernel/translator.h"
 
-#include "models/musiclistmodel.h"
 #include "models/devicemodel.h"
-#include "models/imageextension.h"
-#include "models/photolistmodel.h"
-#include "models/videolistmodel.h"
-#include "models/browserlistmodel.h"
-//#include "models/timezonelistmodel.h"
 #include "models/librarymodel.h"
+#include "models/browserlistmodel.h"
+#include "models/imageextension.h"
+//#include "models/timezonelistmodel.h"
 
 #include "kernel/windowlistener.h"
 #include "kernel/windowinfo.h"
@@ -60,26 +57,10 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<Translator>(uri, 0,1,"Translator");
     qmlRegisterType<QmlDebugTools>(uri, 0,1, "QmlDebugTools");
     qmlRegisterType<FuzzyDateTime>(uri, 0,1, "FuzzyDateTime");
-
-    //qmlRegisterInterface<Desktop>("Desktop");
-    //qmlRegisterType<ApplicationsModel>(uri, 0, 1, "ApplicationsModel");
-    //qmlRegisterType<RecentApplicationsModel>(uri,0,1, "RecentApplicationsModel");
-    //qmlRegisterType<FavoriteApplicationsModel>(uri,0,1, "FavoriteApplicationsModel");
-    // qmlRegisterType<ValueSpacePublisher>(uri, 0,1, "ValueSpacePublisher");
-    // qmlRegisterType<ValueSpaceSubscriber>(uri, 0,1,"ValueSpaceSubscriber");
-    // qmlRegisterType<BrowserItemListModel>(uri, 0,1,"BrowserItemListModel");
-    // qmlRegisterType<WindowModel>(uri, 0,1, "WindowModel");
-    // qmlRegisterInterface<WindowElement>("WindowElement");
-
-    // Models:
-    qmlRegisterType<MusicListModel>(uri, 0,1, "MusicListModel");
-    qmlRegisterType<PhotoListModel>(uri, 0,1, "PhotoListModel");
-    qmlRegisterType<VideoListModel>(uri, 0,1, "VideoListModel");
     qmlRegisterType<devicemodel>(uri, 0,1,"UDiskDeviceModel");
-    qmlRegisterType<ImageExtension>(uri, 0,1, "ImageExtension");
-    //qmlRegisterType<TimezoneListModel>(uri, 0,1, "TimezoneListModel");
-    // Components
+    qmlRegisterType<ImageExtension>(uri, 0,1,"ImageExtension");
 
+    // Components
     qmlRegisterType<VolumeControl>(uri, 0,1,"VolumeControl");
     qmlRegisterType<GestureArea>(uri, 0,1, "GestureArea");
     qmlRegisterType<LocalTime>(uri, 0,1, "LocalTime");

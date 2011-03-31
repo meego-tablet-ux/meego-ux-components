@@ -101,6 +101,7 @@
   \endcode
 */
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -225,12 +226,12 @@ ModalDialog {
     TopItem{ id: topItem }
     Theme { id: theme }
 
-    VideoListModel {
+    Models.VideoListModel {
         id: allAlbumsListModel
 
-        type: VideoListModel.ListofVideos
+        type: Models.VideoListModel.ListofVideos
         limit: 0
-        sort: VideoListModel.SortByTitle
+        sort: Models.VideoListModel.SortByTitle
     }
 }
 

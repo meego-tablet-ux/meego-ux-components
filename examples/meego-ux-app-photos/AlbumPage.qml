@@ -90,6 +90,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 
 /* The AppPage represents one Page in the Book/Page concept of MeeGo Components. */
@@ -150,11 +151,11 @@ AppPage {
     }
 
     /* Models for the business logic */
-    PhotoListModel {
+    Models.PhotoListModel {
         id: allAlbumsModel
-        type: PhotoListModel.ListofAlbums
+        type: Models.PhotoListModel.ListofAlbums
         limit: 0
-        sort:PhotoListModel.SortByDefault
+        sort:Models.PhotoListModel.SortByDefault
 
         onItemAvailable: {
             console.log("Item Available: " + urn);

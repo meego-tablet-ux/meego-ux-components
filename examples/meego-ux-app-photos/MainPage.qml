@@ -177,6 +177,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 
 /* The AppPage represents one Page in the Book/Page concept of
@@ -205,9 +206,9 @@ AppPage {
     {
         allPhotosModel.album = settings.selectedAlbumName
         if( settings.selectedAlbumName == "" ) {
-            allPhotosModel.type = PhotoListModel.ListofPhotos
+            allPhotosModel.type = Models.PhotoListModel.ListofPhotos
         } else {
-            allPhotosModel.type = PhotoListModel.PhotoAlbum
+            allPhotosModel.type = Models.PhotoListModel.PhotoAlbum
         }
     }
 
@@ -330,12 +331,12 @@ AppPage {
     }
 
     /* Models for the business logic */
-    PhotoListModel {
+    Models.PhotoListModel {
 
         id: allPhotosModel
-        type: PhotoListModel.ListofPhotos
+        type: Models.PhotoListModel.ListofPhotos
         limit: 0       
-        sort: PhotoListModel.SortByDefault
+        sort: Models.PhotoListModel.SortByDefault
 
         onItemAvailable: {
             console.log("Item Available: " + urn);
@@ -352,11 +353,11 @@ AppPage {
             }
         }
     }
-    PhotoListModel {
+    Models.PhotoListModel {
         id: albumEditorModel
-        type: PhotoListModel.PhotoAlbum
+        type: Models.PhotoListModel.PhotoAlbum
         limit: 1
-        sort: PhotoListModel.SortByDefault
+        sort: Models.PhotoListModel.SortByDefault
     }
     /* End MeeGo-Ux unrelated components */
     /* A PhotoPicker is created here for selection of an

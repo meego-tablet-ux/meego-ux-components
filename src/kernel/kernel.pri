@@ -4,7 +4,6 @@ SOURCES += \
            kernel/fuzzydatetime.cpp \
            kernel/systemiconprovider.cpp \
            kernel/themedimageprovider.cpp \
-           kernel/thumbnailer.cpp \
            kernel/translator.cpp \
            #kernel/valuespacesubscriber.cpp \
            #kernel/valuespacepublisher.cpp \
@@ -17,7 +16,6 @@ HEADERS += \
            kernel/fuzzydatetime.h \
            kernel/systemiconprovider.h \
            kernel/themedimageprovider.h \
-           kernel/thumbnailer.h \
            kernel/translator.h \
            #kernel/valuespacesubscriber.h \
            #kernel/valuespacepublisher.h \

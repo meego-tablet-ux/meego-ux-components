@@ -529,7 +529,7 @@ ModalDialog {
             z: 10
             anchors { margins: 10; left: parent.left; top: titleDivider.bottom; right: parent.right }
             spacing: 10
-            height: datePicker.height / 6 //110
+            height: datePicker.height / 6
 
             // pops up a list to choose a day
             PopupList {
@@ -772,14 +772,14 @@ ModalDialog {
 
                         width: calendarGrid.cellGridWidth - ( doTag ? 1 : 0 )
                         height: calendarGrid.cellGridHeight - ( doTag ? 1 : 0 )
-                        //color: (doTag) ? "steelblue" : ( ( calendarGrid.indexToDay(index) == -1 ) ? "lightgray" : "white" )
+
                         color: if( doTag ){
-                                   return "steelblue"
+                                   return theme.datePickerSelectedColor
                                }else if( calendarGrid.indexToDay( index ) == -1
                                         || !checkSelectedDate( ( index + 1 ) - startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() ), calendarView.calendarShown.getMonth() + 1, calendarView.calendarShown.getFullYear() ) ) {
-                                   return "lightgray"
+                                   return theme.datePickerUnselectableColor
                                }else {
-                                   return "white"
+                                   return theme.datePickerUnselectedColor
                                }
 
                         opacity: ( calendarGrid.indexToDay( index) == -1 ) ? 0.25 : 1
@@ -833,7 +833,7 @@ ModalDialog {
                                     return height - 4
                                 }
 
-                color: "#33BBFF" //theme.fontColorHighlight
+                color: theme.fontColorHighlightBlue
             }
 
             MouseArea {

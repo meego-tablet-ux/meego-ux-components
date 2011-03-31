@@ -98,4 +98,9 @@ Item {
     property string statusBarFontColor: "white"
     property string statusBarBackgroundColor: "black"
     property real statusBarOpacity: 0.8
+
+    /* date picker properties */
+    property string datePickerSelectedColor: "#2fa7d4"
+    property string datePickerUnselectedColor: "white"
+    property string datePickerUnselectableColor: "lightgrey"
 }

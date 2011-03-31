@@ -191,7 +191,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             icon: "image://themedimage/media/icn_back_up"
             iconDown: "image://themedimage/media/icn_back_dn"
-
+            hasBackground: false
             width: 100
 
             onClicked: container.prev()
@@ -203,7 +203,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             icon: "image://themedimage/icn_play_up"
             iconDown: "image://themedimage/icn_play_dn"
-
+            hasBackground: false
             width: 100
 
             onClicked: container.play()
@@ -215,7 +215,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             icon: "image://themedimage/media/icn_forward_up"
             iconDown: "image://themedimage/media/icn_forward_dn"
-
+            hasBackground: false
             width: 100
 
             onClicked: container.next()
@@ -236,7 +236,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             icon: "image://themedimage/media/icn_trash_up"
             iconDown: "image://themedimage/media/icn_trash_dn"
-
+            hasBackground: false
             width: 100
 
             onClicked: container.deleteSelected()
@@ -247,7 +247,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             icon: "image://themedimage/media/icn_addtoalbum_up"
             iconDown: "image://themedimage/media/icn_addtoalbum_dn"
-
+            hasBackground: false
             width: 100
 
             onClicked: container.addToAlbum()
@@ -259,7 +259,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             icon: "image://themedimage/media/icn_cancel_ms_up"
             iconDown: "image://themedimage/media/icn_cancel_ms_dn"
-
+            hasBackground: false
             width: 100
 
             onClicked: container.cancel()
@@ -276,7 +276,7 @@ Item {
         iconDown: "image://themedimage/media/icn_rotate_cw_dn"
 
         width: 100
-
+        hasBackground: false
         onClicked: container.rotateRight()
     }   
 

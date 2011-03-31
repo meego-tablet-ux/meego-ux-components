@@ -86,7 +86,7 @@ ModalDialog {
 
     aligneTitleCenter: true
 
-    buttonWidth: backgroundRect.width / 2.5
+    buttonWidth: tPicker.width / 2.5
     //buttonWidth: pickerContents.width / 2.5
 
     onShowCalled:  {
@@ -146,7 +146,7 @@ ModalDialog {
         hourSpinner.setValue( hours )
     }
 
-    height: tPicker.height + decorationHeight + buttonHeight
+    height: tPicker.height + decorationHeight// + buttonHeight
     width: tPicker.width
 
     title: qsTr("Pick a time")
@@ -155,116 +155,96 @@ ModalDialog {
         id: tPicker
 
         //anchors.fill: parent
+        clip: true
         width: 300
-        height:  spinnerBox.height + ( hr24 ? 0 : ampmToggle.sourceSize.height ) + 20
+        height:  spinnerBox.height + ( hr24 ? 0 : ampmToggleBox.height )
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
-        //height: spinnerBox.height + ( hr24 ? 0 : ampmToggleBox.height ) + 25
-        //anchors.centerIn: parent;
-        z: 1;
 
-        Theme {
-            id: theme
-        }
+        Theme { id: theme }
+
 
         Item {
-            id: backgroundRect
+            id: spinnerBox
 
-            anchors.fill: parent
-            clip:  true
+            anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
+            height: 130 // backgroundRect.height - ( ( tPicker.hr24 ? 0 : ampmToggleBox.height ) ) - 25
+            width : tPicker.width
 
-//            Column {
-//                id:pickerContents
+            Item {
+                id: innerBox
 
-//                spacing: 5
-//                anchors.top: parent.top
-//                anchors.topMargin: 5
-//                anchors.left: parent.left
-//                anchors.right:  parent.right
+                anchors.centerIn: parent
+                height: spinnerBox.height
+                width: spinnerBox.width - 20
 
+                // spinner to select hours
+                TimeSpinner {
+                    id: hourSpinner
+
+                    incr: 1
+                    pad: false
+                    anchors { left: parent.left; right: parent.horizontalCenter; top: parent.top; bottom: parent.bottom;
+                        leftMargin: 14; rightMargin: 14; topMargin: 10; bottomMargin: hr24 ? 14 : 0;
+                    }
+
+                } // hourSpinner
+
+                // a colon between the spinners makes it look more like a time selector
                 Item {
-                    id: spinnerBox
+                    id:colonBox
 
-                    anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
-                    height: 130 // backgroundRect.height - ( ( tPicker.hr24 ? 0 : ampmToggleBox.height ) ) - 25
-                    width : backgroundRect.width
+                    height: spinnerBox.height
+                    anchors.left: hourSpinner.right
+                    anchors.right: minutesSpinner.left
 
-                    Item {
-                        id: innerBox
+                    Text {
+                        id: colon
 
+                        text: ":"
                         anchors.centerIn: parent
-                        height: spinnerBox.height
-                        width: spinnerBox.width - 20
+                        color: theme.fontColorNormal
+                        font.pixelSize: theme.fontPixelSizeLargest3
+                    }//colon
+                }
 
-                        // spinner to select hours
-                        TimeSpinner {
-                            id: hourSpinner
+                // spinner to select minutes
+                TimeSpinner {
+                    id: minutesSpinner
 
-                            incr: 1
-                            pad: false
-                            anchors { left: parent.left; right: parent.horizontalCenter; top: parent.top; bottom: parent.bottom;
-                                leftMargin: 14; rightMargin: 14; topMargin: 10; bottomMargin:10;
-                            }
+                    min: 0
+                    incr: timePicker.minutesIncrement
+                    count: 60 / incr
+                    pad: true
+                    anchors { left: parent.horizontalCenter; right: parent.right; top: parent.top;bottom: hourSpinner.bottom;
+                        leftMargin: 14; rightMargin: 14; topMargin: 10;
+                    }
+                } // minutesSpinner
+            } // innerBox
+        } // spinnerBox
 
-                        } // hourSpinner
+        // used to choose between AM or PM time, if 12 hour system is active
+        Item {
+            id:ampmToggleBox
 
-                        // a colon between the spinners makes it look more like a time selector
-                        Item {
-                            id:colonBox
+            anchors.top: spinnerBox.bottom
 
-                            height: spinnerBox.height
-                            anchors.left: hourSpinner.right
-                            anchors.right: minutesSpinner.left
+            width: tPicker.width
+            height: ampmToggle.height + 20
 
-                            Text {
-                                id: colon
+            ToggleButton {
+                id: ampmToggle
 
-                                text: ":"
-                                anchors.centerIn: parent
-                                color: theme.fontColorNormal
-                                font.pixelSize: theme.fontPixelSizeLargest3
-                            }//colon
-                        }
+                visible: !timePicker.hr24
+                onLabel: qsTr("AM")
+                offLabel: qsTr("PM")
+                anchors.centerIn: parent
 
-                        // spinner to select minutes
-                        TimeSpinner {
-                            id: minutesSpinner
+                onToggled: {
+                    timePicker.ampm = ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel;
+                }
+            }// ampmToggle
+        }// ampmToggleBox
 
-                            min: 0
-                            incr: timePicker.minutesIncrement
-                            count: 60 / incr
-                            pad: true
-                            anchors { left: parent.horizontalCenter; right: parent.right; top: parent.top;bottom: hourSpinner.bottom;
-                                leftMargin: 14; rightMargin: 14; topMargin: 10;
-                            }
-                        } // minutesSpinner
-                    } // innerBox
-                } // spinnerBox
-
-                // used to choose between AM or PM time, if 12 hour system is active
-                Item {
-                    id:ampmToggleBox
-
-                    anchors.top: spinnerBox.bottom;
-                    anchors.bottom: ( !timePicker.hr24 ) ? parent.bottom : anchors.top
-                    width: backgroundRect.width
-                    //height: ( !timePicker.hr24 ) ? 40 : 0
-
-                    ToggleButton {
-                        id: ampmToggle
-
-                        z:50
-                        visible: !timePicker.hr24
-                        onLabel: qsTr("AM")
-                        offLabel: qsTr("PM")
-                        anchors.centerIn: parent
-
-                        onToggled: {
-                            timePicker.ampm = ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel;
-                        }
-                    }// ampmToggle
-                }// ampmToggleBox
-            //}// end pickerContents
-        } // backgroundRect
     }// timePicker
 
     TopItem { id: topItem }

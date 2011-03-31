@@ -1,9 +1,6 @@
 
 meego-ux-components Readme
 =================================================================
-This version was tested on:
-- meego-tablet-ia32-pinetrail-1.1.90.7.20110308.6.iso
-- meego-handset-ia32-pinetrail-1.1.90.7.20110308.6.iso
 
 You can install the meego-ux-components via zypper:
  sudo zypper install meego-ux-components

@@ -10,7 +10,7 @@ include(doc/doc.pri)
 OTHER_FILES += README
 
 TRANSLATIONS += $${SOURCES} $${OTHER_FILES} $${HEADERS}
-VERSION = 0.2.0
+VERSION = 0.2.1
 PROJECT_NAME = meego-ux-components
 
 dist.commands += rm -fR $${PROJECT_NAME}-$${VERSION} &&

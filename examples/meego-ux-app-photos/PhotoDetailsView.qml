@@ -62,6 +62,7 @@ The completed and the dectruction signals can be used to change properties of th
 */
 
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 
 /* The AppPage represents one Page in the Book/Page concept of
@@ -213,12 +214,12 @@ AppPage {
         }
     }
 
-    PhotoListModel {
+    Models.PhotoListModel {
         id: detailsPhotosModel
-        type: PhotoListModel.ListofPhotos
+        type: Models.PhotoListModel.ListofPhotos
         limit: 0
         album: windows.settings.selectedAlbumName
-        sort: PhotoListModel.SortByDefault
+        sort: Models.PhotoListModel.SortByDefault
 
         onItemAvailable: {
             console.log("Item Available: " + urn);

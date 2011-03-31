@@ -126,6 +126,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -401,39 +402,39 @@ ModalDialog {
     TopItem { id: topItem }
     Theme { id: theme }
 
-    MusicListModel {
+    Models.MusicListModel {
         id: musicAlbumsOnly
 
-        type: MusicListModel.ListofAlbums
+        type: Models.MusicListModel.ListofAlbums
         limit: 0
-        sort: MusicListModel.SortByTitle
-        mixtypes: MusicListModel.Albums
+        sort: Models.MusicListModel.SortByTitle
+        mixtypes: Models.MusicListModel.Albums
     } // MusicListModel
 
-    MusicListModel {
+    Models.MusicListModel {
         id: musicPlaylistsOnly
 
-        type: MusicListModel.ListofPlaylists
+        type: Models.MusicListModel.ListofPlaylists
         limit: 0
-        sort: MusicListModel.SortByTitle
-        mixtypes: MusicListModel.Playlists
+        sort: Models.MusicListModel.SortByTitle
+        mixtypes: Models.MusicListModel.Playlists
     } // MusicListModel
 
-    MusicListModel {
+    Models.MusicListModel {
         id: musicAlbumsAndPlaylistsMixed
 
-        type: MusicListModel.MixedList
+        type: Models.MusicListModel.MixedList
         limit: 0
-        sort: MusicListModel.SortByTitle
-        mixtypes: MusicListModel.Albums|MusicListModel.Playlists
+        sort: Models.MusicListModel.SortByTitle
+        mixtypes: Models.MusicListModel.Albums| Models.MusicListModel.Playlists
     } // MusicListModel
 
-    MusicListModel {
+    Models.MusicListModel {
         id: songsFromAlbum
 
-        type: MusicListModel.ListofSongsForAlbum
+        type: Models.MusicListModel.ListofSongsForAlbum
         album: selectedAlbumName == undefined ? "" : selectedAlbumName
         limit: 0
-        sort: MusicListModel.SortByDefault
+        sort: Models.MusicListModel.SortByDefault
     }
 }

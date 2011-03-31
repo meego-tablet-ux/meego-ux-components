@@ -99,6 +99,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -228,13 +229,13 @@ ModalDialog {
     TopItem { id: topItem }
     Theme { id: theme }
 
-    PhotoListModel {
+    Models.PhotoListModel {
         id: theModel
 
         limit: 0
-        sort: PhotoListModel.SortByDefault
+        sort: Models.PhotoListModel.SortByDefault
 
-        type: photoPicker.albumSelectionMode ? PhotoListModel.ListofAlbums : PhotoListModel.ListofPhotos
+        type: photoPicker.albumSelectionMode ? Models.PhotoListModel.ListofAlbums : Models.PhotoListModel.ListofPhotos
     }
 }
 

@@ -99,7 +99,7 @@ Rectangle {
         Text {
             id: delegateText
 
-            font.pixelSize: theme.fontPixelSizeSmall
+            font.pixelSize: theme.fontPixelSizeLarge
             text: displayValue(index)
             height: font.pixelSize + 10
             color: "#A0A0A0"

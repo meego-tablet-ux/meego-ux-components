@@ -86,7 +86,8 @@ ModalDialog {
 
     aligneTitleCenter: true
 
-    buttonWidth: pickerContents.width / 2.5
+    buttonWidth: backgroundRect.width / 2.5
+    //buttonWidth: pickerContents.width / 2.5
 
     onShowCalled:  {
         oldToggleState = ampmToggle.on
@@ -153,10 +154,13 @@ ModalDialog {
     content: Item {
         id: tPicker
 
+        //anchors.fill: parent
         width: 300
-        height: spinnerBox.height + ( hr24 ? 0 : ampmToggleBox.height ) + 25
+        height:  spinnerBox.height + ( hr24 ? 0 : ampmToggle.sourceSize.height ) + 20
+        anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
+        //height: spinnerBox.height + ( hr24 ? 0 : ampmToggleBox.height ) + 25
+        //anchors.centerIn: parent;
         z: 1;
-        anchors.centerIn: parent;
 
         Theme {
             id: theme
@@ -168,18 +172,19 @@ ModalDialog {
             anchors.fill: parent
             clip:  true
 
-            Column {
-                id:pickerContents
+//            Column {
+//                id:pickerContents
 
-                spacing: 5
-                anchors.top: parent.top
-                anchors.topMargin: 5
-                anchors.left: parent.left
-                anchors.right:  parent.right
+//                spacing: 5
+//                anchors.top: parent.top
+//                anchors.topMargin: 5
+//                anchors.left: parent.left
+//                anchors.right:  parent.right
 
                 Item {
                     id: spinnerBox
 
+                    anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
                     height: 130 // backgroundRect.height - ( ( tPicker.hr24 ? 0 : ampmToggleBox.height ) ) - 25
                     width : backgroundRect.width
 
@@ -239,8 +244,10 @@ ModalDialog {
                 Item {
                     id:ampmToggleBox
 
+                    anchors.top: spinnerBox.bottom;
+                    anchors.bottom: ( !timePicker.hr24 ) ? parent.bottom : anchors.top
                     width: backgroundRect.width
-                    height: ( !timePicker.hr24 ) ? 40 : 0
+                    //height: ( !timePicker.hr24 ) ? 40 : 0
 
                     ToggleButton {
                         id: ampmToggle
@@ -256,7 +263,7 @@ ModalDialog {
                         }
                     }// ampmToggle
                 }// ampmToggleBox
-            }// end pickerContents
+            //}// end pickerContents
         } // backgroundRect
     }// timePicker
 

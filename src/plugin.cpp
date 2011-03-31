@@ -21,6 +21,7 @@
 #include "components/notificationindicator.h"
 #include "components/gesturearea.h"
 #include "components/localtime.h"
+#include "components/musicindicator.h"
 //#include "components/theme.h"
 
 #include "kernel/systemiconprovider.h"
@@ -87,6 +88,7 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<BluetoothIndicator>(uri, 0, 1, "BluetoothIndicator");
     qmlRegisterType<NetworkIndicator>(uri, 0, 1, "NetworkIndicator");
     qmlRegisterType<BatteryIndicator>(uri, 0, 1, "BatteryIndicator");
+    qmlRegisterType<MusicIndicator>(uri, 0, 1, "MusicIndicator");
 
     // 1.0
     // Uncreatable

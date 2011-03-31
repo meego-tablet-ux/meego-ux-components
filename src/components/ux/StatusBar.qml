@@ -103,12 +103,27 @@ Item {
     }
 
     NotificationIndicator {
+        id: notificationIndicator
         anchors.right: volumeIndicator.left
         active: container.active
         onNotify: {
             var msg = summary + ": " + body;
             showBanner(msg.replace(/\n/g, ' '));
         }
+    }
+    Image {
+      id:musicPlayingIcon
+      anchors.right: notificationIndicator.left
+//      source: "image://meegotheme/icons/actionbar/media-play" 
+      height: volumeIndicator.paintedHeight
+      width: volumeIndicator.paintedWidth     
+      visible: musicIndicator.state == "playing" 
+    }
+    MusicIndicator {
+      id: musicIndicator  
+      onStateChanged: {
+	musicPlayingIcon.visible = state == "playing" ? 1 : 0;
+      }
     }
     Image {
         id: volumeIndicator

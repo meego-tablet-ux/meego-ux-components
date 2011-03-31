@@ -111,6 +111,18 @@ Rectangle {
             color: "#A0A0A0"
             verticalAlignment: "AlignVCenter"
 
+            MouseArea {
+                id: delegateArea
+
+                height:  parent.height
+                width:  timeSpinner.width
+                anchors.centerIn: parent
+
+                onClicked:  {
+                    tsview.currentIndex = index
+                }
+            }
+
             states: [
                 State {
                     name: "active"

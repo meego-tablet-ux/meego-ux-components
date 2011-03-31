@@ -81,7 +81,7 @@ Item {
     id: outer
 
     property alias pathItemCount: view.pathItemCount
-    property int fontSize: theme.fontPixelSizeSmall
+    property int fontSize: theme.fontPixelSizeNormal
     property variant popupListModel
     property real itemHeight: height / ( view.pathItemCount + 1 )
     property variant value
@@ -139,10 +139,26 @@ Item {
            font.bold: isSelected
            verticalAlignment: "AlignVCenter"
 
+           MouseArea {
+               id: delegateArea
+
+               height:  parent.height
+               width: spinnerRect.width
+               anchors.centerIn: parent
+
+               onClicked: {
+                   view.currentIndex = index
+                   if( outer.allowSignal ) {
+                       outer.valueSelected( view.currentIndex )
+                   }
+               }
+           }
+
            states: [
                State {
                    name: "active"
                    when:  index == view.currentIndex
+
                    PropertyChanges {
                        target: delegateText;
                        font.bold: true;
@@ -193,7 +209,7 @@ Item {
             dragMargin: view.width/2
             delegate: tsdelegate
 
-            onCurrentIndexChanged: {
+            onMovementEnded: {
                 if( outer.allowSignal ) {
                     outer.valueSelected( currentIndex )
                 }
@@ -201,6 +217,7 @@ Item {
 
             path: Path {
                 startX: view.width/2; startY: 0
+
                 PathLine {
                     x: view.width/2;
                     y: view.height
@@ -212,7 +229,7 @@ Item {
 
                 source:"image://themedimage/pickers/timespinhi"
                 anchors.fill: parent
-                opacity:0.25
+                opacity: 0.25
             }
 
             Component.onCompleted: {

@@ -407,8 +407,8 @@ ModalDialog {
         dayButton.reInit()
 
         var tempDate = selectedDate
+        tempDate.setMonth(m);
         tempDate.setDate(newDay)
-        tempDate.setMonth(m)
         tempDate.setFullYear(y)
         selectedDate = tempDate
         calendarView.calendarShown = tempDate

@@ -40,35 +40,37 @@ AppPage {
         z: -1
     }
 
-    Flickable{
-        anchors.fill:  parent
-        anchors.topMargin: 20
 
-        contentHeight: textItem.height
-        Text{
-            id: textItem
-            anchors.centerIn: parent
-            width: parent.width * 0.6
+    Text{
+        id: textItem
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width * 0.75
 
-            font.pixelSize: 20
-            wrapMode: Text.WordWrap
-            text:  "This is an example page for different ModalContextMenus.<br>"
-                    + "Click anywhere to get a context menu.<br><br>"
-                    + "You can choose between different menus:<br>"
-                    + "- Short list: a short list. The fourth entry is too long and is elided.<br>"
-                    + "- Long list: a long list with many entries. Note that the menu gets scrollable.<br>"
-                    + "- Thin list: a list with short entries. Note that the width adjusts to it and chooses its minimum width.<br><br>"
-                    + "In addition, the action menu is replaced by a custom context menu. <br>This way you can create much more complex context menus."
-        }
+        font.pixelSize: 20
+        wrapMode: Text.WordWrap
+        text:  "This is an example page for different ModalContextMenus.<br>"
+                + "You can list a set of entries which are selectable. <br>"
+                + "The menu will always try to use as little space as possible, up to a given maximum width. "
+                + "If it exceeds in height it gets scrollable.<br>"
+                + "Click anywhere to get a context menu.<br><br>"
+                + "You can choose between different menus:<br>"
+                + "- Short list: a short list. The fourth entry is too long and is elided.<br>"
+                + "- Long list: a long list with many entries. Note that the menu gets scrollable.<br>"
+                + "- Thin list: a list with short entries. Note that the width adjusts to it and chooses its minimum width.<br>"
+                + "- Sub menu: shows a submenu that appears in the already opened context menu.<br><br>"
+                + "In addition, the action menu is replaced by a custom context menu. This way you can create much more complex context menus.<br><br>"
+                + "Note: We recommend to set the position a new with setPosition() after rotating (as done for the book and action menu). "
+                + "Otherwise the context menu will try to move relatively, which can lead to a small offset. Try to click the blue spot."
     }
 
     Rectangle {
         id: clickItem
         width:  30
         height: 30
-        color: "black"
+        color: "darkblue"
 
-        x: parent.width * 0.1
+        x: parent.width * 0.05
         y: parent.height * 0.2
         radius: 15
     }
@@ -95,19 +97,24 @@ AppPage {
 
         forceFingerMode: -1
 
-        title: "Context"
+        //title: "Context"
 
-        subMenuModel: [ "Very long first entry", "Second entry", "Third entry", "Back", "Last entry" ]
+        subMenuModel: [ "Very long first entry", "Second entry", "Third entry", "Fourth entry", "Back" ]
 
         onSubMenuTriggered: {
-            contextMenu.subMenuVisible = false
+            if( index == 4 ){
+                contextMenu.subMenuVisible = false
+            }
+            else{
+                contextMenu.hide()
+            }
         }
 
         content:  ActionMenu{
             id: bookMenu
 
-            maxWidth: 500
-            minWidth: 400
+            maxWidth: 200
+            minWidth: 100
 
             model: model2
 

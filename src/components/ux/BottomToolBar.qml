@@ -51,38 +51,62 @@ Item {
 
     // API
     property alias content: bottomToolBarSurface.children
-    property bool landscape: false
+    property bool landscape: true
 
-    signal active;
-    signal inactive;
+    signal active
+    signal inactive
 
-    function show(){        
+    function show(){
         visible = true
-        scrollIn.running = true
+
+        background.extend = true
         focus = true
     }
 
     function hide(){
-        scrollOut.running = true
+        background.opened = false
+        background.extend = false
         focus = false
     }
 
     anchors.left: parent.left
     anchors.right: parent.right
-    y: parent.height
-
+    y: (background.extend) ? parent.height - height : parent.height
+    clip: true
+    height: 64
     visible: false
-    opacity:  0.5
 
-    Theme {
-        id: theme
+    Behavior on y {
+        PropertyAnimation {
+            easing.type: Easing.InOutQuad
+            duration: (background.opened) ? 0 : theme.dialogAnimationDuration
+        }
     }
+
+    onYChanged: {
+        if(bottomToolBar.visible){
+            if( bottomToolBar.y == parent.height ){
+                visible = false
+                inactive()
+            }
+            else if( bottomToolBar.y == parent.height - height ){
+                active()
+                background.opened = true
+            }
+        }
+    }
+
+    Theme { id: theme }
 
     BorderImage {
         id: background
 
+        property bool extend: false   // hidden from extern
+        property bool opened: false
+
         anchors.fill: parent
         source: (landscape) ? "image://themedimage/navigationBar_l" : "image://themedimage/navigationBar_p"
+        opacity: 1
     }
 
     // this item only sets up an orientation point for the content.
@@ -91,59 +115,7 @@ Item {
     // but none of the usual ways work.
     Item {
         id: bottomToolBarSurface
-
         anchors.fill: parent
-    }
-
-    SequentialAnimation {
-        id: scrollOut
-
-        PropertyAnimation {
-            id: moveOut
-            duration: theme.dialogAnimationDuration
-            target: bottomToolBar
-            property: "y"
-            from: bottomToolBar.parent.height - bottomToolBar.height
-            to: bottomToolBar.parent.height
-        }
-        PropertyAnimation {
-            id: fadeOut
-            running:  false
-            target: bottomToolBar
-            property: "opacity"
-            from: 0.5
-            to: 0
-            onCompleted: {
-                visible = false
-                inactive()
-            }
-        }
-    }
-
-    SequentialAnimation{
-        id: scrollIn
-
-        PropertyAnimation {
-            id: moveIn
-            duration: theme.dialogAnimationDuration
-            target: bottomToolBar
-            property: "y"
-            from: bottomToolBar.parent.height
-            to: bottomToolBar.parent.height - bottomToolBar.height
-        }
-        PropertyAnimation {
-            id: fadeIn
-            duration: 1
-            running:  false
-            target: bottomToolBar
-            property: "opacity"
-            from: 0
-            to: 0.5
-            onCompleted: {
-                visible = true
-                active()
-            }
-        }
     }
 }
 

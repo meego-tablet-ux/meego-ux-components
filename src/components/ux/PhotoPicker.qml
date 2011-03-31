@@ -13,8 +13,8 @@
   The PhotoPicker provides a modal dialog in which the user can choose an
   album or photo. The 'OK' button is disabled until a selection was made.
   On 'Ok'-clicked, depending on the selection mode, the fitting signal is
-  emitted which provides the selected item's data. Multi selection of items
-  is possible by setting set multiSelection: true.
+  emitted which provides the selected item's data. Multiselection of items
+  is possible by setting multiSelection to true.
 
   \section2 API Properties
 
@@ -27,20 +27,41 @@
   \section2 Signals
 
   \qmlsignal photoSelected
-  \qmlcm this is not triggered on cancel.
+  \qmlcm propagates data for the selected photo. Triggered if multiSelection is false.
     \param variant photoid
     \qmlpcm ID of the selected photo. \endparam
     \param string title
     \qmlpcm title of the selected photo. \endparam
     \param string uri
     \qmlpcm path to the photo. \endparam
+    \param string thumbUri
+    \qmlpcm path to the photo thumbnail. \endparam
+
+  \qmlsignal multiplePhotosSelected
+  \qmlcm propagates data for the selected photos. Triggered if multiSelection is true.
+    \param variant photoids
+    \qmlpcm ID of the selected photos. \endparam
+    \param string titles
+    \qmlpcm title of the selected photos. \endparam
+    \param string uris
+    \qmlpcm path to the photos. \endparam
+    \param string thumbUris
+    \qmlpcm path to the photo thumbnails. \endparam
+
 
   \qmlsignal  albumSelected
-  \qmlcm triggered if albumSelectionMode is true.
+  \qmlcm propagates data of the selected album. Triggered if albumSelectionMode is true and multiSelection is false.
     \param variant albumid
     \qmlpcm ID of the selected photo album. \endparam
     \param string title
     \qmlpcm title of the selected photo album. \endparam
+
+  \qmlsignal  multipleAlbumsSelected
+  \qmlcm propagates data of the selected albums. Triggered if albumSelectionMode and multiSelection is true.
+    \param variant albumids
+    \qmlpcm ID of the selected photo albums. \endparam
+    \param string titles
+    \qmlpcm title of the selected photo albums. \endparam
 
   \qmlsignal accepted
   \qmlcm emitted on 'OK' clicked.
@@ -78,6 +99,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -87,7 +109,6 @@ ModalDialog {
     property bool albumSelectionMode: false
     property bool multiSelection: false
 
-        // ###
     property real topHeight: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95  // maximum height relativ to top item height
 
     signal photoSelected( variant photoid, string title, string uri, string thumbUri )
@@ -139,7 +160,7 @@ ModalDialog {
         if( gridView.selectedItem != "" )
             gridView.model.setSelected( gridView.selectedItem, false )
 
-        acceptButtonActive = false
+        acceptButtonEnabled = false
     }
 
     content: MediaGridView {
@@ -163,7 +184,8 @@ ModalDialog {
         width: cellWidth * estimateColumnCount
         anchors.horizontalCenter: parent.horizontalCenter
 
-        cellWidth: parent.width / theme.thumbColumnCount
+        cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
+                                                  : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
 
         onClicked: {
             if( photoPicker.multiSelection ) {
@@ -180,7 +202,7 @@ ModalDialog {
                     PickerArray.remove( payload.muri, "uris" );
                     PickerArray.remove( payload.mthumburi, "thumbUris" );
                 }
-                photoPicker.acceptButtonActive = true; //enable OK button
+                photoPicker.acceptButtonEnabled = true; //enable OK button
             }else {
                 model.setSelected( selectedItem, false ); //deselect the former selected item
                 PickerArray.clear(); //use clear to delete the entry, so we don't have to store the title and thumburi all the time
@@ -192,7 +214,7 @@ ModalDialog {
                 PickerArray.push( payload.mthumburi, "thumbUris" );
 
                 selectedItem = payload.mitemid; //memorize the newly selected item
-                photoPicker.acceptButtonActive = true; //enable OK button
+                photoPicker.acceptButtonEnabled = true; //enable OK button
             }
         }
 
@@ -200,19 +222,20 @@ ModalDialog {
         onSelectionModeChanged: {
             PickerArray.clear();
             selectedItem = "";
-            photoPicker.acceptButtonActive = false;
+            photoPicker.acceptButtonEnabled = false;
         }
     }
 
     TopItem { id: topItem }
+    Theme { id: theme }
 
-    PhotoListModel {
+    Models.PhotoListModel {
         id: theModel
 
         limit: 0
-        sort: PhotoListModel.SortByDefault
+        sort: Models.PhotoListModel.SortByDefault
 
-        type: photoPicker.albumSelectionMode ? PhotoListModel.ListofAlbums : PhotoListModel.ListofPhotos
+        type: photoPicker.albumSelectionMode ? Models.PhotoListModel.ListofAlbums : Models.PhotoListModel.ListofPhotos
     }
 }
 

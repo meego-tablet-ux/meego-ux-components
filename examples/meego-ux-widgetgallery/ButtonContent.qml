@@ -31,7 +31,6 @@ Item {
         Flickable {
             id: flickContainer
             property int itemHeight: 80
-            property int itemMargin: 50
             property int textMargin: 20
             property int textSize: 16
             property real leftFactor: 0.3
@@ -68,6 +67,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: buttonItem
@@ -79,12 +79,13 @@ Item {
                     Item {
                         id: button
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         Button {
                             text:  "OK"
 
+                            width: parent.width
                             anchors.centerIn: parent
                         }
                     }
@@ -110,13 +111,13 @@ Item {
                     height:  flickContainer.itemHeight
 
                     anchors.left: parent.left
-
                     anchors.right: parent.right
 
                     border.width: 1
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: iconButtonItem
@@ -127,14 +128,14 @@ Item {
 
                     Item {
                         id: iconButton
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
                         IconButton {
-
+                            width: parent.width
                             anchors.centerIn: parent
-
+                            icon: "image://themedimage/media/icn_addtoalbum_up"
                         }
                     }
 
@@ -166,6 +167,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: radioItem
@@ -177,7 +179,7 @@ Item {
                     Item {
                         id: radio
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -216,6 +218,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: toggleButtonItem
@@ -227,7 +230,7 @@ Item {
                     Item{
                         id: toggleButton
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -264,10 +267,11 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     Item{
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 

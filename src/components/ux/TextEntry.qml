@@ -58,17 +58,34 @@ BorderImage {
 
     signal textChanged
 
-    border.top: 10
-    border.bottom: 10
-    border.left: 10
-    border.right: 10
+    border.top: 6
+    border.bottom: 6
+    border.left: 6
+    border.right: 6
 
     height: 50
-    source: "image://themedimage/email/frm_textfield_l"
+    source: (input.focus && !readOnly) ? "image://themedimage/text-area/text-area-background-active" : "image://themedimage/text-area/text-area-background"
 
     opacity: readOnly ? 0.5 : 1.0
 
     Theme{ id: theme }
+    TextInput {
+        id: input
+
+        x: 15
+        y: 15
+        width: parent.width - 30
+        anchors.verticalCenter: parent.verticalCenter
+
+        font.pixelSize: theme.fontPixelSizeLarge
+
+        onTextChanged: {
+            container.textChanged ();
+            if( text.length > 0 ){
+                fakeText.firstUsage = false
+            }
+        }
+    }
 
     Text {
         id: fakeText
@@ -90,43 +107,5 @@ BorderImage {
                 fakeText.visible = (input.text == "")
             }
         }
-
     }
-
-    TextInput {
-        id: input
-
-        x: 15
-        y: 15
-        width: parent.width - 30
-        anchors.verticalCenter: parent.verticalCenter
-
-        font.pixelSize: theme.fontPixelSizeLarge
-
-        onTextChanged: {
-            container.textChanged ();
-            if( text.length > 0 ){
-                fakeText.firstUsage = false
-            }
-        }
-    }
-
-    states: [
-        State {
-            name: "Enabled"
-            PropertyChanges {
-                target: container
-                opacity: 1.0
-            }
-            when: container.enabled
-        },
-        State {
-            name: "Disabled"
-            PropertyChanges {
-                target: container
-                opacity: 0.5
-            }
-            when: !container.enabled
-        }
-    ]
 }

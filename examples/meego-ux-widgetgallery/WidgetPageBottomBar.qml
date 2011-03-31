@@ -21,9 +21,18 @@ WidgetPage {
     controlContent: [
         CheckBoxEntry {
             id: showExampleRow
-
             isChecked: true
             label: "show Example Row:"
+        },
+        LabeledEntry {
+            id: titleText
+
+            label: "height: "
+            defaultValue: bottomToolbar.height
+
+            onTextUpdated: {
+                bottomToolbar.height = value;
+            }
         }
     ]
 
@@ -34,8 +43,7 @@ WidgetPage {
         }
     ]
 
-    description: "This is a BottomToolBar with customizable content, value ranges and options to set the current value. \n"
-               + "Note: the 'value' entry under API Properties is not linked to the current value property for demonstration reasons."
+    description: "This is a BottomToolBar with customizable content. Which by default will be a ButtonToolBarRow. \n"
 
     widget: Flickable {
 
@@ -50,7 +58,7 @@ WidgetPage {
             anchors.centerIn: parent
             width: 400
             height: 60
-            text: qsTr( "Show BottomToolBar" )
+            text: bottomToolbar.visible? qsTr( "Hide BottomToolBar" ) :qsTr( "Show BottomToolBar" )
 
             onClicked: {
                 if( bottomToolbar.visible )
@@ -64,6 +72,58 @@ WidgetPage {
             id: bottomToolbar
             parent: widgetPage
 
+            content: BottomToolBarRow {
+                id: bottomToolbarRow
+                visible: showExampleRow.isChecked
+
+                leftContent: [
+                    IconButton {
+                        id: button1
+                        icon: "image://themedimage/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        width: 60
+                        hasBackground: false
+                    },
+                    IconButton {
+                        id: button2
+                        icon: "image://themedimage/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        width: 60
+                        hasBackground: false
+                    }
+                ]
+
+                centerContent: [
+                    Slider {
+                        id: slider
+                        width: 320
+                        anchors.centerIn: parent
+                        textOverlayVisible: false
+                    }
+                ]
+
+
+                rightContent: [
+                    IconButton {
+                        id: button5
+                        icon: "image://themedimage/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        width: 60
+                        hasBackground: false
+                    },
+                    IconButton {
+                        id: button6
+                        icon: "image://themedimage/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        width: 60
+                        hasBackground: false
+                    }
+                ]
+
+
+
+
+            }
 
         }
     }

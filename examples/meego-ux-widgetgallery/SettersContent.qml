@@ -32,7 +32,6 @@ Item {
         Flickable {
             id: flickContainer
             property int itemHeight: 80
-            property int itemMargin: 50
             property int textMargin: 20
             property int textSize: 16
             property real leftFactor: 0.3
@@ -69,6 +68,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: sliderItem
@@ -80,7 +80,7 @@ Item {
                     Item{
                         id: slider
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         Slider {
@@ -114,6 +114,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: vsliderItem
@@ -125,7 +126,7 @@ Item {
                     Item{
                         id: vslider
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         Slider {
@@ -158,6 +159,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: textEntryItem
@@ -169,7 +171,7 @@ Item {
                     Item{
                         id: textEntry
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -206,6 +208,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: textFieldItem
@@ -217,7 +220,7 @@ Item {
                     Item{
                         id: textField
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -237,7 +240,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "TextEntry, for a single line of text."
+                        text: "TextField, for multiple lines of text."
                     }
 
                     Component{ id: textFieldComponent; WidgetPageTextField{} }
@@ -253,6 +256,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: progressBarItem
@@ -264,7 +268,7 @@ Item {
                     Item{
                         id: progressBar
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         ProgressBar {
@@ -298,6 +302,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: expandingBoxItem
@@ -309,7 +314,7 @@ Item {
                     Item{
                         id: expandingBox
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -352,6 +357,58 @@ Item {
                     Component{ id: expandingComponent; WidgetPageExpandingBox{} }
                 }
 
+
+                Rectangle {
+                    id: dropDownBoxItem
+
+                    width: parent.width
+                    height: flickContainer.itemHeight
+
+                    border.width: 1
+                    border.color: "grey"
+
+                    color: flickContainer.backColor
+                    clip:  true
+
+                    MouseArea {
+                        anchors.fill: dropDownBoxItem
+                        z: 1
+
+                        onClicked: addPage( dropDownComponent )
+                    }
+
+                    Item{
+                        id: dropDownBox
+
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
+                        width:  parent.width  * flickContainer.leftFactor
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        DropDown {
+                            width:  parent.width
+                            anchors.centerIn: parent
+
+                            titleText: "DropDown"
+                            titleTextColor: "black"
+                        }
+                    }
+
+                    Text {
+                        x: parent.width / 2
+                        width: parent.width * flickContainer.rightFactor
+                        height: parent.height
+
+                        verticalAlignment: Text.AlignVCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: flickContainer.textSize
+                        text: "Drop Down, design/specs missing."
+                    }
+
+                    Component{ id: dropDownComponent; WidgetPageDropDown{} }
+                }
+
+
+
                 Rectangle {
                     id: labelItem
 
@@ -362,6 +419,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: labelItem
@@ -373,12 +431,12 @@ Item {
                     Item{
                         id: label
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 
                         Label {
-//                            width:  parent.width
+                            width:  parent.width
                             anchors.centerIn: parent
 
                             text: "Label"
@@ -393,7 +451,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "Label, a clickable text without button graphics."
+                        text: "Label, a text with background graphics."
                     }
 
                     Component{ id: labelComponent; WidgetPageLabel{} }
@@ -409,6 +467,7 @@ Item {
                     border.color: "grey"
 
                     color: flickContainer.backColor
+                    clip:  true
 
                     MouseArea {
                         anchors.fill: popupListItem
@@ -420,7 +479,7 @@ Item {
                     Item{
                         id: popupListButton
 
-                        x: parent.width / 2 - width - flickContainer.itemMargin
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
 

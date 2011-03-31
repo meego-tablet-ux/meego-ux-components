@@ -60,6 +60,12 @@
  \qmlproperty fullscreen
  \qmlcm bool, sets if the statusbar is shown or not
 
+ \qmlproperty bool actionMenuActive
+ \qmlcm activates/deactivates the windowMenuButton
+
+ \qmlproperty bool orientationLocked
+ \qmlcm bool, indicates if oriention was
+
  \section1 Private Properties
  \qmlproperty pageStack, statusBar, toolBar and actionMenu are convenient properties if
  for example you want to anchor something to these items.
@@ -170,6 +176,9 @@ Item {
     property bool inLandscape: true
     property bool inPortrait: false
 
+    property alias orientation: window_content_topitem.currentOrientation
+    property alias orientationLocked: window_content_topitem.orientationLocked
+
     property alias pageStack: pageStack
     property alias statusBar: statusBar
     property alias toolBar: toolBar
@@ -220,21 +229,53 @@ Item {
     Item {
         id: window_content_topitem
 
-        property int orientation: 1
+        property bool orientationLocked: false
+
+        property int apiOrientation: 1
+        property int appOrientation: 1
+        property int currentOrientation: 1
+
         property string oldOrientation
+        property bool setFromQApp: false
 
         function setOrientation( orientationInt ) {
-            oldOrientation = state
-            if(orientationInt == 2) {
-                state = "portrait"
-            } else if(orientationInt == 1) {
-                state = "landscape"
-            } else if(orientationInt == 0) {
-                state = "invertedportrait"
-            } else if(orientationInt == 3) {
-                state = "invertedlandscape"
+            appOrientation = orientationInt
+            if( !orientationLocked) {
+                setFromQApp = true
+                if( currentOrientation != orientationInt) {
+                    oldOrientation = state
+                    currentOrientation = appOrientation
+                    apiOrientation = appOrientation
+                }
+            } else if ( (appOrientation == 1 && currentOrientation == 3) ||
+                        (appOrientation == 3 && currentOrientation == 1) ) {
+                currentOrientation == appOrientation
+                apiOrientation == appOrientation
+            } else if ( (appOrientation == 0 && currentOrientation == 2) ||
+                        (appOrientation == 2 && currentOrientation == 0) ) {
+                currentOrientation == appOrientation
+                apiOrientation == appOrientation
             }
         }
+
+        Behavior on apiOrientation {
+            ScriptAction {
+                script: {
+                    if(!setFromQApp) {
+                        if( apiOrientation < 0) {
+                            orientationLocked = false
+                            currentOrientation = appOrientation
+                        } else {
+                            orientationLocked = true
+                            currentOrientation = apiOrientation
+
+                        }
+                    }
+                    setFromQApp = false
+                }
+            }
+        }
+
 
         anchors.centerIn: parent
 
@@ -279,243 +320,259 @@ Item {
 
 	//the toolbar consists of a searchbar and the titlebar. The latter contains menus for navigation and actions.
         Item {
-            id: toolBar
+            id: clipBox
 
-            property string title: ""   //title shown in the toolBar
-            property bool showSearch: false //search bar visible?
-            property bool disableSearch: false  //search bar interactive?
-            property bool appFilterMenuActive: true  //ActionMenu visible
-            property bool showBackButton: pageStack.depth > 1    //show back button if more than one page is on the stack
-            property int offset: toolBar.showSearch ? 0 : -searchTitleBar.height
-
-            width: parent.width
-            height: searchTitleBar.height + titleBar.height
-
-            //If search isn't shown, hide behind statusbar
             anchors.top: statusBar.bottom
-            anchors.topMargin: offset // toolBar.showSearch ? 0 : -searchTitleBar.height
+            width: parent.width
+            height: toolBar.height + toolBar.offset
 
-            Behavior on anchors.topMargin {
+            clip: true
+
+            Behavior on height {
                 NumberAnimation{
                     duration: 200
                 }
             }
 
-            Image {
-                id: searchTitleBar
+            Item {
+                id: toolBar
 
-                height: 50
+                property string title: ""   //title shown in the toolBar
+                property bool showSearch: false //search bar visible?
+                property bool disableSearch: false  //search bar interactive?
+                property bool appFilterMenuActive: true  //ActionMenu visible
+                property bool showBackButton: pageStack.depth > 1    //show back button if more than one page is on the stack
+                property int offset: toolBar.showSearch ? 0 : -searchTitleBar.height
+
                 width: parent.width
-                source: "image://themedimage/titlebar_l"
-                anchors.top:  parent.top
+                height: searchTitleBar.height + titleBar.height
 
-                TextEntry {
-                    id: searchBox
+                //If search isn't shown, hide behind statusbar
+                anchors.top: clipBox.top
+                anchors.topMargin: offset // toolBar.showSearch ? 0 : -searchTitleBar.height
 
-                    anchors { fill: parent; rightMargin: 10; topMargin: 5; bottomMargin: 5; leftMargin: 10  }
-
-                    onTextChanged: window.search(text)
-                }
-            }
-
-            Image {
-                id: titleBar
-
-                anchors.top: searchTitleBar.bottom
-                width: parent.width
-                height: backButton.height
-                source: "image://themedimage/titlebar_l"
-
-                MouseArea {
-                    id: titleBarArea
-
-                    property int firstY: 0
-                    property int firstX: 0
-
-                    anchors.fill: parent
-
-                    onPressed: {
-                        firstY = mouseY;
-                        firstX = mouseX;
+                Behavior on anchors.topMargin {
+                    NumberAnimation{
+                        duration: 200
                     }
+                }
 
-                    //react on vertical mouse gestures on the titleBar to show or hide the searchTitleBar
-                    onMousePositionChanged: {
-                        if( titleBarArea.pressed ) {
-                            if( Math.abs( titleBarArea.mouseX - titleBarArea.firstX ) < Math.abs( titleBarArea.mouseY - titleBarArea.firstY ) ) {
-                                if( titleBarArea.mouseY - titleBarArea.firstY > 20 ) {
-                                    if( !toolBar.disableSearch ) {
-                                        toolBar.showSearch = true
+                Image {
+                    id: searchTitleBar
+
+                    height: 50
+                    width: parent.width
+                    source: "image://themedimage/titlebar_l"
+                    anchors.top:  parent.top
+
+                    TextEntry {
+                        id: searchBox
+
+                        anchors { fill: parent; rightMargin: 10; topMargin: 5; bottomMargin: 5; leftMargin: 10  }
+
+                        onTextChanged: window.search(text)
+                    }
+                }
+
+                Image {
+                    id: titleBar
+
+                    anchors.top: searchTitleBar.bottom
+                    width: parent.width
+                    height: backButton.height
+                    source: "image://themedimage/titlebar_l"
+
+                    MouseArea {
+                        id: titleBarArea
+
+                        property int firstY: 0
+                        property int firstX: 0
+
+                        anchors.fill: parent
+
+                        onPressed: {
+                            firstY = mouseY;
+                            firstX = mouseX;
+                        }
+
+                        //react on vertical mouse gestures on the titleBar to show or hide the searchTitleBar
+                        onMousePositionChanged: {
+                            if( titleBarArea.pressed ) {
+                                if( Math.abs( titleBarArea.mouseX - titleBarArea.firstX ) < Math.abs( titleBarArea.mouseY - titleBarArea.firstY ) ) {
+                                    if( titleBarArea.mouseY - titleBarArea.firstY > 20 ) {
+                                        if( !toolBar.disableSearch ) {
+                                            toolBar.showSearch = true
+                                        }
+                                    }
+                                    else if( titleBarArea.mouseY - titleBarArea.firstY < -20 ) {
+                                        toolBar.showSearch = false
                                     }
                                 }
-                                else if( titleBarArea.mouseY - titleBarArea.firstY < -20 ) {
-                                    toolBar.showSearch = false
+                            }
+                        }
+                    }
+
+                    Image {
+                        id: backButton
+
+                        anchors.left: parent.left
+                        source: if( backButtonMouseArea.pressed ) {
+                                    "image://themedimage/icn_toolbar_back_button_dn"
+                                } else {
+                                    "image://themedimage/icn_toolbar_back_button_up"
+                                }
+                        visible: toolBar.showBackButton
+
+                        MouseArea {
+                            id: backButtonMouseArea
+
+                            anchors.fill: parent
+                            onClicked: { if( !pageStack.busy ){ pageStack.pop() } }
+                        }
+                    }
+
+                    Image {
+                        id: spacer
+
+                        visible: backButton.visible
+                        anchors.left: backButton.right
+                        source: "image://themedimage/icn_toolbar_button_divider"
+                    }
+
+                    Text {
+                        id: toolbarTitleLabel
+
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width / 2
+                        height: parent.height
+
+                        text: toolBar.title
+                        color: theme.toolbarFontColor
+                        font.pixelSize: theme.toolbarFontPixelSize
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    Image {
+                        id: menuSpacer
+
+                        anchors.right: applicationMenuButton.left
+                        visible: applicationMenuButton.visible
+                        source: "image://themedimage/icn_toolbar_button_divider"
+                    }
+
+                    //the application menu is used to switch between "books"
+                    Image {
+                        id: applicationMenuButton
+
+                        anchors.right: spacer2.left
+                        visible: true
+                        source: if( applicationMenuButtonMouseArea.pressed || bookContextMenu.visible ) {
+                                    "image://themedimage/icn_toolbar_view_menu_dn"
+                                } else {
+                                    "image://themedimage/icn_toolbar_view_menu_up"
+                                }
+
+                        MouseArea {
+                            id: applicationMenuButtonMouseArea
+
+                            anchors.fill: parent
+                            onClicked: {
+                                bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , mapToItem( window_content_topitem, window_content_topitem.width / 2, applicationMenuButton.y + applicationMenuButton.height ).y )
+                                bookContextMenu.show()
+                            }
+                        }
+
+                        ModalContextMenu{
+                            id: bookContextMenu
+
+                            fogMaskVisible: false
+                            forceFingerMode: 2
+
+                            content:  ActionMenu{
+                                id: bookMenu
+
+                                onTriggered: {
+                                    switchBook( payload[index] )
+                                    bookContextMenu.hide()
                                 }
                             }
                         }
-                    }
-                }
+                    } //end applicationMenuButton
 
-                Image {
-                    id: backButton
+                    Image {
+                        id: spacer2
 
-                    anchors.left: parent.left
-                    source: if( backButtonMouseArea.pressed ) {
-                                "image://themedimage/icn_toolbar_back_button_dn"
-                            } else {
-                                "image://themedimage/icn_toolbar_back_button_up"
-                            }
-                    visible: toolBar.showBackButton
-
-                    MouseArea {
-                        id: backButtonMouseArea
-
-                        anchors.fill: parent
-                        onClicked: { if( !pageStack.busy ){ pageStack.pop() } }
-                    }
-                }
-
-                Image {
-                    id: spacer
-
-                    visible: backButton.visible
-                    anchors.left: backButton.right
-                    source: "image://themedimage/icn_toolbar_button_divider"
-                }
-
-                Text {
-                    id: toolbarTitleLabel
-
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width / 2
-                    height: parent.height
-
-                    text: toolBar.title
-                    color: theme.toolbarFontColor
-                    font.pixelSize: theme.toolbarFontPixelSize
-                    elide: Text.ElideRight
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                Image {
-                    id: menuSpacer
-
-                    anchors.right: applicationMenuButton.left
-                    visible: applicationMenuButton.visible
-                    source: "image://themedimage/icn_toolbar_button_divider"
-                }
-
-                //the application menu is used to switch between "books"
-                Image {
-                    id: applicationMenuButton
-
-                    anchors.right: spacer2.left
-                    visible: true
-                    source: if( applicationMenuButtonMouseArea.pressed || bookContextMenu.visible ) {
-                                "image://themedimage/icn_toolbar_view_menu_dn"
-                            } else {
-                                "image://themedimage/icn_toolbar_view_menu_up"
-                            }
-
-                    MouseArea {
-                        id: applicationMenuButtonMouseArea
-
-                        anchors.fill: parent
-                        onClicked: {
-                            // bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2, applicationMenuButton.y + applicationMenuButton.height )
-                            bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , mapToItem( window_content_topitem, window_content_topitem.width / 2, applicationMenuButton.y + applicationMenuButton.height ).y )
-                            bookContextMenu.show()
-                        }
+                        anchors.right: windowMenuButton.left
+                        visible: windowMenuButton.visible
+                        source: "image://themedimage/icn_toolbar_button_divider"
                     }
 
-                    ModalContextMenu{
-                        id: bookContextMenu
+                    //the window menu is used to perform actions on the current page
+                    Image {
+                        id: windowMenuButton
 
-                        fogMaskVisible: false
-                        forceFingerMode: 2
+                        anchors.right: parent.right
+                        visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
 
-                        content:  ActionMenu{
-                            id: bookMenu
+                        source: if( windowMenuButtonMouseArea.pressed || window.actionMenuPresent) {
+                                    "image://themedimage/icn_toolbar_applicationpage_menu_dn"
+                                } else {
+                                    "image://themedimage/icn_toolbar_applicationpage_menu_up"
+                                }
 
-                            onTriggered: {
-                                switchBook( payload[index] )
-                                bookContextMenu.hide()
+                        MouseArea {
+                            id: windowMenuButtonMouseArea
+
+                            anchors.fill: parent
+                            onClicked: {
+                                if( customActionMenu ){
+                                    actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+                                }
+                                else{
+                                    pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+                                    pageContextMenu.show()
+                                }
                             }
                         }
-                    }
-                } //end applicationMenuButton
 
-                Image {
-                    id: spacer2
+                        ModalContextMenu {
+                            id: pageContextMenu
 
-                    anchors.right: windowMenuButton.left
-                    visible: windowMenuButton.visible
-                    source: "image://themedimage/icn_toolbar_button_divider"
-                }
+                            fogMaskVisible: false
+                            forceFingerMode: 2
 
-                //the window menu is used to perform actions on the current page
-                Image {
-                    id: windowMenuButton
-
-                    anchors.right: parent.right
-                    visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
-
-                    source: if( windowMenuButtonMouseArea.pressed || window.actionMenuPresent) {
-                                "image://themedimage/icn_toolbar_applicationpage_menu_dn"
-                            } else {
-                                "image://themedimage/icn_toolbar_applicationpage_menu_up"
+                            onVisibleChanged: {
+                                window.actionMenuPresent = visible
                             }
 
-                    MouseArea {
-                        id: windowMenuButtonMouseArea
+                            content:  ActionMenu {
+                                id: actionMenu
 
-                        anchors.fill: parent
-                        onClicked: {
-                            if( customActionMenu ){
-                                actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, mapToItem( window_content_topitem, window_content_topitem.width / 2, windowMenuButton.y + windowMenuButton.height ).y )
-                            }
-                            else{
-                                pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, mapToItem( window_content_topitem, window_content_topitem.width / 2, windowMenuButton.y + windowMenuButton.height ).y )
-                                pageContextMenu.show()
+                                onTriggered: {
+                                    window.actionMenuTriggered( payload[index] )
+                                    pageContextMenu.hide()
+                                }
                             }
                         }
-                    }
 
-                    ModalContextMenu {
-                        id: pageContextMenu
-
-                        fogMaskVisible: false
-                        forceFingerMode: 2
-
-                        onVisibleChanged: {
-                            window.actionMenuPresent = visible
-                        }
-
-                        content:  ActionMenu {
-                            id: actionMenu
-
-                            onTriggered: {
-                                window.actionMenuTriggered( payload[index] )
-                                pageContextMenu.hide()
-                            }
-                        }
-                    }
-
-                } //end windowMenuButton
-            } //end titleBar
-        } //end toolBar
+                    } //end windowMenuButton
+                } //end titleBar
+            } //end toolBar
+        }
 
         //add a page stack to manage pages
         PageStack {
             id: pageStack
 
-            anchors { top: toolBar.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+            anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
         states:  [
             State {
                 name: "landscape"
+                when: (window_content_topitem.currentOrientation == 1)
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -530,6 +587,7 @@ Item {
             },
             State {
                 name: "invertedlandscape"
+                when: (window_content_topitem.currentOrientation == 3)
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -544,6 +602,7 @@ Item {
             },
             State {
                 name: "portrait"
+                when: (window_content_topitem.currentOrientation == 2)
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -558,6 +617,7 @@ Item {
             },
             State {
                 name: "invertedportrait"
+                when: (window_content_topitem.currentOrientation == 0)
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -612,20 +672,37 @@ Item {
         } // end transitions
     } // end window_content_topitem
 
+    // repositions the context menu after orientation change
+    onOrientationChangeFinished: {
+        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+    }
+
+    // Repositions the context menu after the windows width and/or height have changed.
+    onWidthChanged: {
+        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+    }
+
+    onHeightChanged: {
+        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+    }
+
     Component.onCompleted: {
         try {
-            window_content_topitem.orientation = qApp.orientation;
-            window_content_topitem.setOrientation(  window_content_topitem.orientation )
+            window_content_topitem.currentOrientation = qApp.orientation;
+            window_content_topitem.setOrientation(  window_content_topitem.currentOrientation )
         } catch (err) {
-            window_content_topitem.orientation = 1
-            window_content_topitem.setOrientation( window_content_topitem.orientation )
+            window_content_topitem.currentOrientation = 1
+            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
         }
     }
     Connections {
         target: qApp
         onOrientationChanged: {
-            window_content_topitem.orientation = qApp.orientation;
-            window_content_topitem.setOrientation( window_content_topitem.orientation )
+            window_content_topitem.currentOrientation = qApp.orientation;
+            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
         }
     }
 }

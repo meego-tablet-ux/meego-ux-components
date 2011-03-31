@@ -17,21 +17,20 @@
    \section2 API properties
 
       \qmlproperty string icon
-      \qmlcm sets the icon displayed on the button.
+      \qmlcm sets the default icon displayed on the button.
 
-      \qmlproperty string iconPressed
-      \qmlcm sets the icon displayed on the pressed button.
+      \qmlproperty string iconDown
+      \qmlcm sets the icon displayed on the button in pressed state.
 
       \qmlproperty bool iconFill
       \qmlcm determines wheather the icon should fill the button automatically
 
-      \qmlproperty property alias iconFillMode: image.fillMode
-      \qmlcm the fillMode of the Icon
+      \qmlproperty property alias iconFillMode
+      \qmlcm the fillMode of the icon, default is Image.PreserveAspectFit
 
       \qmlproperty bool hasBackground
-      \qmlcm determines if the IconButton uses the properties bgSourceUp and bgSourceDown to
-      render the Icon button. default is set to false. I set to true, the button will be painted
-      as a button with
+      \qmlcm If true the properties bgSourceUp and bgSourceDown are used to
+             render the background of the Iconbutton.
 
       \qmlproperty string bgSourceUp
       \qmlcm path to an image file used for released state.
@@ -63,7 +62,7 @@
          id: myButton
 
          icon: "myImage.png"
-         iconPressed: "myImagePressed.png"
+         iconDown: "myImagePressed.png"
       }
   \endqml
 */
@@ -74,14 +73,14 @@ import MeeGo.Components 0.1
 Item {
     id: container
 
-    property string icon: "image://themedimage/camera/camera_lens_sm_up"
-    property string iconDown: "image://themedimage/camera/camera_lens_sm_dn"
+    property string icon: ""
+    property string iconDown: ""
     property bool iconFill: false
     property alias iconFillMode: image.fillMode
 
-    property bool hasBackground: false
-    property string bgSourceUp: "image://themedimage/btn_grey_up"
-    property string bgSourceDn: "image://themedimage/btn_grey_dn"
+    property bool hasBackground: true
+    property string bgSourceUp: "image://themedimage/button/button"
+    property string bgSourceDn: "image://themedimage/button/button-pressed"
 
     property bool active: true
     property bool pressed: false
@@ -91,8 +90,8 @@ Item {
     // lower the button's opacity to mark it inactive
     opacity: active ? 1.0 : 0.5
 
-    width: image.sourceSize.width // 210
-    height: image.sourceSize.height // 60
+    width: ( icon != "" ) ? image.sourceSize.width : 160
+    height: ( icon != "" ) ? image.sourceSize.height : 80
     clip: true
 
     Theme { id: theme }
@@ -126,8 +125,8 @@ Item {
         id: image
 
         anchors.centerIn: parent
-        width: iconFill ? container.width : sourceSize.width //Math.min( sourceSize.width, container.width )
-        height: iconFill ? container.height : sourceSize.height //Math.min( sourceSize.height, container.height )
+        width: iconFill ? container.width : sourceSize.width
+        height: iconFill ? container.height : sourceSize.height
         source: icon
         fillMode: Image.PreserveAspectFit
 

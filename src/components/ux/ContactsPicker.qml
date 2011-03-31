@@ -91,7 +91,7 @@ ModalDialog {
     }
 
     onShowCalled: {
-        acceptButtonActive = false
+        acceptButtonEnabled = false
     }
 
     content: BorderImage {
@@ -360,7 +360,7 @@ ModalDialog {
                                     contactsView.highlightX = cardListView.currentItem.height // Assume image fills card height and is square
                                     contactsView.highlightWidth = parent.width - contactsView.highlightX
                                     contactsView.highlightHeight = contactsView.highlightX
-                                    contactsPicker.acceptButtonActive = true
+                                    contactsPicker.acceptButtonEnabled = true
                                 }
                             }
 

@@ -140,13 +140,14 @@ Flickable {
                 Rectangle {
                     id: highlight
 
-                    color: "#2fa7d4"
+                    color: theme.fontColorHighlightBlue
                     anchors.centerIn: parent
-                    width:  parent.width //- textMargin
+                    width:  parent.width
                     height: parent.height + 1
                     anchors.verticalCenterOffset: -1
 
-                    opacity:  0
+                    opacity: 0  // this forces a repaint
+                    visible: opacity != 0
                 }
 
                 Text {
@@ -187,11 +188,11 @@ Flickable {
 
                     anchors.top: textItem.bottom
                     anchors.horizontalCenter: textItem.horizontalCenter
-                    width: parent.width - textMargin * 2
+                    width: parent.width
 
                     visible: index < repeater.count - 1     // Seperator won't be visible for the last item
 
-                    source: "image://themedimage/menu_item_separator"
+                    source: "image://themedimage/menu/menu-item-separator"
                 }
 
                 MouseArea {
@@ -232,9 +233,8 @@ Flickable {
            PropertyChanges {
                 target: container
                 height: ( topItem.topItem.height - topItem.topDecorationHeight ) * 0.8   // defines the maximum height of the ActionMenu
-//                interactive: true
             }
-           when: layout.height > ( topItem.topItem.height - topItem.topDecorationHeight ) * 0.8
+           when: layout.height > ( topItem.topheight - topItem.topDecorationHeight ) * 0.8
         }
     ]
 }

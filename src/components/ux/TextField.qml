@@ -55,13 +55,13 @@ BorderImage {
 
     signal textChanged
 
-    border.top: 10
-    border.bottom: 10
-    border.left: 10
-    border.right: 10
+    border.top: 6
+    border.bottom: 6
+    border.left: 6
+    border.right: 6
 
     height: 50
-    source: "image://themedimage/email/frm_textfield_l"
+    source: (edit.focus && !readOnly) ? "image://themedimage/text-area/text-area-background-active" : "image://themedimage/text-area/text-area-background"
     clip: true
 
     opacity: readOnly ? 0.5 : 1.0
@@ -95,9 +95,13 @@ BorderImage {
             }
         }
 
-
-        anchors.fill: parent
-        anchors.margins: 4      // this value is the hardcoded margin to keep the text within the backgrounds text field
+        anchors {
+            fill: parent
+            topMargin: 3      // this value is the hardcoded margin to keep the text within the backgrounds text field
+            bottomMargin: 3
+            leftMargin: 4
+            rightMargin: 4
+        }
         contentWidth: edit.paintedWidth
         contentHeight: edit.paintedHeight
 
@@ -111,7 +115,7 @@ BorderImage {
 
             width: flick.width
             height: flick.height
-            focus: false
+
             wrapMode: TextEdit.Wrap
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
             font.pixelSize: theme.fontPixelSizeNormal

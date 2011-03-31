@@ -69,7 +69,7 @@ WidgetPage {
         CheckBoxEntry {
             id: bgCheckBox
 
-            isChecked: false
+            isChecked: true
             label: "hasBackground:"
 
             onCheckedChanged: {
@@ -134,8 +134,8 @@ WidgetPage {
             id: button
 
             anchors.centerIn: parent
-            width:  200
-            height:  80
+            width: 160
+            height: 80
 
             icon: "image://themedimage/media/icn_addtoalbum_up"
             iconDown: "image://themedimage/media/icn_addtoalbum_dn"

@@ -20,6 +20,8 @@ WidgetPage {
     property string pickedTitle: "-"
     property string pickedItems: "-"
     property string pickedType: "-"
+    property string pickedUri: "-"
+    property string pickedThumbUri: "-"
 
     pageTitle: "MusicPicker Testing"
 
@@ -61,6 +63,8 @@ WidgetPage {
                 pickedAlbum = "-"
                 pickedItems = "-"
                 pickedType = "-"
+                pickedUri = "-"
+                pickedThumbUri = "-"
             }
 
             isChecked: false
@@ -77,6 +81,8 @@ WidgetPage {
                 pickedAlbum = "-"
                 pickedItems = "-"
                 pickedType = "-"
+                pickedUri = "-"
+                pickedThumbUri = "-"
             }
 
             isChecked: true
@@ -93,6 +99,8 @@ WidgetPage {
                 pickedAlbum = "-"
                 pickedItems = "-"
                 pickedType = "-"
+                pickedUri = "-"
+                pickedThumbUri = "-"
             }
 
             isChecked: true
@@ -110,6 +118,8 @@ WidgetPage {
                 pickedAlbum = "-"
                 pickedItems = "-"
                 pickedType = "-"
+                pickedUri = "-"
+                pickedThumbUri = "-"
             }
         }
     ]
@@ -144,6 +154,20 @@ WidgetPage {
         },
 
         StatusEntry {
+            id: uriEntry
+
+            label: "Uri:"
+            value: pickedUri
+        },
+
+        StatusEntry {
+            id: thumbUriEntry
+
+            label: "ThumbUri:"
+            value: pickedThumbUri
+        },
+
+        StatusEntry {
             id: itemsEntry
 
             label: "Selected items:"
@@ -156,8 +180,7 @@ WidgetPage {
     description: "The MusicPicker provides a modal dialog in which the user can choose an "
                  + "album, playlist or song. The 'Ok' button is disabled until a selection was made. "
                  + "On 'Ok'-clicked the signal albumOrPlaylistSelected is emitted which provides "
-                 + "the selected item's data. A double click automatically closes the "
-                 + "dialog and emits a selected signal. Multi selection of items "
+                 + "the selected item's data. Multi selection of items "
                  + "is deactivated at the moment.<br>"
                  + "Dialogs are centered by default with a vertical offset to to keep the toolbar visible."
 
@@ -188,12 +211,22 @@ WidgetPage {
             lastSignal = "albumOrPlaylistSelected()"
             pickedType = type
             pickedAlbum = title
+            pickedUri = uri
+            pickedThumbUri = thumbUri
         }
+
+        onMultipleAlbumsOrPlaylistsSelected: {
+            lastSignal = "multipleAlbumsOrPlaylistsSelected()"
+            pickedItems = titles.length
+        }
+
         onSongSelected: {
             lastSignal = "songSelected()"
             pickedType = type
             pickedTitle = title
             pickedAlbum = album
+            pickedUri = uri
+            pickedThumbUri = thumbUri
         }
 
         onMultipleSongsSelected: {
@@ -206,6 +239,8 @@ WidgetPage {
             pickedType = "no signal sent"
             pickedTitle = "no signal sent"
             pickedAlbum = "no signal sent"
+            pickedUri = "no signal sent"
+            pickedThumbUri = "no signal sent"
             pickedItems = "-"
         }
     }
@@ -223,6 +258,14 @@ WidgetPage {
             }
             PropertyChanges {
                 target: titleEntry
+                visible: false
+            }
+            PropertyChanges {
+                target: uriEntry
+                visible: false
+            }
+            PropertyChanges {
+                target: thumbUriEntry
                 visible: false
             }
             PropertyChanges {
@@ -267,6 +310,14 @@ WidgetPage {
             }
             PropertyChanges {
                 target: titleEntry
+                visible: true
+            }
+            PropertyChanges {
+                target: uriEntry
+                visible: true
+            }
+            PropertyChanges {
+                target: thumbUriEntry
                 visible: true
             }
             PropertyChanges {

@@ -19,23 +19,34 @@ AppPage {
 
     pageTitle: "Book 1, widget gallery"
 
-    actionMenuModel: [ "Toggle Fullscreen" ]
-    actionMenuPayload: [ 0 ]
+    actionMenuModel: [ "Toggle Fullscreen", "Landscape", "Potrait", "Inv. Landscape", "Inv. Potrait" ]
+    actionMenuPayload: [ 0, 1, 2, 3, 4 ]
     actionMenuTitle: "Action Menu"
 
     onActionMenuTriggered: {
-        if( window.fullScreen ){
-            window.fullScreen = false
-        }
-        else{
-            window.fullScreen = true
+
+        if(selectedItem == 0 ) {
+            if( window.fullScreen ){
+                window.fullScreen = false
+            }
+            else{
+                window.fullScreen = true
+            }
+        } else if( selectedItem == 1) {
+            window.orientation = 1
+        } else if( selectedItem == 2) {
+            window.orientation = 2
+        } else if( selectedItem == 3) {
+            window.orientation = 3
+        } else if( selectedItem == 4) {
+            window.orientation = 0
         }
     }
 
     Item {
         id: contentButtons
 
-        property int buttonWidth: 200
+        property int buttonWidth: parent.width * 0.2 //200
         property int buttonHeight: 60
         property int buttonMargins: 2
 
@@ -95,7 +106,7 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; left: settersButton.right }
-            text: "Modal Dialogs"
+            text: "Dialogs"
 
 //            bgSourceUp: (mainPage.state == "pickers") ? contentButtons.activeButtonImage : contentButtons.buttonImage
 //            bgSourceDn: contentButtons.buttonImagePressed

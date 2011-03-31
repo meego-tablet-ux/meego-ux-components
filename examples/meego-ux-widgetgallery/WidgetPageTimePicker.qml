@@ -20,32 +20,6 @@ WidgetPage {
 
     controlContent: [
         LabeledEntry {
-            id: widthEntry
-
-            label:  "width: "
-            defaultValue: timePicker.width
-
-            onTextUpdated: {
-                if( value >= 0 ){
-                    timePicker.width = value
-                }
-            }
-        },
-
-        LabeledEntry {
-            id: heightEntry
-
-            label:  "height: "
-            defaultValue: timePicker.height
-
-            onTextUpdated: {
-                if( value >= 0 ){
-                    timePicker.height = value
-                }
-            }
-        },
-
-        LabeledEntry {
             id: incrementEntry
 
             label:  "minutesIncrement: "
@@ -87,10 +61,7 @@ WidgetPage {
         }
     ]
 
-    description: "This page brings up the time picker when the button at the bottom is clicked. The controls to the left "
-               + "can be used to change the width and height of the time picker to see how its elements adapt to the new "
-               + "size. Choosing too small sizes will break the time picker, because at some point all the elements shown "
-               + "in the picker won't just fit into small space. \n \n"
+    description: "This page brings up the time picker when the button at the bottom is clicked. \n \n"
                + "The minutes increment sets the step width used to display and select the minutes in the time picker. "
                + "Setting it to 15 for example will only display the minutes 0, 15, 30 and 45. "
                + "Only values from 0 to 60 are accepted. Values below 0 are set to 0 and values over 60 are set to 60. \n\n"

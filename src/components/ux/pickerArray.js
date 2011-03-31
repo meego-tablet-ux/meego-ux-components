@@ -43,7 +43,7 @@ function pop( list ) {
         types.pop()
     }else if( list == "uris" && uris.length > 0 ) {
         uris.pop()
-    }else if( list == "thumbUris" ) {
+    }else if( list == "thumbUris" && thumbUris.length > 0 ) {
         thumbUris.pop()
     }else {
         console.log( "list " + list + " unknown." )
@@ -80,7 +80,7 @@ function getLength( list ) {
     }else if( list == "uris" ) {
         return uris.length
     }else if( list == "thumbUris" ) {
-        return uris.length
+        return thumbUris.length
     }else {
         console.log( "list " + list + " unknown." )
         return -1

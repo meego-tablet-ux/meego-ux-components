@@ -38,31 +38,41 @@
 
 import Qt 4.7
 
-Rectangle {
+//Rectangle {
+BorderImage{
     id: container
 
     property real percentage: 50
+    property alias fontColor: backText.color
+    property alias fontColorFilled: filledText.color
 
     width: 210
     height: 60
 
     clip:  true
-    color: "white"
-    radius: 3
 
-    border.width: 1
-    border.color: "#bbbbbb"
+    border.left:   4
+    border.top:    4
+    border.bottom: 4
+    border.right:  4
+
+    source: "image://themedimage/progress-bar/progress-bar-backgound"
 
     Theme { id: theme }
 
-    Rectangle{
+    BorderImage{
         id: progressBar
 
         property real progressPercentage: (container.percentage < 0) ? (0) : ( ( container.percentage > 100) ? 100 : container.percentage )
 
-        radius:  container.radius
         clip:  true
-        color: "#2fa7d4"
+
+        border.left:   4
+        border.top:    4
+        border.bottom: 4
+        border.right:  4
+
+        source: "image://themedimage/progress-bar/progress-bar-fill"
 
         anchors { top: container.top; bottom: container.bottom; left: parent.left }
 
@@ -71,10 +81,10 @@ Rectangle {
         z: 1
 
         Text {
-            id: invertedText
+            id: filledText
 
-            x: blueText.x
-            y: blueText.y
+            x: backText.x
+            y: backText.y
 
             width: container.width
             height: container.height
@@ -82,14 +92,14 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
 
             font.pixelSize: theme.fontPixelSizeLarge
-            color: "white"
+            color: theme.fontColorProgressFilled
 
             text: parseInt( progressBar.progressPercentage ) + "%"
         }
     }
 
     Text {
-        id: blueText
+        id: backText
 
         anchors.centerIn: container
 
@@ -100,7 +110,7 @@ Rectangle {
         z: 0
 
         font.pixelSize: theme.fontPixelSizeLarge
-        color: "#2fa7d4"
+        color: theme.fontColorProgress
 
         text: parseInt( progressBar.progressPercentage ) + "%"
     }

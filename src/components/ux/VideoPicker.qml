@@ -27,20 +27,44 @@
   \section2 Signals
 
   \qmlsignal videoSelected
-  \qmlcm triggered on accpeted if albumSelectionMode is false
+  \qmlcm propagates data of the selected video. Triggered on accepted if albumSelectionMode is false
+         and multiSelection is false
     \param string itemid
     \qmlpcm  ID of the selected video. \endparam
     \param string uri
     \qmlpcm  path to the selected video. \endparam
     \param string itemtitle
     \qmlpcm  title of the selected video. \endparam
+    \param string thumbUri
+    \qmlpcm  path to the thumbnail. \endparam
+
+  \qmlsignal multipleVideosSelected
+  \qmlcm propagates data of the selected videos. Triggered on accepted if albumSelectionMode is false
+         and multiSelection is true
+    \param string itemids
+    \qmlpcm  ID of the selected videos. \endparam
+    \param string uris
+    \qmlpcm  path to the selected videos. \endparam
+    \param string itemtitles
+    \qmlpcm  title of the selected videos. \endparam
+    \param string thumbUris
+    \qmlpcm  path to the thumbnails. \endparam
 
   \qmlsignal albumSelected
-  \qmlcm triggered on accpeted if albumSelectionMode is true
+  \qmlcm propagates data of the selected album. Triggered on accpeted if albumSelectionMode is true
+         and multiSelection is false
     \param string albumid
     \qmlpcm ID of the selected photo album. \endparam
     \param string title
     \qmlpcm title of the selected photo album. \endparam
+
+  \qmlsignal multipleAlbumsSelected
+  \qmlcm propagates data of the selected albums. Triggered on accpeted if albumSelectionMode is true
+         and multiSelection is true
+    \param string albumids
+    \qmlpcm ID of the selected photo albums. \endparam
+    \param string titles
+    \qmlpcm title of the selected photo albums. \endparam
 
   \qmlsignal accepted
   \qmlcm emitted on 'OK' clicked.
@@ -77,6 +101,7 @@
   \endcode
 */
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -125,7 +150,7 @@ ModalDialog {
         if( gridView.selectedItem != "" )
             gridView.model.setSelected( gridView.selectedItem, false )
 
-        acceptButtonActive = false
+        acceptButtonEnabled = false
     }
 
     //use nearly the whole screen
@@ -162,6 +187,9 @@ ModalDialog {
         width: cellWidth * estimateColumnCount
         anchors.horizontalCenter: parent.horizontalCenter
 
+        cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
+                                                  : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
+
         //if an item is clicked, update the current data with that item's data
         onClicked: {
             if( videoPicker.multiSelection ) {
@@ -178,7 +206,7 @@ ModalDialog {
                     PickerArray.remove( payload.muri, "uris" );
                     PickerArray.remove( payload.mthumburi, "thumbUris" );
                 }
-                videoPicker.acceptButtonActive = true; //enable OK button
+                videoPicker.acceptButtonEnabled = true; //enable OK button
             }else {
                 model.setSelected( selectedItem, false ); //deselect the former selected item
                 PickerArray.clear(); //use clear to delete the entry, so we don't have to store the title and thumburi all the time
@@ -190,19 +218,20 @@ ModalDialog {
                 PickerArray.push( payload.muri, "uris" );
 
                 selectedItem = payload.mitemid; //memorize the newly selected item
-                videoPicker.acceptButtonActive = true; //enable OK button
+                videoPicker.acceptButtonEnabled = true; //enable OK button
             }
         }
     }
 
     TopItem{ id: topItem }
+    Theme { id: theme }
 
-    VideoListModel {
+    Models.VideoListModel {
         id: allAlbumsListModel
 
-        type: VideoListModel.ListofVideos
+        type: Models.VideoListModel.ListofVideos
         limit: 0
-        sort: VideoListModel.SortByTitle
+        sort: Models.VideoListModel.SortByTitle
     }
 }
 

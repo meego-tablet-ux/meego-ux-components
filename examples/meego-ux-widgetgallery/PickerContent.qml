@@ -69,8 +69,6 @@ Item {
                 id: flickContainer
 
                 property int itemHeight: 80
-                property int itemMargin: 50
-                property int textMargin: 20
                 property int textSize: 16
                 property real leftFactor: 0.3
                 property real rightFactor: 0.4
@@ -112,6 +110,7 @@ Item {
                             border.color: "grey"
 
                             color: flickContainer.backColor
+                            clip:  true
 
                             MouseArea {
                                 anchors.fill: buttonItem
@@ -123,13 +122,15 @@ Item {
                             Item {
                                 id: button
 
-                                x: parent.width / 2 - width - flickContainer.itemMargin
+                                x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                                 width:  parent.width  * flickContainer.leftFactor
                                 anchors.verticalCenter: parent.verticalCenter
                                 Button {
                                     text:  pickerType
 
+                                    width: parent.width
                                     anchors.centerIn: parent
+                                    elideText: true
                                 }
                             }
 

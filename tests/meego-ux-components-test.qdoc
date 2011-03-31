@@ -1,8 +1,8 @@
 /*!
-  \title Otc-Components-Tests
-  \page Otc Components Tests
-
-  \section1 QtQuick automatic tests of Otc Components
+  \title MeeGo-Ux-Components-Test
+  \page meego-ux-components-test
+  
+  \section1 QtQuick automatic tests of MeeGo-Ux-Components
 
   \section2 Installation of QtQuick automatic tests
 
@@ -25,9 +25,9 @@
   There is not yet a package available via zypper. For now it must be compiled as described
   above.
 
-  \section1 Compile Otc-Components Test
+  \section1 Compile Meego-Ux-Components Test
 
-  The test executable is not compiled with the otc-components.pro file, but must be compiled and
+  The test executable is not compiled with the meego-ux-components.pro file, but must be compiled and
   installed separately:
 
   \code
@@ -41,7 +41,7 @@
   For running the test the executable must be called. It will search for all testcases automatically.
 
   \code
-  $ ./build/tst_otcomponents
+  $ ./build/tst_meego-ux-components
   \endcode
 
   \section1 Testcases
@@ -65,9 +65,9 @@
   Test cases can be maintained and extended within the existing qml files or by creating
   new qml files within the folders names above.
 
-  \section1 Manual tests of Otc-Components
+  \section1 Manual tests of Meego-Ux-Components
 
-  The Otc-Widgetgallery is an example app which contains all Otc-Components. Each component can
+  The Meego-Ux-Widgetgallery is an example app which contains all MeeGo-Ux-Components. Each component can
   be tweaked and tested with several parameters. This way it is possible to search manually for
   bugs or reproduce bugs in a clean environment.
 

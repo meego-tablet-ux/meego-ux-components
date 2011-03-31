@@ -37,17 +37,51 @@
          the dialog was accepted.
          \param	string	title
          \qmlpcm title of the selected item. \endparam
+         \param	string	uri
+         \qmlpcm path to the album or playlist. \endparam
+         \param	string	thumbUri
+         \qmlpcm path to the thumbnail of the album or playlist. \endparam
          \param int	type
          \qmlpcm type of the item. \endparam
 
+  \qmlsignal multipleAlbumsOrPlaylistsSelected
+  \qmlcm Signal which returns the selected albums and/or playlists if
+         the dialog was accepted.
+         \param	string	titles
+         \qmlpcm title of the selected items. \endparam
+         \param	string	uris
+         \qmlpcm path to the albums or playlists. \endparam
+         \param	string	thumbUris
+         \qmlpcm path to the thumbnails of the albums or playlists. \endparam
+         \param int	types
+         \qmlpcm type of the items. \endparam
+
+
   \qmlsignal songSelected
-  \qmlcm Signal which returns the selected song of the dialog was accepted.
+  \qmlcm Signal which returns the selected song if the dialog was accepted.
     \param string title
     \qmlpcm title of the selected item. \endparam
+    \param  string  uri
+    \qmlpcm path to the song. \endparam
+    \param  string  thumbUri
+    \qmlpcm path to the thumbnail of the song. \endparam
     \param string album
     \qmlpcm title of the selected album. \endparam
     \param int type
     \qmlpcm type of the item. \endparam
+
+  \qmlsignal multipleSongsSelected
+  \qmlcm Signal which returns the selected songs if the dialog was accepted.
+    \param string titles
+    \qmlpcm titles of the selected items. \endparam
+    \param  string  uris
+    \qmlpcm paths to the songs. \endparam
+    \param  string  thumbUris
+    \qmlpcm paths to the thumbnails of the songs. \endparam
+    \param string album
+    \qmlpcm title of the selected album. \endparam
+    \param int types
+    \qmlpcm types of the items. \endparam
 
   \qmlsignal accepted
   \qmlcm emitted on 'OK' clicked.
@@ -92,6 +126,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Media 0.1 as Models
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -105,14 +140,14 @@ ModalDialog {
     property bool multiSelection: false
 
     signal albumOrPlaylistSelected( string title, string uri, string thumbUri, int type )
-    signal multipleAlbumsOrPlaylistsSelected( variant titles, string uri, string thumbUri, variant types )
-    signal songSelected( string title, string album, string uri, string thumbUri, int type )
+    signal multipleAlbumsOrPlaylistsSelected( variant titles, string uris, string thumbUris, variant types )
+    signal songSelected( string title, string uri, string thumbUri, string album, int type )
     signal multipleSongsSelected( variant titles, variant uris, variant thumbUris, string album, variant types )
 
     // Private
     property variant model: ( showAlbums ? (showPlaylists ? musicAlbumsAndPlaylistsMixed : musicAlbumsOnly) :
                              (showPlaylists ? musicPlaylistsOnly : musicAlbumsAndPlaylistsMixed) ) // don't allow nothing
-        // ###
+
     property real topHeight: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95   // maximum height relativ to top item height
 
     property bool albumSelected: false
@@ -127,7 +162,7 @@ ModalDialog {
 
         if( selectSongs ) {
             if( multiSelection ){
-                multipleSongsSelected( PickerArray.titles, PickerArray.uris, selectedAlbumName, PickerArray.types )
+                multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, selectedAlbumName, PickerArray.types )
             }else {
                 songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
             }
@@ -217,7 +252,7 @@ ModalDialog {
                         PickerArray.remove( selectedAlbumThumbUri, "thumbUris" );
                     }
 
-                    musicPicker.acceptButtonActive = true; //enable OK button
+                    musicPicker.acceptButtonEnabled = true; //enable OK button
                     musicListView.highlightVisible = true
                 }else {
                     model.setSelected( selectedSong, false ); //deselect the former selected item
@@ -232,7 +267,7 @@ ModalDialog {
                     selectedSong = itemid
 
                     buttonAccept.enabled = true //enable OK button
-                    musicPicker.acceptButtonActive = true
+                    musicPicker.acceptButtonEnabled = true
                     musicListView.highlightVisible = true
                 }
             }
@@ -263,6 +298,9 @@ ModalDialog {
 
             cacheBuffer: 5000
 
+            cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
+                                                      : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
+
             onClicked: {
                 if( musicPicker.selectSongs ) {
                     selectedAlbumName = payload.mtitle;
@@ -283,7 +321,7 @@ ModalDialog {
                             PickerArray.remove( payload.mthumburi, "thumbUris" );
                             PickerArray.remove( payload.uri, "uris" );
                         }
-                        musicPicker.acceptButtonActive = true; //enable OK button
+                        musicPicker.acceptButtonEnabled = true; //enable OK button
                     }else {
                         model.setSelected( selectedItem, false ); //deselect the former selected item
                         PickerArray.clear(); //use clear to delete the entry, so we don't have to store the title and thumburi all the time
@@ -295,7 +333,7 @@ ModalDialog {
                         PickerArray.push( payload.uri, "uris" );
 
                         selectedItem = payload.mitemid; //memorize the newly selected item
-                        musicPicker.acceptButtonActive = true; //enable OK button
+                        musicPicker.acceptButtonEnabled = true; //enable OK button
                     }
                     buttonAccept.enabled = true //enable OK button
                 } //end !selectSongs
@@ -312,6 +350,7 @@ ModalDialog {
 
             text: qsTr( "Back" )
             height:  50
+            width:  musicPicker.width / 4
             visible: musicPicker.albumSelected
             anchors.verticalCenter: parent.verticalCenter
 
@@ -330,6 +369,7 @@ ModalDialog {
 
             text: qsTr( "OK" )
             height:  50
+            width:  musicPicker.width / 4
             anchors.verticalCenter: parent.verticalCenter
 
             bgSourceUp: acceptButtonImage
@@ -346,6 +386,7 @@ ModalDialog {
 
             text: qsTr( "Cancel" )
             height:  50
+            width:  musicPicker.width / 4
             anchors.verticalCenter: parent.verticalCenter
 
             bgSourceUp: cancelButtonImage
@@ -359,40 +400,41 @@ ModalDialog {
     ]
 
     TopItem { id: topItem }
+    Theme { id: theme }
 
-    MusicListModel {
+    Models.MusicListModel {
         id: musicAlbumsOnly
 
-        type: MusicListModel.ListofAlbums
+        type: Models.MusicListModel.ListofAlbums
         limit: 0
-        sort: MusicListModel.SortByTitle
-        mixtypes: MusicListModel.Albums
+        sort: Models.MusicListModel.SortByTitle
+        mixtypes: Models.MusicListModel.Albums
     } // MusicListModel
 
-    MusicListModel {
+    Models.MusicListModel {
         id: musicPlaylistsOnly
 
-        type: MusicListModel.ListofPlaylists
+        type: Models.MusicListModel.ListofPlaylists
         limit: 0
-        sort: MusicListModel.SortByTitle
-        mixtypes: MusicListModel.Playlists
+        sort: Models.MusicListModel.SortByTitle
+        mixtypes: Models.MusicListModel.Playlists
     } // MusicListModel
 
-    MusicListModel {
+    Models.MusicListModel {
         id: musicAlbumsAndPlaylistsMixed
 
-        type: MusicListModel.MixedList
+        type: Models.MusicListModel.MixedList
         limit: 0
-        sort: MusicListModel.SortByTitle
-        mixtypes: MusicListModel.Albums|MusicListModel.Playlists
+        sort: Models.MusicListModel.SortByTitle
+        mixtypes: Models.MusicListModel.Albums| Models.MusicListModel.Playlists
     } // MusicListModel
 
-    MusicListModel {
+    Models.MusicListModel {
         id: songsFromAlbum
 
-        type: MusicListModel.ListofSongsForAlbum
+        type: Models.MusicListModel.ListofSongsForAlbum
         album: selectedAlbumName == undefined ? "" : selectedAlbumName
         limit: 0
-        sort: MusicListModel.SortByDefault
+        sort: Models.MusicListModel.SortByDefault
     }
 }

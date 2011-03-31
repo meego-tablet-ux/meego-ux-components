@@ -1,4 +1,4 @@
-TARGET =    tst_otccomponents
+TARGET =    tst_meego-ux-components
 TEMPLATE =  app
 
 include(../components/components.pri)

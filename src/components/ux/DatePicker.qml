@@ -12,17 +12,42 @@
   \qmlcm Displays control elements to choose a date by day, month and year. The values
          can either be chosen using the three PopupLists at the top or by the calender
          grid in the center.
+         The min... and max... properties can be used to restrict the choosable date
+         to a specific date. Selecting a date outside that range will disable the ok
+         button. Make sure valid values for min and max are set, otherwise the datePicker
+         might not work as expected.
 
   \section1  API properties
 
   \qmlproperty variant selectedDate
   \qmlcm contains the currently selected date.
 
-  \qmlproperty int firstYear
-  \qmlcm sets the first year available in the year spinner. This can be set only once at object creation.
+  \qmlproperty int startYear
+  \qmlcm sets the first year available in the year spinner, needs a positive value smaller or equal to endYear.
 
-  \qmlproperty int lastYear
-  \qmlcm sets the last year available in the year spinner. This can be set only once at object creation.
+  \qmlproperty int endYear
+  \qmlcm sets the last year available in the year spinner, needs a positive value bigger or equal to startYear.
+
+  \qmlproperty int minYear
+  \qmlcm sets the first selectable year, needs a positive value smaller or equal to maxYear.
+
+  \qmlproperty int minMonth
+  \qmlcm sets the first selectable month, needs a value from 1 to 12.
+
+  \qmlproperty int minDay
+  \qmlcm sets the first selectable day, needs a value from 1 to 31.
+
+  \qmlproperty int maxYear
+  \qmlcm sets the last selectable year, needs a positive value bigger or equal to minYear.
+
+  \qmlproperty int maxMonth
+  \qmlcm sets the last selectable month, needs a value from 1 to 12.
+
+  \qmlproperty int maxDay
+  \qmlcm sets the last selectable day, needs a value from 1 to 31.
+
+  \qmlproperty bool isDateInRange
+  \qmlcm true if the selected date is in range of the min and max values.
 
   \section1  Private properties (for internal use only)
 
@@ -139,6 +164,18 @@
   \param   m    int, the new month
   \param   y    int, the new year
 
+  \qmlfn updateYears
+  \qmlcm called when minYear or maxYear have been changed. Updates the year model to contain only
+         the years from minYear to maxYear and sets the selected year into that range if needed.
+         At the end updateSelectedDate is called to propagate the new date and selection.
+
+  \qmlfn checkSelectedDate
+  \qmlcm checks if the given date is in the range given by the properties minYear, minMonth,
+         minDay, maxYear, maxMonth and maxDay
+  \param   d    int, the given day
+  \param   m    int, the given month
+  \param   y    int, the given year
+
   \section1  Example
   \code
       //a button labeled with the selected date
@@ -170,14 +207,16 @@ ModalDialog {
 
     property variant selectedDate
 
-    property int minYear: 1980
+    property int startYear: 1700
+    property int endYear: 2300
+
+    property int minYear: startYear
     property int minMonth: 1
     property int minDay: 1
-    property int maxYear: 2020
+    property int maxYear: endYear
     property int maxMonth: 12
     property int maxDay: 31
-    property bool currentYearLimited: false
-    property bool currentMonthLimited: false
+    property bool isDateInRange: true
 
     property variant daysOfWeek: [ qsTr("S"),
                                    qsTr("M"),
@@ -222,7 +261,7 @@ ModalDialog {
 
     property int month: -1
     property int day: -1
-    property int year: -1 
+    property int year: -1
 
     property variant oldDate
 
@@ -332,11 +371,17 @@ ModalDialog {
                 }else{
                     isFuture = false
                     isPast = true
+                    return
                 }
+            }else{
+                isFuture = false
+                isPast = true
+                return
             }
         }else {
             isFuture = false
             isPast = true
+            return
         }
     }
 
@@ -368,7 +413,9 @@ ModalDialog {
         selectedDate = tempDate
         calendarView.calendarShown = tempDate
 
-        setFuturePast()
+        setFuturePast() //check if the selected date is in the future or past
+        isDateInRange = checkSelectedDate( newDay, m + 1, y ) //check if the selected date is in the range given by minYear, ..., maxYear
+
         allowUpdates = true
     }
 
@@ -393,6 +440,49 @@ ModalDialog {
         }
     }
 
+    function checkSelectedDate( d, m, y ) {
+        var day = d
+        var month = m
+        var year = y
+
+        if( year < minYear || year > maxYear ) { //selected year is not in range
+            return false
+        }else if( minYear == maxYear ) { //selected year is in range and year range has size one
+            if( month < minMonth || month > maxMonth ) { //month outside range
+                return false
+            }else if( minMonth == maxMonth ){ //month is also in range and month range has size one
+                if( day < minDay || day > maxDay ) {
+                    return false
+                }
+            }else if( month == minMonth ) { //month at min range
+                if( day < minDay ) { //day outside range
+                    return false
+                }
+            }else if( month == maxMonth ) { //month at max range
+                if( day > maxDay ) { //day outside range
+                    return false
+                }
+            }
+        }else if( year == minYear ){ //selected year is at min range and the year range is bigger than one
+            if( month < minMonth ) { //month outside range
+                return false
+            }else if( month == minMonth ){ //month at min range
+                if( day < minDay ) { //day outside range
+                    return false
+                }
+            }
+        }else if( year == maxYear ) { //selected year is at max range and the range is bigger than one
+            if( month > maxMonth ) { //month outside range
+                return false
+            }else if( month == maxMonth ){ //month at max range
+                if( day > maxDay ) { //day outside range
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
     Component.onCompleted: { selectedDate = today(); }
 
     //when the DatePicker shows up, store the current date
@@ -405,6 +495,8 @@ ModalDialog {
     onRejected: { selectedDate = oldDate }
 
     onAccepted: { dateSelected( selectedDate ) }
+
+    acceptButtonEnabled: isDateInRange
 
     width: height * 0.6
     height: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95    // ###
@@ -434,38 +526,10 @@ ModalDialog {
 
             property int unitWidth: ( parent.width - 2 * spacing - 2 * anchors.margins ) / 3 //width minus spacings divided by the number of units
 
-            function checkMinMaxDate( date )
-            {
-                if( date.getFullYear() == maxYear ) {
-                    // cut month
-
-                    if( date.getMonth() == maxMonth ) {
-                    } else {
-                    }
-
-                } else if( date.getFullYear() == maxYear )  {
-
-                    inMaxYear = false
-                    inMaxMonth = false
-                    inMinYear = true
-                    if( date.getMonth() == minMonth ) {
-                        inMinMonth == true
-                    } else {
-                        inMinMonth == false
-                    }
-
-                } else {
-                    inMinYear = false
-                    inMaxYear = false
-                    inMinMonth = false
-                    inMaxMonth = false
-                }
-            }
-
             z: 10
             anchors { margins: 10; left: parent.left; top: titleDivider.bottom; right: parent.right }
             spacing: 10
-            height: datePicker.height / 6 //110
+            height: datePicker.height / 6
 
             // pops up a list to choose a day
             PopupList {
@@ -553,7 +617,7 @@ ModalDialog {
                                    return parent.height - 4
                                }
                 anchors { left:parent.left; top:parent.top; right:parent.right }
-                height: datePicker.height / 13 //prevMonthText.font.pixelSize + 30
+                height: datePicker.height / 13
 
                 Text {
                     id: prevMonthText;
@@ -565,7 +629,15 @@ ModalDialog {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: updateSelectedDate( selectedDate.getDate(), prevMonth( selectedDate ), selectedDate.getFullYear() )//selectedDate = prevMonth( calendarView.calendarShown )//calendarView.calendarShown = prevMonth( calendarView.calendarShown )
+
+                        onClicked: {
+                            var newMonth = prevMonth( selectedDate )
+                            var yearUpdate = 0
+                            if( newMonth == 11 && selectedDate.getFullYear() > datePicker.startYear  ) {
+                                yearUpdate = - 1
+                            }
+                            updateSelectedDate( selectedDate.getDate(), prevMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
+                        }
                     }
                 }
                 Text {
@@ -588,7 +660,14 @@ ModalDialog {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: updateSelectedDate( selectedDate.getDate(), nextMonth( selectedDate ), selectedDate.getFullYear() )//selectedDate = nextMonth( calendarView.calendarShown )//calendarView.calendarShown = nextMonth( calendarView.calendarShown )
+                        onClicked: {
+                            var newMonth = nextMonth( selectedDate )
+                            var yearUpdate = 0
+                            if( newMonth == 0 && selectedDate.getFullYear() < datePicker.endYear) {
+                                yearUpdate = 1
+                            }
+                            updateSelectedDate( selectedDate.getDate(), nextMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
+                        }
                     }
                 }
             } // month-year header
@@ -654,8 +733,18 @@ ModalDialog {
                 property real cellGridHeight: height / rows
                 property int cellFontSize;
 
+                function indexToDay(index) {
+                    var firstDay = startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
+                    var dayCount = daysInMonth( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
+
+                    if ( index < firstDay ) return -1
+                    if ( index >= firstDay + dayCount ) return -1
+
+                    return ( index + 1 ) - firstDay
+                }
+
                 //font size is critical here because of little space, so reduce it if necessary
-                cellFontSize: if( theme.fontPixelSizeLarge < cellGridHeight - 4 ){
+                cellFontSize: if( theme.fontPixelSizeLarge < cellGridHeight - 4 ) {
                     return theme.fontPixelSizeLarge
                 }else{
                     return cellGridHeight - 4
@@ -683,7 +772,16 @@ ModalDialog {
 
                         width: calendarGrid.cellGridWidth - ( doTag ? 1 : 0 )
                         height: calendarGrid.cellGridHeight - ( doTag ? 1 : 0 )
-                        color: (doTag) ? "steelblue" : ( ( calendarGrid.indexToDay(index) == -1 ) ? "lightgray" : "white" )
+
+                        color: if( doTag ){
+                                   return theme.datePickerSelectedColor
+                               }else if( calendarGrid.indexToDay( index ) == -1
+                                        || !checkSelectedDate( ( index + 1 ) - startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() ), calendarView.calendarShown.getMonth() + 1, calendarView.calendarShown.getFullYear() ) ) {
+                                   return theme.datePickerUnselectableColor
+                               }else {
+                                   return theme.datePickerUnselectedColor
+                               }
+
                         opacity: ( calendarGrid.indexToDay( index) == -1 ) ? 0.25 : 1
 
                         Text {
@@ -704,25 +802,15 @@ ModalDialog {
                             }
                         }
                     }
-                }
-
-                function indexToDay(index) {
-                    var firstDay = startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
-                    var dayCount = daysInMonth( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
-
-                    if ( index < firstDay ) return -1
-                    if ( index >= firstDay + dayCount ) return -1
-
-                    return ( index + 1 ) - firstDay
-                }
-            }//end grid
+                } // end repeater
+            } //end grid
         } // calendar
 
         Item {
             id: todayButton
 
             anchors { left:parent.left; right: parent.right; bottom: parent.bottom; topMargin: 2; bottomMargin: 2 }
-            height: datePicker.height / 16 //40
+            height: datePicker.height / 16
 
             Image {
                 id:buttonDivider1
@@ -745,7 +833,7 @@ ModalDialog {
                                     return height - 4
                                 }
 
-                color: "#33BBFF" //theme.fontColorHighlight
+                color: theme.fontColorHighlightBlue
             }
 
             MouseArea {
@@ -754,7 +842,10 @@ ModalDialog {
                 anchors.fill: todayButton
 
                 onClicked: {
-                    updateSelectedDate( today().getDate(), today().getMonth(), today().getFullYear() )
+                    var todayYear = today().getFullYear()
+                    if( todayYear >= startYear && todayYear <= endYear ) {
+                        updateSelectedDate( today().getDate(), today().getMonth(), today().getFullYear() )
+                    }
                 }
             }
         }
@@ -791,18 +882,19 @@ ModalDialog {
         dayButton.allowSignal = false
         monthButton.allowSignal = false
         yearButton.allowSignal = false
-        for ( var i = minYear ; i < maxYear; i++ ) {
+        yModel.clear()
+        for ( var i = startYear ; i <= endYear; i++ ) {
             yModel.append( { "tag": i } );
         }
         dayButton.allowSignal = true
         monthButton.allowSignal = true
         yearButton.allowSignal = true
-    }    
+    }
 
     ListModel {
         id: dModel
         Component.onCompleted: {
-            initializeDays()//setDays();
+            initializeDays()
         }
     }
 

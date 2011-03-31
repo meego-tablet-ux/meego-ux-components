@@ -151,6 +151,7 @@ GridView {
     interactive: contentHeight > height
 
     cacheBuffer: 3000
+    flickDeceleration: 250
 
     Component.onCompleted: gridView.currentIndex = 0
 
@@ -172,8 +173,9 @@ GridView {
 
         width: gridView.cellWidth
         height: gridView.cellHeight
+        asynchronous: true
 
-        source: "image://themedimage/media/photos_thumb_med"
+//        source: "image://themedimage/media/photos_thumb_med"
         clip: true
 
         mtitle:{
@@ -244,14 +246,11 @@ GridView {
             a[0]== undefined ? "" : a[0]
         }
 
-        Theme{ id: theme }
-
         Item {
             id: thumbnailClipper
 
             anchors.fill:parent
             anchors.margins: spacing
-            z: -10
 
             Image {
                 id: thumbnail
@@ -262,7 +261,6 @@ GridView {
                 source: dinstance.mthumburi
                 smooth: true
                 clip: true
-                z: 0
 
                 Rectangle {
                     id: fog
@@ -274,47 +272,82 @@ GridView {
                 }
             }
 
-            BorderImage {
+            Rectangle {
                 id: textBackground
 
-                source: "image://themedimage/media/music_text_bg_med"
-                border{ left: 3; right: 3; top: 3; bottom: 3 }
+//                source: "image://themedimage/media/music_text_bg_med"
+//                asynchronous: true
+
+//                border{ left: 3; right: 3; top: 3; bottom: 3 }
+                color:  "black"
+                opacity: 0.7
                 width: parent.width
                 height: 63
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
-                z: 1
+
                 visible: (type != 2)
 
-                Text {
-                    id: titleText
+//                Text {
+//                    id: titleText
 
-                    text: mtitle
-                    anchors.top: parent.top
-                    anchors.topMargin: 10
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    width: parent.width - 20
-                    elide: Text.ElideRight
-                    font.pixelSize: theme.fontPixelSizeMedium
-                    font.bold: true
-                    color:theme.fontColorMediaHighlight
-                }
+//                    text: mtitle
+//                    anchors.top: parent.top
+//                    anchors.topMargin: 10
+//                    anchors.left: parent.left
+//                    anchors.leftMargin: 10
+//                    width: parent.width - 20
+//                    elide: Text.ElideRight
+//                    font.pixelSize: theme.fontPixelSizeMedium
+//                    font.bold: true
+//                    color:theme.fontColorMediaHighlight
+//                }
 
-                Text {
-                    id: artistText
+//                Text {
+//                    id: artistText
 
-                    text: ( type == 1 ) ? ( ( formatMinutes( length ) == 1 ) ? qsTr( "%1 Minute" ).arg( formatMinutes( length ) ) : qsTr( "%1 Minutes").arg( formatMinutes( length ) ) ) : martist
-                    font.pixelSize: theme.fontPixelSizeMedium
-                    anchors.top: titleText.bottom
-                    anchors.topMargin: 4
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    width: parent.width - 20
-                    elide: Text.ElideRight
-                    color:theme.fontColorMediaHighlight
-                    visible: text
-                }
+//                    text: ( type == 1 ) ? ( ( formatMinutes( length ) == 1 ) ? qsTr( "%1 Minute" ).arg( formatMinutes( length ) ) : qsTr( "%1 Minutes").arg( formatMinutes( length ) ) ) : martist
+//                    font.pixelSize: theme.fontPixelSizeMedium
+//                    anchors.top: titleText.bottom
+//                    anchors.topMargin: 4
+//                    anchors.left: parent.left
+//                    anchors.leftMargin: 10
+//                    width: parent.width - 20
+//                    elide: Text.ElideRight
+//                    color:theme.fontColorMediaHighlight
+//                    visible: text
+//                }
+            }
+
+            Text {
+                id: titleText
+
+                text: mtitle
+                anchors.top: textBackground.top
+                anchors.topMargin: 10
+                anchors.left: textBackground.left
+                anchors.leftMargin: 10
+                width: textBackground.width - 20
+                elide: Text.ElideRight
+                font.pixelSize: theme.fontPixelSizeMedium
+                font.bold: true
+                color:theme.fontColorMediaHighlight
+                visible: textBackground.visible
+            }
+
+            Text {
+                id: artistText
+
+                text: ( type == 1 ) ? ( ( formatMinutes( length ) == 1 ) ? qsTr( "%1 Minute" ).arg( formatMinutes( length ) ) : qsTr( "%1 Minutes").arg( formatMinutes( length ) ) ) : martist
+                font.pixelSize: theme.fontPixelSizeMedium
+                anchors.top: titleText.bottom
+                anchors.topMargin: 4
+                anchors.left: textBackground.left
+                anchors.leftMargin: 10
+                width: textBackground.width - 20
+                elide: Text.ElideRight
+                color:theme.fontColorMediaHighlight
+                visible: textBackground.visible
             }
 
             BorderImage {
@@ -324,8 +357,9 @@ GridView {
                 asynchronous: true
                 width: parent.width - 2 * frameBorderWidth
                 height: parent.height - 2 * frameBorderWidth
+                source: "image://themedimage/media/photos_selected_tick"
+                visible: false
                 smooth: true
-                z: 2
             }
         }
 
@@ -373,7 +407,7 @@ GridView {
                 when: selectionMode && !gridView.model.isSelected(itemid)
                 PropertyChanges {
                     target: frame
-                    source: "image://themedimage/media/photos_thumb_med"
+                    visible: false
                 }
             },
             State {
@@ -381,9 +415,11 @@ GridView {
                 when: selectionMode && gridView.model.isSelected(itemid)
                 PropertyChanges {
                     target: frame
-                    source: "image://themedimage/media/photos_selected_tick"
+                    visible: true
                 }
             }
         ]
     }
+
+    Theme{ id: theme }
 }

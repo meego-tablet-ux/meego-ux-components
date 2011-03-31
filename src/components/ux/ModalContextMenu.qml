@@ -106,7 +106,7 @@ ModalFog {
     function setPosition( x, y ) {
         top.calcTopParent()
         baseX =  x / top.topWidth
-        baseY = (y - top.topDecorationHeight) / (top.topHeight - top.topDecorationHeight) // ###
+        baseY = (y - top.topDecorationHeight) / (top.topHeight - top.topDecorationHeight)
         menuContainer.mouseX = x
         menuContainer.mouseY = y
         menuContainer.rescale()
@@ -292,12 +292,12 @@ ModalFog {
             BorderImage {
                 id: realMenu
 
-                border.left:   6
-                border.top:    77
-                border.bottom: 64
-                border.right:  6
+                border.left:   10
+                border.top:    10
+                border.bottom: 10
+                border.right:  10
 
-                source: "image://themedimage/modal-dialog/modal-dialog-background"
+                source: "image://themedimage/menu/menu-background"
 
                 x: if (menuContainer.fingerMode == 0) {
                     return finger.width
@@ -313,6 +313,22 @@ ModalFog {
 
                 width: backgroundImage.width
                 height: backgroundImage.height
+
+                BorderImage {
+                    id: shadow
+                    source: "image://themedimage/menu/menu-background-shadow"
+
+                    smooth: true
+
+                    anchors.fill: realMenu
+
+                    border.left: 11;
+                    border.top: 11
+                    border.right: 11;
+                    border.bottom: 11
+
+                    anchors.margins: -4
+                }
 
                 Column{
                     id: backgroundImage
@@ -331,7 +347,7 @@ ModalFog {
                         property int margin: 20
 
                         text: ""
-                        height: realMenu.border.top
+                        height: ( text.length > 0 ) ? 50 : realMenu.border.top
                         width: parent.width - 2 * margin
 
                         elide: Text.ElideRight
@@ -342,6 +358,13 @@ ModalFog {
                         anchors.left: parent.left
 
                         anchors.leftMargin: margin
+                    }
+
+                    Image {
+                        source: "image://themedimage/menu/menu-item-separator-header"
+                        width: parent.width
+
+                        visible: headerText.text.length > 0
                     }
 
                     Item {
@@ -461,11 +484,8 @@ ModalFog {
         id: top
 
         onOrientationChangeFinished: {
-
-            top.calcTopParent()
-
             menuContainer.mouseX = baseX * top.topWidth
-            menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight // ###
+            menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
 
             menuContainer.rescale()
         }

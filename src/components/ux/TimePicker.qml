@@ -146,7 +146,7 @@ ModalDialog {
         hourSpinner.setValue( hours )
     }
 
-    height: tPicker.height + decorationHeight// + buttonHeight
+    height: tPicker.height + decorationHeight
     width: tPicker.width
 
     title: qsTr("Pick a time")
@@ -154,7 +154,6 @@ ModalDialog {
     content: Item {
         id: tPicker
 
-        //anchors.fill: parent
         clip: true
         width: 300
         height:  spinnerBox.height + ( hr24 ? 0 : ampmToggleBox.height )
@@ -162,12 +161,11 @@ ModalDialog {
 
         Theme { id: theme }
 
-
         Item {
             id: spinnerBox
 
             anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
-            height: 130 // backgroundRect.height - ( ( tPicker.hr24 ? 0 : ampmToggleBox.height ) ) - 25
+            height: 130
             width : tPicker.width
 
             Item {
@@ -181,17 +179,17 @@ ModalDialog {
                 TimeSpinner {
                     id: hourSpinner
 
+                    height: spinnerBox.height - anchors.bottomMargin - anchors.topMargin
                     incr: 1
                     pad: false
                     anchors { left: parent.left; right: parent.horizontalCenter; top: parent.top; bottom: parent.bottom;
-                        leftMargin: 14; rightMargin: 14; topMargin: 10; bottomMargin: hr24 ? 14 : 0;
+                        leftMargin: 14; rightMargin: 14; topMargin: 14; bottomMargin: hr24 ? 14 : 0;
                     }
-
                 } // hourSpinner
 
                 // a colon between the spinners makes it look more like a time selector
                 Item {
-                    id:colonBox
+                    id: colonBox
 
                     height: spinnerBox.height
                     anchors.left: hourSpinner.right
@@ -215,8 +213,8 @@ ModalDialog {
                     incr: timePicker.minutesIncrement
                     count: 60 / incr
                     pad: true
-                    anchors { left: parent.horizontalCenter; right: parent.right; top: parent.top;bottom: hourSpinner.bottom;
-                        leftMargin: 14; rightMargin: 14; topMargin: 10;
+                    anchors { left: parent.horizontalCenter; right: parent.right; top: parent.top; bottom: parent.bottom;
+                        leftMargin: 14; rightMargin: 14; topMargin: 14; bottomMargin: hr24 ? 14 : 0;
                     }
                 } // minutesSpinner
             } // innerBox
@@ -224,12 +222,12 @@ ModalDialog {
 
         // used to choose between AM or PM time, if 12 hour system is active
         Item {
-            id:ampmToggleBox
+            id: ampmToggleBox
 
             anchors.top: spinnerBox.bottom
 
             width: tPicker.width
-            height: ampmToggle.height + 20
+            height: ampmToggle.height + 28
 
             ToggleButton {
                 id: ampmToggle
@@ -244,7 +242,6 @@ ModalDialog {
                 }
             }// ampmToggle
         }// ampmToggleBox
-
     }// timePicker
 
     TopItem { id: topItem }

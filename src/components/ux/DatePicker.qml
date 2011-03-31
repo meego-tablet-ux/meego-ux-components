@@ -207,8 +207,8 @@ ModalDialog {
 
     property variant selectedDate
 
-    property int startYear: 1980
-    property int endYear: 2020
+    property int startYear: 1700
+    property int endYear: 2300
 
     property int minYear: startYear
     property int minMonth: 1
@@ -733,8 +733,18 @@ ModalDialog {
                 property real cellGridHeight: height / rows
                 property int cellFontSize;
 
+                function indexToDay(index) {
+                    var firstDay = startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
+                    var dayCount = daysInMonth( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
+
+                    if ( index < firstDay ) return -1
+                    if ( index >= firstDay + dayCount ) return -1
+
+                    return ( index + 1 ) - firstDay
+                }
+
                 //font size is critical here because of little space, so reduce it if necessary
-                cellFontSize: if( theme.fontPixelSizeLarge < cellGridHeight - 4 ){
+                cellFontSize: if( theme.fontPixelSizeLarge < cellGridHeight - 4 ) {
                     return theme.fontPixelSizeLarge
                 }else{
                     return cellGridHeight - 4
@@ -792,18 +802,8 @@ ModalDialog {
                             }
                         }
                     }
-                }
-
-                function indexToDay(index) {
-                    var firstDay = startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
-                    var dayCount = daysInMonth( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
-
-                    if ( index < firstDay ) return -1
-                    if ( index >= firstDay + dayCount ) return -1
-
-                    return ( index + 1 ) - firstDay
-                }
-            }//end grid
+                } // end repeater
+            } //end grid
         } // calendar
 
         Item {

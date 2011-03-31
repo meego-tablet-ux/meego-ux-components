@@ -93,16 +93,35 @@ Rectangle {
         tsview.currentIndex = ( newValue - min) / incr
     }
 
+    Theme { id: theme }
+
     Component {
         id: tsdelegate
 
         Text {
             id: delegateText
 
-            font.pixelSize: theme.fontPixelSizeLarge
+            font.pixelSize: if( theme.fontPixelSizeNormal < height - 4 ) {
+                                return theme.fontPixelSizeLarge
+                            }else{
+                                return height - 4
+                            }
             text: displayValue(index)
-            height: font.pixelSize + 10
+            height: timeSpinner.itemHeight //font.pixelSize + 10
             color: "#A0A0A0"
+            verticalAlignment: "AlignVCenter"
+
+            MouseArea {
+                id: delegateArea
+
+                height:  parent.height
+                width:  timeSpinner.width
+                anchors.centerIn: parent
+
+                onClicked:  {
+                    tsview.currentIndex = index
+                }
+            }
 
             states: [
                 State {
@@ -115,10 +134,9 @@ Rectangle {
     }
 
     Item {
-        id: timespinner
+        id: timeSpinner
 
-        property int numberOfItems: count
-        property real itemHeight: 30
+        property real itemHeight: height / ( tsview.pathItemCount + 1 ) //30
 
         clip: true
         anchors.fill: parent
@@ -135,29 +153,29 @@ Rectangle {
         PathView {
             id: tsview
 
-            anchors.fill: timespinner
+            anchors.fill: timeSpinner
 
-            model: timespinner.numberOfItems
+            model: outer.count
             delegate: tsdelegate
             path:  Path {
                 startX: tsview.width / 2
-                startY: 5
+                startY: 0 //5
                 PathLine {
                     x: tsview.width / 2
-                    y: tsview.pathItemCount * timespinner.itemHeight + timespinner.itemHeight
+                    y: tsview.height
                 }
             }
 
             pathItemCount: 3
-            preferredHighlightBegin: 0.47
-            preferredHighlightEnd: 0.47
+            preferredHighlightBegin: 0.5
+            preferredHighlightEnd: 0.5
 
             dragMargin: tsview.width/2
 
             BorderImage {
                 id: innerBgImage
 
-                source:"image://themedimage/pickers/timespinhi"
+                source: "image://themedimage/pickers/timespinhi"
                 anchors.fill: parent
                 opacity:0.25
             }

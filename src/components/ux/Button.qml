@@ -31,7 +31,7 @@
       \qmlcm path to an image file used for pressed state.
 
       \qmlproperty bool elideText
-      \qmlcm activates text eliding on true.
+      \qmlcm activates text eliding on true.  If this property is true, the width property must be explicitly set.
 
       \qmlproperty bool active
       \qmlcm stores if the button is clickable.
@@ -80,9 +80,9 @@ Item {
     // lower the button's opacity to mark it inactive
     opacity: enabled ? 1.0 : 0.5
 
-    width: 210
-    height: 60
-    clip:  true
+    width:  if (!elideText) { buttonText.paintedWidth + 20 }
+    height: buttonText.paintedHeight + 20
+    clip:   true
 
     onActiveChanged: {
         if(active){
@@ -117,32 +117,20 @@ Item {
                 }
             }
         ]
-
     }
 
     // the button's text
     Text {
         id: buttonText
 
-        width:  parent.width - 20
-        height:  parent.height - 4
+        width: if (elideText) { parent.width - 20 }
         anchors.centerIn: parent
         clip: true
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        elide: if( elideText ){ Text.ElideRight }else { Text.ElideNone }
+        elide: if( elideText ) { Text.ElideRight } else { Text.ElideNone }
         font.pixelSize: theme.fontPixelSizeLargest
         color: parent.textColor
-
-        // if the button didn't get width or height, set them so that they at least cover the buttonText
-//        Component.onCompleted: {  // ### Buggy with elide
-//            if ( container.width == 0 )
-//                container.width = buttonText.paintedWidth + 20;
-
-//            if ( container.height == 0 )
-//                container.height = buttonText.paintedHeight + 20;
-//            // note: coupling the width to the paintedWidth doesn't work correctly with elide
-//        }
     }
 
     // mouse area of the button surface

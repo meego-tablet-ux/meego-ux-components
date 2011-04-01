@@ -105,8 +105,6 @@ WidgetPage {
             id: button
 
             anchors.centerIn: parent
-            width:  200
-            height:  80
             text: "Button"
             elideText: elideBox.isChecked
             active: activeBox.isChecked

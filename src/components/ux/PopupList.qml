@@ -102,7 +102,6 @@ Item {
         }
 
         view.currentIndex = focusIndex;
-
         allowSignal = true
     }
 

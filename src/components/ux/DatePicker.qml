@@ -392,12 +392,17 @@ ModalDialog {
             return
         }
 
-        dayButton.value = "1"
-        monthButton.value = shortMonths[m]
-        yearButton.value = y.toString()
-
+        if( d > 15 ) {
+            dayButton.value = "1"
+        }else {
+            dayButton.value = ( daysInMonth( selectedDate.getMonth(), selectedDate.getFullYear() ) ).toString()
+        }
         dayButton.reInit()
+
+        monthButton.value = shortMonths[m]
         monthButton.reInit()
+
+        yearButton.value = y.toString()
         yearButton.reInit()
 
         changeDayModel( d, m, y )
@@ -406,10 +411,7 @@ ModalDialog {
         dayButton.value = newDay.toString()
         dayButton.reInit()
 
-        var tempDate = selectedDate
-        tempDate.setMonth(m);
-        tempDate.setDate(newDay)
-        tempDate.setFullYear(y)
+        var tempDate = createDate( y, m, newDay )
         selectedDate = tempDate
         calendarView.calendarShown = tempDate
 

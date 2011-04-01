@@ -95,9 +95,9 @@ AppPage {
     {
         detailsPhotosModel.album = settings.selectedAlbumName
         if( settings.selectedAlbumName == "" ) {
-            detailsPhotosModel.type =  PhotoListModel.ListofPhotos
+            detailsPhotosModel.type =  Models.PhotoListModel.ListofPhotos
         } else {
-            detailsPhotosModel.type = PhotoListModel.PhotoAlbum
+            detailsPhotosModel.type = Models.PhotoListModel.PhotoAlbum
         }
     }
 

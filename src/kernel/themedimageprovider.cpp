@@ -7,6 +7,7 @@
 #include <QDesktopWidget>
 #include <MGConfItem>
 #include <QDebug>
+#include <QImageReader>
 
 #include "themedimageprovider.h"
 
@@ -43,8 +44,6 @@ QPixmap ThemedImageProvider::requestPixmap(const QString &id, QSize *size,
                                            const QSize &requestedSize)
 {
     QPixmap pixmap;
-    int width = requestedSize.width();
-    int height = requestedSize.height();
 
     QString themeDir = QString("/usr/share/themes/") + themeItem->value().toString() + "/images/";
     if( !QFile::exists(themeDir + id + ".png") ){
@@ -54,24 +53,21 @@ QPixmap ThemedImageProvider::requestPixmap(const QString &id, QSize *size,
     //  If we have a custom icon then use it
     if (QFile::exists(themeDir + id + ".png"))
     {
-        pixmap.load(themeDir + id + ".png");
+        QImageReader imageReader(themeDir + id + ".png");
 
-        if (width > 0 && height > 0)
+        if (requestedSize.isValid())
         {
-            pixmap = pixmap.scaled(QSize(width, height));
+            imageReader.setScaledSize(requestedSize);
         }
-        else if (width > 0)
-        {
-            pixmap = pixmap.scaledToWidth(width);
-        }
-        else if (height > 0)
-        {
-            pixmap = pixmap.scaledToHeight(height);
-        }
+
+	pixmap = QPixmap::fromImageReader(&imageReader);
     }
     else
     {
         // Return a red pixmap to assist in finding missing images
+        int width = requestedSize.width();
+        int height = requestedSize.height();
+
         if (width <= 0)
             width = 100;
         if (height <= 0)

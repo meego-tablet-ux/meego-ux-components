@@ -15,13 +15,13 @@ import MeeGo.Components 0.1
 WidgetPage {
     id: widgetPage
 
-    pageTitle: "Button"
+    pageTitle: qsTr("Button")
 
     controlContent: [
         LabeledEntry {
             id: widthEntry
 
-            label:  "width: "
+            label:  qsTr("width: ")
             defaultValue: button.width
 
             onTextUpdated: {
@@ -34,7 +34,7 @@ WidgetPage {
         LabeledEntry {
             id: heightEntry
 
-            label:  "height: "
+            label:  qsTr("height: ")
             defaultValue: button.height
 
             onTextUpdated: {
@@ -47,7 +47,7 @@ WidgetPage {
         LabeledEntry {
             id: labelEntry
 
-            label:  "text: "
+            label:  qsTr("text: ")
             defaultValue: button.text
 
             onTextUpdated: {
@@ -58,13 +58,13 @@ WidgetPage {
         CheckBoxEntry {
             id: elideBox
 
-            label: "elideText:"
+            label: qsTr("elideText:")
         },
 
         LabeledEntry {
             id: fontSizeEntry
 
-            label:  "fontsize: "
+            label:  qsTr("fontsize: ")
             defaultValue: button.font.pixelSize
 
             onTextUpdated: {
@@ -78,7 +78,7 @@ WidgetPage {
             id: activeBox
 
             isChecked: true
-            label: "active:"
+            label: qsTr("active:")
         }
     ]
 
@@ -86,13 +86,13 @@ WidgetPage {
         StatusEntry {
             id: statusEntry
 
-            label: "Button status:"
-            value: "released"
+            label: qsTr("Button status:")
+            value: qsTr("released")
         }
     ]
 
-    description: "This is a button with customizable size and label. If the label is too big to be displayed in the button, "
-               + "activate the checkbox for elide if desired. \n"
+    description: qsTr("This is a button with customizable size and label. If the label is too big to be displayed in the button, "
+               + "activate the checkbox for elide if desired. \n")
 
     widget: Flickable {
 
@@ -107,11 +107,11 @@ WidgetPage {
             anchors.centerIn: parent
             width:  200
             height:  80
-            text: "Button"
+            text: qsTr("Button")
             elideText: elideBox.isChecked
             active: activeBox.isChecked
 
-            onPressedChanged: { if( pressed ) { statusEntry.value = "pressed" } else { statusEntry.value = "released" } }
+            onPressedChanged: { if( pressed ) { statusEntry.value = qsTr("pressed") } else { statusEntry.value = qsTr("released") } }
             //onClicked: { widgetPage.outputText = "clicked" }
         }
     }

@@ -17,11 +17,14 @@ AppPage {
 
     state: "setters"
 
-    pageTitle: "Book 1, widget gallery"
+    pageTitle: qsTr("Book 1, widget gallery")
 
-    actionMenuModel: [ "Landscape", "Potrait", "Inv. Landscape", "Inv. Potrait" ]
+    actionMenuModel: [ qsTr("Landscape"),
+                       qsTr("Potrait"),
+                       qsTr("Inv. Landscape"),
+                       qsTr("Inv. Potrait") ]
     actionMenuPayload: [  1, 2, 3, 4 ]
-    actionMenuTitle: "Action Menu"
+    actionMenuTitle: qsTr("Action Menu")
 
     onActionMenuTriggered: {
 
@@ -58,7 +61,7 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; right: settersButton.left }
-            text: "Buttons"
+            text: qsTr("Buttons")
 
 //            bgSourceUp: (mainPage.state == "buttons") ? contentButtons.activeButtonImage : contentButtons.buttonImage
 //            bgSourceDn: contentButtons.buttonImagePressed
@@ -78,7 +81,7 @@ AppPage {
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; horizontalCenter: parent.horizontalCenter }
 
-            text: "Widgets"
+            text: qsTr("Widgets")
 
             active: true
 
@@ -99,7 +102,7 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; left: settersButton.right }
-            text: "Dialogs"
+            text: qsTr("Dialogs")
 
 //            bgSourceUp: (mainPage.state == "pickers") ? contentButtons.activeButtonImage : contentButtons.buttonImage
 //            bgSourceDn: contentButtons.buttonImagePressed

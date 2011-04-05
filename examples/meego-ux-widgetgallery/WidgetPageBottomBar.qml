@@ -16,13 +16,13 @@ WidgetPage {
 
     property bool mute: false
 
-    pageTitle: "BottomBar"
+    pageTitle: qsTr("BottomBar")
 
     controlContent: [
         CheckBoxEntry {
             id: showExampleRow
             isChecked: true
-            label: "show Example Row:"
+            label: qsTr("show Example Row:")
         },
         LabeledEntry {
             id: titleText
@@ -38,12 +38,12 @@ WidgetPage {
 
     statusContent: [
         StatusEntry {
-            label: "shown:"
+            label: qsTr("shown:")
             value: bottomToolbar.visible
         }
     ]
 
-    description: "This is a BottomToolBar with customizable content. Which by default will be a ButtonToolBarRow. \n"
+    description: qsTr("This is a BottomToolBar with customizable content. Which by default will be a ButtonToolBarRow. \n")
 
     widget: Flickable {
 
@@ -119,8 +119,6 @@ WidgetPage {
                         hasBackground: false
                     }
                 ]
-
-
 
 
             }

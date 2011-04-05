@@ -14,11 +14,37 @@ import MeeGo.Components 0.1
 AppPage {
     id: pageDummy
 
-    pageTitle: "Context Menu Test"
+    pageTitle: qsTr("Context Menu Test")
 
-    property variant model1: [ "Short list", "Long list", "Thin list", "Sub menu", "5", "Locust", "Locust", "Locust", "Locust", "Locust", "Locust", "Locust", "Locust", "Locust", "Locust", "Locust", "Locust", "Last Locust" ]
-    property variant model0: [ "Short list", "Long list", "Thin list", "Sub menu", "Very long fourth entry" ]
-    property variant model2: [ "Short",  "Long", "Thin", "Sub" ]
+    property variant model1: [  qsTr("Short list"),
+                                qsTr("Long list"),
+                                qsTr("Thin list"),
+                                qsTr("Sub menu"),
+                                qsTr("5"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Locust"),
+                                qsTr("Last Locust") ]
+
+    property variant model0: [ qsTr("Short list"),
+                               qsTr("Long list"),
+                               qsTr("Thin list"),
+                               qsTr("Sub menu"),
+                               qsTr("Very long fourth entry") ]
+
+    property variant model2: [ qsTr("Short"),
+                               qsTr("Long"),
+                               qsTr("Thin"),
+                               qsTr("Sub") ]
 
     property int activeModel: 0
 
@@ -49,7 +75,7 @@ AppPage {
 
         font.pixelSize: 20
         wrapMode: Text.WordWrap
-        text:  "This is an example page for different ModalContextMenus.<br>"
+        text:  qsTr( "This is an example page for different ModalContextMenus.<br>"
                 + "You can list a set of entries which are selectable. <br>"
                 + "The menu will always try to use as little space as possible, up to a given maximum width. "
                 + "If it exceeds in height it gets scrollable.<br>"
@@ -61,7 +87,7 @@ AppPage {
                 + "- Sub menu: shows a submenu that appears in the already opened context menu.<br><br>"
                 + "In addition, the action menu is replaced by a custom context menu. This way you can create much more complex context menus.<br><br>"
                 + "Note: We recommend to set the position a new with setPosition() after rotating (as done for the book and action menu). "
-                + "Otherwise the context menu will try to move relatively, which can lead to a small offset. Try to click the blue spot."
+                + "Otherwise the context menu will try to move relatively, which can lead to a small offset. Try to click the blue spot." )
     }
 
     Rectangle {
@@ -99,7 +125,11 @@ AppPage {
 
         //title: "Context"
 
-        subMenuModel: [ "Very long first entry", "Second entry", "Third entry", "Fourth entry", "Back" ]
+        subMenuModel: [ qsTr("Very long first entry"),
+                        qsTr("Second entry"),
+                        qsTr("Third entry"),
+                        qsTr("Fourth entry"),
+                        qsTr("Back") ]
 
         onSubMenuTriggered: {
             if( index == 4 ){
@@ -110,7 +140,7 @@ AppPage {
             }
         }
 
-        content:  ActionMenu{
+        content: ActionMenu{
             id: bookMenu
 
             maxWidth: 200
@@ -143,7 +173,7 @@ AppPage {
             actionMenuOpen = visible
         }
 
-        title:  "Custom ContextMenu"
+        title:  qsTr("Custom ContextMenu")
 
         content:  Item {
             width: 300
@@ -165,14 +195,14 @@ AppPage {
 
                 TextEntry{
                     width: 250
-                    defaultText:"some entry"
+                    defaultText: qsTr("some entry")
                 }
 
                 Text{
                     width: parent.width
                     font.pixelSize: 20
                     wrapMode: Text.WordWrap
-                    text:  "This is an example of a completely own customizable context menu each page can set."
+                    text:  qsTr("This is an example of a completely own customizable context menu each page can set.")
                 }
             }
         }

@@ -34,7 +34,7 @@ Item {
         horizontalAlignment: "AlignLeft"
         font.pixelSize: parent.height * 0.5
         elide: Text.ElideRight
-        text: "value: "
+        text: qsTr("value: ")
     }
 
     CheckBox {

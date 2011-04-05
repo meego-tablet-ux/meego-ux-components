@@ -15,9 +15,9 @@ import MeeGo.Components 0.1
 Window {
     id: window
 
-    bookMenuModel: [ "Gallery", "Context menu test", "Book 2", "Book 3", "BottomBar", "Fullscreen Test" ]
+    bookMenuModel: [ qsTr("Gallery"), qsTr("Context menu test"), qsTr("Book 2"), qsTr("Book 3"), qsTr("BottomBar"), qsTr("Fullscreen Test") ]
     bookMenuPayload: [ gallery, contextMenuBook, book2, book3, bottomBar, fullScreenPage ]
-    bookMenuTitle: "Book Menu"
+    bookMenuTitle: qsTr("Book Menu")
 
     Component.onCompleted: switchBook( gallery )
 

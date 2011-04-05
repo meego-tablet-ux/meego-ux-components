@@ -298,7 +298,7 @@ Item {
 
                     PropertyChanges {
                         target: statusBar
-                        y: - statusBar.height
+                        y: - statusBar.height - clipBox.height
                     }
                 }
             ]
@@ -467,7 +467,8 @@ Item {
                         id: applicationMenuButton
 
                         anchors.right: spacer2.left
-                        visible: true
+                        visible: bookMenu.height > 0
+
                         source: if( applicationMenuButtonMouseArea.pressed || bookContextMenu.visible ) {
                                     "image://themedimage/icn_toolbar_view_menu_dn"
                                 } else {

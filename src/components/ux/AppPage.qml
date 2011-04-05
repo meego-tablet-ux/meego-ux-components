@@ -99,6 +99,7 @@ Item {
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
     property bool actionMenuOpen: false
+    property bool fullScreen: false
 
     visible: false
 
@@ -120,6 +121,10 @@ Item {
         window.actionMenuModel = actionMenuModel
         window.actionMenuPayload = actionMenuPayload
         window.actionMenuTitle = actionMenuTitle
+    }
+
+    onFullScreenChanged: {
+        window.fullScreen = fullScreen
     }
 
     onActionMenuOpenChanged: {

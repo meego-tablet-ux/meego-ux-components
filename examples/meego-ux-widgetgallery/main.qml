@@ -15,8 +15,8 @@ import MeeGo.Components 0.1
 Window {
     id: window
 
-    bookMenuModel: [ "Gallery", "Context menu test", "Book 2", "Book 3", "BottomBar" ]
-    bookMenuPayload: [ gallery, contextMenuBook, book2, book3, bottomBar ]
+    bookMenuModel: [ "Gallery", "Context menu test", "Book 2", "Book 3", "BottomBar", "Fullscreen Test" ]
+    bookMenuPayload: [ gallery, contextMenuBook, book2, book3, bottomBar, fullScreenPage ]
     bookMenuTitle: "Book Menu"
 
     Component.onCompleted: switchBook( gallery )
@@ -26,4 +26,5 @@ Window {
     Component { id: book2; Book2 {} }
     Component { id: book3; Book3 {} }
     Component { id: bottomBar; WidgetPageBottomBar {} }
+    Component { id: fullScreenPage; WidgetPageFullScreen {} }
 }

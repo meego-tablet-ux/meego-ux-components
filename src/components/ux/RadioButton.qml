@@ -70,8 +70,8 @@ Item {
 
         width: height
         height: parent.height
-        source: root.checked ? "image://theme/widgets/common/radio-button/radio-button-background" :
-                               "image://theme/widgets/common/radio-button/radio-button-background-active"
+        source: root.checked ? "image://theme/widgets/common/radio-button/radio-button-background-active" :
+                               "image://theme/widgets/common/radio-button/radio-button-background"
         smooth:  true
 
         MouseArea {

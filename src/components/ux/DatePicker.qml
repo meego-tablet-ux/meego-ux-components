@@ -514,13 +514,13 @@ ModalDialog {
 
         anchors.fill: parent
         clip:  false
-        source: "image://themedimage/popupbox_2"
+        source: "image://theme/images/popupbox_2"
 
         Image {
             id:titleDivider
 
             anchors { top: parent.top; left: parent.left; right: parent.right }
-            source: "image://themedimage/menu_item_separator"
+            source: "image://theme/images/menu_item_separator"
         } //end of titleDivider
 
         Row {
@@ -604,7 +604,7 @@ ModalDialog {
                 id: calBg
 
                 anchors.fill: parent
-                source:"image://themedimage/notificationBox_bg"
+                source:"image://theme/images/notificationBox_bg"
             }
 
             // displays the currently selected month and offers buttons to switch back and forth between months
@@ -679,7 +679,7 @@ ModalDialog {
 
                 anchors { left: parent.left; right: parent.right; top: monthHeader.bottom }
                 width: parent.width
-                source: "image://themedimage/menu_item_separator"
+                source: "image://theme/images/menu_item_separator"
             } //end of monthDivider
 
             // display the day names as some kind of column titles for the calendarGrid
@@ -725,7 +725,7 @@ ModalDialog {
 
                 anchors.top: dayLabel.bottom
                 width: parent.width
-                source: "image://themedimage/menu_item_separator"
+                source: "image://theme/images/menu_item_separator"
             } //end of dayDivider
 
             Grid {
@@ -819,7 +819,7 @@ ModalDialog {
 
                 anchors.top: parent.top
                 width: parent.width
-                source: "image://themedimage/menu_item_separator"
+                source: "image://theme/images/menu_item_separator"
             } //end of buttonDivider1
 
             Text {

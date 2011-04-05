@@ -116,7 +116,7 @@ Item {
             height: 80
             y: 10
           //  fillMode:Image.PreserveAspectFit
-            source: dinstance.ListView.isCurrentItem? "image://themedimage/media/photos_thumb_white_border":"image://themedimage/media/prv_thumb_sml"
+            source: dinstance.ListView.isCurrentItem? "image://theme/images/media/photos_thumb_white_border":"image://theme/images/media/prv_thumb_sml"
             smooth: true
             clip: true
 

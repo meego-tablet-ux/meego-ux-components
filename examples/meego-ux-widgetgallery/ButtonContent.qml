@@ -135,7 +135,7 @@ Item {
                         IconButton {
                             width: parent.width
                             anchors.centerIn: parent
-                            icon: "image://themedimage/media/icn_addtoalbum_up"
+                            icon: "image://theme/images/media/icn_addtoalbum_up"
                         }
                     }
 

@@ -25,7 +25,7 @@
 
 #include "kernel/systemiconprovider.h"
 #include "kernel/windowiconprovider.h"
-#include "kernel/themedimageprovider.h"
+#include "kernel/themeimageprovider.h"
 #include "kernel/qmldebugtools.h"
 #include "kernel/fuzzydatetime.h"
 #include "kernel/translator.h"
@@ -83,7 +83,7 @@ void MeeGoUxComponentsPlugin::initializeEngine(QDeclarativeEngine *engine, const
     Q_UNUSED(uri);
     engine->addImageProvider("systemicon", new SystemIconProvider);
     engine->addImageProvider("windowicon", new WindowIconProvider);
-    engine->addImageProvider("themedimage", new ThemedImageProvider);
+    engine->addImageProvider("theme", new ThemeImageProvider);
 }
 
 Q_EXPORT_PLUGIN2(components, MeeGoUxComponentsPlugin);

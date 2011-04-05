@@ -105,7 +105,7 @@ Item {
         property bool opened: false
 
         anchors.fill: parent
-        source: (landscape) ? "image://themedimage/navigationBar_l" : "image://themedimage/navigationBar_p"
+        source: "image://theme/widgets/common/action-bar/action-bar-background"
         opacity: 1
     }
 

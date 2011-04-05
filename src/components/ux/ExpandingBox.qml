@@ -125,7 +125,7 @@ Item {
         border.left: 0
         horizontalTileMode: BorderImage.Stretch
         verticalTileMode: BorderImage.Stretch
-        source: "image://themedimage/pulldown_box"
+        source: "image://theme/images/pulldown_box"
 
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a MouseArea to change the expanded state on click
@@ -162,7 +162,7 @@ Item {
                 anchors.right: parent.right
                 anchors.rightMargin: 6
                 anchors.verticalCenter: parent.verticalCenter
-                source:expandingBox.expanded ? "image://themedimage/settings/pulldown_arrow_up" : "image://themedimage/settings/pulldown_arrow_dn"
+                source:expandingBox.expanded ? "image://theme/images/settings/pulldown_arrow_up" : "image://theme/images/settings/pulldown_arrow_dn"
             }
 
             MouseArea {

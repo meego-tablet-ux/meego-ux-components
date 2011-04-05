@@ -103,7 +103,7 @@ ModalDialog {
         border.left: 20
         border.right: 20
         border.bottom: 20
-        source: "image://themedimage/notificationBox_bg"
+        source: "image://theme/widgets/common/notificationBox_bg"
 
         Item {
             id: contactsView
@@ -261,7 +261,7 @@ ModalDialog {
                             height: 50
                             width: parent.width
                             opacity: 1
-                            source: "image://themedimage/contacts/contact_bg_portrait";
+                            source: "image://theme/widgets/common/contacts/contact_bg_portrait";
 
                             Image{
                                 id: photo
@@ -270,7 +270,7 @@ ModalDialog {
                                 smooth: true
                                 width: 50
                                 height: 50
-                                source: ( dataAvatar ? dataAvatar : "image://themedimage/contacts/blank_avatar" )
+                                source: ( dataAvatar ? dataAvatar : "image://theme/widgets/common/contacts/blank_avatar" )
                                 anchors.left: parent.left
                             }
 
@@ -296,7 +296,7 @@ ModalDialog {
                             Image {
                                 id: favorite
 
-                                source: "image://themedimage/contacts/icn_fav_star"
+                                source: "image://theme/widgets/common/contacts/icn_fav_star"
 				height: 10
 				width: 10
                                 opacity: ( dataFavorite == "Favorite" ? 1 : .2 )
@@ -311,13 +311,13 @@ ModalDialog {
 
                                 source: {
                                     if( dataStatus == Presence.Unknown ) {
-                                        return "image://themedimage/contacts/status_idle";
+                                        return "image://theme/widgets/common/contacts/status_idle";
                                     }else if ( dataStatus == Presence.Available ) {
-                                        return "image://themedimage/contacts/status_available";
+                                        return "image://theme/widgets/common/contacts/status_available";
                                     }else if ( dataStatus == Presence.Busy ) {
-                                        return "image://themedimage/contacts/status_busy_sml";
+                                        return "image://theme/widgets/common/contacts/status_busy_sml";
                                     }else {
-                                        return "image://themedimage/contacts/status_idle";
+                                        return "image://theme/widgets/common/contacts/status_idle";
                                     }
                                 }
                                 anchors { horizontalCenter: favorite.horizontalCenter; bottom: photo.bottom; bottomMargin: delegateMargins; rightMargin: delegateMargins; }
@@ -344,7 +344,7 @@ ModalDialog {
 
                             Image {
                                 id: contactDivider
-                                source: "image://themedimage/contacts/contact_divider"
+                                source: "image://theme/widgets/common/contacts/contact_divider"
                                 anchors { right: contactCardPortrait.right; bottom: contactCardPortrait.bottom; left: contactCardPortrait.left; }
                             }
 
@@ -388,7 +388,7 @@ ModalDialog {
                                 height: 30
 
                                 //color: "darkgrey"
-                                source: "image://themedimage/contacts/contact_btmbar_landscape";
+                                source: "image://theme/widgets/common/contacts/contact_btmbar_landscape";
                                 clip: true
 
                                 Text {

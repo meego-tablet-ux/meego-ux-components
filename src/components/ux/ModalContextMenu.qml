@@ -297,7 +297,7 @@ ModalFog {
                 border.bottom: 10
                 border.right:  10
 
-                source: "image://themedimage/menu/menu-background"
+                source: "image://theme/widgets/common/menu/menu-background"
 
                 x: if (menuContainer.fingerMode == 0) {
                     return finger.width
@@ -316,7 +316,7 @@ ModalFog {
 
                 BorderImage {
                     id: shadow
-                    source: "image://themedimage/menu/menu-background-shadow"
+                    source: "image://theme/widgets/common/menu/menu-background-shadow"
 
                     smooth: true
 
@@ -361,7 +361,7 @@ ModalFog {
                     }
 
                     Image {
-                        source: "image://themedimage/menu/menu-item-separator-header"
+                        source: "image://theme/widgets/common/menu/menu-item-separator-header"
                         width: parent.width
 
                         visible: headerText.text.length > 0
@@ -449,7 +449,7 @@ ModalFog {
                     when: menuContainer.fingerMode == 0
                     PropertyChanges {
                         target: finger
-                        source: "image://themedimage/popupbox_arrow_left"
+                        source: "image://theme/widgets/common/menu/menu-arrow-west"
                     }
                 },
                 State {
@@ -457,7 +457,7 @@ ModalFog {
                     when: menuContainer.fingerMode == 1
                     PropertyChanges {
                         target: finger
-                        source: "image://themedimage/popupbox_arrow_right"
+                        source: "image://theme/widgets/common/menu/menu-arrow-east"
                     }
                 },
                 State {
@@ -465,7 +465,7 @@ ModalFog {
                     when: menuContainer.fingerMode == 2
                     PropertyChanges {
                         target: finger
-                        source: "image://themedimage/popupbox_arrow_top"
+                        source: "image://theme/widgets/common/menu/menu-arrow-north"
                     }
                 },
                 State {
@@ -473,7 +473,7 @@ ModalFog {
                     when: menuContainer.fingerMode == 3
                     PropertyChanges {
                         target: finger
-                        source: "image://themedimage/popupbox_arrow_bottom"
+                        source: "image://theme/widgets/common/menu/menu_arrow_south"
                     }
                 }
             ]

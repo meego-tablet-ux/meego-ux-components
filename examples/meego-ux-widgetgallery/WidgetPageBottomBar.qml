@@ -79,15 +79,15 @@ WidgetPage {
                 leftContent: [
                     IconButton {
                         id: button1
-                        icon: "image://themedimage/media/icn_addtoalbum_up"
-                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        icon: "image://theme/images/media/icn_addtoalbum_up"
+                        iconDown: "image://theme/images/media/icn_addtoalbum_dn"
                         width: 60
                         hasBackground: false
                     },
                     IconButton {
                         id: button2
-                        icon: "image://themedimage/media/icn_addtoalbum_up"
-                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        icon: "image://theme/images/media/icn_addtoalbum_up"
+                        iconDown: "image://theme/images/media/icn_addtoalbum_dn"
                         width: 60
                         hasBackground: false
                     }
@@ -106,15 +106,15 @@ WidgetPage {
                 rightContent: [
                     IconButton {
                         id: button5
-                        icon: "image://themedimage/media/icn_addtoalbum_up"
-                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        icon: "image://theme/images/media/icn_addtoalbum_up"
+                        iconDown: "image://theme/images/media/icn_addtoalbum_dn"
                         width: 60
                         hasBackground: false
                     },
                     IconButton {
                         id: button6
-                        icon: "image://themedimage/media/icn_addtoalbum_up"
-                        iconDown: "image://themedimage/media/icn_addtoalbum_dn"
+                        icon: "image://theme/images/media/icn_addtoalbum_up"
+                        iconDown: "image://theme/images/media/icn_addtoalbum_dn"
                         width: 60
                         hasBackground: false
                     }

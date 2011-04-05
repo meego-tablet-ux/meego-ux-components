@@ -310,32 +310,6 @@ Item {
                     easing.type: "OutSine"
                 }
             }
-
-//            states: [
-//                State {
-//                    name: "fullscreen"
-//                    when: window.fullScreen
-
-//                    PropertyChanges {
-//                        target: statusBar
-//                        y: - statusBar.height - clipBox.height
-//                    }
-//                }
-//            ]
-
-//            transitions: [
-//                Transition {
-//                    from: ""
-//                    to: "fullscreen"
-//                    reversible: true
-
-//                    PropertyAnimation {
-//                        properties: "y"
-//                        duration: 250
-//                        easing.type: "OutSine"
-//                    }
-//                }
-//            ]
         } //end of statusBar
 
 	//the toolbar consists of a searchbar and the titlebar. The latter contains menus for navigation and actions.

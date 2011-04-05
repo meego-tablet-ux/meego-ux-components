@@ -27,6 +27,9 @@
   \qmlproperty bool enableCustomActionMenu
   \qmlcm enables custom action menus set by the AppPage.
 
+  \qmlproperty bool fullScreen
+  \qmlcm switches the page to fullscreen on true and back on false
+
   \section2 Private Properties
   \qmlnone
 

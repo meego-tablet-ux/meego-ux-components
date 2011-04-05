@@ -50,6 +50,15 @@ WidgetPage {
         }
     ]
 
+    statusContent: [
+        StatusEntry {
+            id: triggeredBox
+
+            label: "selectedItem:"
+            value: ddown.selectedIndex
+        }
+    ]
+
     description: "This page shows an drop down box. The controls to the left can be used to change the width, "
                  + "height and the title of the box to see how its elements adapt to the new properties. "
                  + "Choosing too small sizes will break the dropdown box."
@@ -64,13 +73,22 @@ WidgetPage {
         DropDown {
             id: ddown
 
-            anchors.centerIn: parent
-            width: 400
+            anchors.top: parent.top
+            anchors.margins: 10
+            anchors.verticalCenter: parent.verticalCenter
+
+            width: 550
+            height: 60
+
             titleText: "DropDown"
             titleTextColor: "black"
 
             model: [  "First choice", "Second choice", "Third choice" ]
             payload: [ 1, 2, 3 ]
+
+            onTriggered: {
+
+            }
 
         }
     }

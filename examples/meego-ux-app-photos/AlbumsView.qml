@@ -138,7 +138,7 @@ Item {
         }
 
         type: photoalbumtype
-        defaultThumbnail: "image://themedimage/media/photo_thumb_default"
+        defaultThumbnail: "image://theme/images/media/photo_thumb_default"
 
         anchors.top: header.visible ? header.bottom : parent.top
         anchors.topMargin: header.visible ? 5 : 0

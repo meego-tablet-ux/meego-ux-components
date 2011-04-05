@@ -27,6 +27,12 @@
   \qmlproperty bool enableCustomActionMenu
   \qmlcm enables custom action menus set by the AppPage.
 
+ \qmlproperty fullScreen
+ \qmlcm bool, hides the statusbar if true.
+
+ \qmlproperty fullContent
+ \qmlcm bool, hides the statusbar and the toolbar if true.
+
   \section2 Private Properties
   \qmlnone
 
@@ -99,6 +105,8 @@ Item {
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
     property bool actionMenuOpen: false
+    property bool fullScreen: false
+    property bool fullContent: false
 
     visible: false
 
@@ -120,6 +128,14 @@ Item {
         window.actionMenuModel = actionMenuModel
         window.actionMenuPayload = actionMenuPayload
         window.actionMenuTitle = actionMenuTitle
+    }
+
+    onFullScreenChanged: {
+        window.fullScreen = fullScreen
+    }
+
+    onFullContentChanged: {
+        window.fullContent = fullContent
     }
 
     onActionMenuOpenChanged: {

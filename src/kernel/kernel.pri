@@ -3,7 +3,7 @@ INCLUDEPATH += kernel/
 SOURCES += \
            kernel/fuzzydatetime.cpp \
            kernel/systemiconprovider.cpp \
-           kernel/themedimageprovider.cpp \
+           kernel/themeimageprovider.cpp \
            kernel/translator.cpp \
            #kernel/valuespacesubscriber.cpp \
            #kernel/valuespacepublisher.cpp \
@@ -15,7 +15,7 @@ SOURCES += \
 HEADERS += \
            kernel/fuzzydatetime.h \
            kernel/systemiconprovider.h \
-           kernel/themedimageprovider.h \
+           kernel/themeimageprovider.h \
            kernel/translator.h \
            #kernel/valuespacesubscriber.h \
            #kernel/valuespacepublisher.h \

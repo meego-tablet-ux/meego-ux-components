@@ -8,11 +8,11 @@
 #include <MGConfItem>
 #include <QDebug>
 
-#include "themedimageprovider.h"
+#include "themeimageprovider.h"
 
 #define THEME_KEY "/meego/ux/theme"
 
-ThemedImageProvider::ThemedImageProvider() :
+ThemeImageProvider::ThemeImageProvider() :
         QDeclarativeImageProvider(QDeclarativeImageProvider::Pixmap)
 {
     themeItem = new MGConfItem(THEME_KEY);
@@ -34,22 +34,19 @@ ThemedImageProvider::ThemedImageProvider() :
     }
 }
 
-ThemedImageProvider::~ThemedImageProvider()
+ThemeImageProvider::~ThemeImageProvider()
 {
     delete themeItem;
 }
 
-QPixmap ThemedImageProvider::requestPixmap(const QString &id, QSize *size,
+QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size,
                                            const QSize &requestedSize)
 {
     QPixmap pixmap;
     int width = requestedSize.width();
     int height = requestedSize.height();
 
-    QString themeDir = QString("/usr/share/themes/") + themeItem->value().toString() + "/images/";
-    if( !QFile::exists(themeDir + id + ".png") ){
-        themeDir = QString("/usr/share/themes/") + themeItem->value().toString() + "/widgets/common/";
-    }
+    QString themeDir = QString("/usr/share/themes/") + themeItem->value().toString() + "/";
 
     //  If we have a custom icon then use it
     if (QFile::exists(themeDir + id + ".png"))

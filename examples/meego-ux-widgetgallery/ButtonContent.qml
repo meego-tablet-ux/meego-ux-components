@@ -83,7 +83,7 @@ Item {
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         Button {
-                            text:  "OK"
+                            text:  qsTr("OK")
 
                             width: parent.width
                             anchors.centerIn: parent
@@ -98,7 +98,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "Button, with customizable size and label."
+                        text: qsTr("Button, with customizable size and label.")
                     }
 
                     Component { id: buttonComponent; WidgetPageButton{} }
@@ -135,7 +135,7 @@ Item {
                         IconButton {
                             width: parent.width
                             anchors.centerIn: parent
-                            icon: "image://themedimage/media/icn_addtoalbum_up"
+                            icon: "image://theme/images/media/icn_addtoalbum_up"
                         }
                     }
 
@@ -147,7 +147,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "IconButton, with customizable size and icons."
+                        text: qsTr("IconButton, with customizable size and icons.")
                     }
 
                     Component { id: iconButtonComponent; WidgetPageIconButton{} }
@@ -186,7 +186,7 @@ Item {
                         RadioButton {
                             anchors.centerIn: parent
 
-                            text: "Radio"
+                            text: qsTr("Radio")
                         }
                     }
 
@@ -198,7 +198,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "RadioButton, can be organized in a RadioGroup."
+                        text: qsTr("RadioButton, can be organized in a RadioGroup.")
                     }
 
                     Component { id: radioComponent; WidgetPageRadioButton{} }
@@ -247,7 +247,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "ToggleButton, with customizable size and labels."
+                        text: qsTr("ToggleButton, with customizable size and labels.")
                     }
 
                     Component { id: toggleButtonComponent; WidgetPageToggleButton{} }
@@ -288,7 +288,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "CheckBox, to set a boolean value."
+                        text: qsTr("CheckBox, to set a boolean value.")
                     }
                 }
 

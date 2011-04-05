@@ -15,7 +15,7 @@ QT += declarative \
 CONFIG += qt \
     plugin \
     mobility \
-    meegotouch \
+    mlite \
     dbus \
     link_pkgconfig \
 

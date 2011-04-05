@@ -102,7 +102,6 @@ Item {
         }
 
         view.currentIndex = focusIndex;
-
         allowSignal = true
     }
 
@@ -192,7 +191,7 @@ Item {
         BorderImage {
             id: spinner
 
-            source: "image://themedimage/pickers/timespinbg"
+            source: "image://theme/images/pickers/timespinbg"
             opacity: 0.5
             anchors.fill: parent
         }
@@ -227,7 +226,7 @@ Item {
             BorderImage {
                 id: innerBgImage
 
-                source:"image://themedimage/pickers/timespinhi"
+                source:"image://theme/images/pickers/timespinhi"
                 anchors.fill: parent
                 opacity: 0.25
             }

@@ -14,11 +14,11 @@ import Qt 4.7
 PageDummy {
     id: pageDummy
 
-    innerText: "book 2, page 1"
+    innerText: qsTr("book 2, page 1")
     rectColor: "lightblue"
     showButton: true
-    buttonLabel: "Page 2"
-    pageTitle: "Dummy book 2"
+    buttonLabel: qsTr("Page 2")
+    pageTitle: qsTr("Dummy book 2")
 
     onClicked: { addPage( page2 ) }
 
@@ -28,11 +28,11 @@ PageDummy {
         PageDummy {
             id: pageDummy2
 
-            innerText: "book 2, page 2"
+            innerText: qsTr("book 2, page 2")
             rectColor: "lightgreen"
             showButton: true
-            buttonLabel: "Page 3"
-            pageTitle: "Dummy book 2"
+            buttonLabel: qsTr("Page 3")
+            pageTitle: qsTr("Dummy book 2")
 
             onClicked: { addPage( page3 )
             }
@@ -45,11 +45,11 @@ PageDummy {
         PageDummy {
             id: pageDummy3
 
-            innerText: "book 2, page 3"
+            innerText: qsTr("book 2, page 3")
             rectColor: "orange"
             showButton: true
-            buttonLabel: "Page 4"
-            pageTitle: "Dummy book 2"
+            buttonLabel: qsTr("Page 4")
+            pageTitle: qsTr("Dummy book 2")
 
             onClicked: { addPage( page4 )
             }
@@ -62,9 +62,9 @@ PageDummy {
         PageDummy {
             id: pageDummy4
 
-            innerText: "book 2, page 4"
+            innerText: qsTr("book 2, page 4")
             rectColor: "darkgrey"
-            pageTitle: "Dummy book 2"
+            pageTitle: qsTr("Dummy book 2")
         }
     }
 }

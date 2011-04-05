@@ -82,6 +82,7 @@ ExpandingBox {
 
     property alias model: actionMenu.model
     property alias payload: actionMenu.payload
+    property int selectedIndex: undefined
 
     signal triggered( int index )
 
@@ -95,11 +96,12 @@ ExpandingBox {
 
         ActionMenu {
             id: actionMenu
-//            anchors.fill: parent
+            anchors.fill: parent
 
             onTriggered: {
                 dropDown.titleText = actionMenu.model[index]
                 dropDown.state = "normal"
+                dropDown.selectedIndex = index
                 dropDown.triggered( index )
             }
         }

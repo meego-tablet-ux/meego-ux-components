@@ -22,7 +22,7 @@ WidgetPage {
     property string pickedThumbUri: "-"
     property string pickedItems: "-"
 
-    pageTitle: "VideoPicker Testing"
+    pageTitle: qsTr("VideoPicker Testing")
 
     controlContent: [
         LabeledEntry {

@@ -192,7 +192,7 @@ Flickable {
 
                     visible: index < repeater.count - 1     // Seperator won't be visible for the last item
 
-                    source: "image://themedimage/menu/menu-item-separator"
+                    source: "image://theme/widgets/common/menu/menu-item-separator"
                 }
 
                 MouseArea {
@@ -232,9 +232,9 @@ Flickable {
         State {
            PropertyChanges {
                 target: container
-                height: ( topItem.topItem.height - topItem.topDecorationHeight ) * 0.8   // defines the maximum height of the ActionMenu
+                height: ( topItem.topHeight - topItem.topDecorationHeight ) * 0.8   // defines the maximum height of the ActionMenu
             }
-           when: layout.height > ( topItem.topheight - topItem.topDecorationHeight ) * 0.8
+           when: layout.height > ( topItem.topHeight - topItem.topDecorationHeight ) * 0.8
         }
     ]
 }

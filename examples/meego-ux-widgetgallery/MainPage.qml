@@ -17,22 +17,18 @@ AppPage {
 
     state: "setters"
 
-    pageTitle: "Book 1, widget gallery"
+    pageTitle: qsTr("Book 1, widget gallery")
 
-    actionMenuModel: [ "Toggle Fullscreen", "Landscape", "Potrait", "Inv. Landscape", "Inv. Potrait" ]
-    actionMenuPayload: [ 0, 1, 2, 3, 4 ]
-    actionMenuTitle: "Action Menu"
+    actionMenuModel: [ qsTr("Landscape"),
+                       qsTr("Potrait"),
+                       qsTr("Inv. Landscape"),
+                       qsTr("Inv. Potrait") ]
+    actionMenuPayload: [  1, 2, 3, 4 ]
+    actionMenuTitle: qsTr("Action Menu")
 
     onActionMenuTriggered: {
 
-        if(selectedItem == 0 ) {
-            if( window.fullScreen ){
-                window.fullScreen = false
-            }
-            else{
-                window.fullScreen = true
-            }
-        } else if( selectedItem == 1) {
+        if( selectedItem == 1) {
             window.orientation = 1
         } else if( selectedItem == 2) {
             window.orientation = 2
@@ -50,9 +46,9 @@ AppPage {
         property int buttonHeight: 60
         property int buttonMargins: 2
 
-        property string activeButtonImage: "image://themedimage/button/button-default"
-        property string buttonImage: "image://themedimage/button/button"
-        property string buttonImagePressed: "image://themedimage/button/button-default-pressed"
+        property string activeButtonImage: "image://theme/widgets/common/button/button-default"
+        property string buttonImage: "image://theme/widgets/common/button/button"
+        property string buttonImagePressed: "image://theme/widgets/common/button/button-default-pressed"
 
         width: 3 * buttonWidth + 4 * buttonMargins
         height: buttonHeight
@@ -65,7 +61,7 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; right: settersButton.left }
-            text: "Buttons"
+            text: qsTr("Buttons")
 
 //            bgSourceUp: (mainPage.state == "buttons") ? contentButtons.activeButtonImage : contentButtons.buttonImage
 //            bgSourceDn: contentButtons.buttonImagePressed
@@ -85,7 +81,7 @@ AppPage {
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; horizontalCenter: parent.horizontalCenter }
 
-            text: "Widgets"
+            text: qsTr("Widgets")
 
             active: true
 
@@ -106,7 +102,7 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; left: settersButton.right }
-            text: "Dialogs"
+            text: qsTr("Dialogs")
 
 //            bgSourceUp: (mainPage.state == "pickers") ? contentButtons.activeButtonImage : contentButtons.buttonImage
 //            bgSourceDn: contentButtons.buttonImagePressed

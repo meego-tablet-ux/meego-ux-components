@@ -142,11 +142,11 @@ ModalFog {
     property string title: ""
     property bool aligneTitleCenter: false
 
-    property string cancelButtonImage: "image://themedimage/button/button"
-    property string cancelButtonImagePressed: "image://themedimage/button/button-pressed"
+    property string cancelButtonImage: "image://theme/widgets/common/button/button"
+    property string cancelButtonImagePressed: "image://theme/widgets/common/button/button-pressed"
 
-    property string acceptButtonImage: "image://themedimage/button/button-default"
-    property string acceptButtonImagePressed: "image://themedimage/button/button-default-pressed"
+    property string acceptButtonImage: "image://theme/widgets/common/button/button-default"
+    property string acceptButtonImagePressed: "image://theme/widgets/common/button/button-default-pressed"
 
     property int leftMargin: 0
     property int rightMargin: 0
@@ -179,7 +179,7 @@ ModalFog {
         border.bottom: 64
         border.right:  6
 
-        source: "image://themedimage/modal-dialog/modal-dialog-background"
+        source: "image://theme/widgets/common/modal-dialog/modal-dialog-background"
 
         clip: true
 

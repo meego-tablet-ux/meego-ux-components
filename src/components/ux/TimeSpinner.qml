@@ -145,7 +145,7 @@ Rectangle {
         BorderImage {
             id: bgImage
 
-            source: "image://themedimage/pickers/timespinbg"
+            source: "image://theme/images/pickers/timespinbg"
             anchors.fill: parent
             opacity: 0.5
         }
@@ -175,7 +175,7 @@ Rectangle {
             BorderImage {
                 id: innerBgImage
 
-                source: "image://themedimage/pickers/timespinhi"
+                source: "image://theme/images/pickers/timespinhi"
                 anchors.fill: parent
                 opacity:0.25
             }

@@ -52,19 +52,22 @@
  \qmlcm string list that sets the filenames for the books (their initial pages).
 
  \qmlproperty alias actionMenuModel
- \qmlcm string list that sets the menu entry labels for the actionMenu
+ \qmlcm string list that sets the menu entry labels for the actionMenu.
 
  \qmlproperty actionMenuPayload
- \qmlcm variant, sets payload for the actionMenu
+ \qmlcm variant, sets payload for the actionMenu.
 
- \qmlproperty fullscreen
- \qmlcm bool, sets if the statusbar is shown or not
+ \qmlproperty fullScreen
+ \qmlcm bool, hides the statusbar if true.
+
+ \qmlproperty fullContent
+ \qmlcm bool, hides the statusbar and the toolbar if true.
 
  \qmlproperty bool actionMenuActive
- \qmlcm activates/deactivates the windowMenuButton
+ \qmlcm activates/deactivates the windowMenuButton.
 
  \qmlproperty bool orientationLocked
- \qmlcm bool, indicates if oriention was
+ \qmlcm bool, indicates if oriention was locked.
 
  \section1 Private Properties
  \qmlproperty pageStack, statusBar, toolBar and actionMenu are convenient properties if
@@ -171,6 +174,7 @@ Item {
     property alias actionMenuTitle: pageContextMenu.title
 
     property bool fullScreen: false
+    property bool fullContent: false
     property bool actionMenuPresent: false
 
     property bool inLandscape: true
@@ -286,36 +290,26 @@ Item {
             id: statusBar
 
             x: 0
-            y: 0
+            y: if( fullContent ){
+                   - statusBar.height - clipBox.height
+               }
+               else if( fullScreen ){
+                   - statusBar.height
+               }
+               else{
+                   0
+               }
             width: window_content_topitem.width
             height: 30
             z: 1
 
-            states: [
-                State {
-                    name: "fullscreen"
-                    when: window.fullScreen
+            Behavior on y {
+                PropertyAnimation {
 
-                    PropertyChanges {
-                        target: statusBar
-                        y: - statusBar.height
-                    }
+                    duration: 250
+                    easing.type: "OutSine"
                 }
-            ]
-
-            transitions: [
-                Transition {
-                    from: ""
-                    to: "fullscreen"
-                    reversible: true
-
-                    PropertyAnimation {
-                        properties: "y"
-                        duration: 250
-                        easing.type: "OutSine"
-                    }
-                }
-            ]
+            }
         } //end of statusBar
 
 	//the toolbar consists of a searchbar and the titlebar. The latter contains menus for navigation and actions.
@@ -362,7 +356,7 @@ Item {
 
                     height: 50
                     width: parent.width
-                    source: "image://themedimage/titlebar_l"
+                    source: "image://theme/widgets/common/toolbar/toolbar-background"
                     anchors.top:  parent.top
 
                     TextEntry {
@@ -380,7 +374,7 @@ Item {
                     anchors.top: searchTitleBar.bottom
                     width: parent.width
                     height: backButton.height
-                    source: "image://themedimage/titlebar_l"
+                    source: "image://theme/widgets/common/toolbar/toolbar-background"
 
                     MouseArea {
                         id: titleBarArea
@@ -417,9 +411,9 @@ Item {
 
                         anchors.left: parent.left
                         source: if( backButtonMouseArea.pressed ) {
-                                    "image://themedimage/icn_toolbar_back_button_dn"
+                                    "image://theme/images/icn_toolbar_back_button_dn"
                                 } else {
-                                    "image://themedimage/icn_toolbar_back_button_up"
+                                    "image://theme/images/icn_toolbar_back_button_up"
                                 }
                         visible: toolBar.showBackButton
 
@@ -436,7 +430,7 @@ Item {
 
                         visible: backButton.visible
                         anchors.left: backButton.right
-                        source: "image://themedimage/icn_toolbar_button_divider"
+                        source: "image://theme/widgets/common/toolbar/toolbar-item-separator"
                     }
 
                     Text {
@@ -459,7 +453,7 @@ Item {
 
                         anchors.right: applicationMenuButton.left
                         visible: applicationMenuButton.visible
-                        source: "image://themedimage/icn_toolbar_button_divider"
+                        source: "image://theme/widgets/common/toolbar/toolbar-item-separator"
                     }
 
                     //the application menu is used to switch between "books"
@@ -467,11 +461,12 @@ Item {
                         id: applicationMenuButton
 
                         anchors.right: spacer2.left
-                        visible: true
+                        visible: bookMenu.height > 0
+
                         source: if( applicationMenuButtonMouseArea.pressed || bookContextMenu.visible ) {
-                                    "image://themedimage/icn_toolbar_view_menu_dn"
+                                    "image://theme/images/icn_toolbar_view_menu_dn"
                                 } else {
-                                    "image://themedimage/icn_toolbar_view_menu_up"
+                                    "image://theme/images/icn_toolbar_view_menu_up"
                                 }
 
                         MouseArea {
@@ -506,7 +501,7 @@ Item {
 
                         anchors.right: windowMenuButton.left
                         visible: windowMenuButton.visible
-                        source: "image://themedimage/icn_toolbar_button_divider"
+                        source: "image://theme/widgets/common/toolbar/toolbar-item-separator"
                     }
 
                     //the window menu is used to perform actions on the current page
@@ -517,9 +512,9 @@ Item {
                         visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
 
                         source: if( windowMenuButtonMouseArea.pressed || window.actionMenuPresent) {
-                                    "image://themedimage/icn_toolbar_applicationpage_menu_dn"
+                                    "image://theme/images/icn_toolbar_applicationpage_menu_dn"
                                 } else {
-                                    "image://themedimage/icn_toolbar_applicationpage_menu_up"
+                                    "image://theme/images/icn_toolbar_applicationpage_menu_up"
                                 }
 
                         MouseArea {

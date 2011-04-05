@@ -19,13 +19,13 @@ WidgetPage {
     property string lastSignal: "none"
     property string contactName: "-"
 
-    pageTitle: "ContactsPicker Testing"
+    pageTitle: qsTr("ContactsPicker Testing")
 
     controlContent: [
         LabeledEntry {
             id: widthEntry
 
-            label:  "width: "
+            label:  qsTr("width: ")
             defaultValue: contactsPicker.width
 
             onTextUpdated: {
@@ -38,7 +38,7 @@ WidgetPage {
         LabeledEntry {
             id: heightEntry
 
-            label:  "height: "
+            label:  qsTr("height: ")
             defaultValue: contactsPicker.height
 
             onTextUpdated: {
@@ -53,21 +53,21 @@ WidgetPage {
         StatusEntry {
             id: lastSignalBox
 
-            label: "Last signal sent:"
+            label: qsTr("Last signal sent:")
             value: lastSignal
         },
         StatusEntry {
             id: nameBox
 
-            label: "Contact name:"
+            label: qsTr("Contact name:")
             value: contactName
         }
     ]
 
-    description: "The ContactsPicker provides a modal dialog in which the user can choose a "
+    description: qsTr("The ContactsPicker provides a modal dialog in which the user can choose a "
                   + "contact. The 'Ok' button is disabled until a selection was made. "
                   + "On 'Ok'-clicked, the emitted signal provides the selected contact. A double click automatically "
-                  + "closes the dialog and emits an accepted signal. <br>"
+                  + "closes the dialog and emits an accepted signal. <br>")
 
 
     widget: Button {
@@ -76,14 +76,14 @@ WidgetPage {
         anchors.centerIn: parent
         width:  300
         height:  80
-        text: "Show ContactsPicker"
+        text: qsTr("Show ContactsPicker")
 
         onClicked: {
             contactsPicker.show()
         }
     }
 
-    ContactsPicker {
+   /* ContactsPicker {
         id: contactsPicker
 
         width: 600
@@ -97,6 +97,6 @@ WidgetPage {
             lastSignal = "rejected"
             contactName = "-"
         }
-    }
+    } */
 }
 

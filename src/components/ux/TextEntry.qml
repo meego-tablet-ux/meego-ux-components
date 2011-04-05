@@ -64,7 +64,7 @@ BorderImage {
     border.right: 6
 
     height: 50
-    source: (input.focus && !readOnly) ? "image://themedimage/text-area/text-area-background-active" : "image://themedimage/text-area/text-area-background"
+    source: (input.focus && !readOnly) ? "image://theme/widgets/common/text-area/text-area-background-active" : "image://theme/widgets/common/text-area/text-area-background"
 
     opacity: readOnly ? 0.5 : 1.0
 

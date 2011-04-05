@@ -47,7 +47,7 @@ AppPage {
                 color: "silver"
 
                 Text {
-                    text: "API Properties"
+                    text: qsTr("API Properties")
                     font.pixelSize: 26
                     anchors.top: parent.top
                     anchors.left: parent.left
@@ -103,7 +103,7 @@ AppPage {
                     Text {
                         id: descriptionText
 
-                        text: "Put description here..."
+                        text: qsTr("Put description here...")
                         font.pixelSize: 20
                         anchors.top: parent.top
                         anchors.left: parent.left

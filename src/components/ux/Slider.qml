@@ -118,7 +118,7 @@ Item {
             container.sliderChanged( value )
         }
 
-        source: "image://themedimage/slider/slider-background"
+        source: "image://theme/widgets/common/slider/slider-background"
         border.left:  6
         border.right: 6
         anchors.left: parent.left
@@ -145,7 +145,7 @@ Item {
 
             border.left: 6
             border.right: 6
-            source: "image://themedimage/slider/slider-bar"
+            source: "image://theme/widgets/common/slider/slider-bar"
         }
 
         //bar growing/shrinking with the marker to hightlight the range selected by the slider
@@ -154,7 +154,7 @@ Item {
 
             border.left: 6
             border.right: 6
-            source: "image://themedimage/slider/slider-bar"
+            source: "image://theme/widgets/common/slider/slider-bar"
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             width: marker.x + marker.width * 0.5
@@ -173,7 +173,7 @@ Item {
             id: marker
 
             anchors.centerIn: centerItem
-            source: "image://themedimage/slider/slider-handle" //"image://themedimage/scrub_head_lrg"
+            source: "image://theme/widgets/common/slider/slider-handle" //"image://theme/widgets/common/scrub_head_lrg"
             width: sourceSize.width
             height: width
             smooth: true

@@ -52,19 +52,22 @@
  \qmlcm string list that sets the filenames for the books (their initial pages).
 
  \qmlproperty alias actionMenuModel
- \qmlcm string list that sets the menu entry labels for the actionMenu
+ \qmlcm string list that sets the menu entry labels for the actionMenu.
 
  \qmlproperty actionMenuPayload
- \qmlcm variant, sets payload for the actionMenu
+ \qmlcm variant, sets payload for the actionMenu.
 
- \qmlproperty fullscreen
- \qmlcm bool, sets if the statusbar is shown or not
+ \qmlproperty fullScreen
+ \qmlcm bool, hides the statusbar if true.
+
+ \qmlproperty fullContent
+ \qmlcm bool, hides the statusbar and the toolbar if true.
 
  \qmlproperty bool actionMenuActive
- \qmlcm activates/deactivates the windowMenuButton
+ \qmlcm activates/deactivates the windowMenuButton.
 
  \qmlproperty bool orientationLocked
- \qmlcm bool, indicates if oriention was
+ \qmlcm bool, indicates if oriention was locked.
 
  \section1 Private Properties
  \qmlproperty pageStack, statusBar, toolBar and actionMenu are convenient properties if
@@ -171,6 +174,7 @@ Item {
     property alias actionMenuTitle: pageContextMenu.title
 
     property bool fullScreen: false
+    property bool fullContent: false
     property bool actionMenuPresent: false
 
     property bool inLandscape: true
@@ -286,36 +290,52 @@ Item {
             id: statusBar
 
             x: 0
-            y: 0
+            y: if( fullContent ){
+                   - statusBar.height - clipBox.height
+               }
+               else if( fullScreen ){
+                   - statusBar.height
+               }
+               else{
+                   0
+               }
             width: window_content_topitem.width
             height: 30
             z: 1
 
-            states: [
-                State {
-                    name: "fullscreen"
-                    when: window.fullScreen
+            Behavior on y {
+                PropertyAnimation {
 
-                    PropertyChanges {
-                        target: statusBar
-                        y: - statusBar.height - clipBox.height
-                    }
+                    duration: 250
+                    easing.type: "OutSine"
                 }
-            ]
+            }
 
-            transitions: [
-                Transition {
-                    from: ""
-                    to: "fullscreen"
-                    reversible: true
+//            states: [
+//                State {
+//                    name: "fullscreen"
+//                    when: window.fullScreen
 
-                    PropertyAnimation {
-                        properties: "y"
-                        duration: 250
-                        easing.type: "OutSine"
-                    }
-                }
-            ]
+//                    PropertyChanges {
+//                        target: statusBar
+//                        y: - statusBar.height - clipBox.height
+//                    }
+//                }
+//            ]
+
+//            transitions: [
+//                Transition {
+//                    from: ""
+//                    to: "fullscreen"
+//                    reversible: true
+
+//                    PropertyAnimation {
+//                        properties: "y"
+//                        duration: 250
+//                        easing.type: "OutSine"
+//                    }
+//                }
+//            ]
         } //end of statusBar
 
 	//the toolbar consists of a searchbar and the titlebar. The latter contains menus for navigation and actions.

@@ -19,7 +19,7 @@ WidgetPage {
 
     controlContent: [
         Item {
-            id: widthEntry
+            id: fullScreenBox
 
             anchors { left: parent.left; right: parent.right }
             height:  50
@@ -44,29 +44,71 @@ WidgetPage {
                 elide: Text.ElideRight
                 text: widgetPage.fullScreen
             }
+        },
 
+        Item {
+            id: fullContentBox
 
+            anchors { left: parent.left; right: parent.right }
+            height:  50
+
+            Text {
+                id: label2
+
+                anchors { left: parent.left; right: parent.horizontalCenter; top: parent.top; bottom: parent.bottom; margins: 5 }
+                verticalAlignment: "AlignVCenter"
+                horizontalAlignment: "AlignLeft"
+                font.pixelSize: parent.height * 0.5
+                elide: Text.ElideRight
+                text: qsTr("fullContent: " )
+            }
+
+            Text {
+                id: textEntry2
+
+                anchors { left: parent.horizontalCenter; right: parent.right; top: parent.top; bottom: parent.bottom; margins: 5 }
+                verticalAlignment: "AlignVCenter"
+                font.pixelSize: parent.height * 0.5
+                elide: Text.ElideRight
+                text: widgetPage.fullContent
+            }
         }
     ]
 
-    description: qsTr("Here you can test the fullscreen mode.")
+    description: qsTr("Here you can test the different fullscreen modes.")
 
     widget: Flickable {
 
         anchors.fill: parent
-        contentHeight: height > ebox1.height ? height : ebox1.height
-        contentWidth: width > ebox1.width ? width : ebox1.width
+        contentHeight: height > buttonBox.height ? height : buttonBox.height
+        contentWidth: width > buttonBox.width ? width : buttonBox.width
         clip: true
 
-        Button {
-            id: ebox1
+        Column{
+            id: buttonBox
 
             anchors.centerIn: parent
+            spacing: 10
+            Button {
+                id: ebox1
 
-            text: widgetPage.fullScreen ? "End Fullscreen" : "Fullscreen"
 
-            onClicked: {
-                widgetPage.fullScreen = widgetPage.fullScreen ? false : true
+                text: widgetPage.fullScreen ? qsTr("End Fullscreen") : qsTr("Fullscreen")
+
+                onClicked: {
+                    widgetPage.fullScreen = widgetPage.fullScreen ? false : true
+                }
+            }
+
+            Button {
+                id: ebox2
+
+
+                text: widgetPage.fullContent ? qsTr("End FullContent") : qsTr("FullContent")
+
+                onClicked: {
+                    widgetPage.fullContent = widgetPage.fullContent ? false : true
+                }
             }
         }
     }

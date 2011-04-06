@@ -99,7 +99,7 @@ Item {
     Image {
         anchors.centerIn: parent
         opacity: container.showClock ? 0.0 : 1.0
-//        source:  "image://meegotheme/icons/statusbar/locked"
+        source:  "image://theme/icons/statusbar/locked"
     }
 
     NotificationIndicator {
@@ -112,23 +112,24 @@ Item {
         }
     }
     Image {
-      id:musicPlayingIcon
-      anchors.right: notificationIndicator.left
-//      source: "image://meegotheme/icons/actionbar/media-play" 
-      height: volumeIndicator.paintedHeight
-      width: volumeIndicator.paintedWidth     
-      visible: musicIndicator.state == "playing" 
+        id:musicPlayingIcon
+        anchors.right: notificationIndicator.left
+        source: "image://theme/icons/actionbar/media-play"
+        height: volumeIndicator.paintedHeight
+        width: volumeIndicator.paintedWidth
+        visible: musicIndicator.state == "playing"
     }
     MusicIndicator {
-      id: musicIndicator  
-      onStateChanged: {
-	musicPlayingIcon.visible = state == "playing" ? 1 : 0;
-      }
+        id: musicIndicator
+        onStateChanged: {
+            musicPlayingIcon.visible = state == "playing" ? 1 : 0;
+        }
     }
+
     Image {
         id: volumeIndicator
         anchors.right: batteryIndicator.left
-//        source: "image://meegotheme/icons/statusbar/volume-muted"
+        source: "image://theme/icons/statusbar/volume-muted"
 
         property variant controller: null
         property bool active: container.active
@@ -136,21 +137,21 @@ Item {
         function updateVolumeGraphic() {
             if (controller.mute)
             {
-//                source = "image://meegotheme/icons/statusbar/volume-muted";
+                source = "image://theme/icons/statusbar/volume-muted";
             }
             else
             {
                 if (controller.volume > 66)
                 {
-//                    source = "image://meegotheme/icons/statusbar/volume-high";
+                    source = "image://theme/icons/statusbar/volume-high";
                 }
                 else if (controller.volume > 33)
                 {
-//                    source = "image://meegotheme/icons/statusbar/volume-medium";
+                    source = "image://theme/icons/statusbar/volume-medium";
                 }
                 else
                 {
-//                    source = "image://meegotheme/icons/statusbar/volume-low";
+                    source = "image://theme/icons/statusbar/volume-low";
                 }
             }
         }

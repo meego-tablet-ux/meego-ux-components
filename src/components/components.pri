@@ -9,9 +9,8 @@ SOURCES +=  \
     components/bluetoothindicator.cpp \
     components/notificationindicator.cpp \
     components/localtime.cpp \
-    components/musicindicator.cpp \
-    components/musicserviceproxy.cpp \
-    components/networkindicator.cpp #\
+    components/musicindicator.cpp \    
+    components/networkindicator.cpp #\    
     # components/theme.cpp
 
 HEADERS +=  \
@@ -21,7 +20,6 @@ HEADERS +=  \
     components/bluetoothindicator.h \
     components/localtime.h \
     components/notificationindicator.h \
-    components/musicindicator.h \
-    components/musicserviceproxy.h \
+    components/musicindicator.h \    
     components/networkindicator.h #\
     # components/theme.h

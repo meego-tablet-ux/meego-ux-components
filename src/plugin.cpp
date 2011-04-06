@@ -14,14 +14,17 @@
 //#include "kernel/valuespacepublisher.h"
 //#include "kernel/valuespacesubscriber.h"
 
+#include "kernel/musicserviceproxy.h"
+
 #include "components/volumecontrol.h"
 #include "components/batteryindicator.h"
 #include "components/bluetoothindicator.h"
 #include "components/networkindicator.h"
 #include "components/notificationindicator.h"
+#include "components/musicindicator.h"
 #include "components/gesturearea.h"
 #include "components/localtime.h"
-#include "components/musicindicator.h"
+
 //#include "components/theme.h"
 
 #include "kernel/systemiconprovider.h"

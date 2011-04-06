@@ -46,9 +46,9 @@ AppPage {
         property int buttonHeight: 60
         property int buttonMargins: 2
 
-        property string activeButtonImage: "image://theme/widgets/common/button/button-default"
-        property string buttonImage: "image://theme/widgets/common/button/button"
-        property string buttonImagePressed: "image://theme/widgets/common/button/button-default-pressed"
+        property string activeButtonImage: "image://themedimage/widgets/common/button/button-default"
+        property string buttonImage: "image://themedimage/widgets/common/button/button"
+        property string buttonImagePressed: "image://themedimage/widgets/common/button/button-default-pressed"
 
         width: 3 * buttonWidth + 4 * buttonMargins
         height: buttonHeight

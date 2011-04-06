@@ -139,6 +139,3 @@ $ cd doc
 $ qdoc3 meego-ux-components.qdocconf
 The documentation will be created in doc/html/meego-ux-components.html
 
-
-Written by Dennis Wadkien, 16nd March 2011
-Mail: dennis.wadkien@basyskom.de

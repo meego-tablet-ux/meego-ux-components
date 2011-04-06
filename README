@@ -24,8 +24,7 @@ $ qmake
 $ make install
 
 You can find detailed documentation in the qml-files themselves, create
-documentation files via qdoc3, see on bottom, and on:
- https://otcshare.org/meego-tablet/node/831
+documentation files via qdoc3 (see on bottom) or "make doc".
 
 - Examples for meego-ux-components -
 ===============================

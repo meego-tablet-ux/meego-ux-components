@@ -22,3 +22,8 @@ dist.commands += lupdate $${TRANSLATIONS} -ts $${PROJECT_NAME}-$${VERSION}/ts/$$
 dist.commands += tar jcpvf $${PROJECT_NAME}-$${VERSION}.tar.bz2 $${PROJECT_NAME}-$${VERSION}
 QMAKE_EXTRA_TARGETS += dist
 
+doc.depends += FORCE
+doc.commands += cd doc &&
+doc.commands += qdoc3 meego-ux-components.qdocconf &&
+doc.commands += echo "Documentation created in \$pwd/html/meego-ux-components.hmtl"
+QMAKE_EXTRA_TARGETS += doc

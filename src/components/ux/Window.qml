@@ -356,7 +356,7 @@ Item {
 
                     height: 50
                     width: parent.width
-                    source: "image://theme/widgets/common/toolbar/toolbar-background"
+                    source: "image://themedimage/widgets/common/toolbar/toolbar-background"
                     anchors.top:  parent.top
 
                     TextEntry {
@@ -374,7 +374,7 @@ Item {
                     anchors.top: searchTitleBar.bottom
                     width: parent.width
                     height: backButton.height
-                    source: "image://theme/widgets/common/toolbar/toolbar-background"
+                    source: "image://themedimage/widgets/common/toolbar/toolbar-background"
 
                     MouseArea {
                         id: titleBarArea
@@ -411,9 +411,9 @@ Item {
 
                         anchors.left: parent.left
                         source: if( backButtonMouseArea.pressed ) {
-                                    "image://theme/images/icn_toolbar_back_button_dn"
+                                    "image://themedimage/images/icn_toolbar_back_button_dn"
                                 } else {
-                                    "image://theme/images/icn_toolbar_back_button_up"
+                                    "image://themedimage/images/icn_toolbar_back_button_up"
                                 }
                         visible: toolBar.showBackButton
 
@@ -430,7 +430,7 @@ Item {
 
                         visible: backButton.visible
                         anchors.left: backButton.right
-                        source: "image://theme/widgets/common/toolbar/toolbar-item-separator"
+                        source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
                     }
 
                     Text {
@@ -453,7 +453,7 @@ Item {
 
                         anchors.right: applicationMenuButton.left
                         visible: applicationMenuButton.visible
-                        source: "image://theme/widgets/common/toolbar/toolbar-item-separator"
+                        source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
                     }
 
                     //the application menu is used to switch between "books"
@@ -464,9 +464,9 @@ Item {
                         visible: bookMenu.height > 0
 
                         source: if( applicationMenuButtonMouseArea.pressed || bookContextMenu.visible ) {
-                                    "image://theme/images/icn_toolbar_view_menu_dn"
+                                    "image://themedimage/images/icn_toolbar_view_menu_dn"
                                 } else {
-                                    "image://theme/images/icn_toolbar_view_menu_up"
+                                    "image://themedimage/images/icn_toolbar_view_menu_up"
                                 }
 
                         MouseArea {
@@ -501,7 +501,7 @@ Item {
 
                         anchors.right: windowMenuButton.left
                         visible: windowMenuButton.visible
-                        source: "image://theme/widgets/common/toolbar/toolbar-item-separator"
+                        source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
                     }
 
                     //the window menu is used to perform actions on the current page
@@ -512,9 +512,9 @@ Item {
                         visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
 
                         source: if( windowMenuButtonMouseArea.pressed || window.actionMenuPresent) {
-                                    "image://theme/images/icn_toolbar_applicationpage_menu_dn"
+                                    "image://themedimage/images/icn_toolbar_applicationpage_menu_dn"
                                 } else {
-                                    "image://theme/images/icn_toolbar_applicationpage_menu_up"
+                                    "image://themedimage/images/icn_toolbar_applicationpage_menu_up"
                                 }
 
                         MouseArea {

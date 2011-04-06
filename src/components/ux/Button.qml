@@ -68,9 +68,9 @@ Item {
 
     property alias text: buttonText.text
     property alias font: buttonText.font
-    property string bgSourceUp: "image://theme/widgets/common/button/button"
-    property string bgSourceDn: "image://theme/widgets/common/button/button-pressed"
-    property string bgSourceActive: "image://theme/widgets/common/button/button-default"
+    property string bgSourceUp: "image://themedimage/widgets/common/button/button"
+    property string bgSourceDn: "image://themedimage/widgets/common/button/button-pressed"
+    property string bgSourceActive: "image://themedimage/widgets/common/button/button-default"
     property bool elideText: false
     property bool active: false
     property bool pressed: false

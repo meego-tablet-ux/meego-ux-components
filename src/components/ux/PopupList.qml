@@ -191,7 +191,7 @@ Item {
         BorderImage {
             id: spinner
 
-            source: "image://theme/images/pickers/timespinbg"
+            source: "image://themedimage/images/pickers/timespinbg"
             opacity: 0.5
             anchors.fill: parent
         }
@@ -226,7 +226,7 @@ Item {
             BorderImage {
                 id: innerBgImage
 
-                source:"image://theme/images/pickers/timespinhi"
+                source:"image://themedimage/images/pickers/timespinhi"
                 anchors.fill: parent
                 opacity: 0.25
             }

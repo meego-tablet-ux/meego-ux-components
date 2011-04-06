@@ -56,7 +56,7 @@ BorderImage{
     border.bottom: 4
     border.right:  4
 
-    source: "image://theme/widgets/common/progress-bar/progress-bar-backgound"
+    source: "image://themedimage/widgets/common/progress-bar/progress-bar-backgound"
 
     Theme { id: theme }
 
@@ -72,7 +72,7 @@ BorderImage{
         border.bottom: 4
         border.right:  4
 
-        source: "image://theme/widgets/common/progress-bar/progress-bar-fill"
+        source: "image://themedimage/widgets/common/progress-bar/progress-bar-fill"
 
         anchors { top: container.top; bottom: container.bottom; left: parent.left }
 

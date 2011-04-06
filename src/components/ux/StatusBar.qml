@@ -75,13 +75,13 @@ Item {
     }
     Row {
         anchors.left: parent.left
-       // NetworkIndicator {
-       //     active: container.active
-       // }
-       // BluetoothIndicator {
-       //     hideOnActiveNetwork: true
-       //     active: container.active
-       // }
+        //NetworkIndicator {
+        //    active: container.active
+        //}
+        //BluetoothIndicator {
+        //    hideOnActiveNetwork: true
+        //    active: container.active
+        //}
     }
     Text {
         anchors.centerIn: parent
@@ -170,15 +170,14 @@ Item {
 
         Component {
             id: volumeControlComponent
-//            VolumeControl {       // This seems to randomly crash on start up
-//                onMute: {
-//                    volumeIndicator.updateVolumeGraphic();
-//                }
-//                onVolumeChanged: {
-//                    volumeIndicator.updateVolumeGraphic();
-//                }
-//            }
-            Item{}
+            VolumeControl {
+                onMute: {
+                    volumeIndicator.updateVolumeGraphic();
+                }
+                onVolumeChanged: {
+                    volumeIndicator.updateVolumeGraphic();
+                }
+            }
         }
     }
 

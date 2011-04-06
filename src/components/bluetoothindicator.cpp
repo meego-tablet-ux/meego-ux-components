@@ -7,11 +7,14 @@
 #include <contextsubscriber/contextproperty.h>
 
 BluetoothIndicator::BluetoothIndicator(QDeclarativeItem *parent) :
-    QDeclarativeItem(parent),
+    QDeclarativeItem(parent),    
     m_activeBluetoothNetwork(false),
     m_hideOnActiveNetwork(true),
     m_active(false)
 {
+    m_networkTypeProperty = NULL;
+    m_bluetoothEnabledProperty = NULL;
+
     setFlag(QGraphicsItem::ItemHasNoContents, false);
 
     m_themeItem = new MGConfItem("/meego/ux/theme");
@@ -20,6 +23,27 @@ BluetoothIndicator::BluetoothIndicator(QDeclarativeItem *parent) :
     themeUpdated();
 
     setActive(true);
+}
+BluetoothIndicator::~BluetoothIndicator()
+{
+    delete m_themeItem;
+    m_themeItem = NULL;
+
+    if (m_bluetoothEnabledProperty)
+    {
+        m_bluetoothEnabledProperty->unsubscribe();
+        disconnect(m_bluetoothEnabledProperty);
+        delete m_bluetoothEnabledProperty;
+        m_bluetoothEnabledProperty = 0;
+    }
+
+    if (m_networkTypeProperty)
+    {
+        m_networkTypeProperty->unsubscribe();
+        disconnect(m_networkTypeProperty);
+        delete m_networkTypeProperty;
+        m_networkTypeProperty = 0;
+    }
 }
 
 void BluetoothIndicator::setActive(bool active)
@@ -40,6 +64,7 @@ void BluetoothIndicator::setActive(bool active)
     {
         if (m_bluetoothEnabledProperty)
         {
+            m_bluetoothEnabledProperty->unsubscribe();
             disconnect(m_bluetoothEnabledProperty);
             delete m_bluetoothEnabledProperty;
             m_bluetoothEnabledProperty = 0;
@@ -47,6 +72,7 @@ void BluetoothIndicator::setActive(bool active)
 
         if (m_networkTypeProperty)
         {
+            m_networkTypeProperty->unsubscribe();
             disconnect(m_networkTypeProperty);
             delete m_networkTypeProperty;
             m_networkTypeProperty = 0;
@@ -64,7 +90,7 @@ void BluetoothIndicator::networkTypeUpdated()
     if (!m_hideOnActiveNetwork)
         return;
 
-    if (m_networkTypeProperty->value().toString() == "bluetooth")
+    if (m_networkTypeProperty && m_networkTypeProperty->value().toString() == "bluetooth")
     {
         m_activeBluetoothNetwork = true;
         QGraphicsItem::update(boundingRect());
@@ -83,7 +109,7 @@ void BluetoothIndicator::paint(QPainter *p, const QStyleOptionGraphicsItem *, QW
     if (!m_active)
         return;
 
-    if (m_bluetoothEnabledProperty->value().toBool() &&
+    if (m_bluetoothEnabledProperty != NULL && m_bluetoothEnabledProperty->value().toBool() &&
             (!m_hideOnActiveNetwork || !m_activeBluetoothNetwork))
     {
         p->drawPixmap(0, 0, m_pixmap);
@@ -107,4 +133,5 @@ void BluetoothIndicator::themeUpdated()
 }
 
 QML_DECLARE_TYPE(BluetoothIndicator);
+
 

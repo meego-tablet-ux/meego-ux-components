@@ -26,10 +26,21 @@ VolumeControl::VolumeControl(QObject* parent)
 :QObject(parent)
 {
 	if(m_instance) delete m_instance;
-	m_instance = this;
+            m_instance = this;
 
-	initPulse();
+            initPulse();
 }
+
+VolumeControl::~VolumeControl()
+{
+    m_mainloop = NULL;
+    m_context = NULL;
+
+    if( m_sink )
+        delete m_sink;
+
+}
+
 
 void VolumeControl::initPulse()
 {

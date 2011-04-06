@@ -10,6 +10,9 @@
 
 NetworkIndicator::NetworkIndicator(QDeclarativeItem *parent) :
     QDeclarativeItem(parent),
+    m_networkTypeProperty(NULL),
+    m_networkStateProperty(NULL),
+    m_signalStrengthProperty(NULL),
     m_active(false)
 {
     setFlag(QGraphicsItem::ItemHasNoContents, false);
@@ -20,6 +23,35 @@ NetworkIndicator::NetworkIndicator(QDeclarativeItem *parent) :
     themeUpdated();
     setActive(true);
 }
+NetworkIndicator::~NetworkIndicator()
+{
+    delete m_themeItem;
+    m_themeItem = NULL;
+
+    if (m_networkTypeProperty)
+    {
+        m_networkTypeProperty->unsubscribe();
+        disconnect(m_networkTypeProperty);
+        delete m_networkTypeProperty;
+        m_networkTypeProperty = 0;
+    }
+
+    if (m_networkStateProperty)
+    {
+        m_networkStateProperty->unsubscribe();
+        disconnect(m_networkStateProperty);
+        delete m_networkStateProperty;
+        m_networkStateProperty = 0;
+    }
+
+    if (m_signalStrengthProperty)
+    {
+        m_signalStrengthProperty->unsubscribe();
+        disconnect(m_signalStrengthProperty);
+        delete m_signalStrengthProperty;
+        m_signalStrengthProperty = 0;
+    }
+}
 
 void NetworkIndicator::setActive(bool active)
 {
@@ -29,8 +61,8 @@ void NetworkIndicator::setActive(bool active)
     m_active = active;
     if (m_active)
     {
-        m_networkTypeProperty = new ContextProperty("Internet.NetworkType", this);
-        connect(m_networkTypeProperty, SIGNAL(valueChanged()), this, SLOT(updateIcon()));
+        //m_networkTypeProperty = new ContextProperty("Internet.NetworkType", this);
+        //connect(m_networkTypeProperty, SIGNAL(valueChanged()), this, SLOT(updateIcon()));
 
         m_networkStateProperty = new ContextProperty("Internet.NetworkState", this);
         connect(m_networkStateProperty, SIGNAL(valueChanged()), this, SLOT(updateIcon()));
@@ -42,6 +74,7 @@ void NetworkIndicator::setActive(bool active)
     {
         if (m_networkTypeProperty)
         {
+            m_networkTypeProperty->unsubscribe();
             disconnect(m_networkTypeProperty);
             delete m_networkTypeProperty;
             m_networkTypeProperty = 0;
@@ -49,6 +82,7 @@ void NetworkIndicator::setActive(bool active)
 
         if (m_networkStateProperty)
         {
+            m_networkStateProperty->unsubscribe();
             disconnect(m_networkStateProperty);
             delete m_networkStateProperty;
             m_networkStateProperty = 0;
@@ -56,6 +90,7 @@ void NetworkIndicator::setActive(bool active)
 
         if (m_signalStrengthProperty)
         {
+            m_signalStrengthProperty->unsubscribe();
             disconnect(m_signalStrengthProperty);
             delete m_signalStrengthProperty;
             m_signalStrengthProperty = 0;

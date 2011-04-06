@@ -15,6 +15,8 @@ class BluetoothIndicator : public QDeclarativeItem
     Q_PROPERTY(bool hideOnActiveNetwork READ getHideOnActiveNetwork WRITE setHideOnActiveNetwork)
 public:
     explicit BluetoothIndicator(QDeclarativeItem *parent = 0);
+    virtual ~BluetoothIndicator();
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     bool getHideOnActiveNetwork() {

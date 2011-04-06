@@ -14,6 +14,7 @@ class NetworkIndicator : public QDeclarativeItem
     Q_PROPERTY(bool active READ getActive WRITE setActive)
 public:
     explicit NetworkIndicator(QDeclarativeItem *parent = 0);
+    virtual ~NetworkIndicator();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     enum NetworkType {

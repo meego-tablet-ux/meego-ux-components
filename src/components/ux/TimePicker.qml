@@ -17,7 +17,7 @@
 
   \section2  API properties
   \qmlproperty int hours
-  \qmlcm currently selected hours
+  \qmlcm currently selected hours.  This value is from 0-23, regardless of the value of hr24
 
   \qmlproperty int minutes
   \qmlcm currently selected minutes
@@ -30,7 +30,7 @@
          and followed by the content of the property ampm
 
   \qmlproperty bool hr24
-  \qmlcm set to true if 24 hour system (am, pm) should be used
+  \qmlcm set to true if 24 hour system should be used.  Default is false (12 hr am/pm)
 
   \qmlproperty int minutesIncrement
   \qmlcm sets the step width used to select minutes
@@ -77,12 +77,13 @@ ModalDialog {
     property int minutes: 0
     property string minutesPadded: ( minutes < 10 ? "0" : "" ) + minutes
     property string ampm: ""
-    property string time: hours + ":" + minutesPadded + " " + ampm
+    property string time: hours + ":" + minutesPadded + ampm
 
     property bool hr24: false
     property int minutesIncrement: 1
 
     property bool oldToggleState: false
+
 
     aligneTitleCenter: true
 
@@ -97,13 +98,17 @@ ModalDialog {
 
     // if ok button is clicked, store the selected time
     onAccepted:  {
-        hours = hourSpinner.value
         minutes = minutesSpinner.value
+	var timeFormat = "h:mm"
         if( !hr24 ) {
-            ampm = ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel;
+            ampm = " " + (ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel);
+	    timeFormat = "h:mm AP"
         }else {
             ampm = ""
         }
+        hours = hourSpinner.value
+	time = hours + ":" + minutesPadded + ampm;
+	hours = hr24 ? hours : ((ampmToggle.on) ? ((hours==12)?0:hours):((hours<12)?(hours+12):hours))
     }
 
     // if cancel button is clicked, restore the old values
@@ -112,7 +117,7 @@ ModalDialog {
         minutesSpinner.setValue( minutes )
         ampmToggle.on = oldToggleState
         if( !hr24 ) {
-            ampm = ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel;
+            ampm = " " + (ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel);
         }else {
             ampm = ""
         }

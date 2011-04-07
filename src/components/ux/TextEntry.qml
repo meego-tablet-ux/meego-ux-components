@@ -104,7 +104,7 @@ BorderImage {
         Connections {
             target: input
             onTextChanged: {
-                fakeText.visible = (input.text == "")
+                fakeText.visible = (input.text == "" && firstUsage)
             }
         }
     }

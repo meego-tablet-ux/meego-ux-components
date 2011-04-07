@@ -118,6 +118,11 @@ Item {
     width: parent.width
     height: 20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height ) //pulldownImage.height
 
+    onWidthChanged: {
+        actionMenu.maxWidth = width * 0.9
+        actionMenu.minWidth = width * 0.9
+    }
+
     // the border image is the background graphic for the header and the content
     BorderImage {
         id: pulldownImage
@@ -178,8 +183,8 @@ Item {
                     opened = !opened;
                     if( opened ) {
                         contextMenu.setPosition(
-                            mapToItem( topItem.topItem, mouseX, mouseY ).x,
-                            mapToItem( topItem.topItem, mouseX, mouseY ).y  )
+                            mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+                            mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
                         contextMenu.show()
                     } else {
                         contextMenu.hide()
@@ -193,10 +198,11 @@ Item {
 
             id: contextMenu
 
-            forceFingerMode: -1
+            forceFingerMode: 1
 
             content: ActionMenu {
                 id: actionMenu
+
                 onTriggered: {
                     dropDown.triggered( index )
                     dropDown.opened = false                    
@@ -205,11 +211,29 @@ Item {
                     if( dropDown.replaceTitleOnSelection )
                         dropDown.title = model[index]
                 }
+
+                minWidth: dropDown.width * 0.9
+                maxWidth: dropDown.width * 0.9
             }
 
             onFogHideFinished: {
                 dropDown.opened = false
             }
         }    
+    }
+
+    TopItem {
+        id: topItem
+
+        onOrientationChangeFinished: {
+            contextMenu.setPosition(
+                mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+                mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+        }
+        onGeometryChanged: {
+            contextMenu.setPosition(
+            mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+            mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+        }
     }
 }

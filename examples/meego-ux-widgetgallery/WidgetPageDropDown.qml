@@ -42,7 +42,7 @@ WidgetPage {
             id: titleText
 
             label: "titleText: "
-            defaultValue: ddown.titleText
+            defaultValue: ddown.title
 
             onTextUpdated: {
                 ddown.title = value;
@@ -79,8 +79,8 @@ WidgetPage {
             titleColor: "black"
 
             width: 400
-            minWidth: 400
-            maxWidth: 440
+//            minWidth: 400
+//            maxWidth: 440
 
             model: [  "First choice", "Second choice", "Third choice" ]
             payload: [ 1, 2, 3 ]

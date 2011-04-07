@@ -29,7 +29,15 @@
   \qmlnone
 
   \section2 Signals
-  \qmlnone
+  \qmlfn orientationChangeFinished
+  \qmlcm is sent when the orientation has changed.
+
+  \qmlfn geometryChanged
+  \qmlcm is sent when the geometry has changed
+        \param real newWidth
+        \qmlpcm the new width \endparam
+        \param real newHeight
+        \qmlpcm the new height \endparam
 
   \section2 Functions
       \qmlfn calcTopParent
@@ -68,7 +76,7 @@ Item {
     property int topDecorationHeight
 
     signal orientationChangeFinished()
-    signal ping
+    signal geometryChanged( real newWidth, real newHeight )
 
     topDecorationHeight: {
        try {
@@ -109,8 +117,14 @@ Item {
             top.calcTopParent()
             top.orientationChangeFinished()
         }
-        onWidthChanged: { top.calcTopParent() }
-        onHeightChanged: { top.calcTopParent() }
+        onWidthChanged: {
+            top.calcTopParent()
+            geometryChanged( top.topWidth, top.topHeight )
+        }
+        onHeightChanged: {
+            top.calcTopParent()
+            geometryChanged( top.topWidth, top.topHeight )
+        }
     }
 
 

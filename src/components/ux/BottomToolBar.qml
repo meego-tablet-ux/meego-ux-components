@@ -105,7 +105,7 @@ Item {
         property bool opened: false
 
         anchors.fill: parent
-        source: "image://theme/widgets/common/action-bar/action-bar-background"
+        source: "image://themedimage/widgets/common/action-bar/action-bar-background"
         opacity: 1
     }
 

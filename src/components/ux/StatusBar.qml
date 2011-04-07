@@ -99,7 +99,7 @@ Item {
     Image {
         anchors.centerIn: parent
         opacity: container.showClock ? 0.0 : 1.0
-        source:  "image://theme/icons/statusbar/locked"
+        source:  "image://themedimage/icons/statusbar/locked"
     }
 
     NotificationIndicator {
@@ -114,7 +114,7 @@ Item {
     Image {
         id:musicPlayingIcon
         anchors.right: notificationIndicator.left
-        source: "image://theme/icons/actionbar/media-play"
+        source: "image://themedimage/icons/actionbar/media-play"
         height: volumeIndicator.paintedHeight
         width: volumeIndicator.paintedWidth
         visible: musicIndicator.state == "playing"
@@ -129,7 +129,7 @@ Item {
     Image {
         id: volumeIndicator
         anchors.right: batteryIndicator.left
-        source: "image://theme/icons/statusbar/volume-muted"
+        source: "image://themedimage/icons/statusbar/volume-muted"
 
         property variant controller: null
         property bool active: container.active
@@ -137,21 +137,21 @@ Item {
         function updateVolumeGraphic() {
             if (controller.mute)
             {
-                source = "image://theme/icons/statusbar/volume-muted";
+                source = "image://themedimage/icons/statusbar/volume-muted";
             }
             else
             {
                 if (controller.volume > 66)
                 {
-                    source = "image://theme/icons/statusbar/volume-high";
+                    source = "image://themedimage/icons/statusbar/volume-high";
                 }
                 else if (controller.volume > 33)
                 {
-                    source = "image://theme/icons/statusbar/volume-medium";
+                    source = "image://themedimage/icons/statusbar/volume-medium";
                 }
                 else
                 {
-                    source = "image://theme/icons/statusbar/volume-low";
+                    source = "image://themedimage/icons/statusbar/volume-low";
                 }
             }
         }

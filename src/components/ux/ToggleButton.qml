@@ -85,7 +85,7 @@ Image {
     width: sourceSize.width
     height: sourceSize.height
 
-    source: "image://theme/widgets/common/lightswitch/lightswitch-background"
+    source: "image://themedimage/widgets/common/lightswitch/lightswitch-background"
 
     MouseArea {
         id: toggleElementArea
@@ -162,7 +162,7 @@ Image {
         id: toggleElement
 
         z: 0
-        source: "image://theme/widgets/common/lightswitch/lightswitch-handle"
+        source: "image://themedimage/widgets/common/lightswitch/lightswitch-handle"
         anchors.verticalCenter: parent.verticalCenter
         height: parent.height
         width:  height
@@ -175,7 +175,7 @@ Image {
 
         z: 1
         opacity:  1
-        source: "image://theme/widgets/common/lightswitch/lightswitch-handle-disabled"
+        source: "image://themedimage/widgets/common/lightswitch/lightswitch-handle-disabled"
         anchors.centerIn: toggleElement
         height: parent.height
         width:  height

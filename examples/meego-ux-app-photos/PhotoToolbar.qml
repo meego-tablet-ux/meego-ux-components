@@ -58,8 +58,8 @@
 
             opacity: mode == 0 ? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_back_up"
-            iconDown: "image://theme/images/media/icn_back_dn"
+            icon: "image://themedimage/images/media/icn_back_up"
+            iconDown: "image://themedimage/images/media/icn_back_dn"
             onClicked: container.prev()
         }
         IconButton {
@@ -67,8 +67,8 @@
 
             opacity: mode == 0 | mode == 1 ? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/icn_play_up"
-            iconDown: "image://theme/images/icn_play_dn"
+            icon: "image://themedimage/images/icn_play_up"
+            iconDown: "image://themedimage/images/icn_play_dn"
             onClicked: container.play()
         }
         IconButton {
@@ -76,8 +76,8 @@
 
             opacity: mode == 0 ? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_forward_up"
-            iconDown: "image://theme/images/media/icn_forward_dn"
+            icon: "image://themedimage/images/media/icn_forward_up"
+            iconDown: "image://themedimage/images/media/icn_forward_dn"
             onClicked: container.next()
         }
     }
@@ -103,24 +103,24 @@
             id: trashButton
 
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_trash_up"
-            iconDown: "image://theme/images/media/icn_trash_dn"
+            icon: "image://themedimage/images/media/icn_trash_up"
+            iconDown: "image://themedimage/images/media/icn_trash_dn"
             onClicked: container.deleteSelected()
         }
         IconButton {
             id: addButton
 
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_addtoalbum_up"
-            iconDown: "image://theme/images/media/icn_addtoalbum_dn"
+            icon: "image://themedimage/images/media/icn_addtoalbum_up"
+            iconDown: "image://themedimage/images/media/icn_addtoalbum_dn"
             onClicked: container.addToAlbum()
         }
 
         IconButton {
             id: cancelButton
 
-            icon: "image://theme/images/media/icn_cancel_ms_up"
-            iconDown: "image://theme/images/media/icn_cancel_ms_dn"
+            icon: "image://themedimage/images/media/icn_cancel_ms_up"
+            iconDown: "image://themedimage/images/media/icn_cancel_ms_dn"
             onClicked: container.cancel()
         }
     }
@@ -133,8 +133,8 @@
 
         opacity: mode == 0 ? 1.0 : 0.0
         anchors { verticalCenter: parent.verticalCenter; left: parent.left; leftMargin: 10 }
-        icon: "image://theme/images/media/icn_rotate_cw_up"
-        iconDown: "image://theme/images/media/icn_rotate_cw_dn"
+        icon: "image://themedimage/images/media/icn_rotate_cw_up"
+        iconDown: "image://themedimage/images/media/icn_rotate_cw_dn"
         onClicked: container.rotateRight()
     }
     \endqml
@@ -170,7 +170,7 @@ Item {
         id: backgroundImage
 
         anchors.fill: parent
-        source: "image://theme/images/media/nextbox_landscape"
+        source: "image://themedimage/images/media/nextbox_landscape"
         border.top: 10
         border.bottom:10
         border.left: 10
@@ -189,8 +189,8 @@ Item {
 
             opacity: mode == 0 ? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_back_up"
-            iconDown: "image://theme/images/media/icn_back_dn"
+            icon: "image://themedimage/images/media/icn_back_up"
+            iconDown: "image://themedimage/images/media/icn_back_dn"
             hasBackground: false
             width: 100
 
@@ -201,8 +201,8 @@ Item {
 
             opacity: mode == 0 | mode == 1 ? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/icn_play_up"
-            iconDown: "image://theme/images/icn_play_dn"
+            icon: "image://themedimage/images/icn_play_up"
+            iconDown: "image://themedimage/images/icn_play_dn"
             hasBackground: false
             width: 100
 
@@ -213,8 +213,8 @@ Item {
 
             opacity: mode == 0 ? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_forward_up"
-            iconDown: "image://theme/images/media/icn_forward_dn"
+            icon: "image://themedimage/images/media/icn_forward_up"
+            iconDown: "image://themedimage/images/media/icn_forward_dn"
             hasBackground: false
             width: 100
 
@@ -234,8 +234,8 @@ Item {
             id: trashButton
 
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_trash_up"
-            iconDown: "image://theme/images/media/icn_trash_dn"
+            icon: "image://themedimage/images/media/icn_trash_up"
+            iconDown: "image://themedimage/images/media/icn_trash_dn"
             hasBackground: false
             width: 100
 
@@ -245,8 +245,8 @@ Item {
             id: addButton
 
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_addtoalbum_up"
-            iconDown: "image://theme/images/media/icn_addtoalbum_dn"
+            icon: "image://themedimage/images/media/icn_addtoalbum_up"
+            iconDown: "image://themedimage/images/media/icn_addtoalbum_dn"
             hasBackground: false
             width: 100
 
@@ -257,8 +257,8 @@ Item {
             id: cancelButton
 
             anchors.verticalCenter: parent.verticalCenter
-            icon: "image://theme/images/media/icn_cancel_ms_up"
-            iconDown: "image://theme/images/media/icn_cancel_ms_dn"
+            icon: "image://themedimage/images/media/icn_cancel_ms_up"
+            iconDown: "image://themedimage/images/media/icn_cancel_ms_dn"
             hasBackground: false
             width: 100
 
@@ -272,8 +272,8 @@ Item {
         opacity: mode == 0 ? 1.0 : 0.0
         anchors { verticalCenter: parent.verticalCenter; left: parent.left; }
         anchors.leftMargin: ( parent.width - 500 ) / 6  // 5 buttons should be possible, so substract 5 * IconButton.width divided by 5+1
-        icon: "image://theme/images/media/icn_rotate_cw_up"
-        iconDown: "image://theme/images/media/icn_rotate_cw_dn"
+        icon: "image://themedimage/images/media/icn_rotate_cw_up"
+        iconDown: "image://themedimage/images/media/icn_rotate_cw_dn"
 
         width: 100
         hasBackground: false

@@ -137,8 +137,8 @@ WidgetPage {
             width: 160
             height: 80
 
-            icon: "image://theme/images/media/icn_addtoalbum_up"
-            iconDown: "image://theme/images/media/icn_addtoalbum_dn"
+            icon: "image://themedimage/images/media/icn_addtoalbum_up"
+            iconDown: "image://themedimage/images/media/icn_addtoalbum_dn"
 
             onPressedChanged: { if( pressed ) { statusEntry.value = "pressed" } else { statusEntry.value = "released" } }
         }

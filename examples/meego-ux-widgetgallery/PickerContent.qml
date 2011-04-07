@@ -163,38 +163,38 @@ Item {
                 id: buttonModel
 
                 ListElement {
-                    listIcon: "image://theme/widgets/common/camera/camera_lens_sm_up"
-                    listIconDown: "image://theme/widgets/common/camera/camera_lens_sm_dn"
+                    listIcon: "image://themedimage/widgets/common/camera/camera_lens_sm_up"
+                    listIconDown: "image://themedimage/widgets/common/camera/camera_lens_sm_dn"
                     pickerType: "photo"
                     legend: "PhotoPicker, to choose from a list of images or albums."
                 }
                 ListElement {
-                    listIcon: "image://theme/widgets/common/camera/camera_lens_sm_up"
-                    listIconDown: "image://theme/widgets/common/camera/camera_lens_sm_dn"
+                    listIcon: "image://themedimage/widgets/common/camera/camera_lens_sm_up"
+                    listIconDown: "image://themedimage/widgets/common/camera/camera_lens_sm_dn"
                     pickerType: "video"
                     legend: "VideoPicker, to choose from a list of videos."
                 }
                 ListElement {
-                    listIcon: "image://theme/widgets/common/camera/camera_lens_sm_up"
-                    listIconDown: "image://theme/widgets/common/camera/camera_lens_sm_dn"
+                    listIcon: "image://themedimage/widgets/common/camera/camera_lens_sm_up"
+                    listIconDown: "image://themedimage/widgets/common/camera/camera_lens_sm_dn"
                     pickerType: "music"
                     legend: "MusicPicker, to choose from a list of music files."
                 }
                 ListElement {
-                    listIcon: "image://theme/widgets/common/camera/camera_lens_sm_up"
-                    listIconDown: "image://theme/widgets/common/camera/camera_lens_sm_dn"
+                    listIcon: "image://themedimage/widgets/common/camera/camera_lens_sm_up"
+                    listIconDown: "image://themedimage/widgets/common/camera/camera_lens_sm_dn"
                     pickerType: "date"
                     legend: "DatePicker, to choose or set a date."
                 }
                 ListElement {
-                    listIcon: "image://theme/widgets/common/camera/camera_lens_sm_up"
-                    listIconDown: "image://theme/widgets/common/camera/camera_lens_sm_dn"
+                    listIcon: "image://themedimage/widgets/common/camera/camera_lens_sm_up"
+                    listIconDown: "image://themedimage/widgets/common/camera/camera_lens_sm_dn"
                     pickerType: "time"
                     legend: "TimePicker, to choose or set a time."
                 }
                 ListElement {
-                    listIcon: "image://theme/widgets/common/camera/camera_lens_sm_up"
-                    listIconDown: "image://theme/widgets/common/camera/camera_lens_sm_dn"
+                    listIcon: "image://themedimage/widgets/common/camera/camera_lens_sm_up"
+                    listIconDown: "image://themedimage/widgets/common/camera/camera_lens_sm_dn"
                     pickerType: "message"
                     legend: "Message box, to display a message in a dialog."
                 }

@@ -45,8 +45,8 @@ Item {
     // checkbox' image
     Image {
 
-        property string checkbox_background: "image://theme/widgets/common/checkbox/checkbox-background" // "image://theme/widgets/common/btn_tickbox_dn"
-        property string checkbox_background_active: "image://theme/widgets/common/checkbox/checkbox-background-active"// "image://theme/widgets/common/btn_tickbox_up"
+        property string checkbox_background: "image://themedimage/widgets/common/checkbox/checkbox-background" // "image://themedimage/widgets/common/btn_tickbox_dn"
+        property string checkbox_background_active: "image://themedimage/widgets/common/checkbox/checkbox-background-active"// "image://themedimage/widgets/common/btn_tickbox_up"
 
         id: checkIcon
         source: checkBox.isChecked ? checkbox_background_active : checkbox_background

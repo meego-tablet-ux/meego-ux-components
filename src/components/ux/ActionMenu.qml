@@ -192,7 +192,7 @@ Flickable {
 
                     visible: index < repeater.count - 1     // Seperator won't be visible for the last item
 
-                    source: "image://theme/widgets/common/menu/menu-item-separator"
+                    source: "image://themedimage/widgets/common/menu/menu-item-separator"
                 }
 
                 MouseArea {

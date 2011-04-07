@@ -43,7 +43,7 @@ ModalFog {
 
     modalSurface: Image {
         id: spinnerImage
-        source: "image://theme/widgets/common/spinner"
+        source: "image://themedimage/widgets/common/spinner"
         width: 40
         height: 40
         smooth: true

@@ -56,7 +56,7 @@ BorderImage {
     property alias wrapMode: labelText.wrapMode
     property alias font: labelText.font
 	
-    property string background : "image://theme/widgets/common/menu/menu-background"
+    property string background : "image://themedimage/widgets/common/menu/menu-background"
 
     source: background
     border.top: 10

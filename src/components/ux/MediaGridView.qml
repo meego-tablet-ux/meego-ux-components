@@ -175,7 +175,7 @@ GridView {
         height: gridView.cellHeight
         asynchronous: true
 
-//        source: "image://theme/images/media/photos_thumb_med"
+//        source: "image://themedimage/images/media/photos_thumb_med"
         clip: true
 
         mtitle:{
@@ -275,7 +275,7 @@ GridView {
             Rectangle {
                 id: textBackground
 
-//                source: "image://theme/images/media/music_text_bg_med"
+//                source: "image://themedimage/images/media/music_text_bg_med"
 //                asynchronous: true
 
 //                border{ left: 3; right: 3; top: 3; bottom: 3 }
@@ -357,7 +357,7 @@ GridView {
                 asynchronous: true
                 width: parent.width - 2 * frameBorderWidth
                 height: parent.height - 2 * frameBorderWidth
-                source: "image://theme/images/media/photos_selected_tick"
+                source: "image://themedimage/images/media/photos_selected_tick"
                 visible: false
                 smooth: true
             }
@@ -391,7 +391,7 @@ GridView {
                 when: !selectionMode && !mouseArea.pressed
                 PropertyChanges {
                     target: frame
-                    source: "image://theme/images/media/photos_thumb_med"
+                    source: "image://themedimage/images/media/photos_thumb_med"
                 }
             },
             State {

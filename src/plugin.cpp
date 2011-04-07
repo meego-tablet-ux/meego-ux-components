@@ -88,7 +88,7 @@ void MeeGoUxComponentsPlugin::initializeEngine(QDeclarativeEngine *engine, const
     Q_UNUSED(uri);
     engine->addImageProvider("systemicon", new SystemIconProvider);
     engine->addImageProvider("windowicon", new WindowIconProvider);
-    engine->addImageProvider("theme", new ThemeImageProvider);
+    engine->addImageProvider("themedimage", new ThemeImageProvider);
 }
 
 Q_EXPORT_PLUGIN2(components, MeeGoUxComponentsPlugin);

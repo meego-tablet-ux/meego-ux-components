@@ -79,8 +79,8 @@ Item {
     property alias iconFillMode: image.fillMode
 
     property bool hasBackground: true
-    property string bgSourceUp: "image://theme/widgets/common/button/button"
-    property string bgSourceDn: "image://theme/widgets/common/button/button-pressed"
+    property string bgSourceUp: "image://themedimage/widgets/common/button/button"
+    property string bgSourceDn: "image://themedimage/widgets/common/button/button-pressed"
 
     property bool active: true
     property bool pressed: false

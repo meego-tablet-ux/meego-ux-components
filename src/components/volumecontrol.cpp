@@ -25,19 +25,27 @@ void contextStateCallback(pa_context* c, void* );
 VolumeControl::VolumeControl(QObject* parent)
 :QObject(parent)
 {
-	if(m_instance) delete m_instance;
-            m_instance = this;
+    if(m_instance) delete m_instance;
+        m_instance = this;
 
-            initPulse();
+    initPulse();
 }
 
 VolumeControl::~VolumeControl()
-{
-    m_mainloop = NULL;
+{    
+    cleanup();
+
+    pa_context_disconnect( m_context );
+    pa_context_unref(m_context);
     m_context = NULL;
+
+    pa_glib_mainloop_free(m_mainloop);
+    m_mainloop = NULL;
 
     if( m_sink )
         delete m_sink;
+
+    m_instance = NULL;
 
 }
 
@@ -108,22 +116,25 @@ void pulseSinkInfoCallback(pa_context *c, const pa_sink_info *info, int eol, voi
 
 	if(!info)
 	{
-		qDebug("pulse gave us a NULL info pointer. fail");
+            qDebug("pulse gave us a NULL info pointer. fail");
 	}
 
-	if(info && !m_instance->sink())
-	{
-		m_instance->setSink(info);
-		qDebug()<<"sink name: "<<m_instance->sink()->name();
-		m_instance->update();
-	}
+        if(m_instance ) {
 
-	else if(info && QString(info->name) == m_instance->sink()->name())
-	{
-		m_instance->sink()->update(info);
-		m_instance->update();
-	}
+            if(info && !m_instance->sink())
+            {
+                m_instance->setSink(info);
+                qDebug()<<"sink name: "<<m_instance->sink()->name();
+                m_instance->update();
+            }
 
+            else if(info && QString(info->name) == m_instance->sink()->name())
+            {
+                m_instance->sink()->update(info);
+                m_instance->update();
+            }
+
+        }
 }
 
 void contextStateCallback(pa_context* c, void* )
@@ -131,12 +142,12 @@ void contextStateCallback(pa_context* c, void* )
 	pa_context_state_t state = pa_context_get_state(c);
 	if( state == PA_CONTEXT_READY)
 	{
-		m_instance->updateSink();
-		m_instance->setSubscribeCallback();
+            m_instance->updateSink();
+            m_instance->setSubscribeCallback();
 	}
 	else
 	{
-		qDebug()<<"PA state: "<<(int) state;
+            qDebug()<<"PA state: "<<(int) state;
 	}
 }
 
@@ -174,7 +185,7 @@ void VolumeControl::update()
 	pa_volume_t vol = pa_cvolume_avg(&tempvol);
 	double volval = ((double) vol * 100) / PA_VOLUME_NORM;
 
-	qDebug()<<"new mute value:"<<sink()->mute();
+        qDebug() <<"new mute value:"<< sink()->mute();
 
 	muteChanged(sink()->mute());
 	m_volume = volval;
@@ -206,7 +217,7 @@ void VolumeControl::mute(bool muted)
 {
 	if (sink() != NULL) {
 		pa_operation_unref(pa_context_set_sink_mute_by_name(m_context, sink()->name().toAscii().data(),
-															muted, NULL, NULL));
+                                                                                                                        muted, NULL, NULL));
 	}
 }
 

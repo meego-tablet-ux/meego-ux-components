@@ -53,9 +53,10 @@ public:
         virtual ~VolumeControl();
         Sink* sink(){ return m_sink; }
 
-        void setSink(const pa_sink_info *info)
+        void setSink( const pa_sink_info *info )
         {
-            if(!m_sink) m_sink = new Sink(info);
+            if(!m_sink)
+                m_sink = new Sink(info);
             else m_sink->update(info);
         }
 

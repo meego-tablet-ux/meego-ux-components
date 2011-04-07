@@ -73,24 +73,34 @@ WidgetPage {
         DropDown {
             id: ddown
 
-            anchors.top: parent.top
-            anchors.margins: 10
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.centerIn: parent
 
-            width: 550
-            height: 60
+            title: "DropDown"
+            titleColor: "black"
 
-            titleText: "DropDown"
-            titleTextColor: "black"
+            width: 400
+            minWidth: 400
+            maxWidth: 440
 
             model: [  "First choice", "Second choice", "Third choice" ]
             payload: [ 1, 2, 3 ]
 
-            onTriggered: {
+            iconRow: [
+                Image {
+                    height: parent.height * 0.9
+                    anchors.verticalCenter: parent.verticalCenter
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://theme/camera/camera_lens_sm_up"
+                }
+            ]
 
+            onTriggered: {
+                triggeredBox.value = index
             }
 
         }
+
+
     }
 
     TopItem {

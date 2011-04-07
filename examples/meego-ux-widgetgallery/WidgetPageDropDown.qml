@@ -90,7 +90,7 @@ WidgetPage {
                     height: parent.height * 0.9
                     anchors.verticalCenter: parent.verticalCenter
                     fillMode: Image.PreserveAspectFit
-                    source: "image://themedimage/camera/camera_lens_sm_up"
+                    source: "image://themedimage/images/camera/camera_lens_sm_up"
                 }
             ]
 

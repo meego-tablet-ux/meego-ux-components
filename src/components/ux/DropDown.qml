@@ -18,23 +18,29 @@
   The behaviour isn't final because detailed specifications are missing.
 
   \section2 API properties
-  \qmlproperty bool expanded
-  \qmlcm true if the box is currently expanded
+  \qmlproperty bool opened
+  \qmlcm true if the dropdown is currently opened
 
   \qmlproperty alias iconContent
   \qmlcm area to put a row of icons
 
-  \qmlproperty string titleText
+  \qmlproperty string title
   \qmlcm sets the text shown on the header
 
-  \qmlproperty string titleTextColor
+  \qmlproperty string titleColor
   \qmlcm sets the color of the text shown on the header
 
-  \qmlproperty component detailsComponent
-  \qmlcm contains the content to be created
+  \qmlproperty alias model
+  \qmlcm contains the model of the ActionMenu
 
-  \qmlproperty item detailsItem
-  \qmlcm stores the contents when created
+  \qmlproperty alias payload
+  \qmlcm contains the payload of the ActionMenu
+
+  \qmlproperty int minWidth
+  \qmlcm  int, the minimum width of the ActionMenu.
+
+  \qmlproperty int maxWidth
+  \qmlcm  int, the maximum width of the ActionMenu. Text that exceeds the maximum width will be elided.
 
   \section2  Private properties
   \qmlnone
@@ -45,21 +51,45 @@
         \param bool expanded
         \qmlpcm indicates if the box is expanded or not \endparam
 
+  \qmlfn triggered
+  \qmlcm returns the index of the clicked entry.
+        \param int parameter
+        \qmlpcm index of the currentItem. \endparam
+
   \section2 Functions
   \qmlnone
 
   \section2 Example
   \qml
       DropDown {
-          id: DropDown
+            id: ddown
 
-          width: 200
-          titleText: "DropDown"
-          titleTextColor: "black"
-          anchors.centerIn:  parent
+            anchors.centerIn: parent
 
+            title: "DropDown"
+            titleColor: "black"
 
-      }
+            width: 400
+            minWidth: 400
+            maxWidth: 440
+
+            model: [  "First choice", "Second choice", "Third choice" ]
+            payload: [ 1, 2, 3 ]
+
+            iconRow: [
+                Image {
+                    height: parent.height * 0.9
+                    anchors.verticalCenter: parent.verticalCenter
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://themedimage/images/camera/camera_lens_sm_up"
+                }
+            ]
+
+            onTriggered: {
+
+            }
+
+        }
   \endqml
 */
 
@@ -84,7 +114,6 @@ Item {
 
     signal triggered( int index )
     signal expandingChanged( bool expanded )
-
 
     width: parent.width
     height: 20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height ) //pulldownImage.height
@@ -155,6 +184,7 @@ Item {
                     } else {
                         contextMenu.hide()
                     }
+                    expandingChanged( opened )
                 }
             }
         }

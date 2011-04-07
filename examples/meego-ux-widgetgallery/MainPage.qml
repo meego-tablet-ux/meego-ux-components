@@ -20,9 +20,9 @@ AppPage {
     pageTitle: qsTr("Book 1, widget gallery")
 
     actionMenuModel: [ qsTr("Landscape"),
-                       qsTr("Potrait"),
+                       qsTr("Portrait"),
                        qsTr("Inv. Landscape"),
-                       qsTr("Inv. Potrait") ]
+                       qsTr("Inv. Portrait") ]
     actionMenuPayload: [  1, 2, 3, 4 ]
     actionMenuTitle: qsTr("Action Menu")
 

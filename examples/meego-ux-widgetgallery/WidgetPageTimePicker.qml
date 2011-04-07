@@ -58,6 +58,20 @@ WidgetPage {
 
             label: "Selected time: "
             value: "-"
+        },
+
+        StatusEntry {
+            id: hoursEntry
+
+            label: "Hours: "
+            value: "-"
+        },
+
+        StatusEntry {
+            id: minutesEntry
+
+	    label: "Minutes: "
+	    value: "-"
         }
     ]
 
@@ -86,10 +100,14 @@ WidgetPage {
 
         onAccepted: {
             timeEntry.value = time
+            hoursEntry.value = hours
+            minutesEntry.value = minutes
             signalEntry.value = "accepted"
         }
         onRejected: {
             timeEntry.value = "-"
+            hoursEntry.value = "-"
+            minutesEntry.value = "-"
             signalEntry.value = "rejected"
         }
     }

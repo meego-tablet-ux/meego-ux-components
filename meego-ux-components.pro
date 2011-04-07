@@ -9,6 +9,8 @@ include(doc/doc.pri)
 
 OTHER_FILES += README
 
+SOURCES += src
+
 TRANSLATIONS += $${SOURCES} $${OTHER_FILES} $${HEADERS}
 VERSION = 0.2.3
 PROJECT_NAME = meego-ux-components

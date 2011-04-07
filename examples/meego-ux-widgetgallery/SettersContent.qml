@@ -388,8 +388,8 @@ Item {
                             width:  parent.width
                             anchors.centerIn: parent
 
-                            titleText: "DropDown"
-                            titleTextColor: "black"
+                            title: "DropDown"
+                            titleColor: "black"
                         }
                     }
 

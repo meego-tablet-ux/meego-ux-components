@@ -45,7 +45,7 @@ WidgetPage {
             defaultValue: ddown.titleText
 
             onTextUpdated: {
-                ddown.titleText = value;
+                ddown.title = value;
             }
         }
     ]
@@ -55,7 +55,7 @@ WidgetPage {
             id: triggeredBox
 
             label: "selectedItem:"
-            value: ddown.selectedIndex
+            value: "none"
         }
     ]
 
@@ -90,7 +90,7 @@ WidgetPage {
                     height: parent.height * 0.9
                     anchors.verticalCenter: parent.verticalCenter
                     fillMode: Image.PreserveAspectFit
-                    source: "image://theme/camera/camera_lens_sm_up"
+                    source: "image://themedimage/camera/camera_lens_sm_up"
                 }
             ]
 

@@ -12,6 +12,7 @@
 import Qt 4.7
 
 PageDummy {
+
     id: pageDummy
 
     innerText: "book 3, page 1"
@@ -32,7 +33,7 @@ PageDummy {
             rectColor: "darkblue"
             showButton: true
             buttonLabel: "Page 3"
-            pageTitle: pageDummy.pageTitle
+            pageTitle: "book 3, page 2"
 
             onClicked: { addPage( page3 )
             }
@@ -47,9 +48,66 @@ PageDummy {
 
             innerText: "book 3, page 3"
             rectColor: "lightgreen"
-            pageTitle: pageDummy.pageTitle
+            pageTitle: "book 3, page 3"
+            buttonLabel: "Page 4"
+            showButton: true
+
+            onClicked: { addPage( page4 ) }
         }
     }
+
+    Component{
+        id: page4;
+
+        PageDummy {
+            id: pageDummy4
+
+            innerText: "book 3, page 4"
+            rectColor: "slategrey"
+            pageTitle: "book 3, page 4"
+             buttonLabel: "Page 5"
+            showButton: true
+
+            onClicked: { addPage( page5 ) }
+        }
+    }
+
+    Component{
+        id: page5;
+
+        PageDummy {
+            id: pageDummy5
+
+            innerText: "book 3, page 5"
+            rectColor: "slategrey"
+            pageTitle: "book 3, page 5"
+            fullScreen: true
+            showButton: true
+             buttonLabel: "Page 6"
+
+            onClicked: { addPage( page6 ) }
+        }
+    }
+
+    Component{
+        id: page6;
+
+        PageDummy {
+            id: pageDummy6
+
+            innerText: "book 3, page 6"
+            rectColor: "slategrey"
+            pageTitle: "book 3, page 6"
+            fullScreen: true
+            fullContent: true
+            showButton: true
+            buttonLabel: "back"
+
+            onClicked: { popPage( page6 ) }
+        }
+    }
+
+
 }
 
 

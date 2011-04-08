@@ -94,19 +94,18 @@ Item {
     width:  parent ? parent.width : 0
     height: parent ? parent.height : 0
     z: 50
-    property string pageTitle: ""
 
+    property string pageTitle: ""
     property variant actionMenuModel: []
     property variant actionMenuPayload: []
     property string actionMenuTitle: ""
-
+    property bool actionMenuOpen: false
+    property bool fullScreen: false
+    property bool fullContent: false
     property bool enableCustomActionMenu: false
 
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
-    property bool actionMenuOpen: false
-    property bool fullScreen: false
-    property bool fullContent: false
 
     visible: false
 
@@ -122,8 +121,13 @@ Item {
     // Signal that fires when the page has been deactivated.
     signal deactivated
 
-    onActivated: {
+    onActivating: {
+        window.fullScreen = fullScreen
+        window.fullContent = fullContent
         window.toolBarTitle = pageTitle
+    }
+
+    onActivated: {        
         window.customActionMenu = enableCustomActionMenu
         window.actionMenuModel = actionMenuModel
         window.actionMenuPayload = actionMenuPayload

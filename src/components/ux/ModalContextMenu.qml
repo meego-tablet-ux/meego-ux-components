@@ -38,7 +38,10 @@
   \qmlcm stores the relative y-position.
 
   \section2 Signals
-  \qmlnone
+  \qmlsignal subMenuTriggered
+  \qmlcm emitted when one of the sub menu entries was clicked
+        \param int index
+        \qmlpcm The index of the clicked entry \endparam
 
   \section2 Functions
 

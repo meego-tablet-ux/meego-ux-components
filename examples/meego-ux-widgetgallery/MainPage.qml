@@ -63,10 +63,6 @@ AppPage {
             anchors { margins: parent.buttonMargins; right: settersButton.left }
             text: qsTr("Buttons")
 
-//            bgSourceUp: (mainPage.state == "buttons") ? contentButtons.activeButtonImage : contentButtons.buttonImage
-//            bgSourceDn: contentButtons.buttonImagePressed
-//            active: (mainPage.state == "buttons")
-
             onClicked: {
                 mainPage.state = "buttons"
                 active = true
@@ -85,10 +81,6 @@ AppPage {
 
             active: true
 
-//            bgSourceUp: (mainPage.state == "setters") ? contentButtons.activeButtonImage : contentButtons.buttonImage
-//            bgSourceDn: contentButtons.buttonImagePressed
-//            active: (mainPage.state == "setters")
-
             onClicked: {
                 mainPage.state = "setters"
                 active = true
@@ -103,10 +95,6 @@ AppPage {
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; left: settersButton.right }
             text: qsTr("Dialogs")
-
-//            bgSourceUp: (mainPage.state == "pickers") ? contentButtons.activeButtonImage : contentButtons.buttonImage
-//            bgSourceDn: contentButtons.buttonImagePressed
-//            active: (mainPage.state == "pickers")
 
             onClicked: {
                 mainPage.state = "pickers"

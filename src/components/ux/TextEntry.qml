@@ -108,7 +108,7 @@ BorderImage {
         y: 15
         anchors.verticalCenter: parent.verticalCenter
 
-        font.pixelSize: theme.fontPixelSizeLarge
+        font: input.font
         color: "slategrey"
 
         visible: ( input.text == ""  && !input.focus && firstUsage )

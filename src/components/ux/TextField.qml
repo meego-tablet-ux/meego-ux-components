@@ -87,14 +87,13 @@ BorderImage {
         function ensureVisible(r) {
             if (contentX >= r.x){
                 contentX = r.x
-            }
-            else if (contentX+width <= r.x+r.width) {
+            } else if (contentX+width <= r.x+r.width) {
                 contentX = r.x+r.width-width
             }
+
             if (contentY >= r.y){
                 contentY = r.y
-            }
-            else if (contentY+height <= r.y+r.height) {
+            } else if (contentY+height <= r.y+r.height) {
                 contentY = r.y+r.height-height
             }
         }
@@ -130,11 +129,9 @@ BorderImage {
 
 	  property bool firstUsage: true
 
-	  x: 15
-	  y: 15
-	  anchors.verticalCenter: parent.verticalCenter
+          anchors.fill: edit
 
-	  font.pixelSize: theme.fontPixelSizeLarge
+          font: edit.font
 	  color: "slategrey"
 
 	  visible: ( edit.text == ""  && !edit.focus && firstUsage )
@@ -143,6 +140,7 @@ BorderImage {
 	      target: edit
 	      onTextChanged: {
 		  fakeText.visible = (edit.text == "" && firstUsage)
+                  firstUsage = false
 	      }
 	  }
       }

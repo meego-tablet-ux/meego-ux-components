@@ -111,6 +111,8 @@ Item {
             expandingBox.expandingChanged( expanded );
     }
 
+    Theme { id: theme }
+
     // the border image is the background graphic for the header and the content
     BorderImage {
         id: pulldownImage
@@ -147,8 +149,8 @@ Item {
             Text {
                 id: titleText
 
-                font.pixelSize: 20 //theme_fontPixelSizeLargest      //THEME
-                color: "grey" //theme_fontColorHighlight         //THEME
+                font.pixelSize: theme.fontPixelSizeLarge
+                color: theme.fontColorHighlight
                 elide: Text.ElideRight
                 anchors.left: iconArea.right
                 anchors.right: expandButton.left

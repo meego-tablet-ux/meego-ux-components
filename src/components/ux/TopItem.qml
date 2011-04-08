@@ -117,7 +117,6 @@ Item {
         onWidthChanged: {
             top.calcTopParent()
             geometryChanged( top.topWidth, top.topHeight )
-            console.log("================== ping")
         }
         onHeightChanged: {
             top.calcTopParent()

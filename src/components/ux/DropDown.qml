@@ -225,11 +225,6 @@ Item {
     TopItem {
         id: topItem
 
-//        onOrientationChangeFinished: {
-//            contextMenu.setPosition(
-//                mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-//                mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
-//        }
         onGeometryChanged: {
             contextMenu.setPosition(
             mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,

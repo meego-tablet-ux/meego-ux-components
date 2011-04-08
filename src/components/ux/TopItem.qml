@@ -112,14 +112,12 @@ Item {
     }
 
     Connections {
-        target: window    // ###
-        onOrientationChangeFinished: {
-            top.calcTopParent()
-            top.orientationChangeFinished()
-        }
+        target: topItem
+
         onWidthChanged: {
             top.calcTopParent()
             geometryChanged( top.topWidth, top.topHeight )
+            console.log("================== ping")
         }
         onHeightChanged: {
             top.calcTopParent()

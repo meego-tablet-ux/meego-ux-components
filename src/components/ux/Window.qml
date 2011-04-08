@@ -131,6 +131,9 @@
            \param  AppPage pageComponent
            \qmlpcm page which sould be added \endparam
 
+  \qmlfn popPage
+  \qmlcm pops a page to the page stack and sets the last page as the current page.
+
   \section1  Example
    \qml
     Window {
@@ -217,6 +220,11 @@ Item {
     //adds a new page of a "book"
     function addPage( pageComponent ) {
         if( !pageStack.busy ){ pageStack.push( pageComponent ) }//add the new page
+    }
+
+    // pop the current Page from the stack
+    function popPage() {
+        if( !pageStack.busy ){ pageStack.pop() }// pops the page
     }
 
     width: { try { screenWidth; } catch (err) { 1024; } }

@@ -15,9 +15,7 @@
 #include <QSize>
 #include <QDesktopWidget>
 #include <QDebug>
-#include <QImageReader>
 #include <mgconfitem.h>
-
 
 #include "systemiconprovider.h"
 
@@ -54,48 +52,51 @@ QPixmap SystemIconProvider::requestPixmap(const QString &id, QSize *size, const 
 {
     int width = requestedSize.width() > 0 ? requestedSize.width() : 100;
     int height = requestedSize.height() > 0 ? requestedSize.height() : 100;
-    QString pathName;
 
     if (size)
     {
         *size = QSize(width, height);
     }
 
-    // Determine if the request is for a real file
     if (id.startsWith('/'))
     {
         if (QFile::exists(id))
         {
-            pathName = id;
+            if(requestedSize.width() < 0 && requestedSize.height() < 0)
+            {
+                QPixmap pixmap(id);
+                if(size)
+                    *size = QSize(pixmap.width(),pixmap.height());
+                return pixmap;
+            }
+            return QPixmap(id).scaled(requestedSize);
         }
     }
-    else
+    else if (QFile::exists(QString("/usr/share/themes/") + themeItem->value().toString() + "/icons/launchers/" + id + ".png"))
     {
-        // Perhaps it's for an icon ID?
-        pathName = QLatin1String("/usr/share/themes/") + themeItem->value().toString() +
-                   QLatin1String("/icons/launchers/") + id + QLatin1String(".png");
+        QPixmap pixmap(QString("/usr/share/themes/") + themeItem->value().toString() + "/icons/launchers/" + id + ".png");
 
-        if (!QFile::exists(pathName))
-            pathName = QString();
-    }
-
-    if (!pathName.isNull())
-    {
-        // Try load the image from disk
-        QImageReader imageReader(id);
-        QPixmap pixmap;
-
-        if (requestedSize.isValid() &&
-            requestedSize != imageReader.size())
+        if(requestedSize.width() < 0 && requestedSize.height() < 0)
         {
-            imageReader.setScaledSize(requestedSize);
+            if(size)
+                *size = QSize(pixmap.width(),pixmap.height());
+            return pixmap;
         }
 
-        pixmap = QPixmap::fromImageReader(&imageReader);
-        if (size)
-            *size = pixmap.size();
+        return pixmap.scaled(requestedSize);
+    }
+    else if (QFile::exists(QString("/usr/share/themes/") + themeItem->value().toString() + "/icons/settings/" + id + ".png"))
+    {
+        QPixmap pixmap(QString("/usr/share/themes/") + themeItem->value().toString() + "/icons/settings/" + id + ".png");
 
-        return pixmap;
+        if(requestedSize.width() < 0 && requestedSize.height() < 0)
+        {
+            if(size)
+                *size = QSize(pixmap.width(),pixmap.height());
+            return pixmap;
+        }
+
+        return pixmap.scaled(requestedSize);
     }
     else if (QIcon::hasThemeIcon(id))
     {

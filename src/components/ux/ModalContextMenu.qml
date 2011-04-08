@@ -483,7 +483,7 @@ ModalFog {
     TopItem{
         id: top
 
-        onOrientationChangeFinished: {
+        onGeometryChanged: {
             menuContainer.mouseX = baseX * top.topWidth
             menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
 

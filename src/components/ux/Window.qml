@@ -219,7 +219,7 @@ Item {
         if( !pageStack.busy ){ pageStack.push( pageComponent ) }//add the new page
     }
 
-    width: { try { screenWidth; } catch (err) { 1024; } }
+    width: { try { screenWidth; } catch (err) { 576; } }//1024; } }
     height: { try { screenHeight;} catch (err) {  576; } }
     clip: true
 

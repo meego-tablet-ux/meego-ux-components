@@ -108,7 +108,7 @@ Flickable {
     TopItem {
         id: topItem
 
-        onOrientationChangeFinished: {
+        onGeometryChanged: {
             container.contentY = 0
         }
     }

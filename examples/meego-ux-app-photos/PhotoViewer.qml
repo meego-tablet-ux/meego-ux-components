@@ -299,7 +299,7 @@ Item {
                 id: extension
 
                 source: uri
-                usrOrientation: determineUsrOrientation( orientation, photoRotate )
+                userOrientation: determineUsrOrientation( orientation, photoRotate )
 
                 onOrientationChanged:{
                     switch( orientation ) {

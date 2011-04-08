@@ -22,6 +22,9 @@
 
   \qmlproperty bool readOnly
   \qmlcm sets the text read only. The text can not be altered if set to true.
+  
+  \qmlproperty alias defaultText
+  \qmlcm sets a defaultText in case the TextEntry is empty
 
   \section2 Private Properties
   \qmlnone
@@ -29,6 +32,9 @@
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed
+
+  \qmlsignal accepted
+  \qmlcm emitted when an enter was pressed and the input is in an acceptable state
 
   \section2 Functions
   \qmlnone
@@ -57,6 +63,7 @@ BorderImage {
     property alias font: input.font
 
     signal textChanged
+    signal accepted    
 
     border.top: 6
     border.bottom: 6
@@ -69,6 +76,7 @@ BorderImage {
     opacity: readOnly ? 0.5 : 1.0
 
     Theme{ id: theme }
+    
     TextInput {
         id: input
 
@@ -80,11 +88,15 @@ BorderImage {
         font.pixelSize: theme.fontPixelSizeLarge
 
         onTextChanged: {
-            container.textChanged ();
+            container.textChanged()
             if( text.length > 0 ){
                 fakeText.firstUsage = false
             }
         }
+        
+        onAccepted: {
+            container.accepted()
+	}
     }
 
     Text {

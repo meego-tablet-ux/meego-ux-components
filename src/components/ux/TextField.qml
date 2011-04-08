@@ -23,6 +23,9 @@
   \qmlproperty bool readOnly
   \qmlcm sets the text read only. The text can not be altered if set to true.
 
+  \qmlproperty alias defaultText
+  \qmlcm sets a defaultText in case the TextField is emtpy
+
   \section2 Private Properties
   \qmlnone
 
@@ -52,6 +55,7 @@ BorderImage {
     property alias text: edit.text
     property alias font: edit.font
     property alias readOnly: edit.readOnly
+    property alias defaultText: fakeText.text
 
     signal textChanged
 
@@ -120,5 +124,27 @@ BorderImage {
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
             font.pixelSize: theme.fontPixelSizeNormal
         }
+        
+	Text {
+	  id: fakeText
+
+	  property bool firstUsage: true
+
+	  x: 15
+	  y: 15
+	  anchors.verticalCenter: parent.verticalCenter
+
+	  font.pixelSize: theme.fontPixelSizeLarge
+	  color: "slategrey"
+
+	  visible: ( edit.text == ""  && !edit.focus && firstUsage )
+
+	  Connections {
+	      target: edit
+	      onTextChanged: {
+		  fakeText.visible = (edit.text == "" && firstUsage)
+	      }
+	  }
+      }
     }
 }

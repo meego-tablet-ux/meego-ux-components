@@ -84,6 +84,8 @@ WidgetPage {
             anchors.centerIn: parent
             width:  200
             height:  50
+
+            defaultText: qsTr( "This is a defaultText" )
         }
     }
 }

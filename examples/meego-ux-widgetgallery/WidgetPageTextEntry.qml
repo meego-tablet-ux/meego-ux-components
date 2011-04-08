@@ -68,6 +68,14 @@ WidgetPage {
         }
     ]
 
+    statusContent: [
+        StatusEntry {
+            id: lastSignalBox
+            label: "Last signal sent:"
+            value: lastSign
+        }
+    ]
+
     description: "This is a input field for a single line of text. It can be set to " +
                  "to read-only to block user input."
 
@@ -84,6 +92,10 @@ WidgetPage {
             anchors.centerIn: parent
             width:  200
             height:  50
+
+            onAccepted: { lastSignalBox.value = "onAccepted" }
+            onTextChanged: { lastSignalBox.value = "onTextChanged" }    }
         }
-    }
+
+
 }

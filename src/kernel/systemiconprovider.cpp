@@ -54,6 +54,8 @@ QPixmap SystemIconProvider::requestPixmap(const QString &id, QSize *size, const 
 {
     int width = requestedSize.width() > 0 ? requestedSize.width() : 100;
     int height = requestedSize.height() > 0 ? requestedSize.height() : 100;
+
+    const QString themePath = QLatin1String("/usr/share/themes/") + themeItem->value().toString();
     QString pathName;
 
     if (size)
@@ -72,17 +74,24 @@ QPixmap SystemIconProvider::requestPixmap(const QString &id, QSize *size, const 
     else
     {
         // Perhaps it's for an icon ID?
-        pathName = QLatin1String("/usr/share/themes/") + themeItem->value().toString() +
-                   QLatin1String("/icons/launchers/") + id + QLatin1String(".png");
+        const QString launcherPath = themePath + QLatin1String("/icons/launchers/") + id + QLatin1String(".png");
 
-        if (!QFile::exists(pathName))
-            pathName = QString();
+        if (QFile::exists(launcherPath)) {
+            pathName = launcherPath;
+        } else
+        {
+            // Perhaps it's for an icon settigns?
+            const QString settingsPath = themePath + QLatin1String("/icons/settings/") + id + QLatin1String(".png");
+            
+            if (QFile::exists(settingsPath))
+                pathName = settingsPath;
+        }
     }
 
     if (!pathName.isNull())
     {
         // Try load the image from disk
-        QImageReader imageReader(id);
+        QImageReader imageReader(pathName);
         QPixmap pixmap;
 
         if (requestedSize.isValid() &&

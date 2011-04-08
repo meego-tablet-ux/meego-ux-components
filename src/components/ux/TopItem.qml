@@ -112,11 +112,8 @@ Item {
     }
 
     Connections {
-        target: window    // ###
-        onOrientationChangeFinished: {
-            top.calcTopParent()
-            top.orientationChangeFinished()
-        }
+        target: topItem
+
         onWidthChanged: {
             top.calcTopParent()
             geometryChanged( top.topWidth, top.topHeight )
@@ -128,7 +125,7 @@ Item {
     }
 
 
-    Component.onCompleted: { calcTopParent(), ping() }
+    Component.onCompleted: { calcTopParent() }
 
     onParentChanged: calcTopParent()
 }

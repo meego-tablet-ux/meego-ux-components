@@ -18,11 +18,30 @@ WidgetPage {
     pageTitle: "Drop Down"
 
     controlContent: [
+
+        CheckBoxEntry {
+            id: showCornerDropDowns
+
+            label: "show in corner"
+
+            onCheckedChanged: {
+                if( showCornerDropDowns.isChecked == true ) {
+                    ddown2.visible = true
+                    ddown3.visible = true
+                    ddown4.visible = true
+                } else {
+                    ddown2.visible = false
+                    ddown3.visible = false
+                    ddown4.visible = false
+                }
+            }
+            isChecked: false
+        },
         LabeledEntry {
             id: widthEntry
 
             label:  "width: "
-            defaultValue: "400"
+            defaultValue: "450"
 
             onTextUpdated: {
                 ddown.width = value
@@ -47,6 +66,46 @@ WidgetPage {
             onTextUpdated: {
                 ddown.title = value;
             }
+        },
+        LabeledEntry {
+            id: maxWidthEntry
+
+            label:  "ContextMenu maxWidth: "
+            defaultValue: ""
+
+            onTextUpdated: {
+                ddown.maxWidth = value
+            }
+        },
+        LabeledEntry {
+            id: minwidthEntry
+
+            label:  "minWidth: "
+            defaultValue: "0"
+
+            onTextUpdated: {
+                ddown.minWidth = value
+            }
+        },
+        CheckBoxEntry {
+            id: replaceTitleOnSel
+
+            label: "change title"
+
+            onCheckedChanged: {
+                ddown.replaceDropDownTitle = replaceTitleOnSel.isChecked
+            }
+            isChecked: false
+        },
+        CheckBoxEntry {
+            id: showTitle
+
+            label: "show title in menu"
+
+            onCheckedChanged: {
+                ddown.showTitleInMenu = showTitle.isChecked
+            }
+            isChecked: false
         }
     ]
 
@@ -68,6 +127,9 @@ WidgetPage {
         anchors.fill: parent
         contentHeight: height > ddown.height ? height : ddown.height
         contentWidth: width > ddown.width ? width : ddown.width
+
+
+
         clip: true
 
         DropDown {
@@ -78,12 +140,10 @@ WidgetPage {
             title: "DropDown"
             titleColor: "black"
 
-            width: 400
-//            minWidth: 400
-//            maxWidth: 440
+            width: 450
 
-            model: [  "First choice", "Second choice", "Third choice" ]
-            payload: [ 1, 2, 3 ]
+            model: [  qsTr( "First choice" ), qsTr( "Second choice" ), qsTr ( "Third choice" ) , qsTr ( "4th choice very long text that is" ) ]
+            payload: [ 1, 2, 3, 4 ]
 
             iconRow: [
                 Image {
@@ -99,6 +159,94 @@ WidgetPage {
             }
 
         }
+
+        DropDown {
+            id: ddown2
+
+            visible: false
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+
+            replaceDropDownTitle: ddown.replaceDropDownTitle
+            showTitleInMenu: ddown.showTitleInMenu
+
+            title: ddown.title
+            titleColor: ddown.titleColor
+
+            width: ddown.width
+
+            model: ddown.model
+            payload: ddown.payload
+
+            iconRow: [
+                Image {
+                    height: parent.height * 0.9
+                    anchors.verticalCenter: parent.verticalCenter
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://themedimage/images/camera/camera_lens_sm_up"
+                }
+            ]
+
+        }
+
+        DropDown {
+            id: ddown3
+
+            visible: false
+            anchors.top: parent.top
+            anchors.right: parent.right
+
+            replaceDropDownTitle: ddown.replaceDropDownTitle
+            showTitleInMenu: ddown.showTitleInMenu
+
+            title: ddown.title
+            titleColor: ddown.titleColor
+
+            width: ddown.width
+
+            model: ddown.model
+            payload: ddown.payload
+
+            iconRow: [
+                Image {
+                    height: parent.height * 0.9
+                    anchors.verticalCenter: parent.verticalCenter
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://themedimage/images/camera/camera_lens_sm_up"
+                }
+            ]
+
+        }
+
+        DropDown {
+            id: ddown4
+
+            visible: false
+            anchors.top: parent.top
+            anchors.left: parent.left
+
+            replaceDropDownTitle: ddown.replaceDropDownTitle
+            showTitleInMenu: ddown.showTitleInMenu
+
+            title: ddown.title
+            titleColor: ddown.titleColor
+
+            width: ddown.width
+
+            model: ddown.model
+            payload: ddown.payload
+
+            iconRow: [
+                Image {
+                    height: parent.height * 0.9
+                    anchors.verticalCenter: parent.verticalCenter
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://themedimage/images/camera/camera_lens_sm_up"
+                }
+            ]
+
+        }
+
     }
 
     TopItem {

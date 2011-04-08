@@ -21,14 +21,17 @@
   \qmlproperty bool opened
   \qmlcm true if the dropdown is currently opened
 
-  \qmlproperty alias iconContent
-  \qmlcm area to put a row of icons
-
   \qmlproperty string title
   \qmlcm sets the text shown on the header
 
   \qmlproperty string titleColor
   \qmlcm sets the color of the text shown on the header
+
+  \qmlproperty bool replaceDropDownTitle
+  \qmlcm on true the title of the DropDown box will be replaced to the selectedItem
+
+  \qmlproperty bool showTitleInMenu
+  \qmlcm on true the title of the DropDown box will be shown in the ActionMenu
 
   \qmlproperty alias model
   \qmlcm contains the model of the ActionMenu
@@ -36,11 +39,20 @@
   \qmlproperty alias payload
   \qmlcm contains the payload of the ActionMenu
 
+  \qmlproperty alias iconRow
+  \qmlcm area to put a row of icons
+
   \qmlproperty int minWidth
   \qmlcm  int, the minimum width of the ActionMenu.
 
   \qmlproperty int maxWidth
   \qmlcm  int, the maximum width of the ActionMenu. Text that exceeds the maximum width will be elided.
+
+  \qmlproperty string selectedTitle
+  \qmlcm the currently selected title
+
+  \qmlproperty int selectedIndex
+  \qmlcm the currently selected index
 
   \section2  Private properties
   \qmlnone
@@ -99,35 +111,35 @@ import MeeGo.Components 0.1
 Item {  
     id: dropDown
 
-    property bool opened: false
-    property alias title: titleText.text
+    property bool opened: false    
     property alias titleColor: titleText.color    
-    property alias iconRow: iconArea.children
-
+    property alias iconRow: iconArea.children    
     property alias model: actionMenu.model
     property alias payload: actionMenu.payload
     property alias minWidth: actionMenu.minWidth
     property alias maxWidth: actionMenu.maxWidth
     property alias currentWidth: actionMenu.currentWidth
 
-    property bool replaceTitleOnSelection: false
+    property bool replaceDropDownTitle: false
+    property bool showTitleInMenu: false
 
+    property string title: undefined
+    property string selectedTitle: undefined
+    property int selectedIndex: undefied
     signal triggered( int index )
     signal expandingChanged( bool expanded )
 
-    width: parent.width
-    height: 20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height ) //pulldownImage.height
+    property bool engouhSpaceLeft: mapToItem( topItem.topItem, dropDown.y + dropDown.width ).y > actionMenu.width
 
-    onWidthChanged: {
-        actionMenu.maxWidth = width * 0.9
-        actionMenu.minWidth = width * 0.9
-    }
+    width: parent.width
+
+    height: 20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height ) //pulldownImage.height
 
     // the border image is the background graphic for the header and the content
     BorderImage {
         id: pulldownImage
 
-        property int borderSize: 5
+        property int borderSize: 5       
 
         height: header.height
         width: parent.width
@@ -142,6 +154,7 @@ Item {
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a MouseArea to change the expanded state on click
         Item {
+
             id: header
 
             // the header adapts its height to the height of the title and the button plus some space
@@ -159,13 +172,14 @@ Item {
             Text {
                 id: titleText
 
-                font.pixelSize: 20 //theme_fontPixelSizeLargest      //THEME
-                color: "grey" //theme_fontColorHighlight         //THEME
+                font.pixelSize: theme.fontPixelSizeLarge
+                color: theme.fontColorHighlight
                 elide: Text.ElideRight
                 anchors.left: iconArea.right
                 anchors.right: expandButton.left
                 anchors.leftMargin: 5
                 anchors.verticalCenter: expandButton.verticalCenter
+                text: replaceDropDownTitle ? selectedTitle : title
             }
 
             Image {
@@ -198,7 +212,11 @@ Item {
 
             id: contextMenu
 
-            forceFingerMode: 1
+            parent: topItem
+
+            title: dropDown.showTitleInMenu ? dropDown.title : ""
+
+            forceFingerMode: dropDown.engouhSpaceLeft ? 1 :  -1
 
             content: ActionMenu {
                 id: actionMenu
@@ -208,12 +226,9 @@ Item {
                     dropDown.opened = false                    
                     contextMenu.hide()
 
-                    if( dropDown.replaceTitleOnSelection )
-                        dropDown.title = model[index]
+                    dropDown.selectedTitle = model[index]
+                    dropDown.selectedIndex = index
                 }
-
-                minWidth: dropDown.width * 0.9
-                maxWidth: dropDown.width * 0.9
             }
 
             onFogHideFinished: {
@@ -225,15 +240,17 @@ Item {
     TopItem {
         id: topItem
 
-        onOrientationChangeFinished: {
-            contextMenu.setPosition(
-                mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-                mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
-        }
         onGeometryChanged: {
             contextMenu.setPosition(
             mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
             mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
         }
     }
+
+    Theme { id: theme }
+
+    Component.onCompleted: {
+        selectedTitle = title;
+    }
+
 }

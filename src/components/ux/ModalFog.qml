@@ -74,7 +74,6 @@ Item {
     // API
     property alias modalSurface : modalSurface.children
     property bool autoCenter: false
-    property int contentVerticalCenterOffset: 0
     property bool fogClickable: true
 
     property bool fogMaskVisible: true
@@ -158,7 +157,6 @@ Item {
 
         width: fogContainer.width
         height:  fogContainer.height
-        anchors.verticalCenterOffset: fogContainer.contentVerticalCenterOffset  // DEPRECATED
 
         Component.onCompleted:{
             if( !autoCenter ){

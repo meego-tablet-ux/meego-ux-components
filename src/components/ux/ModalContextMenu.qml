@@ -19,6 +19,10 @@
   \qmlproperty variant content
   \qmlcm the content the contextMenu will show e.g. an ActionMenu.
 
+  \qmlproperty variant title
+  \qmlcm the content the contextMenu will show e.g. an ActionMenu.
+
+
   \qmlproperty int forceFingerMode
   \qmlcm the context menu will apear in the set finger mode. If set to -1, the default, the context menu will choose the most
          appropriate mode.
@@ -31,14 +35,18 @@
          \endqml
 
   \section2 Private Properties
-  \qmlproperty real baseX
+
+ \qmlproperty real baseX
   \qmlcm stores the relative x-position.
 
   \qmlproperty real baseY
   \qmlcm stores the relative y-position.
 
   \section2 Signals
-  \qmlnone
+  \qmlsignal subMenuTriggered
+  \qmlcm emitted when one of the sub menu entries was clicked
+        \param int index
+        \qmlpcm The index of the clicked entry \endparam
 
   \section2 Functions
 
@@ -473,7 +481,7 @@ ModalFog {
                     when: menuContainer.fingerMode == 3
                     PropertyChanges {
                         target: finger
-                        source: "image://themedimage/widgets/common/menu/menu_arrow_south"
+                        source: "image://themedimage/widgets/common/menu/menu-arrow-south"
                     }
                 }
             ]
@@ -483,7 +491,7 @@ ModalFog {
     TopItem{
         id: top
 
-        onOrientationChangeFinished: {
+        onGeometryChanged: {
             menuContainer.mouseX = baseX * top.topWidth
             menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
 

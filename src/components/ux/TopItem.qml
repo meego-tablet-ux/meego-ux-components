@@ -128,7 +128,7 @@ Item {
     }
 
 
-    Component.onCompleted: { calcTopParent(), ping() }
+    Component.onCompleted: { calcTopParent() }
 
     onParentChanged: calcTopParent()
 }

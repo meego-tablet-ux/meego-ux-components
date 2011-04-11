@@ -45,8 +45,7 @@
         \o  \l { MusicPicker }
         \o  \l { PhotoPicker }
         \o  \l { TimePicker }
-        \o  \l { VideoPicker }
-        \o  \l { ContactsPicker }
+        \o  \l { VideoPicker }        
         \endlist
       \o Basic components:
         \list

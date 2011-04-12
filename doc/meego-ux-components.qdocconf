@@ -23,8 +23,19 @@ indexes = "meego-ux-components.index"
 outputdir =	html
 outputformats = HTML
 exampledirs = 	../doc
-imagedirs = 	../doc
+imagedirs = 	../doc/images
 base =		../doc
+
+qhp.projects            = Meego-Ux-Components
+qhp.QtComponents.file             = meegouxcomponents.qhp
+qhp.QtComponents.namespace        = MeeGo.Ux.Meego.Components
+qhp.QtComponents.virtualFolder    = doc
+qhp.QtComponents.indexTitle       = Meego Ux Components
+qhp.QtComponents.filterAttributes = MeeGo.Components 0.2.3
+qhp.QtComponents.customFilters.QtCreator.name = MeeGo.Components 0.2.3
+qhp.QtComponents.customFilters.QtCreator.filterAttributes = MeeGo.Components 0.2.3
+qhp.QtComponents.indexRoot        =
+
 
 
 macro.qmlclass = 	"\\class"
@@ -48,6 +59,9 @@ macro.testcm.HTML       = "</div> <div class=\"testcm\">"
 macro.endtestcm.HTML    = "</div></div>"
 
 macro.todo.HTML         = "<br/>Todo: "
+
+
+# HTML.templatedir = $MeeGoUxComponents/doc/src/meego/template
 
 HTML.stylesheets = meego-ux-components.css
 HTML.postheader = "<div class=\"header\"><a href=\"meego-ux-components.html\">Home</a><a href=\"meego-ux-components-list.html\">Components</a><a href=\"meego-ux-tutorial.html\">Tutorial</a><a href=\"meego-ux-tests.html\">Tests</a><a href=\"https://otcshare.org\">OtcShare.org</a> Intel MeeGo-UX-Components 0.2.0 - 03/09/2011 </div>"

@@ -7,10 +7,10 @@
  */
 
 /*!
-    \page MeeGo-Ux-App-Photos
-    \title  MeeGo-Ux-App-Photos
-    \qmlclass MeeGo-Ux-App-Photos
-    \section1 MeeGo-Ux-App-Photos
+    \page MeeGo-Ux-Components-App-Photos
+    \title  MeeGo-Ux-Components-App-Photos
+    \qmlclass MeeGo-Ux-Components-App-Photos
+    \section1 MeeGo-Ux-Components-App-Photos
 
     This application's purpose is to provide examples on how to use the MeeGo-Components properly.
 
@@ -25,7 +25,7 @@
     }
     \endqml
 
-    In order to add the books of the MeeGo-Ux-App-Photo, two AppPages are created as component and
+    In order to add the books of the MeeGo-Ux-Components-App-Photo, two AppPages are created as component and
     added to the bookMenu model.
 
     \qml
@@ -45,7 +45,7 @@
     \endqml
 
     The Settings Item is a simple separate Item, which contains all global properties from
-    Meego-Ux-App-Photos. This is needed because books and pages may become destroyed in an App
+    MeeGo-Ux-Components-App-Photos. This is needed because books and pages may become destroyed in an App
     with Book and Page concept and the local stored data can get lost on a book switch or a
     page change. See Settings.qml for the existing properties.
 
@@ -57,7 +57,7 @@
     
     \section2 Limitations
     
-    MeeGo-Ux-App-Photo does not support favorite handling due to a bug, which is not related to MeeGo
+    MeeGo-Ux-Components-App-Photo does not support favorite handling due to a bug, which is not related to MeeGo
     Components.
     
     \section2 Pages of  Meego-Ux-Photo

@@ -8,7 +8,7 @@
 
 /*!
     \page PhotosView
-    \title  MeeGo-Ux-App-Photos - PhotosView
+    \title  MeeGo-Ux-Components-App-Photos - PhotosView
     \qmlclass PhotosView.qml
     \section1 PhotosView.qml
 

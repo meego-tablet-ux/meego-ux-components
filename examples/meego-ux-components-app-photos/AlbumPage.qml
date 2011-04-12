@@ -8,7 +8,7 @@
 
 /*!
     \page AlbumPage
-    \title  Meego-Ux-App-Photos - Album Page
+    \title  Meego-Ux-Components-App-Photos - Album Page
     \qmlclass AlbumPage.qml
     \section1 AlbumPage.qml
 

@@ -8,7 +8,7 @@
 
 /*!
 \page PhotoDetailsView
-\title  MeeGo-Ux-App-Photos - PhotoDetailsView
+\title  MeeGo-Ux-Components-App-Photos - PhotoDetailsView
 \qmlclass PhotoDetailsView.qml
 \section1 PhotoDetailsView.qml
 

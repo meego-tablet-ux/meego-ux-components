@@ -40,14 +40,14 @@ You can start the examples with:
  
 - on ExoPc, in the terminal started from home desktop: 
   export DISPLAY=:0
-  meego-qml-launcher --fullscreen --opengl --app meego-ux-widgetgallery
-  meego-qml-launcher --fullscreen --opengl --app meego-ux-app-photos
+  meego-qml-launcher --fullscreen --opengl --app meego-ux-components-widgetgallery
+  meego-qml-launcher --fullscreen --opengl --app meego-ux-components-app-photos
 
 
 - Widget gallery -
 ----------------------
 You can find a widget gallery under:
-git repository:  meego-components/examples/meego-ux-widgetgallery/
+git repository:  meego-components/examples/meego-ux-components-widgetgallery/
 
 All currently available meego-ux-components can be found here. 'Widgets' shows basic interface items,
 'Modal Dialogs' shows high level widgets like the PhotoPicker.
@@ -56,13 +56,13 @@ All currently available meego-ux-components can be found here. 'Widgets' shows b
 - Photo App -
 ----------------------
 An actual example for an meego-ux-components based application is the photos application found under:
-git repository: meego-ux-components/examples/meego-ux-app-photos
+git repository: meego-ux-components/examples/meego-ux-components-app-photos
 
 - Tutorial -
 ----------------------
 An step by step description of the Window-Book-Page concept and the usage of MeeGo-Components.
 Please refer to the Documentation for further information.
-git repository:  meego-ux-components/examples/meego-ux-tutorial
+git repository:  meego-ux-components/examples/meego-components-ux-tutorial
 
 
 - Getting started -

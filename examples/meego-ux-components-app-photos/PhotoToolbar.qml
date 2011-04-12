@@ -8,7 +8,7 @@
 
 /*!
     \page PhotoToolbar
-    \title  MeeGo-Ux-App-Photos - PhotoToolbar
+    \title  MeeGo-Ux-Components-App-Photos - PhotoToolbar
     \qmlclass PhotoToolbar.qml
     \section1 PhotoToolbar.qml
 

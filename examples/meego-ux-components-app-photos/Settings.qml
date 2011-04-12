@@ -8,7 +8,7 @@
 
 /*!
     \page Settings
-    \title  MeeGo-Ux-App-Photos - Settings
+    \title  MeeGo-Ux-Components-App-Photos - Settings
     \qmlclass Settings.qml
     \section1 Settings.qml
 

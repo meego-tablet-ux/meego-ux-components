@@ -1,5 +1,5 @@
 project = 	meego-ux-components
-version = 	0.2.0
+version = 	0.2.5
 
 description = 	MeeGo Ux Components Documentation
 url = 		"http://meego.com"
@@ -7,14 +7,14 @@ url = 		"http://meego.com"
 sourcedirs = 	../doc \
 		../src \
                 ../tests \
-                ../examples/meego-ux-tutorial \
-		../examples/meego-ux-app-photos
+                ../examples/meego-ux-components-tutorial \
+                ../examples/meego-ux-components-app-photos
 
 headerdirs = 	../doc \
 		../src \
                 ../tests \
-		../examples/meego-ux-tutorial \
-		../examples/meego-ux-app-photos
+                ../examples/meego-ux-components-tutorial \
+                ../examples/meego-ux-components-app-photos
 
 sources.fileextensions = "*.cpp *.doc *.qdoc *.h *.qml *.js"
 
@@ -23,9 +23,8 @@ indexes = "meego-ux-components.index"
 outputdir =	html
 outputformats = HTML
 exampledirs = 	../doc
-imagedirs = 	../doc
+imagedirs = 	../doc/images
 base =		../doc
-
 
 macro.qmlclass = 	"\\class"
 macro.qml = 		"\\code"
@@ -48,6 +47,8 @@ macro.testcm.HTML       = "</div> <div class=\"testcm\">"
 macro.endtestcm.HTML    = "</div></div>"
 
 macro.todo.HTML         = "<br/>Todo: "
+
+# HTML.templatedir = $MeeGoUxComponents/doc/src/meego/template
 
 HTML.stylesheets = meego-ux-components.css
 HTML.postheader = "<div class=\"header\"><a href=\"meego-ux-components.html\">Home</a><a href=\"meego-ux-components-list.html\">Components</a><a href=\"meego-ux-tutorial.html\">Tutorial</a><a href=\"meego-ux-tests.html\">Tests</a><a href=\"https://otcshare.org\">OtcShare.org</a> Intel MeeGo-UX-Components 0.2.0 - 03/09/2011 </div>"

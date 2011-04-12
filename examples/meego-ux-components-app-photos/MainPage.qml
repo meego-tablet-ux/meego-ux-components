@@ -8,7 +8,7 @@
 
 /*!
     \page MainPage
-    \title  MeeGo-Ux-App-Photos - Main Page
+    \title  MeeGo-Ux-Components-App-Photos - Main Page
     \qmlclass MainPage.qml
     \section1 MainPage.qml
 

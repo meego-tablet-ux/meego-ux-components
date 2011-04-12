@@ -8,7 +8,7 @@
 
 /*!
     \page DragItem
-    \title  MeeGo-Ux-App-Photos - DragItem
+    \title  MeeGo-Ux-Components-App-Photos - DragItem
     \qmlclass DragItem.qml
     \section1 DragItem.qml
 

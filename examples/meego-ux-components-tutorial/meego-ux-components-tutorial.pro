@@ -10,4 +10,4 @@ SUBDIRS += step1 \
            step6
 
 
-OTHER_FILES += meego-ux-tutorial.qdoc
+OTHER_FILES += meego-ux-components-tutorial.qdoc

@@ -46,7 +46,6 @@
         \o  \l { PhotoPicker }
         \o  \l { TimePicker }
         \o  \l { VideoPicker }
-        \o  \l { ContactsPicker }
         \endlist
       \o Basic components:
         \list
@@ -59,9 +58,9 @@
         \endlist
       \o Examples
         \list
-        \o MeeGo-Ux-Widgetgallery
-        \o \l { MeeGo-Ux-App-Photo }
-        \o MeeGo-Ux-Tutorial
+        \o MeeGo-Ux-Components-Widgetgallery
+        \o \l { MeeGo-Ux-Components-App-Photo }
+        \o MeeGo-Ux-Components-Tutorial
         \endlist
     \endlist
       
@@ -109,14 +108,14 @@
     
     On the ExoPc, in the terminal started from home desktop:
     \code
-    meego-qml-launcher --fullscreen --opengl --app meego-ux-widgetgallery
-    meego-qml-launcher --fullscreen --opengl --app meego-ux-app-photo
+    meego-qml-launcher --fullscreen --opengl --app meego-ux-components-widgetgallery
+    meego-qml-launcher --fullscreen --opengl --app meego-ux-components-app-photo
     \endcode
 
     \section2 Widget gallery
     You can find a widget gallery under:
     \code
-    git repository:   meego-ux-components/examples/meego-ux-widgetgallery/
+    git repository:   meego-ux-components/examples/meego-ux-components-widgetgallery/
     \endcode
 
     All currently available  meego-ux-components can be found here. 'Widgets' shows basic interface items,
@@ -126,7 +125,7 @@
 
     An actual example for an  meego-ux-components based application is the photos application which found under:
     \code
-    git repository:   meego-ux-components/examples/meego-ux-app-photos
+    git repository:   meego-ux-components/examples/meego-ux-components-app-photos
     \endcode
     Note: Due to bugs in the branched photo models the 'favorite' functionality was disabled. These bugs do not appear in the current meego-ux-staging.
     
@@ -135,7 +134,7 @@
     We provide a basic step by step tutorial for the Window-Book-Page concept and the usage of  meego-ux-components.
     You can find it under:
     \code
-    git repository:   meego-ux-components/examples/meego-ux-tutorial
+    git repository:   meego-ux-components/examples/meego-ux-components-tutorial
     \endcode
 
     \section2 Getting started in QML

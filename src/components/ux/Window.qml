@@ -204,7 +204,7 @@ Item {
     property alias orientation: window_content_topitem.currentOrientation
     property alias orientationLocked: window_content_topitem.orientationLocked
 
-    property bool inhibitScreenSaver: false
+    property bool inhibitScreenSaver: false    
     property bool backButtonLocked: false
 
     property alias pageStack: pageStack
@@ -704,8 +704,12 @@ Item {
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
     }
 
-    onInhibitScreenSaverChanged: { // from meego-qml-launcher
-        window.inhibitScreenSaver = inhibitScreenSaver
+    onInhibitScreenSaverChanged: { // to meego-qml-launcher
+        try {
+	    mainWindow.inhibitScreenSaver = inhibitScreenSaver            
+        } catch (err) {        
+	  console.log("mainWindow does not exist")
+        }        
     }
 
     // Repositions the context menu after the windows width and/or height have changed.

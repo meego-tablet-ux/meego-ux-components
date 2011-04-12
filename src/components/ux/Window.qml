@@ -69,6 +69,9 @@
  \qmlproperty bool orientationLocked
  \qmlcm bool, indicates if oriention was locked.
 
+ \qmlproperty bool inhibitScreenSaver
+ \qmlcm bool, inhibits activation of the screen saver.
+
  \section1 Private Properties
  \qmlproperty pageStack, statusBar, toolBar and actionMenu are convenient properties if
  for example you want to anchor something to these items.
@@ -185,6 +188,11 @@ Item {
 
     property alias orientation: window_content_topitem.currentOrientation
     property alias orientationLocked: window_content_topitem.orientationLocked
+
+    property bool inhibitScreenSaver: bool
+    onInhibitScreenSaverChanged: {
+        mainWindow.inhibitScreenSaver = inhibitScreenSaver
+    }
 
     property alias pageStack: pageStack
     property alias statusBar: statusBar

@@ -35,6 +35,11 @@
 
  - the payload property is a list of indexes of the the main pages used to display them.
 
+ \section1 IMPORTANT:
+ The id of the applications main window must always be id: window
+
+ Otherwise the AppPages cannot link correctly.
+
  \section1  API Properties:
  \qmlproperty string toolBarTitle
  \qmlcm sets a label for the toolbar.

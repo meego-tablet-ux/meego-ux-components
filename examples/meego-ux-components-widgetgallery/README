@@ -1,0 +1,71 @@
+
+Widget gallery README (February 16,2011)
+=========================================================
+
+This widget gallery uses qt-components as a base for its window and page system while
+still using the menu and general visual appearance of the meego-tablet-components. It's
+meant to give an overview over existing visual widgets and the book/page system. The
+widget gallery is still in progress so many things are bound to change.
+At the moment to view the application you need to load the main.qml with the QmlViewer.
+Then you should see a black status bar at the top and below that the titlebar with a
+button on the right. The main part of the screen shows the currently active page, the
+"MainPage.qml" which contains a small button bar at the top ("Buttons", "Setters", 
+"Pickers" ) which allow to switch the content of that page. 
+Initially the button content is active where several button types fromthe components are 
+shown and can be interacted with. If you click on "Setters" in the button bar, the a similar 
+content appears which shows several widgets usable for user input. Clicking on "Pickers"
+shows a column of buttons which will bring up the picker dialogs.
+You can also drag down the titlebar to show the search bar and drag the titlebar back up
+to hide the search bar again.
+
+What is meant by book/page system? 
+A book is a set of pages which belong together. Only one book is active at any time. 
+So if you switch to another book, all pages on the page stack are removed and the first 
+page of the new book is put on the stack. If you call another page inside a book, that 
+page is just added to the page stack so a back button becomes visible at the left end of 
+the titlebar to navigate back through the pages.
+The first button on the right side of the titlebar is used to navigate between books.
+For showing the intended book/page system only some dummy pages have been implemented 
+so far. If you click on the button at the top right, a list of implemented books shows
+up. In the current version that list should contain the entries "Gallery", "Book 2" and
+"Book 3". "Gallery" is the book which shows the buttons, setters and pickers. "Book 2"
+and "Book 3" just contain pages which show differently colored rectangles. On the first
+page of each book there's a "next page >" button at the bottom right which will call
+the second page of the book. That button is there just to enable a way to switch pages.
+Of course there's no limits to the ways you could do a page switch. Clicking on next
+page calls the second page of a book, visible by a different color an label. Now at the
+left side of the titlebar a button with an arrow pointing to the left should have 
+appeared. Click on it to get back to the first page.
+
+
+
+
+Development note:
+The use of the qt-components leads to a conflict with the meego-tablet-components,
+since both named their image provider "theme". The qt-components image provider
+blocks or overwrites the meego-tablet image provider, so the images aren't found by
+the application. To solve this, the meego-tablet-components image provider ID has
+to be renamed. This can be done in meego-tablet-components/components.cpp. Change
+the line "engine->addImageProvider("theme", new ThemedImageProvider);" to
+"engine->addImageProvider("themedimage", new ThemedImageProvider);". At the time
+this README was written, the line to change was line 70.
+After changing the id of the image provider, the image calls in all meego-tablet files
+have to be adapted too, of course. All instances of "image://theme/filename" have
+to be changed to "image://themedimage/filename". With the find & replace function
+of QtCreator for example that should only need minutes. Then everything has to be
+rebuilt and installed of course, so that the changes take effect.
+
+We chose "themedimage" as new ID, since that matches the naming of the other
+image providers which are used by the meego-tablet-components. Of course the
+new ID of the image provider has to be decided by Intel, "themedimage" is just
+our suggestion.
+
+Another problem comes from meego-tablet-components/Tablet/TopItem.qml. Line 23 has 
+to be changed from "topItem = p.content;" to "topItem = p;", since the qt-components
+Window.qml doesn't have a "content". That seems to solve the problem. It has to be
+observed if that leads to new problems.
+
+For questions, mail pascal.dietz@basyskom.de
+
+Regards,
+Pascal Dietz.

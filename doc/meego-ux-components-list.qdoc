@@ -46,8 +46,8 @@
         \endlist
       \o Examples
         \list
-        \o MeeGo-Ux-Widgetgallery
-        \o \l { MeeGo-Ux-App-Photo }
+        \o MeeGo-Ux-Components-Widgetgallery
+        \o \l { MeeGo-Ux-Components-App-Photo }
         \o MeeGo-Ux-Tutorial
         \endlist
     \endlist

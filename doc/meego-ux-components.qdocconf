@@ -7,14 +7,14 @@ url = 		"http://meego.com"
 sourcedirs = 	../doc \
 		../src \
                 ../tests \
-                ../examples/meego-ux-tutorial \
-		../examples/meego-ux-app-photos
+                ../examples/meego-ux-components-tutorial \
+                ../examples/meego-ux-components-app-photos
 
 headerdirs = 	../doc \
 		../src \
                 ../tests \
-		../examples/meego-ux-tutorial \
-		../examples/meego-ux-app-photos
+                ../examples/meego-ux-components-tutorial \
+                ../examples/meego-ux-components-app-photos
 
 sources.fileextensions = "*.cpp *.doc *.qdoc *.h *.qml *.js"
 
@@ -35,8 +35,6 @@ qhp.QtComponents.filterAttributes = MeeGo.Components 0.2.3
 qhp.QtComponents.customFilters.QtCreator.name = MeeGo.Components 0.2.3
 qhp.QtComponents.customFilters.QtCreator.filterAttributes = MeeGo.Components 0.2.3
 qhp.QtComponents.indexRoot        =
-
-
 
 macro.qmlclass = 	"\\class"
 macro.qml = 		"\\code"
@@ -59,7 +57,6 @@ macro.testcm.HTML       = "</div> <div class=\"testcm\">"
 macro.endtestcm.HTML    = "</div></div>"
 
 macro.todo.HTML         = "<br/>Todo: "
-
 
 # HTML.templatedir = $MeeGoUxComponents/doc/src/meego/template
 

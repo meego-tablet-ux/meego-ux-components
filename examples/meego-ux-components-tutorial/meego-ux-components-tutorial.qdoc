@@ -1,0 +1,374 @@
+/*!
+  \page MeeGo-Ux-Components Tutorial
+  \qmlclass meego-ux-components-tutorial
+  \title Meego-Ux-Components Tutorial
+  \section1 MeeGo-Ux-Components Tutorial
+
+  This tutorial explains the usage of the meego-ux-components step by step in order to create a complete application
+  using the window/book/page concept.
+
+  For an example of a running application please refer to the meego-ux-components-widgetgallery and the meego-app-photo application.
+  The detailed documentation of meego-ux-components can be seen in the documentation.
+
+  \section2 Content
+  \list
+    \o Installation
+    \o Step1: Create a Window based application
+    \o Step2: Create Books inside a Window
+    \o Step3: Create AppPages for a Books
+    \o Step4: Usage of a ModalContextMenu
+    \o Step5: Add an ActionMenu to a Page
+    \o Step6: Open up a ModalMessageBox in a Page
+  \endlist
+
+  \section2 Create a QML project, Installation
+
+  Create a new QML project in the QtCreator or open up an existing one, given by this tutorial
+  (e.g. step1.pro). Make sure that you have installed the meego-ux-components properly. For
+  installation instructions please refer to the README or the general meego-ux-components documentation.
+
+  \section2 Step1: Create a Window based application
+
+  The Window is the base item of every Window-Book-Page based application. In order to use a window,
+  the main.qml must have the Window item as the root item as seen in the step1 project of the tutorial:
+
+  \qml
+    // main.qml
+    Window {
+        id: window
+
+        toolBarTitle: "My Window"
+
+        Component.onCompleted: {
+            console.log("Window loaded")
+        }
+    }
+  \endqml
+
+  The Window object will be existent in the whole life cycle of the application. Make sure to insert
+  global available items, e.g. a settings component here.
+
+  \section2 Step2: Create books inside a Window
+
+  In order to add books to the Window, AppPages must be created inside a Component. These AppPages are
+  the first pages of each book. To load them into the bookMenu, all components must be added to the
+  bookMenuPayload and should get a name in the bookMenuModel.
+
+  In order to switch to a book on startup of the application, the switchBook function must be triggered
+  by one of the Components.
+
+  Attention: If a switch of books occurs, the complete page stack will be cleared. If the application needs to store global
+  properties, it is helpful to create them in the \l {Window} or create a global Item inside the Window for them.
+
+  \qml
+    // main.qml
+    Window {
+
+      id: window
+
+      toolBarTitle: "My Window"
+
+      bookMenuModel: [ qsTr("Page1"), qsTr("Page2") ]
+      bookMenuPayload: [ page1Component, page2Component ]
+
+      Component { id: page1Component; Page1 {} }
+      Component { id: page2Component; Page2 {} }
+
+      Component.onCompleted: {
+          console.log("Window loaded")
+          switchBook( page1Component ) // load Window
+      }
+      onActionMenuTriggered: {
+          // selectedItem contains the selected payload entry
+      }
+    }
+\endqml
+\qml
+    // Page1.qml
+    import Qt 4.7
+    import MeeGo.Components 0.1
+    AppPage {
+        id: page1
+
+        pageTitle: "Page 1 of Book 1"
+        anchors.fill: parent
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 30
+            color: "red"
+            Text {
+                anchors.centerIn: parent
+                text: "Content of Book1/Page1"
+           }
+        }
+    }
+\endqml
+\qml
+    // Page2.qml
+    import Qt 4.7
+    import MeeGo.Components 0.1
+    AppPage {
+        id: page2
+
+        pageTitle: "Page 1 of Book 2"
+        anchors.fill: parent
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 30
+            color: "red"
+            Text {
+                anchors.centerIn: parent
+                text: "Content of Book2/Page1"
+           }
+        }
+    }
+\endqml
+
+  In order to jump to one page of a book after the application started, a switchBook call must be inserted
+  in the onCompleted slot.
+
+  If the user switches the book via the menu, all current pages on the stack will be removed and
+  destroyed. Please make sure that gobal properties of your application are stored in the window or
+  any item which is independent of the page stack.
+
+  \section2 Step3: Create pages for the books
+  In order to fill up the books with pages, the addPage() function of the window/book can be used.
+  After the user jumps to a page, the page will be pushed onto the PageStack and will be shown.
+  If the user is switching back to the old page the current page will be destroyed.
+
+  \qml
+   // main.qml
+   import Qt 4.7
+   import MeeGo.Components 0.1
+
+   Window {
+        id: window
+
+        bookMenuModel: [ qsTr("Page1"), qsTr("Page2") ]
+        bookMenuPayload: [ page1Component, page2Component ]
+
+        Component { id: page1Component; Page1 {} }
+        Component { id: page2Component; Page2 {} }
+
+        Component.onCompleted: {
+            console.log("Window loaded")
+            switchBook( page1Component )
+        }
+
+        onActionMenuTriggered: {
+            // selectedItem contains the selected payload entry
+        }
+   }
+  \endqml
+  \qml
+   // Page1.qml
+   import Qt 4.7
+   import MeeGo.Components 0.1
+
+    AppPage {
+        id: page1
+
+        pageTitle: "Page 1 of Book 1"
+        anchors.fill: parent
+
+        Button {
+            anchors.centerIn: parent
+            height: 60
+            width: 250
+            text: "Next Page"
+            onClicked: { window.addPage( page11component ) }
+        }
+
+        Component { id: page2Component; Page2 {} }
+    }
+  \endqml
+  \qml
+   // Page11.qml
+   import Qt 4.7
+   import MeeGo.Components 0.1
+
+   AppPage {
+        id: page11
+
+        pageTitle: "Page 2 of Book 1"
+        anchors.fill: parent
+
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 30
+            color: "red"
+            Text {
+                anchors.centerIn: parent
+                text: "Content of Book1/Page1"
+            }
+        }
+    }
+  \endqml
+
+  \section2 Step4: Usage of a modal ContextMenu
+
+  A ModalContextMenu can be used to open up a context menu on any item shown in the window or page. The content
+  property can be used to set the content of the menu. Usually it is an ActionMenu.
+
+  \qml
+  Window {
+    id: window
+
+    property variant myModel [ "Foo", "Bar" ]
+
+    TopItem {
+        id: topItem
+    }
+
+    Rectangle {
+
+        anchors.centerIn: parent
+        id: area
+        width: 550
+        height: 400
+        color: blue
+
+        MouseArea {
+           anchors.fill: parent
+           onClicked: {
+             contextMenu.setPosition( mapToItem( topItem.topItem, mouseX, mouseY ).x, mapToItem( topItem.topItem, mouseX, mouseY ).y )
+             contextMenu.show()
+        }
+    }
+
+    ModalContextMenu {
+        id: contextMenu
+        forceFingerMode: -1
+
+        content: ActionMenu {
+            id: actionMenu
+
+            maxWidth: 400
+
+            model: myModel
+
+            onTriggered: {
+                if( index == 0 )
+                    doFoo() // your implementation
+                if( index == 1 )
+                    doBar() // your implementation
+                contextMenu.hide()
+            }
+        }
+    }
+
+    function doFoo() { }
+    function doBar() { }
+
+    }
+    \endqml
+
+  \section2 Step5: Add an ActionMenu to a Page
+
+  Each page can have a global ActionMenu which can be triggered from the status bar of the
+  application. In order to add an ActionMenu the onActionMenuIconClicked signal must be
+  catched. The ActionMenu must consist of a ModalContextMenu as seen below:
+
+  \qml
+  AppPage {
+    id: page1
+
+    pageTitle: "Page 1 of Book 1"
+    anchors.fill: parent
+
+    onActionMenuIconClicked: {
+        contextActionMenu.setPosition( mouseX, mouseY )
+        contextActionMenu.show()
+    }
+
+    ModalContextMenu {
+        id: contextActionMenu
+        forceFingerMode: 2
+
+        content:  Item {
+            width: 300
+            height: 300
+
+            Column {
+                id: column
+
+                width: parent.width
+
+                anchors.fill: parent
+                anchors.margins: 10
+
+                spacing: 10
+
+                Text{
+                    font.pixelSize: 24
+                    text:  "Custom ContextMenu"
+                }
+                TextEntry{
+                    width: 250
+                    defaultText:"some entry"
+                }
+                Text{
+                    width: parent.width
+                    font.pixelSize: 20
+                    wrapMode: Text.WordWrap
+                    text:  "This is an example of a completely own customizable context menu each Page can set."
+                }
+            }
+        }
+    }
+}
+\endqml
+
+  \section2 Step6: Open up a modal MessageBox in a Page
+
+  ModalMessageBox and other ModalDialogs like the pickers can be used to show information or
+  content to the user. In order to show a ModalMessageBox the function show must be triggered.
+  After the user accepts or rejects the MessageBox, the dialog will disappear automatically.
+  It is also possible to trigger the hide function if the dialog becomes obsolete during runtime.
+
+  \qml
+    //Page1.qml
+    import Qt 4.7
+    import MeeGo.Components 0.1
+    
+   AppPage {
+    id: page1
+
+    pageTitle: "Page 1 of Book 1"
+    anchors.fill: parent
+
+    Button {
+        id: button
+        width:  300
+        height:  80
+        text: "Show Message Box"
+
+        onClicked: {
+            messageBox.show()
+        }
+    }
+
+      ModalMessageBox {
+        id: messageBox
+
+        title: "Did you want to click the button?"
+        text: "Did you want to click the button?"
+
+        showAcceptButton: true
+        showCancelButton: true
+
+        fogClickable: true
+
+        onAccepted: { doAccept() } // your implementation of accept
+        onRejected: { doReject() } // your implementation of reject
+    }
+
+    function doAccept() { }
+    function doReject() { }
+
+  }
+  \endqml
+*/

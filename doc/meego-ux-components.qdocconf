@@ -1,5 +1,5 @@
 project = 	meego-ux-components
-version = 	0.2.0
+version = 	0.2.5
 
 description = 	MeeGo Ux Components Documentation
 url = 		"http://meego.com"
@@ -25,16 +25,6 @@ outputformats = HTML
 exampledirs = 	../doc
 imagedirs = 	../doc/images
 base =		../doc
-
-qhp.projects            = Meego-Ux-Components
-qhp.QtComponents.file             = meegouxcomponents.qhp
-qhp.QtComponents.namespace        = MeeGo.Ux.Meego.Components
-qhp.QtComponents.virtualFolder    = doc
-qhp.QtComponents.indexTitle       = Meego Ux Components
-qhp.QtComponents.filterAttributes = MeeGo.Components 0.2.3
-qhp.QtComponents.customFilters.QtCreator.name = MeeGo.Components 0.2.3
-qhp.QtComponents.customFilters.QtCreator.filterAttributes = MeeGo.Components 0.2.3
-qhp.QtComponents.indexRoot        =
 
 macro.qmlclass = 	"\\class"
 macro.qml = 		"\\code"

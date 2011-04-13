@@ -267,16 +267,16 @@ Item {
         property int orientation: 1 // to be replaces with Enum, once Screen or App is visible
         property bool orientationLocked: false
         property int orientationLock: 0
-        property int oldOrientation: 1
-
-        property int oldOrientation // to be replaces with Enum, once Screen or App is visible
 
         property string oldState: ""
+        property bool comesFromApp: false
 
         function setOrientationFromApp( screenOrientation )
         {
+            comesFromApp = true;
             if( orientation != screenOrientation)
                 orientation = screenOrientation;
+            comesFromApp = false
         }
         function setOrientationLockFromApp( screenOrientationLock )
         {
@@ -287,7 +287,6 @@ Item {
         }
 
         onOrientationChanged: {
-
             if( qApp ) {
                 if(qApp.orientation != orientation)
                     qApp.orientation = orientation
@@ -596,7 +595,7 @@ Item {
             },
             State {
                 name: "landscape"
-                when: (isActiveWindow && window_content_topitem.currentOrientation == 1)
+                when: ( isActiveWindow && window_content_topitem.orientation == 1 )
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -611,7 +610,7 @@ Item {
             },
             State {
                 name: "invertedlandscape"
-                when: (isActiveWindow && window_content_topitem.currentOrientation == 3)
+                when: ( isActiveWindow && window_content_topitem.orientation == 3 )
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -626,7 +625,7 @@ Item {
             },
             State {
                 name: "portrait"
-                when: (isActiveWindow && window_content_topitem.currentOrientation == 2)
+                when: ( isActiveWindow && window_content_topitem.orientation == 2)
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -641,7 +640,7 @@ Item {
             },
             State {
                 name: "invertedportrait"
-                when: (isActiveWindow && window_content_topitem.currentOrientation == 0)
+                when: (isActiveWindow && window_content_topitem.orientation == 0)
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -720,11 +719,11 @@ Item {
 
     Component.onCompleted: {
         try {
-            window_content_topitem.currentOrientation = qApp.orientation;
-            window_content_topitem.setOrientation(  window_content_topitem.currentOrientation )
+            window_content_topitem.orientation = qApp.orientation;
+            window_content_topitem.setOrientation(  window_content_topitem.orientation )
         } catch (err) {
-            window_content_topitem.currentOrientation = 1
-            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
+            window_content_topitem.orientation = 1
+            window_content_topitem.setOrientation( window_content_topitem.orientation )
         }
     }
     Connections {
@@ -733,8 +732,8 @@ Item {
             window_content_topitem.setOrientationLockFromApp( qApp.orientationLock )
         }
         onOrientationChanged: {
-            window_content_topitem.currentOrientation = qApp.orientation;
-            window_content_topitem.setOrientationFromApp( window_content_topitem.currentOrientation )
+            window_content_topitem.orientation = qApp.orientation;
+            window_content_topitem.setOrientationFromApp( window_content_topitem.orientation )
         }
         onForegroundChanged: {
             isActiveWindow = foreground
@@ -742,8 +741,8 @@ Item {
             windowFocusChanged( isActiveWindow )
 
             if( isActiveWindow ) {
-                window_content_topitem.currentOrientation = qApp.orientation;
-                window_content_topitem.setOrientationFromApp( window_content_topitem.currentOrientation )
+                window_content_topitem.orientation = qApp.orientation;
+                window_content_topitem.setOrientationFromApp( window_content_topitem.orientation )
             }
         }
     }

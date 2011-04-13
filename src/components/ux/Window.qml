@@ -201,8 +201,10 @@ Item {
     property bool inLandscape: true
     property bool inPortrait: false
 
-    property alias orientation: window_content_topitem.currentOrientation
+    property alias orientation: window_content_topitem.orientation
     property alias orientationLocked: window_content_topitem.orientationLocked
+
+    property alias orientationLock: window_content_topitem.orientationLock;
 
     property bool inhibitScreenSaver: false    
     property bool backButtonLocked: false
@@ -218,6 +220,7 @@ Item {
     signal actionMenuIconClicked( int mouseX, int mouseY )
     signal windowActiveChanged( bool isActiveWindow )
     signal backButtonPressed( bool backButtonLocked )
+
     signal orientationChangeAboutToStart( string oldOrientation, string newOrientation )
     signal orientationChangeStarted
     signal orientationChangeFinished( string oldOrientation, string newOrientation )
@@ -261,50 +264,39 @@ Item {
     Item {
         id: window_content_topitem
 
+        property int orientation: 1
         property bool orientationLocked: false
+        property int orientationLock: 0
 
-        property int apiOrientation: 1
-        property int appOrientation: 1
-        property int currentOrientation: 1
+        property variant currentOrientation: 1
+        property variant oldOrientation
 
-        property string oldOrientation
-        property bool setFromQApp: false
-
-        function setOrientation( orientationInt ) {
-            appOrientation = orientationInt
-            if( !orientationLocked) {
-                setFromQApp = true
-                if( currentOrientation != orientationInt) {
-                    oldOrientation = state
-                    currentOrientation = appOrientation
-                    apiOrientation = appOrientation
-                }
-            } else if ( (appOrientation == 1 && currentOrientation == 3) ||
-                        (appOrientation == 3 && currentOrientation == 1) ) {
-                currentOrientation == appOrientation
-                apiOrientation == appOrientation
-            } else if ( (appOrientation == 0 && currentOrientation == 2) ||
-                        (appOrientation == 2 && currentOrientation == 0) ) {
-                currentOrientation == appOrientation
-                apiOrientation == appOrientation
+        function setOrientationFromApp( screenOrientation )
+        {
+            if( orientation != screenOrientation)
+                orientation = screenOrientation;
+        }
+        function setOrientationLockFromApp( screenOrientationLock )
+        {
+            if( screenOrientationLock != orientationLock) {
+                orientationLock = screenOrientationLock
+                orientationLocked = ( orientationLock != 0)
             }
         }
 
-        Behavior on apiOrientation {
-            ScriptAction {
-                script: {
-                    if(!setFromQApp) {
-                        if( apiOrientation < 0) {
-                            orientationLocked = false
-                            currentOrientation = appOrientation
-                        } else {
-                            orientationLocked = true
-                            currentOrientation = apiOrientation
+        onOrientationChanged: {
 
-                        }
-                    }
-                    setFromQApp = false
-                }
+            if( qApp ) {
+                if(qApp.orientation != orientation)
+                    qApp.orientation = orientation
+            }
+        }
+
+        onOrientationLockChanged: {
+
+            if( qApp ) {
+                if( qApp.orientationLock != orientationLock )
+                    qApp.orientationLock = lockOrientation
             }
         }
 
@@ -734,9 +726,12 @@ Item {
     }
     Connections {
         target: qApp
+        onOrientationLockChanged: {
+            window_content_topitem.setOrientationLockFromApp( qApp.orientationLock )
+        }
         onOrientationChanged: {
             window_content_topitem.currentOrientation = qApp.orientation;
-            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
+            window_content_topitem.setOrientationFromApp( window_content_topitem.currentOrientation )
         }
         onForegroundChanged: {
             isActiveWindow = foreground
@@ -745,7 +740,7 @@ Item {
 
             if( isActiveWindow ) {
                 window_content_topitem.currentOrientation = qApp.orientation;
-                window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
+                window_content_topitem.setOrientationFromApp( window_content_topitem.currentOrientation )
             }
         }
     }

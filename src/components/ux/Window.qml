@@ -204,7 +204,7 @@ Item {
     property alias orientation: window_content_topitem.orientation
     property alias orientationLocked: window_content_topitem.orientationLocked
 
-    property alias orientationLock: window_content_topitem.orientationLock;
+    property alias orientationLock: window_content_topitem.orientationLock; // warning: int right now
 
     property bool inhibitScreenSaver: false    
     property bool backButtonLocked: false

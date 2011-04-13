@@ -99,6 +99,7 @@ Item {
     property variant actionMenuModel: []
     property variant actionMenuPayload: []
     property string actionMenuTitle: ""
+    property bool actionMenuHighlightSelection: false
     property bool actionMenuOpen: false
     property bool fullScreen: false
     property bool fullContent: false
@@ -125,6 +126,7 @@ Item {
         window.fullScreen = fullScreen
         window.fullContent = fullContent
         window.toolBarTitle = pageTitle
+        window.actionMenuHighlightSelection = actionMenuHighlightSelection
     }
 
     onActivated: {        

@@ -66,11 +66,13 @@ Flickable {
 
     property int minWidth : 200
     property int maxWidth : 500
+    property bool highlightSelectedItem: false
 
     property int currentWidth: minWidth
     property int textMargin : 16
 
     property Item currentItem: null
+    property int selectedIndex: -1
 
     signal triggered( int index )
 
@@ -120,8 +122,6 @@ Flickable {
 
         width: parent.width
 
-
-
         Theme{ id: theme }
 
         Repeater {
@@ -138,6 +138,7 @@ Flickable {
                 clip : true
 
                 Rectangle {
+
                     id: highlight
 
                     color: theme.fontColorHighlightBlue
@@ -146,8 +147,9 @@ Flickable {
                     height: parent.height + 1
                     anchors.verticalCenterOffset: -1
 
-                    opacity: 0  // this forces a repaint
+                    opacity: 0 // this forces a repaint
                     visible: opacity != 0
+
                 }
 
                 Text {
@@ -199,30 +201,33 @@ Flickable {
                     anchors.fill: parent
 
                     // pressed state for the text entry:
-                    onClicked: {
+                    onClicked: {                        
                         container.triggered( index )
+                        container.selectedIndex = index
                         highlight.opacity = 0
                     }
                     onPressed: {
-                        highlight.opacity = 1
+                        highlight.opacity = 1                        
                         container.currentItem = highlight
                     }
                     onExited: {
-                        highlight.opacity = 0
+
                     }
-                }
+                }             
             }
 
             onModelChanged: {       // if the model changed, the width has to be calculated again, so reset values
                 currentWidth = minWidth
+                container.selectedIndex = -1
                 layout.elideEnabled = false
             }
         }
     }
 
     onVisibleChanged: {
+
         if( currentItem != null )
-            currentItem.opacity = 0
+             currentItem.opacity = 0
 
         layout.elideEnabled = true  // elide text that exceeds the maxWidth
         contentY = 0    // reset position

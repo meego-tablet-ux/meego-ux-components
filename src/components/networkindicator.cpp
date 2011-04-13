@@ -61,8 +61,8 @@ void NetworkIndicator::setActive(bool active)
     m_active = active;
     if (m_active)
     {
-        //m_networkTypeProperty = new ContextProperty("Internet.NetworkType", this);
-        //connect(m_networkTypeProperty, SIGNAL(valueChanged()), this, SLOT(updateIcon()));
+        m_networkTypeProperty = new ContextProperty("Internet.NetworkType", this);
+        connect(m_networkTypeProperty, SIGNAL(valueChanged()), this, SLOT(updateIcon()));
 
         m_networkStateProperty = new ContextProperty("Internet.NetworkState", this);
         connect(m_networkStateProperty, SIGNAL(valueChanged()), this, SLOT(updateIcon()));

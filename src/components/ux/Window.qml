@@ -264,12 +264,14 @@ Item {
     Item {
         id: window_content_topitem
 
-        property int orientation: 1
+        property int orientation: 1 // to be replaces with Enum, once Screen or App is visible
         property bool orientationLocked: false
         property int orientationLock: 0
+        property int oldOrientation: 1
 
-        property variant currentOrientation: 1
-        property variant oldOrientation
+        property int oldOrientation // to be replaces with Enum, once Screen or App is visible
+
+        property string oldState: ""
 
         function setOrientationFromApp( screenOrientation )
         {
@@ -658,7 +660,7 @@ Item {
             SequentialAnimation {
                 ScriptAction {
                     script: {
-                        window.orientationChangeAboutToStart( window_content_topitem.oldOrientation, window_content_topitem.state )
+                        window.orientationChangeFinished( window_content_topitem.oldState, window_content_topitem.state )
                         window.orientationChangeStarted()
                     }
                 }
@@ -682,8 +684,9 @@ Item {
                 }
                 ScriptAction {
                     script: {
-                        window.orientationChangeFinished( window_content_topitem.oldOrientation, window_content_topitem.state );
-                        window.orientationChanged();
+                        window.orientationChangeFinished( window_content_topitem.oldState, window_content_topitem.state )
+                        window.orientationChanged()
+                        window_content_topitem.oldState = window_content_topitem.state
                     }
                 }
             }

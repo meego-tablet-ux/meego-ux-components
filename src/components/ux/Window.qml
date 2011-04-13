@@ -738,10 +738,10 @@ Item {
             window_content_topitem.currentOrientation = qApp.orientation;
             window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
         }
-        onForegroundChanged: {
-            isActiveWindow = foreground
+        onForegroundWindowChanged: {
+            isActiveWindow = qApp.foregroundWindow == mainWindow.winId 
             qApp.orientationLocked = orientationLocked
-            windowFocusChanged( isActiveWindow )
+            windowActiveChanged( isActiveWindow )
 
             if( isActiveWindow ) {
                 window_content_topitem.currentOrientation = qApp.orientation;

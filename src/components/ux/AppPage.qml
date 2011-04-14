@@ -100,6 +100,7 @@ Item {
     property variant actionMenuModel: []
     property variant actionMenuPayload: []
     property string actionMenuTitle: ""
+    property bool actionMenuHighlightSelection: false
     property bool actionMenuOpen: false
     property bool fullScreen: false
     property bool fullContent: false
@@ -121,6 +122,7 @@ Item {
         window.fullContent = fullContent
         window.toolBarTitle = pageTitle
         window.backButtonLocked = backButtonLocked
+        window.actionMenuHighlightSelection = actionMenuHighlightSelection
     }
     
     onActivated: { // from PageStack.qml

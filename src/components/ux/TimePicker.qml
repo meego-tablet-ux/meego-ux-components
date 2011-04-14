@@ -93,8 +93,8 @@ ModalDialog {
 
     onShowCalled:  {
         oldToggleState = ampmToggle.on
-        hours = hourSpinner.value
-        minutes = minutesSpinner.value
+        hourSpinner.value = hours
+        minutesSpinner.value = minutes
     }
 
     // if ok button is clicked, store the selected time

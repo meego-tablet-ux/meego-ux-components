@@ -119,13 +119,14 @@ Item {
     property alias minWidth: actionMenu.minWidth
     property alias maxWidth: actionMenu.maxWidth
     property alias currentWidth: actionMenu.currentWidth
+    property alias highlightSelectedItem: actionMenu.highlightSelectedItem
 
     property bool replaceDropDownTitle: false
     property bool showTitleInMenu: false
 
-    property string title: undefined
-    property string selectedTitle: undefined
-    property int selectedIndex: undefied
+    property string title: ""
+    property string selectedTitle: ""
+    property int selectedIndex: -1
     signal triggered( int index )
     signal expandingChanged( bool expanded )
 
@@ -218,7 +219,7 @@ Item {
 
             title: dropDown.showTitleInMenu ? dropDown.title : ""
 
-            forceFingerMode: dropDown.engouhSpaceLeft ? 1 :  -1
+            forceFingerMode: dropDown.engouhSpaceLeft ? 1 : -1
 
             content: ActionMenu {
                 id: actionMenu
@@ -252,7 +253,8 @@ Item {
     Theme { id: theme }
 
     Component.onCompleted: {
-        selectedTitle = title;
+        selectedTitle = title
+        highlightSelectedItem = true
     }
 
 }

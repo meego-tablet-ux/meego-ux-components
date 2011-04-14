@@ -10,7 +10,7 @@
   \qmlclass TextEntry
   \title TextEntry
   \section1 TextEntry
-  \qmlcm The TextEntry is a text entry for multiple lines of text.
+  \qmlcm The TextEntry is a text entry for single lines of text.
          It will turn scrollable if the text is too big for the text field.
 
   \section2 API Properties
@@ -24,7 +24,7 @@
   \qmlcm sets the text read only. The text can not be altered if set to true.
   
   \qmlproperty alias defaultText
-  \qmlcm sets a defaultText in case the TextEntry is empty
+  \qmlcm sets a defaultText in case the TextEntry is empty. the Text will be displayed as single line
 
   \section2 Private Properties
   \qmlnone
@@ -63,7 +63,7 @@ BorderImage {
     property alias font: input.font
 
     signal textChanged
-    signal accepted    
+    signal accepted
 
     border.top: 6
     border.bottom: 6
@@ -87,9 +87,9 @@ BorderImage {
 
         font.pixelSize: theme.fontPixelSizeLarge
 
-        onTextChanged: {
-            container.textChanged()
-            if( text.length > 0 ){
+        onTextChanged: {            
+            if( text.length > 0 || !firstUsage ) {
+                container.textChanged()
                 fakeText.firstUsage = false
             }
         }

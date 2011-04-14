@@ -187,10 +187,12 @@ Item {
     property alias bookMenuModel: bookMenu.model
     property alias bookMenuPayload: bookMenu.payload
     property alias bookMenuTitle: bookContextMenu.title
+    property alias bookMenuHighlightSelection: bookMenu.highlightSelectedItem
 
     property alias actionMenuModel: actionMenu.model
     property alias actionMenuPayload: actionMenu.payload
     property alias actionMenuTitle: pageContextMenu.title
+    property alias actionMenuHighlightSelection: actionMenu.highlightSelectedItem
 
     property bool fullScreen: false
     property bool fullContent: false
@@ -740,7 +742,7 @@ Item {
         }
         onForegroundWindowChanged: {
             isActiveWindow = qApp.foregroundWindow == mainWindow.winId 
-            qApp.orientationLocked = orientationLocked
+            qApp.orientationLocked = window_content_topitem.orientationLocked
             windowActiveChanged( isActiveWindow )
 
             if( isActiveWindow ) {

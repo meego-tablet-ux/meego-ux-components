@@ -24,6 +24,10 @@
       \qmlproperty string textColor
       \qmlcm sets the color of the button's text.
 
+      \qmlproperty bool hasBackground
+      \qmlcm If true the properties bgSourceUp and bgSourceDown are used to
+             render the background of the Button.
+
       \qmlproperty string bgSourceUp
       \qmlcm path to an image file used for released state.
 
@@ -68,6 +72,7 @@ Item {
 
     property alias text: buttonText.text
     property alias font: buttonText.font
+    property bool hasBackground: true
     property string bgSourceUp: "image://themedimage/widgets/common/button/button"
     property string bgSourceDn: "image://themedimage/widgets/common/button/button-pressed"
     property string bgSourceActive: "image://themedimage/widgets/common/button/button-default"
@@ -106,6 +111,8 @@ Item {
         border.right: 10
         source: bgSourceUp
         anchors.fill: parent
+
+        visible: hasBackground
 
         states: [
             State {

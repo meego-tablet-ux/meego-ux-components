@@ -72,13 +72,17 @@ Flickable {
     property int textMargin : 16
 
     property Item currentItem: null
+    property Item oldItem: null
     property int selectedIndex: -1
 
     signal triggered( int index )
 
     onMovingChanged: {          // This slot deselects the current item when the flickable movement changed
-        if( currentItem != null )
-            currentItem.opacity = 0 // onPositionChanged() was to to touchy on the touchpad
+        if( !highlightSelectedItem ){   // onPositionChanged() was to to touchy on the touchpad
+            currentItem = null
+            oldItem = null
+        }
+        currentItem = null
     }
 
     Connections {
@@ -147,7 +151,7 @@ Flickable {
                     height: parent.height + 1
                     anchors.verticalCenterOffset: -1
 
-                    opacity: 0 // this forces a repaint
+                    opacity: ( highlight == container.currentItem || highlight == container.oldItem ) ? 1 : 0 // this forces a repaint
                     visible: opacity != 0
 
                 }
@@ -162,7 +166,7 @@ Flickable {
 
                     verticalAlignment: Text.AlignVCenter
 
-                    color: ( highlight.opacity == 0 ) ? theme.contextMenuFontColor : "white"
+                    color: ( highlight == container.currentItem || highlight == container.oldItem ) ? "white" : theme.contextMenuFontColor
                     font.pixelSize: theme.contextMenuFontPixelSize
 
                     // elide has to be turned off to correctly compute the paintedWidth. It is re-enabled after the width computing
@@ -204,14 +208,22 @@ Flickable {
                     onClicked: {                        
                         container.triggered( index )
                         container.selectedIndex = index
-                        highlight.opacity = 0
+
+
+                        if( !highlightSelectedItem ){
+                            container.currentItem = null
+                        }
+                        else{
+                            container.oldItem = highlight
+                        }
                     }
+
                     onPressed: {
-                        highlight.opacity = 1                        
                         container.currentItem = highlight
                     }
-                    onExited: {
 
+                    onExited: {
+                        container.currentItem = null
                     }
                 }             
             }
@@ -226,8 +238,8 @@ Flickable {
 
     onVisibleChanged: {
 
-        if( currentItem != null )
-             currentItem.opacity = 0
+        if( !highlightSelectedItem )
+             oldItem = null
 
         layout.elideEnabled = true  // elide text that exceeds the maxWidth
         contentY = 0    // reset position

@@ -63,7 +63,7 @@ BorderImage {
     property alias font: input.font
 
     signal textChanged
-    signal accepted    
+    signal accepted
 
     border.top: 6
     border.bottom: 6
@@ -87,9 +87,9 @@ BorderImage {
 
         font.pixelSize: theme.fontPixelSizeLarge
 
-        onTextChanged: {
-            container.textChanged()
-            if( text.length > 0 ){
+        onTextChanged: {            
+            if( text.length > 0 || !firstUsage ) {
+                container.textChanged()
                 fakeText.firstUsage = false
             }
         }

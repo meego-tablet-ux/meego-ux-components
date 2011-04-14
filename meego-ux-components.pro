@@ -12,7 +12,7 @@ OTHER_FILES += README
 SOURCES += src
 
 TRANSLATIONS += $${SOURCES} $${OTHER_FILES} $${HEADERS}
-VERSION = 0.2.5
+VERSION = 0.2.6
 PROJECT_NAME = meego-ux-components
 
 dist.commands += rm -fR $${PROJECT_NAME}-$${VERSION} &&

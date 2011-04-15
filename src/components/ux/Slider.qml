@@ -244,9 +244,4 @@ Item {
             when: mouseAreaFTW.pressed
         }
     ]
-    transitions: [
-        Transition {
-            NumberAnimation { target: marker; property: "x"; duration: 1000 }
-        }
-    ]
 }

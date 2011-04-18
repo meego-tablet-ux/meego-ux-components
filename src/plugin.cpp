@@ -13,7 +13,7 @@
 //#include "models/desktop.h"
 //#include "kernel/valuespacepublisher.h"
 //#include "kernel/valuespacesubscriber.h"
-
+#include "kernel/orientation.h"
 #include "kernel/musicserviceproxy.h"
 
 #include "components/volumecontrol.h"
@@ -56,14 +56,13 @@
 void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
 {
     // 0.1
-    // Kernel:
-
+    // Kernel
     qmlRegisterType<Translator>(uri, 0,1,"Translator");
     qmlRegisterType<QmlDebugTools>(uri, 0,1, "QmlDebugTools");
     qmlRegisterType<FuzzyDateTime>(uri, 0,1, "FuzzyDateTime");
     qmlRegisterType<devicemodel>(uri, 0,1,"UDiskDeviceModel");
     qmlRegisterType<ImageExtension>(uri, 0,1,"ImageExtension");
-
+    qmlRegisterType<Scene>(uri, 0,1,"Scene");
     // Components
     qmlRegisterType<VolumeControl>(uri, 0,1,"VolumeControl");
     qmlRegisterType<GestureArea>(uri, 0,1, "GestureArea");

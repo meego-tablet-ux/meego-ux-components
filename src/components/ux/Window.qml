@@ -198,13 +198,12 @@ Item {
 
     property bool actionMenuPresent: false
 
-    property bool inLandscape: true
-    property bool inPortrait: false
-
-    property alias orientation: window_content_topitem.orientation
-    property alias orientationLocked: window_content_topitem.orientationLocked
-
-    property alias orientationLock: window_content_topitem.orientationLock; // warning: int right now
+    property alias orientation: scene.orientation
+    property alias orientationLocked: scene.orientationLocked
+    property alias orientationLock: scene.orientationLock
+    property alias lockCurrentOrientation: scene.lockCurrentOrientation
+    property alias inLandscape: scene.inLandscape
+    property alias inPortrait: scene.inPortrait
 
     property bool inhibitScreenSaver: false    
     property bool backButtonLocked: false
@@ -261,30 +260,8 @@ Item {
         catalog: "meego-ux-components"
     }
 
-    Item {
-        id: window_content_topitem
-
-        property int orientation: 1 // to be replaces with Enum, once Screen or App is visible
-        property bool orientationLocked: false
-        property int orientationLock: 0
-
-        property string oldState: ""
-        property bool comesFromApp: false
-
-        function setOrientationFromApp( screenOrientation )
-        {
-            comesFromApp = true;
-            if( orientation != screenOrientation)
-                orientation = screenOrientation;
-            comesFromApp = false
-        }
-        function setOrientationLockFromApp( screenOrientationLock )
-        {
-            if( screenOrientationLock != orientationLock) {
-                orientationLock = screenOrientationLock
-                orientationLocked = ( orientationLock != 0)
-            }
-        }
+    Scene {
+        id: scene
 
         onOrientationChanged: {
             if( qApp ) {
@@ -294,12 +271,18 @@ Item {
         }
 
         onOrientationLockChanged: {
-
             if( qApp ) {
                 if( qApp.orientationLock != orientationLock )
                     qApp.orientationLock = lockOrientation
             }
         }
+
+    }
+
+    Item {
+        id: window_content_topitem
+
+        property string oldState: ""
 
         anchors.centerIn: parent
 
@@ -588,14 +571,15 @@ Item {
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
+        state: isActiveWindow ? scene.orientationString : "windowHasNoFocus"
+
         states:  [
             State {
                 name: "windowHasNoFocus"
                 when: (!isActiveWindow)
             },
             State {
-                name: "landscape"
-                when: ( isActiveWindow && window_content_topitem.orientation == 1 )
+                name: "landscape"                
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -609,8 +593,7 @@ Item {
                 }
             },
             State {
-                name: "invertedlandscape"
-                when: ( isActiveWindow && window_content_topitem.orientation == 3 )
+                name: "invertedLandscape"
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -624,8 +607,7 @@ Item {
                 }
             },
             State {
-                name: "portrait"
-                when: ( isActiveWindow && window_content_topitem.orientation == 2)
+                name: "portrait"                
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -639,8 +621,7 @@ Item {
                 }
             },
             State {
-                name: "invertedportrait"
-                when: (isActiveWindow && window_content_topitem.orientation == 0)
+                name: "invertedPortrait"
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -726,24 +707,24 @@ Item {
             window_content_topitem.setOrientation( window_content_topitem.orientation )
         }
     }
+
     Connections {
         target: qApp
-        onOrientationLockChanged: {
-            window_content_topitem.setOrientationLockFromApp( qApp.orientationLock )
-        }
-        onOrientationChanged: {
-            window_content_topitem.orientation = qApp.orientation;
-            window_content_topitem.setOrientationFromApp( window_content_topitem.orientation )
-        }
         onForegroundChanged: {
             isActiveWindow = foreground
-            qApp.orientationLocked = orientationLocked
+            qApp.orientationLocked = scene.orientationLocked
             windowFocusChanged( isActiveWindow )
 
             if( isActiveWindow ) {
-                window_content_topitem.orientation = qApp.orientation;
-                window_content_topitem.setOrientationFromApp( window_content_topitem.orientation )
+                scene.orientation = qApp.orientation;
             }
+        }
+        onOrientationLockChanged: {
+            if( scene.orientationLocked != qApp.orientationLock )
+            scene.orientationLocked = qApp.orientationLock
+        }
+        onOrientationChanged: {
+            scene.orientation = qApp.orientation;
         }
     }
 }

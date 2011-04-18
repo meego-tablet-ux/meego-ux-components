@@ -134,7 +134,7 @@ ModalDialog {
         var timeFormat = "h:mm"
         if( !hr24 ) {
             ampm = " " + (ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel);
-            timeFormat
+            timeFormat = "h:mm AP"
         }else {
             ampm = ""
         }

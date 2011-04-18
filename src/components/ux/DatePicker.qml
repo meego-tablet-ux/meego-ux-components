@@ -830,6 +830,7 @@ ModalDialog {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 text: qsTr( "Go to todays date" );
+                elide: Text.ElideRight
                 font.pixelSize: if( theme.fontPixelSizeLarge < height - 4 ) {
                                     return theme.fontPixelSizeLarge
                                 }else {

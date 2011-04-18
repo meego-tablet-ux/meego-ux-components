@@ -130,8 +130,6 @@ WidgetPage {
         text: "Show Photo Picker"
 
         onClicked: {
-            lastSignal = "none"
-            pickedItems = "-"
             photoPicker.show()
         }
     }

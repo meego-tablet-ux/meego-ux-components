@@ -194,8 +194,6 @@ WidgetPage {
         text: "Show MusicPicker"
 
         onClicked: {
-            lastSignal = "none"
-            pickedItems = "-"
             musicPicker.show()
         }
     }

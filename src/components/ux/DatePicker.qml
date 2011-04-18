@@ -836,6 +836,8 @@ ModalDialog {
 
                 text: qsTr( "Go to todays date" );
 
+                clip: true
+
                 font.pixelSize: if( theme.fontPixelSizeLarge < height - 4 ) {
                                     return theme.fontPixelSizeLarge
                                 }else {

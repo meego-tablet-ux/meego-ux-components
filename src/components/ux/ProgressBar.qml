@@ -94,7 +94,7 @@ BorderImage{
             font.pixelSize: theme.fontPixelSizeLarge
             color: theme.fontColorProgressFilled
 
-            text: parseInt( progressBar.progressPercentage ) + "%"
+            text: qsTr("%1%").arg( parseInt( progressBar.progressPercentage ) )
         }
     }
 
@@ -112,6 +112,6 @@ BorderImage{
         font.pixelSize: theme.fontPixelSizeLarge
         color: theme.fontColorProgress
 
-        text: parseInt( progressBar.progressPercentage ) + "%"
+        text: qsTr("%1%").arg( parseInt( progressBar.progressPercentage ) )
     }
 }

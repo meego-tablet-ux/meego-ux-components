@@ -52,7 +52,7 @@
 
   \qmlsignal albumSelected
   \qmlcm propagates data of the selected album. Triggered on accpeted if albumSelectionMode is true
-         and multiSelection is false
+         and multiSelection is false.  DEPRECATED
     \param string albumid
     \qmlpcm ID of the selected photo album. \endparam
     \param string title
@@ -60,7 +60,7 @@
 
   \qmlsignal multipleAlbumsSelected
   \qmlcm propagates data of the selected albums. Triggered on accpeted if albumSelectionMode is true
-         and multiSelection is true
+         and multiSelection is true.  DEPRECATED
     \param string albumids
     \qmlpcm ID of the selected photo albums. \endparam
     \param string titles
@@ -116,19 +116,20 @@ ModalDialog {
 
     signal videoSelected( string itemid, string itemtitle, string uri, string thumbUri )
     signal multipleVideosSelected( variant ids, variant titles, variant uris, variant thumbUris )
-    signal albumSelected( string itemid, string title )
-    signal multipleAlbumsSelected( variant ids, variant titles )
+    signal albumSelected( string itemid, string title ) //DEPRECATED
+    signal multipleAlbumsSelected( variant ids, variant titles )  //DEPRECATED
 
     //ids, titles, uris
     onAccepted: {
         if( PickerArray.ids.length > 0 && PickerArray.titles.length > 0 ) {
-            if( albumSelectionMode ) {
-                if( multiSelection ) {
-                    multipleAlbumsSelected( PickerArray.ids, PickerArray.titles )
-                }else {
-                    albumSelected( PickerArray.ids[0], PickerArray.titles[0] )
-                }
-            }else if( PickerArray.uris.length > 0 ) {
+//            if( albumSelectionMode ) {
+//                if( multiSelection ) {
+//                    multipleAlbumsSelected( PickerArray.ids, PickerArray.titles )
+//                }else {
+//                    albumSelected( PickerArray.ids[0], PickerArray.titles[0] )
+//                }
+//            }else
+            if( PickerArray.uris.length > 0 ) {
                 if( multiSelection ) {
                     multipleVideosSelected( PickerArray.ids, PickerArray.titles, PickerArray.uris, PickerArray.thumbUris )
                 }else {

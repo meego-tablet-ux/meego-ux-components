@@ -17,7 +17,7 @@ $ zypper in qt-mobility-devel
 $ zypper in libqtopengl-devel
 $ zypper in libcontentaction-devel
 $ zypper in contextkit-devel
-$ zypper in mlite
+$ zypper in mlite-devel
 
 // then build the project:
 $ qmake

@@ -1,6 +1,6 @@
 VERSION = 0.2.1
 TEMPLATE = subdirs
-TARGET = meego-ux-tutorial/step2
+TARGET = meego-ux-components-tutorial/step2
 
 qmlfiles.files += *.qml images/
 qmlfiles.path += $$INSTALL_ROOT/usr/share/$$TARGET

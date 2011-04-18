@@ -27,7 +27,8 @@
 
   \qmlproperty string time
   \qmlcm contains the current hours and minutes separated by a colon
-         and followed by the content of the property ampm
+         and followed by the content of the property ampm.  This property is
+         only valid once a time has been picked
 
   \qmlproperty bool hr24
   \qmlcm set to true if 24 hour system should be used.  Default is false (12 hr am/pm)
@@ -77,7 +78,7 @@ ModalDialog {
     property int minutes: 0
     property string minutesPadded: ( minutes < 10 ? "0" : "" ) + minutes
     property string ampm: ""
-    property string time: hours + ":" + minutesPadded + ampm
+    property string time: ""
 
     property bool hr24: false
     property int minutesIncrement: 1
@@ -121,8 +122,6 @@ ModalDialog {
 
     onShowCalled:  {
         oldToggleState = ampmToggle.on
-        //hours = hourSpinner.value
-        //minutes = minutesSpinner.value
 
         hourSpinner.setValue( hours )
         minutesSpinner.setValue( minutes )

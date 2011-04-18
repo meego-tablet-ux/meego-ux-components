@@ -27,11 +27,11 @@
   \qmlproperty bool enableCustomActionMenu
   \qmlcm enables custom action menus set by the AppPage.
 
- \qmlproperty fullScreen
- \qmlcm bool, hides the statusbar if true.
+  \qmlproperty fullScreen
+  \qmlcm bool, hides the statusbar if true.
 
- \qmlproperty fullContent
- \qmlcm bool, hides the statusbar and the toolbar if true.
+  \qmlproperty fullContent
+  \qmlcm bool, hides the statusbar and the toolbar if true.
 
   \section2 Private Properties
   \qmlnone
@@ -94,7 +94,8 @@ Item {
     width:  parent ? parent.width : 0
     height: parent ? parent.height : 0
     z: 50
-
+    visible: false
+    
     property string pageTitle: ""
     property variant actionMenuModel: []
     property variant actionMenuPayload: []
@@ -103,33 +104,31 @@ Item {
     property bool actionMenuOpen: false
     property bool fullScreen: false
     property bool fullContent: false
+    property bool backButtonLocked: false
     property bool enableCustomActionMenu: false
+
+    property int orientationLock: 0 // warning: int right now should be: enum of qApp
 
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
+    signal activating // emitted by PageStack.qml
+    signal activated // emitted by PageStack.qml
+    signal deactivating // emitted by PageStack.qml
+    signal deactivated // emitted by PageStack.qml    
+    signal focusChanged(bool appPageHasFocus)
 
-    visible: false
+    anchors.fill:  parent
 
-    // Signal that fires when the page is being activated.
-    signal activating
-
-    // Signal that fires when the page has been activated.
-    signal activated
-
-    // Signal that fires when the page is being deactivated.
-    signal deactivating
-
-    // Signal that fires when the page has been deactivated.
-    signal deactivated
-
-    onActivating: {
+    onActivating: { // from PageStack.qml
         window.fullScreen = fullScreen
         window.fullContent = fullContent
         window.toolBarTitle = pageTitle
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
+        window.backButtonLocked = backButtonLocked
+        window.orientationLock = orientationLock
     }
-
-    onActivated: {        
+    
+    onActivated: { // from PageStack.qml
         window.customActionMenu = enableCustomActionMenu
         window.actionMenuModel = actionMenuModel
         window.actionMenuPayload = actionMenuPayload
@@ -138,8 +137,7 @@ Item {
 
     onFullScreenChanged: {
         window.fullScreen = fullScreen
-    }
-
+    }    
     onFullContentChanged: {
         window.fullContent = fullContent
     }
@@ -152,8 +150,6 @@ Item {
         window.toolBarTitle = pageTitle
     }
 
-    anchors.fill:  parent
-
     Connections{
         target: window
         onActionMenuTriggered: {
@@ -162,5 +158,12 @@ Item {
         onActionMenuIconClicked: {
             actionMenuIconClicked( mouseX, mouseY )
         }
+        onWindowFocusChanged: { // from Window.qml
+
+        }
+        onWindowActiveChanged: { // from Window.qml
+
+        }
+
     }
 }

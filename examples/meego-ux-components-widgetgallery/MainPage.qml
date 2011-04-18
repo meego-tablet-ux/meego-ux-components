@@ -23,7 +23,7 @@ AppPage {
                        qsTr("Portrait"),
                        qsTr("Inv. Landscape"),
                        qsTr("Inv. Portrait") ]
-    actionMenuPayload: [  1, 2, 3, 4 ]
+    actionMenuPayload: [ Scene.lanscape , Scene.portrait, Scene.invertedLandscape, Scene.invertedPortrait ]
     actionMenuTitle: qsTr("Action Menu")
 
     onActionMenuTriggered: {

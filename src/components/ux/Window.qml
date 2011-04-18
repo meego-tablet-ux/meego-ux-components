@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Intel Corporation.
+* Copyright 2011 Intel Corporation.
  *
  * This program is licensed under the terms and conditions of the
  * LGPL, version 2.1.  The full text of the LGPL Licence is at
@@ -7,7 +7,7 @@
  */
 
 /*!
- \qmlclass Window
+\qmlclass Window
  \title Window
  \section1 Window
  This component provides the main window for an meegoUx-components application.
@@ -74,6 +74,12 @@
  \qmlproperty bool orientationLocked
  \qmlcm bool, indicates if oriention was locked.
 
+ \qmlproperty bool inhibitScreenSaver
+ \qmlcm bool, inhibits activation of the screen saver.
+
+ \qmlproperty bool backButtonEnabled
+ \qmlcm bool, inhibits if the backButton is enabled or not. if not enabled.
+
  \section1 Private Properties
  \qmlproperty pageStack, statusBar, toolBar and actionMenu are convenient properties if
  for example you want to anchor something to these items.
@@ -102,7 +108,10 @@
 
   \qmlsignal orientationChangeAboutToStart
    \qmlcm Signals that a orientation change will come
-
+        \param string newOrientation
+        \qmlpcm provides the new orientation \endparam
+        \param string oldOrientation
+        \qmlpcm provides the old orientation \endparam
   \qmlsignal orientationChangeStarted
    \qmlcm Signals the start of the orientation change
 
@@ -110,6 +119,8 @@
    \qmlcm Signales the end of the orientationChange
         \param string newOrientation
         \qmlpcm provides the new orientation \endparam
+        \param string oldOrientation
+        \qmlpcm provides the old orientation \endparam
 
   \qmlsignal orientationChanged
    \qmlcm obsolete signal, will be triggered just as orientationChangeFinished.
@@ -185,29 +196,36 @@ Item {
 
     property bool fullScreen: false
     property bool fullContent: false
+    property bool isActiveWindow: true
+
     property bool actionMenuPresent: false
 
-    property bool inLandscape: true
-    property bool inPortrait: false
+    property alias orientation: scene.orientation
+    property alias orientationLocked: scene.orientationLocked
+    property alias orientationLock: scene.orientationLock
+    property alias lockCurrentOrientation: scene.lockCurrentOrientation
+    property alias inLandscape: scene.inLandscape
+    property alias inPortrait: scene.inPortrait
 
-    property alias orientation: window_content_topitem.currentOrientation
-    property alias orientationLocked: window_content_topitem.orientationLocked
+    property bool inhibitScreenSaver: false    
+    property bool backButtonLocked: false
 
     property alias pageStack: pageStack
     property alias statusBar: statusBar
     property alias toolBar: toolBar
-
     property bool customActionMenu: false
-
     property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullScreen ) ? 0 : statusBar.height )
 
     signal search(string needle)
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
-    signal orientationChangeAboutToStart
+    signal windowActiveChanged( bool isActiveWindow )
+    signal backButtonPressed( bool backButtonLocked )
+
+    signal orientationChangeAboutToStart( string oldOrientation, string newOrientation )
     signal orientationChangeStarted
-    signal orientationChangeFinished(  string oldOrientation, string newOrientation )
-    signal orientationChanged // obsolete
+    signal orientationChangeFinished( string oldOrientation, string newOrientation )
+    signal orientationChanged
 
     //sets the content of the book menu
     function setBookMenuData( model, payload ) {
@@ -218,7 +236,6 @@ Item {
     //switches between "books"
     function switchBook( pageComponent ) {
         if( !pageStack.busy ){
-            //setActionMenu( null ); //remove the current ActionMenu
             pageStack.clear();  //first remove all pages from the stack
             pageStack.push( pageComponent ) //then add the new page
         }
@@ -240,61 +257,34 @@ Item {
 
     Theme { id: theme }
 
-    //how does that work? needed here?
     Translator {
-        catalog: "meego-tablet-components"
-    } // Translator
+        id: translator
+        catalog: "meego-ux-components"
+    }
+
+    Scene {
+        id: scene
+
+        onOrientationChanged: {
+            if( qApp ) {
+                if(qApp.orientation != orientation)
+                    qApp.orientation = orientation
+            }
+        }
+
+        onOrientationLockChanged: {
+            if( qApp ) {
+                if( qApp.orientationLock != orientationLock )
+                    qApp.orientationLock = lockOrientation
+            }
+        }
+
+    }
 
     Item {
         id: window_content_topitem
 
-        property bool orientationLocked: false
-
-        property int apiOrientation: 1
-        property int appOrientation: 1
-        property int currentOrientation: 1
-
-        property string oldOrientation
-        property bool setFromQApp: false
-
-        function setOrientation( orientationInt ) {
-            appOrientation = orientationInt
-            if( !orientationLocked) {
-                setFromQApp = true
-                if( currentOrientation != orientationInt) {
-                    oldOrientation = state
-                    currentOrientation = appOrientation
-                    apiOrientation = appOrientation
-                }
-            } else if ( (appOrientation == 1 && currentOrientation == 3) ||
-                        (appOrientation == 3 && currentOrientation == 1) ) {
-                currentOrientation == appOrientation
-                apiOrientation == appOrientation
-            } else if ( (appOrientation == 0 && currentOrientation == 2) ||
-                        (appOrientation == 2 && currentOrientation == 0) ) {
-                currentOrientation == appOrientation
-                apiOrientation == appOrientation
-            }
-        }
-
-        Behavior on apiOrientation {
-            ScriptAction {
-                script: {
-                    if(!setFromQApp) {
-                        if( apiOrientation < 0) {
-                            orientationLocked = false
-                            currentOrientation = appOrientation
-                        } else {
-                            orientationLocked = true
-                            currentOrientation = apiOrientation
-
-                        }
-                    }
-                    setFromQApp = false
-                }
-            }
-        }
-
+        property string oldState: ""
 
         anchors.centerIn: parent
 
@@ -306,28 +296,27 @@ Item {
 
             x: 0
             y: if( fullContent ){
-                   - statusBar.height - clipBox.height
-               }
-               else if( fullScreen ){
-                   - statusBar.height
-               }
-               else{
-                   0
-               }
+                - statusBar.height - clipBox.height
+            }
+            else if( fullScreen ){
+                - statusBar.height
+            }
+            else{
+                0
+            }
             width: window_content_topitem.width
             height: 30
             z: 1
 
             Behavior on y {
                 PropertyAnimation {
-
-                    duration: 250
+                    duration: theme.dialogAnimationDuration
                     easing.type: "OutSine"
                 }
             }
         } //end of statusBar
 
-	//the toolbar consists of a searchbar and the titlebar. The latter contains menus for navigation and actions.
+        //the toolbar consists of a searchbar and the titlebar. The latter contains menus for navigation and actions.
         Item {
             id: clipBox
 
@@ -339,7 +328,7 @@ Item {
 
             Behavior on height {
                 NumberAnimation{
-                    duration: 200
+                    duration: theme.dialogAnimationDuration
                 }
             }
 
@@ -362,7 +351,7 @@ Item {
 
                 Behavior on anchors.topMargin {
                     NumberAnimation{
-                        duration: 200
+                        duration: theme.dialogAnimationDuration
                     }
                 }
 
@@ -426,17 +415,21 @@ Item {
 
                         anchors.left: parent.left
                         source: if( backButtonMouseArea.pressed ) {
-                                    "image://themedimage/images/icn_toolbar_back_button_dn"
-                                } else {
-                                    "image://themedimage/images/icn_toolbar_back_button_up"
-                                }
+                            "image://themedimage/images/icn_toolbar_back_button_dn"
+                        } else {
+                            "image://themedimage/images/icn_toolbar_back_button_up"
+                        }
                         visible: toolBar.showBackButton
 
                         MouseArea {
                             id: backButtonMouseArea
-
+                            enabled: !pageStack.busy
                             anchors.fill: parent
-                            onClicked: { if( !pageStack.busy ){ pageStack.pop() } }
+                            onClicked: {
+                                backButtonPressed( backButtonLocked )
+                                if( !backButtonLocked )
+                                    pageStack.pop()
+                            }
                         }
                     }
 
@@ -479,10 +472,10 @@ Item {
                         visible: bookMenu.height > 0
 
                         source: if( applicationMenuButtonMouseArea.pressed || bookContextMenu.visible ) {
-                                    "image://themedimage/images/icn_toolbar_view_menu_dn"
-                                } else {
-                                    "image://themedimage/images/icn_toolbar_view_menu_up"
-                                }
+                            "image://themedimage/images/icn_toolbar_view_menu_dn"
+                        } else {
+                            "image://themedimage/images/icn_toolbar_view_menu_up"
+                        }
 
                         MouseArea {
                             id: applicationMenuButtonMouseArea
@@ -527,10 +520,10 @@ Item {
                         visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
 
                         source: if( windowMenuButtonMouseArea.pressed || window.actionMenuPresent) {
-                                    "image://themedimage/images/icn_toolbar_applicationpage_menu_dn"
-                                } else {
-                                    "image://themedimage/images/icn_toolbar_applicationpage_menu_up"
-                                }
+                            "image://themedimage/images/icn_toolbar_applicationpage_menu_dn"
+                        } else {
+                            "image://themedimage/images/icn_toolbar_applicationpage_menu_up"
+                        }
 
                         MouseArea {
                             id: windowMenuButtonMouseArea
@@ -568,6 +561,8 @@ Item {
                         }
 
                     } //end windowMenuButton
+
+
                 } //end titleBar
             } //end toolBar
         }
@@ -575,14 +570,18 @@ Item {
         //add a page stack to manage pages
         PageStack {
             id: pageStack
-
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
+        state: isActiveWindow ? scene.orientationString : "windowHasNoFocus"
+
         states:  [
             State {
-                name: "landscape"
-                when: (window_content_topitem.currentOrientation == 1)
+                name: "windowHasNoFocus"
+                when: (!isActiveWindow)
+            },
+            State {
+                name: "landscape"                
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -596,8 +595,7 @@ Item {
                 }
             },
             State {
-                name: "invertedlandscape"
-                when: (window_content_topitem.currentOrientation == 3)
+                name: "invertedLandscape"
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -611,8 +609,7 @@ Item {
                 }
             },
             State {
-                name: "portrait"
-                when: (window_content_topitem.currentOrientation == 2)
+                name: "portrait"                
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -626,8 +623,7 @@ Item {
                 }
             },
             State {
-                name: "invertedportrait"
-                when: (window_content_topitem.currentOrientation == 0)
+                name: "invertedPortrait"
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -643,14 +639,10 @@ Item {
         ] // end states
 
         transitions: Transition {
-            from: "*"
-            to: "*"
-            reversible: true
-
             SequentialAnimation {
                 ScriptAction {
                     script: {
-                        window.orientationChangeAboutToStart()
+                        window.orientationChangeFinished( window_content_topitem.oldState, window_content_topitem.state )
                         window.orientationChangeStarted()
                     }
                 }
@@ -663,19 +655,20 @@ Item {
                     RotationAnimation {
                         target: window_content_topitem
                         direction: RotationAnimation.Shortest;
-                        duration: 220
+                        duration: isActiveWindow ? theme.dialogAnimationDuration : 0
                     }
                     PropertyAnimation {
                         target: window_content_topitem
                         properties: "width,height"
-                        duration: 220
+                        duration: isActiveWindow ? theme.dialogAnimationDuration : 0
                         easing.type: "OutSine"
                     }
                 }
                 ScriptAction {
                     script: {
-                        window.orientationChangeFinished( window_content_topitem.oldOrientation, window_content_topitem.state );
-                        window.orientationChanged();
+                        window.orientationChangeFinished( window_content_topitem.oldState, window_content_topitem.state )
+                        window.orientationChanged()
+                        window_content_topitem.oldState = window_content_topitem.state
                     }
                 }
             }
@@ -686,6 +679,14 @@ Item {
     onOrientationChangeFinished: {
         pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+    }
+
+    onInhibitScreenSaverChanged: { // to meego-qml-launcher
+        try {
+	    mainWindow.inhibitScreenSaver = inhibitScreenSaver            
+        } catch (err) {        
+	  console.log("mainWindow does not exist")
+        }        
     }
 
     // Repositions the context menu after the windows width and/or height have changed.
@@ -701,18 +702,31 @@ Item {
 
     Component.onCompleted: {
         try {
-            window_content_topitem.currentOrientation = qApp.orientation;
-            window_content_topitem.setOrientation(  window_content_topitem.currentOrientation )
+            window_content_topitem.orientation = qApp.orientation;
+            window_content_topitem.setOrientation(  window_content_topitem.orientation )
         } catch (err) {
-            window_content_topitem.currentOrientation = 1
-            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
+            window_content_topitem.orientation = 1
+            window_content_topitem.setOrientation( window_content_topitem.orientation )
         }
     }
+
     Connections {
         target: qApp
+        onForegroundChanged: {
+            isActiveWindow = foreground
+            qApp.orientationLocked = scene.orientationLocked
+            windowFocusChanged( isActiveWindow )
+
+            if( isActiveWindow ) {
+                scene.orientation = qApp.orientation;
+            }
+        }
+        onOrientationLockChanged: {
+            if( scene.orientationLocked != qApp.orientationLock )
+            scene.orientationLocked = qApp.orientationLock
+        }
         onOrientationChanged: {
-            window_content_topitem.currentOrientation = qApp.orientation;
-            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
+            scene.orientation = qApp.orientation;
         }
     }
 }

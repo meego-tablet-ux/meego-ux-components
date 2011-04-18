@@ -19,7 +19,7 @@
   \section2 API Properties
 
   \qmlproperty bool albumSelectionMode
-  \qmlcm if true, selects albums instead of videos.
+  \qmlcm if true, selects albums instead of videos. DEPRECATED
 
  \section2 Private Properties
  \qmlnone
@@ -108,7 +108,7 @@ import "pickerArray.js" as PickerArray
 ModalDialog {
     id: videoPicker
 
-    property bool albumSelectionMode: false
+    property bool albumSelectionMode: false  //DEPRECATED
     property bool multiSelection: false
 
         // ###

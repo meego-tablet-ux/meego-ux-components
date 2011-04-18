@@ -131,12 +131,14 @@ ModalDialog {
     onAccepted:  {
         hours = hourSpinner.value
         minutes = minutesSpinner.value
-
+        var timeFormat = "h:mm"
         if( !hr24 ) {
             ampm = " " + (ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel);
+            timeFormat
         }else {
             ampm = ""
         }
+        timePicker.time = hours + ":" + minutesPadded + ampm
     }
 
     // if cancel button is clicked, restore the old values

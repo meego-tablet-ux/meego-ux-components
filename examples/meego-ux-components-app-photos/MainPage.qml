@@ -245,7 +245,7 @@ AppPage {
         }
     }
 
-    /* Meego-Ux unrelated components - the business logic of the AppPage*/
+    /* MeeGo-Ux unrelated components - the business logic of the AppPage*/
     PhotosView {
         id: allPhotosView
 

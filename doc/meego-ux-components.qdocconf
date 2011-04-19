@@ -51,5 +51,5 @@ macro.todo.HTML         = "<br/>Todo: "
 # HTML.templatedir = $MeeGoUxComponents/doc/src/meego/template
 
 HTML.stylesheets = meego-ux-components.css
-HTML.postheader = "<div class=\"header\"><a href=\"meego-ux-components.html\">Home</a><a href=\"meego-ux-components-list.html\">Components</a><a href=\"meego-ux-tutorial.html\">Tutorial</a><a href=\"meego-ux-tests.html\">Tests</a><a href=\"https://otcshare.org\">OtcShare.org</a> Intel MeeGo-UX-Components 0.2.0 - 03/09/2011 </div>"
+HTML.postheader = "<div class=\"header\"><a href=\"meego-ux-components.html\">Home</a><a href=\"meego-ux-components-list.html\">Components</a><a href=\"meego-ux-tutorial.html\">Tutorial</a><a href=\"meego-ux-tests.html\">Tests</a><a href=\"http://wiki.meego.com/MeeGo_UX_Components\">Wiki</a> Intel MeeGo-UX-Components</div>"
 HTML.footer = "<div class=\"footer\"><a href=\"meego-ux-components.html#\">Top</a></div>"

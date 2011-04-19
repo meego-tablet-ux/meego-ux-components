@@ -8,7 +8,7 @@
 
 /*!
     \page AlbumPage
-    \title  Meego-Ux-Components-App-Photos - Album Page
+    \title  MeeGo-Ux-Components-App-Photos - Album Page
     \qmlclass AlbumPage.qml
     \section1 AlbumPage.qml
 
@@ -116,7 +116,7 @@ AppPage {
     /* A Page fills the window by default */
     anchors.fill: parent
 
-    /* Meego-Ux unrelated components - the business logic of the AppPage*/
+    /* MeeGo-Ux unrelated components - the business logic of the AppPage*/
     AlbumsView {
 
         id: allAlbumsView

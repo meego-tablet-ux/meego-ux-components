@@ -16,7 +16,7 @@
 
     \section2 main.qml
 
-    The Window, which can be found in the main.qml, is the main component from Meego-Ux-Components.
+    The Window, which can be found in the main.qml, is the main component from MeeGo-Ux-Components.
 
     \qml
     Window {
@@ -60,7 +60,7 @@
     MeeGo-Ux-Components-App-Photo does not support favorite handling due to a bug, which is not related to MeeGo
     Components.
     
-    \section2 Pages of  Meego-Ux-Photo
+    \section2 Pages of  MeeGo-Ux-Photo
     \list
     \o  AlbumPage
     \o  AlbumsView

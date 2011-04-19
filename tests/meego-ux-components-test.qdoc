@@ -25,7 +25,7 @@
   There is not yet a package available via zypper. For now it must be compiled as described
   above.
 
-  \section1 Compile Meego-Ux-Components Test
+  \section1 Compile MeeGo-Ux-Components Test
 
   The test executable is not compiled with the meego-ux-components.pro file, but must be compiled and
   installed separately:
@@ -65,9 +65,9 @@
   Test cases can be maintained and extended within the existing qml files or by creating
   new qml files within the folders names above.
 
-  \section1 Manual tests of Meego-Ux-Components
+  \section1 Manual tests of MeeGo-Ux-Components
 
-  The Meego-Ux-Widgetgallery is an example app which contains all MeeGo-Ux-Components. Each component can
+  The MeeGo-Ux-Widgetgallery is an example app which contains all MeeGo-Ux-Components. Each component can
   be tweaked and tested with several parameters. This way it is possible to search manually for
   bugs or reproduce bugs in a clean environment.
 

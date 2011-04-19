@@ -1,7 +1,7 @@
 /*!
   \page MeeGo-Ux-Components Tutorial
   \qmlclass meego-ux-components-tutorial
-  \title Meego-Ux-Components Tutorial
+  \title MeeGo-Ux-Components Tutorial
   \section1 MeeGo-Ux-Components Tutorial
 
   This tutorial explains the usage of the meego-ux-components step by step in order to create a complete application

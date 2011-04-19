@@ -11,7 +11,7 @@
 
 import Qt 4.7
 import QtQuickTest 1.0
-import Otc.Components 0.1
+import MeeGo.Components 0.1
 
 TimePicker {
     id: timePicker

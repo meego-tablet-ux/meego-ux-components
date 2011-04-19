@@ -124,11 +124,8 @@ Item {
         window.fullContent = fullContent
         window.toolBarTitle = pageTitle
         window.backButtonLocked = backButtonLocked
-<<<<<<< HEAD
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
-=======
         window.orientationLock = orientationLock
->>>>>>> f815bd3dab2bcf89767194b713c6c38bdec0955f
     }
     
     onActivated: { // from PageStack.qml

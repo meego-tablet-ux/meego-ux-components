@@ -23,7 +23,9 @@ AppPage {
                        qsTr("Portrait"),
                        qsTr("Inv. Landscape"),
                        qsTr("Inv. Portrait") ]
-    actionMenuPayload: [ Scene.lanscape , Scene.portrait, Scene.invertedLandscape, Scene.invertedPortrait ]
+    // BUG: enums are not called correctly. Commented out for now.
+//    actionMenuPayload: [ Scene.landscape , Scene.portrait, Scene.invertedLandscape, Scene.invertedPortrait ]
+    actionMenuPayload: [ 1 , 2, 3, 4 ]
     actionMenuTitle: qsTr("Action Menu")
 
     onActionMenuTriggered: {

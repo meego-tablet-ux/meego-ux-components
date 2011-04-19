@@ -204,11 +204,15 @@ Item {
     property alias orientationLocked: scene.orientationLocked
     property alias orientationLock: scene.orientationLock
     property alias lockCurrentOrientation: scene.lockCurrentOrientation
+
+    // Attention: these properties are read only!
     property alias inLandscape: scene.inLandscape
     property alias inPortrait: scene.inPortrait
 
     property bool inhibitScreenSaver: false    
     property bool backButtonLocked: false
+
+    property string lockOrientationIn: ""
 
     property alias pageStack: pageStack
     property alias statusBar: statusBar
@@ -573,7 +577,17 @@ Item {
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
-        state: isActiveWindow ? scene.orientationString : "windowHasNoFocus"
+        state: if(isActiveWindow){
+                   if(lockOrientationIn != "landscape" && lockOrientationIn != "invertedLandscape"
+                           && lockOrientationIn != "portrait" && lockOrientationIn != "invertedPortrait")
+                       scene.orientationString
+                   else{
+                       lockOrientationIn
+                   }
+               }
+               else{
+                   "windowHasNoFocus"
+               }
 
         states:  [
             State {
@@ -582,11 +596,7 @@ Item {
             },
             State {
                 name: "landscape"                
-//                PropertyChanges {
-//                    target: window
-//                    inLandscape: true
-//                    inPortrait: false
-//                }
+
                 PropertyChanges {
                     target: window_content_topitem
                     rotation: 0
@@ -596,11 +606,7 @@ Item {
             },
             State {
                 name: "invertedLandscape"
-//                PropertyChanges {
-//                    target: window
-//                    inLandscape: true
-//                    inPortrait: false
-//                }
+
                 PropertyChanges {
                     target: window_content_topitem
                     rotation: 180
@@ -610,11 +616,7 @@ Item {
             },
             State {
                 name: "portrait"                
-//                PropertyChanges {
-//                    target: window
-//                    inLandscape: false
-//                    inPortrait: true
-//                }
+
                 PropertyChanges {
                     target: window_content_topitem
                     rotation: -90
@@ -624,11 +626,7 @@ Item {
             },
             State {
                 name: "invertedPortrait"
-//                PropertyChanges {
-//                    target: window
-//                    inLandscape: false
-//                    inPortrait: true
-//                }
+
                 PropertyChanges {
                     target: window_content_topitem
                     rotation: 90
@@ -698,16 +696,6 @@ Item {
     onHeightChanged: {
         pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
-    }
-
-    Component.onCompleted: {
-//        try {
-//            window_content_topitem.orientation = qApp.orientation;
-//            window_content_topitem.setOrientation(  window_content_topitem.orientation )
-//        } catch (err) {
-//            window_content_topitem.orientation = 1
-//            window_content_topitem.setOrientation( window_content_topitem.orientation )
-//        }
     }
 
     Connections {

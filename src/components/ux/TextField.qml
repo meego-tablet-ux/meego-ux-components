@@ -134,7 +134,7 @@ BorderImage {
           font: edit.font
 	  color: "slategrey"
 
-	  visible: ( edit.text == ""  && !edit.focus && firstUsage )
+          visible: ( edit.text == "" && !edit.focus && firstUsage ) ||( edit.text == "" && edit.readOnly && firstUsage )
 
 	  Connections {
 	      target: edit

@@ -155,9 +155,15 @@ Item {
         onActionMenuTriggered: {
             actionMenuTriggered( selectedItem )
         }
+
         onActionMenuIconClicked: {
             actionMenuIconClicked( mouseX, mouseY )
         }
+
+//        onWindowFocusChanged: { // from Window.qml
+
+//        }
+
         onWindowActiveChanged: { // from Window.qml
 
         }

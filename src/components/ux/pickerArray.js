@@ -91,7 +91,7 @@ function getLength( list ) {
 function remove( value, list ) {
     if( list == "ids" ) {
         var found = false;
-        for( var i = 0; i < ids.lengturish; i++ ) {
+        for( var i = 0; i < ids.length; i++ ) {
             if( found == false ){
                 if( ids[i] == value ) {
                     found = true;

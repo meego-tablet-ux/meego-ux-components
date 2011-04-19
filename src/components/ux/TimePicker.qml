@@ -17,7 +17,7 @@
 
   \section2  API properties
   \qmlproperty int hours
-  \qmlcm currently selected hours.  This value is from 0-23, regardless of the value of hr24
+  \qmlcm currently selected hours.
 
   \qmlproperty int minutes
   \qmlcm currently selected minutes
@@ -74,7 +74,7 @@ ModalDialog {
     id: timePicker
 
     // the timePicker doesn't return a time. Access these properties to get the info you want
-    property int hours: 0
+    property int hours: 1
     property int minutes: 0
     property string minutesPadded: ( minutes < 10 ? "0" : "" ) + minutes
     property string ampm: ""
@@ -85,29 +85,60 @@ ModalDialog {
 
     property bool oldToggleState: false
 
-
     aligneTitleCenter: true
 
     buttonWidth: tPicker.width / 2.5
-    //buttonWidth: pickerContents.width / 2.5
+
+    //if hours is changed, check if the new value is within the allowed boundaries to catch wrong input
+    onHoursChanged: {
+        if( hr24 ) {
+            if( hours < 0 ) {
+                hours = 0
+            }else if( hours > 23 ) {
+                while( hours > 23 ) {
+                    hours = hours - 12
+                }
+            }
+        }else{
+            if( hours < 1 ) {
+                hours = 1
+            }else if( hours > 12 ) {
+                ampmToggle.on = false
+                while( hours > 12 ) {
+                    hours = hours - 12
+                }
+            }
+        }
+    }
+
+    //if minutes is changed, check if the new value is within the allowed boundaries to catch wrong input
+    onMinutesChanged: {
+        if( minutes < 0 ) {
+            minutes = 0
+        }else if( minutes > 59 ) {
+            minutes = 59
+        }
+    }
 
     onShowCalled:  {
         oldToggleState = ampmToggle.on
-        hourSpinner.value = hours
-        minutesSpinner.value = minutes
+
+        hourSpinner.setValue( hours )
+        minutesSpinner.setValue( minutes )
     }
 
     // if ok button is clicked, store the selected time
     onAccepted:  {
+        hours = hourSpinner.value
         minutes = minutesSpinner.value
+        var timeFormat = "h:mm"
         if( !hr24 ) {
             ampm = " " + (ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel);
+            timeFormat = "h:mm AP"
         }else {
             ampm = ""
         }
-        hours = hourSpinner.value
-	time = hours + ":" + minutesPadded + ampm;
-	hours = hr24 ? hours : ((ampmToggle.on) ? ((hours==12)?0:hours):((hours<12)?(hours+12):hours))
+        timePicker.time = hours + ":" + minutesPadded + ampm
     }
 
     // if cancel button is clicked, restore the old values

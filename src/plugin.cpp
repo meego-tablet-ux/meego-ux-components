@@ -13,7 +13,7 @@
 //#include "models/desktop.h"
 //#include "kernel/valuespacepublisher.h"
 //#include "kernel/valuespacesubscriber.h"
-#include "kernel/orientation.h"
+#include "kernel/scene.h"
 #include "kernel/musicserviceproxy.h"
 
 #include "components/volumecontrol.h"

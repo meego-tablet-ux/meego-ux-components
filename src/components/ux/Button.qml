@@ -38,7 +38,10 @@
       \qmlcm activates text eliding on true.  If this property is true, the width property must be explicitly set.
 
       \qmlproperty bool active
-      \qmlcm stores if the button is clickable.
+      \qmlcm marks if the button is active. The bgSourceActive is sshown when active and released.
+
+      \qmlproperty bool enabled
+      \qmlcm enables he button if true, disables it on false.
 
   \section2 Private properties
 
@@ -78,6 +81,7 @@ Item {
     property string bgSourceActive: "image://themedimage/widgets/common/button/button-default"
     property bool elideText: false
     property bool active: false
+    property bool enabled: true
     property bool pressed: false
     property string textColor: theme.buttonFontColor
     signal clicked( variant mouse )
@@ -114,16 +118,16 @@ Item {
 
         visible: hasBackground
 
-        states: [
-            State {
-                name: "pressed"
-                when: container.pressed
-                PropertyChanges {
-                    target: icon
-                    source: bgSourceDn
-                }
-            }
-        ]
+//        states: [
+//            State {
+//                name: "pressed"
+//                when: container.pressed
+//                PropertyChanges {
+//                    target: icon
+//                    source: bgSourceDn
+//                }
+//            }
+//        ]
     }
 
     // the button's text
@@ -147,28 +151,34 @@ Item {
         anchors.fill: parent
 
         onClicked: {
-            container.pressed = false
-            container.clicked(mouse)
-            if(active){
-                icon.source = bgSourceActive
-            }
-            else{
-                icon.source = bgSourceUp
+            if(container.enabled){
+                container.pressed = false
+                container.clicked(mouse)
+                if(active){
+                    icon.source = bgSourceActive
+                }
+                else{
+                    icon.source = bgSourceUp
+                }
             }
         }
 
         onPressed: {
-            icon.source = bgSourceDn
-            container.pressed = true
+            if(container.enabled){
+                icon.source = bgSourceDn
+                container.pressed = true
+            }
         }
 
         onReleased: {
-            container.pressed = false
-            if(active){
-                icon.source = bgSourceActive
-            }
-            else{
-                icon.source = bgSourceUp
+            if(container.enabled){
+                container.pressed = false
+                if(active){
+                    icon.source = bgSourceActive
+                }
+                else{
+                    icon.source = bgSourceUp
+                }
             }
         }
     }

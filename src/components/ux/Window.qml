@@ -200,11 +200,12 @@ Item {
 
     property bool actionMenuPresent: false
 
-    property bool inLandscape: true
-    property bool inPortrait: false
-
-    property alias orientation: window_content_topitem.currentOrientation
-    property alias orientationLocked: window_content_topitem.orientationLocked
+    property alias orientation: scene.orientation
+    property alias orientationLocked: scene.orientationLocked
+    property alias orientationLock: scene.orientationLock
+    property alias lockCurrentOrientation: scene.lockCurrentOrientation
+    property alias inLandscape: scene.inLandscape
+    property alias inPortrait: scene.inPortrait
 
     property bool inhibitScreenSaver: false    
     property bool backButtonLocked: false
@@ -220,6 +221,7 @@ Item {
     signal actionMenuIconClicked( int mouseX, int mouseY )
     signal windowActiveChanged( bool isActiveWindow )
     signal backButtonPressed( bool backButtonLocked )
+
     signal orientationChangeAboutToStart( string oldOrientation, string newOrientation )
     signal orientationChangeStarted
     signal orientationChangeFinished( string oldOrientation, string newOrientation )
@@ -260,55 +262,29 @@ Item {
         catalog: "meego-ux-components"
     }
 
+    Scene {
+        id: scene
+
+        onOrientationChanged: {
+            if( qApp ) {
+                if(qApp.orientation != orientation)
+                    qApp.orientation = orientation
+            }
+        }
+
+        onOrientationLockChanged: {
+            if( qApp ) {
+                if( qApp.orientationLock != orientationLock )
+                    qApp.orientationLock = lockOrientation
+            }
+        }
+
+    }
+
     Item {
         id: window_content_topitem
 
-        property bool orientationLocked: false
-
-        property int apiOrientation: 1
-        property int appOrientation: 1
-        property int currentOrientation: 1
-
-        property string oldOrientation
-        property bool setFromQApp: false
-
-        function setOrientation( orientationInt ) {
-            appOrientation = orientationInt
-            if( !orientationLocked) {
-                setFromQApp = true
-                if( currentOrientation != orientationInt) {
-                    oldOrientation = state
-                    currentOrientation = appOrientation
-                    apiOrientation = appOrientation
-                }
-            } else if ( (appOrientation == 1 && currentOrientation == 3) ||
-                        (appOrientation == 3 && currentOrientation == 1) ) {
-                currentOrientation == appOrientation
-                apiOrientation == appOrientation
-            } else if ( (appOrientation == 0 && currentOrientation == 2) ||
-                        (appOrientation == 2 && currentOrientation == 0) ) {
-                currentOrientation == appOrientation
-                apiOrientation == appOrientation
-            }
-        }
-
-        Behavior on apiOrientation {
-            ScriptAction {
-                script: {
-                    if(!setFromQApp) {
-                        if( apiOrientation < 0) {
-                            orientationLocked = false
-                            currentOrientation = appOrientation
-                        } else {
-                            orientationLocked = true
-                            currentOrientation = apiOrientation
-
-                        }
-                    }
-                    setFromQApp = false
-                }
-            }
-        }
+        property string oldState: ""
 
         anchors.centerIn: parent
 
@@ -597,14 +573,15 @@ Item {
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
+        state: isActiveWindow ? scene.orientationString : "windowHasNoFocus"
+
         states:  [
             State {
                 name: "windowHasNoFocus"
                 when: (!isActiveWindow)
             },
             State {
-                name: "landscape"
-                when: (isActiveWindow && window_content_topitem.currentOrientation == 1)
+                name: "landscape"                
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -618,8 +595,7 @@ Item {
                 }
             },
             State {
-                name: "invertedlandscape"
-                when: (isActiveWindow && window_content_topitem.currentOrientation == 3)
+                name: "invertedLandscape"
                 PropertyChanges {
                     target: window
                     inLandscape: true
@@ -633,8 +609,7 @@ Item {
                 }
             },
             State {
-                name: "portrait"
-                when: (isActiveWindow && window_content_topitem.currentOrientation == 2)
+                name: "portrait"                
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -648,8 +623,7 @@ Item {
                 }
             },
             State {
-                name: "invertedportrait"
-                when: (isActiveWindow && window_content_topitem.currentOrientation == 0)
+                name: "invertedPortrait"
                 PropertyChanges {
                     target: window
                     inLandscape: false
@@ -668,7 +642,7 @@ Item {
             SequentialAnimation {
                 ScriptAction {
                     script: {
-                        window.orientationChangeAboutToStart( window_content_topitem.oldOrientation, window_content_topitem.state )
+                        window.orientationChangeFinished( window_content_topitem.oldState, window_content_topitem.state )
                         window.orientationChangeStarted()
                     }
                 }
@@ -692,8 +666,9 @@ Item {
                 }
                 ScriptAction {
                     script: {
-                        window.orientationChangeFinished( window_content_topitem.oldOrientation, window_content_topitem.state );
-                        window.orientationChanged();
+                        window.orientationChangeFinished( window_content_topitem.oldState, window_content_topitem.state )
+                        window.orientationChanged()
+                        window_content_topitem.oldState = window_content_topitem.state
                     }
                 }
             }
@@ -727,28 +702,32 @@ Item {
 
     Component.onCompleted: {
         try {
-            window_content_topitem.currentOrientation = qApp.orientation;
-            window_content_topitem.setOrientation(  window_content_topitem.currentOrientation )
+            window_content_topitem.orientation = qApp.orientation;
+            window_content_topitem.setOrientation(  window_content_topitem.orientation )
         } catch (err) {
-            window_content_topitem.currentOrientation = 1
-            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
+            window_content_topitem.orientation = 1
+            window_content_topitem.setOrientation( window_content_topitem.orientation )
         }
     }
+
     Connections {
         target: qApp
-        onOrientationChanged: {
-            window_content_topitem.currentOrientation = qApp.orientation;
-            window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
-        }
-        onForegroundWindowChanged: {
-            isActiveWindow = qApp.foregroundWindow == mainWindow.winId 
-            qApp.orientationLocked = window_content_topitem.orientationLocked
-            windowActiveChanged( isActiveWindow )
+
+        onForegroundChanged: {
+            isActiveWindow = foreground
+            qApp.orientationLocked = scene.orientationLocked
+            windowFocusChanged( isActiveWindow )
 
             if( isActiveWindow ) {
-                window_content_topitem.currentOrientation = qApp.orientation;
-                window_content_topitem.setOrientation( window_content_topitem.currentOrientation )
+                scene.orientation = qApp.orientation;
             }
+        }
+        onOrientationLockChanged: {
+            if( scene.orientationLocked != qApp.orientationLock )
+            scene.orientationLocked = qApp.orientationLock
+        }
+        onOrientationChanged: {
+            scene.orientation = qApp.orientation;
         }
     }
 }

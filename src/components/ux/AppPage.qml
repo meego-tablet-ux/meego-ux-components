@@ -105,7 +105,9 @@ Item {
     property bool fullScreen: false
     property bool fullContent: false
     property bool backButtonLocked: false
-    property bool enableCustomActionMenu: false    
+    property bool enableCustomActionMenu: false
+
+    property int orientationLock: 0 // warning: int right now should be: enum of qApp
 
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
@@ -122,7 +124,11 @@ Item {
         window.fullContent = fullContent
         window.toolBarTitle = pageTitle
         window.backButtonLocked = backButtonLocked
+<<<<<<< HEAD
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
+=======
+        window.orientationLock = orientationLock
+>>>>>>> f815bd3dab2bcf89767194b713c6c38bdec0955f
     }
     
     onActivated: { // from PageStack.qml

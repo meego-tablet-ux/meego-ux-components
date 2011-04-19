@@ -196,13 +196,14 @@ ModalDialog {
                     PickerArray.push( payload.mtitle, "titles" );
                     PickerArray.push( payload.muri, "uris" );
                     PickerArray.push( payload.mthumburi, "thumbUris" );
+                    if( PickerArray.getLength( "ids" ) > 0 ) { photoPicker.acceptButtonEnabled = true } //enable OK button if items are selected
                 }else {
                     PickerArray.remove( payload.mitemid, "ids" );
                     PickerArray.remove( payload.mtitle, "titles" );
                     PickerArray.remove( payload.muri, "uris" );
                     PickerArray.remove( payload.mthumburi, "thumbUris" );
+                    if( PickerArray.getLength( "ids" ) < 1 ) { photoPicker.acceptButtonEnabled = false } //disable OK button if no items are selected
                 }
-                photoPicker.acceptButtonEnabled = true; //enable OK button
             }else {
                 model.setSelected( selectedItem, false ); //deselect the former selected item
                 PickerArray.clear(); //use clear to delete the entry, so we don't have to store the title and thumburi all the time

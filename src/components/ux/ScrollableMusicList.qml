@@ -13,6 +13,12 @@
   This component presents a list of songs, given by a model.
   
   \section2 API Properties
+
+  \qmlproperty alias model
+  \qmlcm provides access to the listview's model
+
+  \qmlproperty alias index
+  \qmlcm int, the listview's current index
   
   \qmlproperty string selectedSong
   \qmlcm song which is currentlist selected
@@ -24,6 +30,9 @@
   \qmlcm size of text in pixels
       
   \section2 Private Properties
+
+  \qmlproperty int estimatedHeight
+  \qmlcm estimates the height of the list
   
   \qmlproperty string labelUnknownArtist ("unknown artist")
   \qmlcm standard label string

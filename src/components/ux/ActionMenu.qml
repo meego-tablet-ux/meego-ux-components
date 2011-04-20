@@ -10,7 +10,7 @@
    \qmlclass ActionMenu
    \title ActionMenu
    \section1 ActionMenu
-   \brief The ActionMenu provides a list of text entries that can be clicked.
+         The ActionMenu provides a list of text entries that can be clicked.
          The triggered() signal returns the selected index. The payload property can
          store a second list with additional data for the entry list.
          The ActionMenu will elide text that exceeds its maximum width set via maxWidth.

@@ -119,6 +119,9 @@
          signal actionMenuIconClicked emitted. This enables AppPages to use their
          completely own context menus.
 
+ \qmlproperty bool actionMenuPresent
+ \qmlcm bool, this notifiers the action and bookmenu buttons if they should be 'pressed'
+
   \section1  Signals:
 
   \qmlsignal search

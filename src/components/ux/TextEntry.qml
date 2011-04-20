@@ -117,7 +117,7 @@ BorderImage {
         font: input.font
         color: "slategrey"
 
-        visible: ( input.text == ""  && !input.focus && firstUsage )
+        visible: ( input.text == ""  && !input.focus && firstUsage ) ||( input.text == "" && input.readOnly && firstUsage )
 
         Connections {
             target: input

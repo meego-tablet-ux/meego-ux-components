@@ -79,6 +79,13 @@ WidgetPage {
 
             isChecked: true
             label: qsTr("active:")
+        },
+
+        CheckBoxEntry {
+            id: enabledBox
+
+            isChecked: true
+            label: qsTr("enabled:")
         }
     ]
 
@@ -112,6 +119,7 @@ WidgetPage {
 
             elideText: elideBox.isChecked
             active: activeBox.isChecked
+            enabled: enabledBox.isChecked
 
             onPressedChanged: { if( pressed ) { statusEntry.value = qsTr("pressed") } else { statusEntry.value = qsTr("released") } }
             //onClicked: { widgetPage.outputText = "clicked" }

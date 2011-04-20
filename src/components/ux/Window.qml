@@ -71,8 +71,40 @@
  \qmlproperty bool actionMenuActive
  \qmlcm activates/deactivates the windowMenuButton.
 
- \qmlproperty bool orientationLocked
+ \qmlproperty int orientation
+ \qmlcm int, the orientation the window is in. This property can be set manualy.
+ \qml
+ 1 = landscape
+ 2 = portrait
+ 3 = inverted landscape
+ 4 = inverted portrait
+ \endqml
+
+ \qmlproperty string lockOrientationIn
+ \qmlcm string, this property can be used to lock the window in a given orientation.
+ Possible values are:
+ \qml
+ "landscape"
+ "portrait"
+ "invertedLandscape"
+ "invertedPortrait"
+ Every other value will unlock the orientation. Default is "".
+ \endqml
+
+ \qmlproperty bool isOrientationLocked
  \qmlcm bool, indicates if oriention was locked.
+
+ \qmlproperty bool inLandscape
+ \qmlcm bool, true if the current orientation is landscape
+
+ \qmlproperty bool inPortrait
+ \qmlcm bool, true if the current orientation is portrait
+
+ \qmlproperty bool inInvertedLandscape
+ \qmlcm bool, true if the current orientation is inverted landscape
+
+ \qmlproperty bool inInvertedPortrait
+ \qmlcm bool, true if the current orientation is inverted portrait
 
  \qmlproperty bool inhibitScreenSaver
  \qmlcm bool, inhibits activation of the screen saver.
@@ -201,14 +233,18 @@ Item {
     property bool actionMenuPresent: false
 
     property alias orientation: scene.orientation
-    property alias orientationLocked: scene.orientationLocked
-    property alias orientationLock: scene.orientationLock
-    property alias lockCurrentOrientation: scene.lockCurrentOrientation
-    property alias inLandscape: scene.inLandscape
-    property alias inPortrait: scene.inPortrait
+    property bool isOrientationLocked: (lockOrientationIn == "landscape" || lockOrientationIn == "invertedLandscape"
+                                         || lockOrientationIn == "portrait" || lockOrientationIn == "invertedPortrait")
+    property string lockOrientationIn: ""
 
-    property bool inhibitScreenSaver: false    
+    property bool inLandscape: window_content_topitem.state == "landscape"
+    property bool inPortrait: window_content_topitem.state == "portrait"
+    property bool inInvertedPortrait: window_content_topitem.state == "invertedPortrait"
+    property bool inInvertedLandscape: window_content_topitem.state == "invertedLandscape"
+
+    property bool inhibitScreenSaver: false
     property bool backButtonLocked: false
+
 
     property alias pageStack: pageStack
     property alias statusBar: statusBar
@@ -573,7 +609,17 @@ Item {
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
-        state: isActiveWindow ? scene.orientationString : "windowHasNoFocus"
+        state: if(isActiveWindow){
+                   if(lockOrientationIn != "landscape" && lockOrientationIn != "invertedLandscape"
+                           && lockOrientationIn != "portrait" && lockOrientationIn != "invertedPortrait")
+                       scene.orientationString
+                   else{
+                       lockOrientationIn
+                   }
+               }
+               else{
+                   "windowHasNoFocus"
+               }
 
         states:  [
             State {
@@ -582,11 +628,7 @@ Item {
             },
             State {
                 name: "landscape"                
-//                PropertyChanges {
-//                    target: window
-//                    inLandscape: true
-//                    inPortrait: false
-//                }
+
                 PropertyChanges {
                     target: window_content_topitem
                     rotation: 0
@@ -596,11 +638,7 @@ Item {
             },
             State {
                 name: "invertedLandscape"
-//                PropertyChanges {
-//                    target: window
-//                    inLandscape: true
-//                    inPortrait: false
-//                }
+
                 PropertyChanges {
                     target: window_content_topitem
                     rotation: 180
@@ -610,11 +648,7 @@ Item {
             },
             State {
                 name: "portrait"                
-//                PropertyChanges {
-//                    target: window
-//                    inLandscape: false
-//                    inPortrait: true
-//                }
+
                 PropertyChanges {
                     target: window_content_topitem
                     rotation: -90
@@ -624,11 +658,7 @@ Item {
             },
             State {
                 name: "invertedPortrait"
-//                PropertyChanges {
-//                    target: window
-//                    inLandscape: false
-//                    inPortrait: true
-//                }
+
                 PropertyChanges {
                     target: window_content_topitem
                     rotation: 90
@@ -700,31 +730,21 @@ Item {
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
     }
 
-    Component.onCompleted: {
-//        try {
-//            window_content_topitem.orientation = qApp.orientation;
-//            window_content_topitem.setOrientation(  window_content_topitem.orientation )
-//        } catch (err) {
-//            window_content_topitem.orientation = 1
-//            window_content_topitem.setOrientation( window_content_topitem.orientation )
-//        }
-    }
-
     Connections {
         target: qApp
-//        onForegroundChanged: {
-//            isActiveWindow = foreground
-//            qApp.orientationLocked = scene.orientationLocked
-//            windowFocusChanged( isActiveWindow )
+        onForegroundChanged: {
+            isActiveWindow = foreground
+            qApp.orientationLocked = scene.orientationLocked
+            windowFocusChanged( isActiveWindow )
 
-//            if( isActiveWindow ) {
-//                scene.orientation = qApp.orientation;
-//            }
-//        }
-//        onOrientationLockChanged: {
-//            if( scene.orientationLocked != qApp.orientationLock )
-//            scene.orientationLocked = qApp.orientationLock
-//        }
+            if( isActiveWindow ) {
+                scene.orientation = qApp.orientation;
+            }
+        }
+        onOrientationLockChanged: {
+            if( scene.orientationLocked != qApp.orientationLock )
+            scene.orientationLocked = qApp.orientationLock
+        }
         onOrientationChanged: {
             scene.orientation = qApp.orientation;
         }

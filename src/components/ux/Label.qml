@@ -14,12 +14,28 @@
 
   \section2  API Properties
   \qmlproperty alias color
+  \qmlcm provides access to the label's color
+
   \qmlproperty alias smooth
+  \qmlcm bool, true if the text should be smoothed
+
   \qmlproperty bool elideText
+  \qmlcm bool, true if the text should elide if it's to long
+
   \qmlproperty alias text
+  \qmlcm provides access to the label's text string
+
   \qmlproperty alias textFormat
+  \qmlcm provides access to the label's text format
+
   \qmlproperty alias wrapMode
+  \qmlcm provides access to the label's wrap mode
+
   \qmlproperty alias font
+  \qmlcm provides access to the label's font
+
+  \qmlproperty string background
+  \qmlcm sets the source for the background image
 
   \section2 Private Properties
   \qmlnone

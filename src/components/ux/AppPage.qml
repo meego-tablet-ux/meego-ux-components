@@ -45,8 +45,16 @@
   \qmlproperty string actionMenuTitle
   \qmlcm holds the title of the actionMenu
 
-  \qmlproperty string lockOrientationIn
-  \qmlcm holds the title of the actionMenu
+ \qmlproperty string lockOrientationIn
+ \qmlcm this property can be used to lock the window in a given orientation.
+ Possible values are:
+ \qml
+ "landscape"
+ "portrait"
+ "invertedLandscape"
+ "invertedPortrait"
+ Every other value will unlock the orientation. Default is "".
+ \endqml
 
   \section2 Private Properties
   \qmlnone

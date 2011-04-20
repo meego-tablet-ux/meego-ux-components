@@ -17,6 +17,14 @@
       \qmlproperty real percentage
       \qmlcm sets the text displayed on the button.
 
+      \qmlproperty alias fontColor
+      \qmlcm provides access to the font color of the text which displays the percentage over
+             the unfilled area.
+
+      \qmlproperty alias fontColorFilled
+      \qmlcm provides access to the font color of the text which displays the percentage over
+             the filled area.
+
   \section2 Private properties
   \qmlnone
 

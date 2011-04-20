@@ -51,7 +51,6 @@ Item {
 
     // API
     property alias content: bottomToolBarSurface.children
-    property bool landscape: true
 
     signal active
     signal inactive

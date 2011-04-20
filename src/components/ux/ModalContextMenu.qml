@@ -20,8 +20,13 @@
   \qmlcm the content the contextMenu will show e.g. an ActionMenu.
 
   \qmlproperty variant title
-  \qmlcm the content the contextMenu will show e.g. an ActionMenu.
+  \qmlcm the title of the context menu.
 
+  \qmlproperty string[] subMenuModel
+  \qmlcm the entries the sub menu will show.
+
+  \qmlproperty string[] subMenuPayload
+  \qmlcm the sub menus payload.
 
   \qmlproperty int forceFingerMode
   \qmlcm the context menu will apear in the set finger mode. If set to -1, the default, the context menu will choose the most
@@ -41,6 +46,9 @@
 
   \qmlproperty real baseY
   \qmlcm stores the relative y-position.
+
+  \qmlproperty bool subMenuVisible
+  \qmlcm indicates if the sub menu is visible
 
   \section2 Signals
   \qmlsignal subMenuTriggered

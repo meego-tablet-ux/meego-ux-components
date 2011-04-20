@@ -130,7 +130,7 @@ Item {
     property bool backButtonLocked: false
     property bool enableCustomActionMenu: false
 
-    property string lockOrientationIn: "" // warning: int right now should be: enum of qApp
+    property string lockOrientationIn: "" // FixMe: strings right now. Should be: enum of qApp
 
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )

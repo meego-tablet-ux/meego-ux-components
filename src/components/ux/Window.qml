@@ -188,23 +188,19 @@
   \section1  Example
    \qml
     Window {
+        id: window
 
-    id: window
+        bookMenuModel: [ qsTr("Page1") , qsTr("Page2") ]
+        bookMenuPayload: [ book1Component,  book2Component ]
 
-    bookMenuModel: [ qsTr("Page1") , qsTr("Page2") ]
-    bookMenuPayload: [ book1Component,  book2Component ]
+        Component.onCompleted: {
+            console.log("load MainPage")
+            switchBook( book1Component )
+        }
 
-    Component.onCompleted: {
-    console.log("load MainPage")
-    switchBook( photosComponent )
+        Component { id: book1Component; Page1 {} }
+        Component { id: book2Component; Page2 {} }
     }
-
-    Component { id: book1Component; Page1 {} }
-    Component { id: book2Component; Page2 {} }
-
-    onActionMenuTriggered: {
-    // selectedItem contains the selected payload entry
-       }
   \endqml
 */
 

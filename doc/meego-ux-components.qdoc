@@ -27,15 +27,18 @@
         \o  \l { ExpandingBox }
         \o  \l { PopupList }
         \o  \l { Slider }
-        \o  \l { Slider }
         \o  \l { VerticalSlider }
         \o  \l { TextEntry }
+        \o  \l { TextField }
         \o  \l { AppPage }
         \o  \l { PageStack }
         \o  \l { ProgressBar }
         \o  \l { Window }
         \o  \l { Label }
         \o  \l { BottomToolBar }
+        \o  \l { CheckBox }
+        \o  \l { DropDown }
+        \o  \l { TimeSpinner }
         \endlist
       \o Modal dialogs:
         \list
@@ -55,6 +58,7 @@
         \o  \l { ScrollableMusicList }
         \o  \l { Theme }
         \o  \l { TopItem }
+        \o  \l { ActionMenu }
         \endlist
       \o Examples
         \list

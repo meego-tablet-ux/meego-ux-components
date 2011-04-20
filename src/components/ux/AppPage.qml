@@ -27,11 +27,26 @@
   \qmlproperty bool enableCustomActionMenu
   \qmlcm enables custom action menus set by the AppPage.
 
-  \qmlproperty fullScreen
-  \qmlcm bool, hides the statusbar if true.
+  \qmlproperty bool fullScreen
+  \qmlcm hides the statusbar if true.
 
-  \qmlproperty fullContent
-  \qmlcm bool, hides the statusbar and the toolbar if true.
+  \qmlproperty bool fullContent
+  \qmlcm hides the statusbar and the toolbar if true.
+
+  \qmlproperty bool actionMenuHighlightSelection
+  \qmlcm set true if the actionMenu should highlight the last selected item
+
+  \qmlproperty bool actionMenuOpen
+  \qmlcm true if the actionMenu is currently open
+
+  \qmlproperty bool backButtonLocked
+  \qmlcm set to true to lock the backButton
+
+  \qmlproperty string actionMenuTitle
+  \qmlcm holds the title of the actionMenu
+
+  \qmlproperty string lockOrientationIn
+  \qmlcm holds the title of the actionMenu
 
   \section2 Private Properties
   \qmlnone
@@ -41,11 +56,6 @@
   \qmlsignal actionMenuTriggered
   \qmlcm is emitted when the an action menu entry was selected
   and returns the corrsponding item from the payload.
-
-  \qmlsignal selectedItem
-  \qmlcm holds the payload entry for the selected item.
-        \param variant selectedItem
-        \qmlpcm selected payload item. \endparam
 
   \qmlsignal actionMenuIconClicked
   \qmlcm provides the context menu position for own action menus.
@@ -61,6 +71,11 @@
 
   \qmlsignal deactivated
   \qmlcm Signal that fires when the page has been hidden.
+
+  \qmlsignal focusChanged
+  \qmlcm Signal that fires if the focus was changed.
+        \param bool appPageHasFocus
+        \qmlpcm true if the page has focus. \endparam
 
   \section2 Functions
   \qmlnone
@@ -107,7 +122,7 @@ Item {
     property bool backButtonLocked: false
     property bool enableCustomActionMenu: false
 
-    property int orientationLock: 0 // warning: int right now should be: enum of qApp
+    property string lockOrientationIn: "" // warning: int right now should be: enum of qApp
 
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
@@ -125,7 +140,7 @@ Item {
         window.toolBarTitle = pageTitle
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
         window.backButtonLocked = backButtonLocked
-        window.orientationLock = orientationLock
+        window.lockOrientationIn = lockOrientationIn
     }
     
     onActivated: { // from PageStack.qml

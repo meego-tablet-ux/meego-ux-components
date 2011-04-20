@@ -29,6 +29,8 @@ VolumeControl::VolumeControl(QObject *parent)
 
         connect(volumeControl,SIGNAL(muteChanged(bool)),this, SIGNAL(muteChanged(bool)));
         connect(volumeControl,SIGNAL(volumeChanged(int)),this, SIGNAL(volumeChanged(int)));
+
+        volumeChanged(volumeControl->volume());
 }
 
 VolumeControlPrivate * VolumeControlPrivate::instance()

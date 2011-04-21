@@ -14,14 +14,20 @@
          It will turn scrollable if the text is too big for the text field.
 
   \section2 API Properties
-  \qmlproperty string text
-  \qmlcm the text fields text
+  \qmlproperty alias text
+  \qmlcm provides access to the text of the TextInput
+
+  \qmlproperty alias textInput
+  \qmlcm provides access to the TextInput
 
   \qmlproperty alias font
-  \qmlcm the texts font item
+  \qmlcm provides access to the font of TextInput
 
-  \qmlproperty bool readOnly
-  \qmlcm sets the text read only. The text can not be altered if set to true.
+  \qmlproperty alias readOnly
+  \qmlcm sets the text of TextInput to read only. The text can not be altered if set to true.
+
+  \qmlproperty alias inputMethodHints
+  \qmlcm provides access to the inputMethodHints property of TextInput.
   
   \qmlproperty alias defaultText
   \qmlcm sets a defaultText in case the TextEntry is empty. the Text will be displayed as single line

@@ -10,8 +10,8 @@
    \qmlclass Button
    \title Button
    \section1 Button
-   This is a button with a customizable text, font and text-color as well as released
-   and pressed state images.
+   This is a button with a customizable text, font and text color. The button has three states
+   (default, pressed and active) and each state has its own image.
 
    \section2 API properties
 
@@ -33,6 +33,9 @@
 
       \qmlproperty string bgSourceDn
       \qmlcm path to an image file used for pressed state.
+
+      \qmlproperty string bgSourceActive
+      \qmlcm path to an image file used for active state.
 
       \qmlproperty bool elideText
       \qmlcm activates text eliding on true.  If this property is true, the width property must be explicitly set.

@@ -71,8 +71,40 @@
  \qmlproperty bool actionMenuActive
  \qmlcm activates/deactivates the windowMenuButton.
 
- \qmlproperty bool orientationLocked
+ \qmlproperty int orientation
+ \qmlcm int, the orientation the window is in. This property can be set manualy.
+ \qml
+ 1 = landscape
+ 2 = portrait
+ 3 = inverted landscape
+ 4 = inverted portrait
+ \endqml
+
+ \qmlproperty string lockOrientationIn
+ \qmlcm string, this property can be used to lock the window in a given orientation.
+ Possible values are:
+ \qml
+ "landscape"
+ "portrait"
+ "invertedLandscape"
+ "invertedPortrait"
+ Every other value will unlock the orientation. Default is "".
+ \endqml
+
+ \qmlproperty bool isOrientationLocked
  \qmlcm bool, indicates if oriention was locked.
+
+ \qmlproperty bool inLandscape
+ \qmlcm bool, true if the current orientation is landscape
+
+ \qmlproperty bool inPortrait
+ \qmlcm bool, true if the current orientation is portrait
+
+ \qmlproperty bool inInvertedLandscape
+ \qmlcm bool, true if the current orientation is inverted landscape
+
+ \qmlproperty bool inInvertedPortrait
+ \qmlcm bool, true if the current orientation is inverted portrait
 
  \qmlproperty bool inhibitScreenSaver
  \qmlcm bool, inhibits activation of the screen saver.
@@ -86,6 +118,9 @@
        - customActionMenu: if enabled the own action context menu is not shown and the
          signal actionMenuIconClicked emitted. This enables AppPages to use their
          completely own context menus.
+
+ \qmlproperty bool actionMenuPresent
+ \qmlcm bool, this notifiers the action and bookmenu buttons if they should be 'pressed'
 
   \section1  Signals:
 
@@ -153,23 +188,19 @@
   \section1  Example
    \qml
     Window {
+        id: window
 
-    id: window
+        bookMenuModel: [ qsTr("Page1") , qsTr("Page2") ]
+        bookMenuPayload: [ book1Component,  book2Component ]
 
-    bookMenuModel: [ qsTr("Page1") , qsTr("Page2") ]
-    bookMenuPayload: [ book1Component,  book2Component ]
+        Component.onCompleted: {
+            console.log("load MainPage")
+            switchBook( book1Component )
+        }
 
-    Component.onCompleted: {
-    console.log("load MainPage")
-    switchBook( photosComponent )
+        Component { id: book1Component; Page1 {} }
+        Component { id: book2Component; Page2 {} }
     }
-
-    Component { id: book1Component; Page1 {} }
-    Component { id: book2Component; Page2 {} }
-
-    onActionMenuTriggered: {
-    // selectedItem contains the selected payload entry
-       }
   \endqml
 */
 
@@ -201,18 +232,18 @@ Item {
     property bool actionMenuPresent: false
 
     property alias orientation: scene.orientation
-    property alias orientationLocked: scene.orientationLocked
-    property alias orientationLock: scene.orientationLock
-    property alias lockCurrentOrientation: scene.lockCurrentOrientation
+    property bool isOrientationLocked: (lockOrientationIn == "landscape" || lockOrientationIn == "invertedLandscape"
+                                         || lockOrientationIn == "portrait" || lockOrientationIn == "invertedPortrait")
+    property string lockOrientationIn: ""
 
-    // Attention: these properties are read only!
-    property alias inLandscape: scene.inLandscape
-    property alias inPortrait: scene.inPortrait
+    property bool inLandscape: window_content_topitem.state == "landscape"
+    property bool inPortrait: window_content_topitem.state == "portrait"
+    property bool inInvertedPortrait: window_content_topitem.state == "invertedPortrait"
+    property bool inInvertedLandscape: window_content_topitem.state == "invertedLandscape"
 
-    property bool inhibitScreenSaver: false    
+    property bool inhibitScreenSaver: false
     property bool backButtonLocked: false
 
-    property string lockOrientationIn: ""
 
     property alias pageStack: pageStack
     property alias statusBar: statusBar

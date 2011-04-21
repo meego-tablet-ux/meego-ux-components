@@ -21,19 +21,19 @@
   \qmlproperty bool expanded
   \qmlcm true if the box is currently expanded
 
-  \qmlproperty alias iconContent
-  \qmlcm area to put a row of icons
+  \qmlproperty alias iconRow
+  \qmlcm area that can hold a set of icons
 
-  \qmlproperty string titleText
+  \qmlproperty alias titleText
   \qmlcm sets the text shown on the header
 
-  \qmlproperty string titleTextColor
+  \qmlproperty alias titleTextColor
   \qmlcm sets the color of the text shown on the header
 
-  \qmlproperty component detailsComponent
-  \qmlcm contains the content to be created
+  \qmlproperty Component detailsComponent
+  \qmlcm contains the content to be shown when the box is expanded
 
-  \qmlproperty item detailsItem
+  \qmlproperty Item detailsItem
   \qmlcm stores the contents when created
 
   \section2  Private properties

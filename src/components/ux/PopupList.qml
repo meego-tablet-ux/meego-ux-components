@@ -21,17 +21,17 @@
     \qmlproperty alias pathItemCount
     \qmlcm sets the number of items displayed at the same time in the spinner
 
-    \qmlproperty alias fontSize
+    \qmlproperty int fontSize
     \qmlcm sets the size in pixels for non-highlighted entries in the spinner.
            Changes to smaller size automatically if the entry's height is
            insufficient for the chosen size.
 
-    \qmlproperty model popupListModel
+    \qmlproperty variant popupListModel
     \qmlcm PathView.model, sets the model used for the list entries
 
     \qmlproperty variant value
     \qmlcm sets the value which will be used in the function reInit() to set the
-           spinners' focus at
+           PathView's focus at
 
   \section2 Private Properties
 
@@ -49,10 +49,12 @@
     \qmlcm propagates that a value has been selected
     \param  int index
     \qmlpcm the index of the entry in the model \endparam
-    \param variant tag
-    \qmlpcm the value of the selected entry \endparam
 
   \section2 Functions
+    \qmlfn reInit
+    \qmlcm sets the focus of the PathView to the entry whose tag matches the
+           property value.
+
     \qmlfn getCurrentIndex
     \qmlcm returns the model index of the current value
     \retval index \qmlpcm the current index \endretval
@@ -60,7 +62,6 @@
   \section2 Example
   \qml
   AppPage {
-       property variant myModel: [ "1", "2", "3", "4", "5" ]
 
        PopupList {
            id: popup
@@ -68,8 +69,19 @@
            width:  150
            height: 200
            popupListModel: myModel
+
            onValueSelected: {
                 // do something
+           }
+
+           ListModel {
+               id:myModel
+
+               ListElement { tag: "1" }
+               ListElement { tag: "2" }
+               ListElement { tag: "3" }
+               ListElement { tag: "4" }
+               ListElement { tag: "5" }
            }
        }
   }

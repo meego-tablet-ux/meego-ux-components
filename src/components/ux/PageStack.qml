@@ -44,17 +44,17 @@
 
     \qmlfn push
     \qmlcm pushes a page to the stack
-      \param Item pageStack
+      \param Item page
       \qmlcm the AppPage to push \endparam
 
     \qmlfn pop
     \qmlcm pops a page from the stack
-      \param Item pageStack
+      \param Item page
       \qmlcm the AppPage to push \endparam
 
     \qmlfn replace
     \qmlcm replace the current stack
-      \param Item pageStack
+      \param Item page
       \qmlcm the AppPage to replace \endparam
 
     \qmlfn clear

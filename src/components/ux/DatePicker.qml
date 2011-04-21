@@ -93,7 +93,7 @@
   \qmlsignal dateSelected
   \qmlcm emitted when ok button is clicked, propagates the selected date.
         \param variant date
-        \qmlcm holds a Date object.
+        \qmlcm holds a Date object.\endparam
 
   \section1  Functions
 
@@ -106,41 +106,41 @@
   \qmlfn today
   \qmlcm returns the current date, internal use only.
         \retval variant date
-        \qmlcm the current date
+        \qmlcm the current date \endretval
 
   \qmlfn isCurrentDate
   \qmlcm returns true if parameter date matches the current date, internal use only.
-        \param   date    \qmlcm date object.
-        \retval  bool	 \qmlcm true if the parameter date matches the current date
+        \param   date    \qmlcm date object.\endparam
+        \retval  bool	 \qmlcm true if the parameter date matches the current date \endretval
 
   \qmlfn startDay
   \qmlcm returns the first day of month mm in year yyyy, internal use only.
-  \param int  mm
-  \param int  yyyy
-  \retval int \qmlcm the first day of the given month and year
+  \param int  mm \endparam
+  \param int  yyyy \endparam
+  \retval int \qmlcm the first day of the given month and year \endretval
 
   \qmlfn daysInMonth
   \qmlcm returns the number of days of month mm in year yyyy, internal use only.
-  \param   mm  integer
-  \param   yyyy    integer
-  \retval  integer the number of days in the given month and year
+  \param int    mm  \endparam
+  \param int    yyyy \endparam
+  \retval  integer the number of days in the given month and year \endretval
 
   \qmlfn isSelectedDate
   \qmlcm returns true if the currently selected date is dd-mm-yyyy, internal use only.
-  \param   dd  integer
-  \param   mm  integer
-  \param   yyyy   integer
-  \retval  bool    true if the currently selected date matches the given date
+  \param   int  dd  \endparam
+  \param   int  mm  \endparam
+  \param   int  yyyy   \endparam
+  \retval  bool    true if the currently selected date matches the given date \endretval
 
   \qmlfn nexthMonth
   \qmlcm returns the index of the following month, internal use only.
-  \param   refDate date object
-  \retval  int    the index of the following month
+  \param   Date refDate \endparam
+  \retval  int    the index of the following month \endretval
 
   \qmlfn prevMonth
   \qmlcm returns the index of the former month, internal use only.
-  \param   refDate date object
-  \retval  int    the index of the former month
+  \param   Date refDate \endparam
+  \retval  int    the index of the former month \endretval
 
   \qmlfn setFuturePast
   \qmlcm checks if the currently selected date is in the future or the past and
@@ -148,21 +148,21 @@
 
   \qmlfn updateSelectedDate
   \qmlcm updates the day model if necessary, updates the spinners and sets the selected date.
-  \param   d    int, the new day
-  \param   m    int, the new month
-  \param   y    int, the new year
+  \param   int  d   the new day \endparam
+  \param   int  m   the new month \endparam
+  \param   int  y   the new year \endparam
 
   \qmlfn setDays
   \qmlcm updates the selected day.
-  \param   d    int, the new day
-  \param   m    int, the new month
-  \param   y    int, the new year
+  \param   int  d    the new day \endparam
+  \param   int  m    the new month \endparam
+  \param   int  y    the new year \endparam
 
   \qmlfn changeDayModel
   \qmlcm updates the day model if necessary.
-  \param   d    int, the new day
-  \param   m    int, the new month
-  \param   y    int, the new year
+  \param   int  d    the new day \endparam
+  \param   int  m    the new month \endparam
+  \param   int  y    the new year \endparam
 
   \qmlfn updateYears
   \qmlcm called when minYear or maxYear have been changed. Updates the year model to contain only
@@ -172,9 +172,9 @@
   \qmlfn checkSelectedDate
   \qmlcm checks if the given date is in the range given by the properties minYear, minMonth,
          minDay, maxYear, maxMonth and maxDay
-  \param   d    int, the given day
-  \param   m    int, the given month
-  \param   y    int, the given year
+  \param   int  d    the given day \endparam
+  \param   int  m    the given month \endparam
+  \param   int  y    the given year \endparam
 
   \section1  Example
   \code
@@ -195,8 +195,6 @@
           }
       }
   \endcode
-    property int firstYear: 1980
-    property int lastYear: 2020
 */
 
 import Qt 4.7

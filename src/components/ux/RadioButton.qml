@@ -11,7 +11,7 @@
    \title RadioButton
    \section1 RadioButton
    This is a radio button. The group property has to be set and it needs to be added to a \l {RadioGroup}.
-   All radio buttons in one group have to have unique values.
+   All radio buttons in a group need unique values.
 
    \section2 API properties
 
@@ -19,13 +19,22 @@
       \qmlcm holds the checked state. Only to be altered by RadioGroup.
 
       \qmlproperty variant value
-      \qmlcm holds the buttons value. It has to be set and to be unique within its group.
+      \qmlcm holds the buttons value. It has to be set unique within its group.
 
       \qmlproperty QtObject group
       \qmlcm holds the group the button belongs to.
 
       \qmlproperty real height
-      \qmlcm the buttons height. By default it will be the size of the buttons image.
+      \qmlcm the buttons height. By default it will be the height of the buttons image.
+
+      \qmlproperty real width
+      \qmlcm the buttons width. By default it's set to cover the image and text.
+
+      \qmlproperty alias text
+      \qmlcm provides access to the text displayable next to the button.
+
+      \qmlproperty alias font
+      \qmlcm provides access to the font of the text displayable next to the button.
 
   \section2 Private properties
   \qmlnone

@@ -102,22 +102,22 @@ WidgetPage {
             anchors.centerIn: parent
             width: 100
             height: 110
-            value: 1
+            value: "3"
             popupListModel: myModel
 
             ListModel {
                 id:myModel
 
-                ListElement { tag: "1" }
-                ListElement { tag: "2" }
-                ListElement { tag: "3" }
-                ListElement { tag: "4" }
-                ListElement { tag: "5" }
-                ListElement { tag: "6" }
-                ListElement { tag: "7" }
-                ListElement { tag: "8" }
-                ListElement { tag: "9" }
+                property variant myList: [ "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
+
+                Component.onCompleted: {
+                    for( var i = 0; i < myList.length; i++ ) {
+                        myModel.append( { tag: myList[i] } )
+                    }
+                    popupList.reInit()
+                }
             }
+
         }
     }
 }

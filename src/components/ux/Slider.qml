@@ -22,7 +22,7 @@
     \qmlcm maximum value of the slider
     
     \qmlproperty int value
-    \qmlcm current value ot the slider
+    \qmlcm current value of the slider
 
     \qmlproperty real percentage
     \qmlcm used to calculate the width of the progress bar
@@ -47,10 +47,7 @@
         \qmlpcm the new value \endparam
       
   \section2 Functions
-    \qmlfn moveSlider
-    \qmlcm moves the slider to the position set by the parameter
-      \param int value
-      \qmlpcm The position the slider should have \endparam
+  \qmlnone
       
   \section2 Example
   \qml

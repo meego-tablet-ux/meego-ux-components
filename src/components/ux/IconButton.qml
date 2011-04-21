@@ -10,9 +10,8 @@
    \qmlclass IconButton
    \title IconButton
    \section1 IconButton
-   This is a button with a customizable text, font and text-color as well as released
-   and pressed state images. Additionally icons for the pressed and released state
-   can be set.
+   This is a button with released and pressed state images. Additionally icons for the
+   pressed and released state can be set and which are show centered on the button.
 
    \section2 API properties
 

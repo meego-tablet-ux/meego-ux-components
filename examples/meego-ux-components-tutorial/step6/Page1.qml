@@ -5,14 +5,16 @@ import MeeGo.Components 0.1
 AppPage {
     id: page1
 
-    pageTitle: "Page 1 of Book 1"
+    pageTitle: "ModalDialog Test"
     anchors.fill: parent
 
     Button {
         id: button
+
+        anchors.centerIn: parent
         width:  300
         height:  80
-        text: "Show Message Box"
+        text: "Show ModalMessageBox"
 
         onClicked: {
             messageBox.show()
@@ -22,18 +24,16 @@ AppPage {
     ModalMessageBox {
         id: messageBox
 
-        title: "Do you wanted to click the button?"
-        text: "Do you wanted to click the button?"
+        title: "This is a ModalMessageBox"
+
+        text: "Did you press the button gently?"
 
         showAcceptButton: true
         showCancelButton: true
 
-        fogClickable: true
+        fogClickable: false //false means clicking outside the dialog won't close it
 
-        onAccepted: { doAccept() } // your implementation of accept
-        onRejected: { doReject() } // your implementation of reject
+        onAccepted: { } // do something
+        onRejected: { } // do something
     }
-
-    function doAccept() { }
-    function doReject() { }
 }

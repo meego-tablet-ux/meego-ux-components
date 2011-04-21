@@ -6,15 +6,15 @@ Window {
 
     id: window
 
-    bookMenuModel: [ qsTr("Page1"), qsTr("Page2") ]
-    bookMenuPayload: [ page1Component, page2Component ]
+    bookMenuModel: [ qsTr("Book1"), qsTr("Book2") ]
+    bookMenuPayload: [ book1Component, book2Component ]
 
-    Component { id: page1Component; Page1 {} }
-    Component { id: page2Component; Page2 {} }
+    Component { id: book1Component; Page1 {} }
+    Component { id: book2Component; Page2 {} }
 
     Component.onCompleted: {
         console.log("Window loaded")
-        switchBool( page1Component )
+        switchBook( book1Component )
     }
 
     onActionMenuTriggered: {

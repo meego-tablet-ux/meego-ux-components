@@ -5,15 +5,14 @@ import MeeGo.Components 0.1
 AppPage {
     id: page1
 
-    Rectangle {
-        anchors.fill: parent
-        anchors.margins: 30
+    pageTitle: "Page 1 of Book 1"
+    anchors.fill: parent
 
-        color: "red"
-
-        Button {
-            anchors.centerIn: parent
-            text: "NextPage"
-        }
+    Button {
+        anchors.centerIn: parent
+        text: "NextPage"
+        onClicked: { window.addPage( page1bComponent ) }
     }
+
+    Component { id: page1bComponent; Page1b{} }
 }

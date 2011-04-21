@@ -6,20 +6,15 @@ Window {
 
     id: window
 
-    toolBarTitle: "My Window"
+    toolBarTitle: "Book menu test"
 
-    bookMenuModel: [ qsTr("Page1"), qsTr("Page2") ]
-    bookMenuPayload: [ page1Component, page2Component ]
+    bookMenuModel: [ qsTr("Book1"), qsTr("Book2") ]
+    bookMenuPayload: [ book1Component, book2Component ]
 
-    Component { id: page1Component; Page1 {} }
-    Component { id: page2Component; Page2 {} }
+    Component { id: book1Component; Page1 {} }
+    Component { id: book2Component; Page2 {} }
 
     Component.onCompleted: {
-        console.log("Window loaded")
-        switchBook( page1Component )
-    }
-
-    onActionMenuTriggered: {
-        // selectedItem contains the selected payload entry
+        switchBook( book1Component )
     }
 }

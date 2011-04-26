@@ -162,9 +162,9 @@ ModalDialog {
 
         if( selectSongs ) {
             if( multiSelection ){
-                multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, selectedAlbumName, PickerArray.types )
+                multipleSongsSelected( PickerArray.titles, PickerArray.uris, selectedAlbumThumbUri, selectedAlbumName, PickerArray.types )
             }else {
-                songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
+                songSelected( PickerArray.titles[0] , PickerArray.uris[0], selectedAlbumThumbUri, selectedAlbumName , PickerArray.types[0] )
             }
         } else if( musicPicker.showAlbums || musicPicker.showPlaylists ) {
             if( PickerArray.titles.length > 0 && PickerArray.types.length > 0 ) {

@@ -74,8 +74,8 @@ ModalDialog {
     property int minutes: 0
     property string time: ""
 
-    aligneTitleCenter: true
     title: qsTr("Pick a time")
+    alignTitleCenter: true
 
     buttonWidth: tPicker.width / 2.5
     height: tPicker.height + decorationHeight

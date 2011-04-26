@@ -5,7 +5,7 @@ OTHER_FILES +=  qmldir \
                 TopItem.qml \
                 Window.qml \
                 AppPage.qml \
-		AppPageStack.qml \
+                AppPageStack.qml \
 		PageStack.js \
 		PageStack.qml \
                 ModalFog.qml \

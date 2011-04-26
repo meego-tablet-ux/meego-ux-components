@@ -112,6 +112,10 @@
  \qmlproperty bool backButtonEnabled
  \qmlcm bool, inhibits if the backButton is enabled or not. if not enabled.
 
+ \qmlproperty Item overlayItem
+ \qmlcm Item, an item spanning over the content area where the AppPages are shown. Here you can add for example
+ application wide extra toolbars. This overlayItem will be above the AppPage contents, but below dialogs.
+
  \section1 Private Properties
  \qmlproperty pageStack, statusBar, toolBar and actionMenu are convenient properties if
  for example you want to anchor something to these items.
@@ -244,7 +248,7 @@ Item {
     property bool inhibitScreenSaver: false
     property bool backButtonLocked: false
 
-
+    property alias overlayItem: overlayArea.children
     property alias pageStack: pageStack
     property alias statusBar: statusBar
     property alias toolBar: toolBar
@@ -605,6 +609,11 @@ Item {
         //add a page stack to manage pages
         PageStack {
             id: pageStack
+            anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+        }
+
+        Item {
+            id: overlayArea
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 

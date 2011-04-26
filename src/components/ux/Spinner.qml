@@ -23,10 +23,10 @@
   \section2  Functions
 
   \qmlfn show
-  \qmlcm creates the Spinner and fades the Spinner in
+  \qmlcm starts the animation and fades the Spinner in
 
   \qmlfn hide
-  \qmlcm fades the Spinner out and destroys the Spinner
+  \qmlcm fades the Spinner out and stops the animation
 
   \section2 Example
   \qmlnone
@@ -37,16 +37,45 @@ import Qt 4.7
 import MeeGo.Components 0.1
 
 ModalFog {
-    id: spinner
+    id: spinnerBox
+
+    property int interval: 100
 
     autoCenter: true
+    fogClickable: false
 
-    modalSurface: Image {
-        id: spinnerImage
-        source: "image://themedimage/widgets/common/spinner"
-        width: 40
-        height: 40
-        smooth: true
-        visible: spinner.visible
+    modalSurface: Item{
+        id: spinner
+
+        anchors.centerIn: parent
+
+        clip: true
+
+        width:  spinnerImage.height
+        height:  spinnerImage.height
+
+        Timer {
+            id: spinnerTimer
+            interval: spinnerBox.interval
+            repeat: true
+            onTriggered: {
+                spinnerImage.x = (spinnerImage.x - spinnerImage.height) % - (spinnerImage.height * 11)
+            }
+        }
+
+        Image {
+            id: spinnerImage
+
+            x: 0
+
+            source: "image://themedimage/widgets/common/spinner/spinner"
+            width: sourceSize.width
+            height: sourceSize.height
+            smooth: true
+        }
     }
+
+    onFogHideFinished: { spinnerTimer.running = false }
+
+    onShowCalled: { spinnerTimer.running = true }
 }

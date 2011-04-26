@@ -93,7 +93,6 @@ Item {
     }
 
     function hide(){
-        fogHideFinished()
         fadeOut.running = true
         focus = false
     }
@@ -176,7 +175,10 @@ Item {
         to: 0
         duration: theme.dialogAnimationDuration
 
-        onCompleted: visible = false
+        onCompleted: {
+            visible = false
+            fogContainer.fogHideFinished()
+        }
     }
 
     PropertyAnimation{

@@ -503,7 +503,7 @@ ModalDialog {
 
     title: qsTr("Due Date")
 
-    aligneTitleCenter: true
+    alignTitleCenter: true
 
     buttonWidth: width / 2.5
 

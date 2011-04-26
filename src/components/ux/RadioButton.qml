@@ -43,7 +43,10 @@
   \qmlnone
 
   \section2 Functions
-  \qmlnone
+  \qmlfn click
+  \qmlcm Initiates the clicked signal of the mouseArea. Can be used to chain
+         a larger MouseArea from outside to the local MouseArea
+  \param MousEvent  mouse, the mouse event needed as a parameter to call the clicked signal  \endparam
 
   \section2 Example
   \qml
@@ -71,6 +74,8 @@ Item {
     property alias text: radioText.text
     property alias font: radioText.font
 
+    function click(mouse) { mouseArea.clicked(mouse); }
+
     width: image.sourceSize.width + radioText.width + 10
     height: image.sourceSize.height
 
@@ -82,13 +87,13 @@ Item {
         source: root.checked ? "image://themedimage/widgets/common/radio-button/radio-button-background-active" :
                                "image://themedimage/widgets/common/radio-button/radio-button-background"
         smooth:  true
+    }
 
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            onClicked: {
-                if (!checked && group) { group.check(root); }
-            }
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: {
+            if (!checked && group) { group.check(root); }
         }
     }
 
@@ -101,7 +106,7 @@ Item {
         anchors.verticalCenter: image.verticalCenter
 
         font.pixelSize: theme.fontPixelSizeNormal
-        elide:  Text.ElideRight
+        //elide:  Text.ElideRight
     }
 
     Theme {id: theme }

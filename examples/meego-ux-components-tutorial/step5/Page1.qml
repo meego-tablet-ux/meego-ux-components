@@ -5,47 +5,36 @@ import MeeGo.Components 0.1
 AppPage {
     id: page1
 
-    pageTitle: "Page 1 of Book 1"
-    anchors.fill: parent
-
-    onActionMenuIconClicked: {
-        contextActionMenu.setPosition( mouseX, mouseY )
-        contextActionMenu.show()
+    function doActionOne() {
+        area.color = "lightgreen"
+    }
+    function doActionTwo() {
+        area.color = "lightblue"
     }
 
-    ModalContextMenu {
-        id: contextActionMenu
-        forceFingerMode: 2
+    pageTitle: "ActionMenu Test"
 
-        content:  Item {
-            width: 300
-            height: 300
+    anchors.fill: parent
 
-            Column {
-                id: column
+    actionMenuModel: [ qsTr("Make it green"), qsTr("Make it blue") ]
 
-                width: parent.width
+    actionMenuPayload: [ 1 , 2 ]
 
-                anchors.fill: parent
-                anchors.margins: 10
+    actionMenuTitle: qsTr("ActionMenu")
 
-                spacing: 10
-
-                Text{
-                    font.pixelSize: 24
-                    text:  "Custom ContextMenu"
-                }
-                TextEntry{
-                    width: 250
-                    defaultText:"some entry"
-                }
-                Text{
-                    width: parent.width
-                    font.pixelSize: 20
-                    wrapMode: Text.WordWrap
-                    text:  "This is an example of a completely own customizable context menu each page can set."
-                }
-            }
+    onActionMenuTriggered: {
+        if( selectedItem == 1 ) {
+            doActionOne()
+        } else if( selectedItem == 2 ) {
+            doActionTwo()
         }
+    }
+
+    Rectangle {
+        id: area
+
+        anchors.fill: parent
+        anchors.margins: 30
+        color: "lightgrey"
     }
 }

@@ -47,8 +47,8 @@
 
   \section2 Example
   \qml
-    TextField {
-        id: textField
+    TextEntry {
+        id: textEntry
 
        text: "Type here."
    }
@@ -94,21 +94,19 @@ BorderImage {
         font.pixelSize: theme.fontPixelSizeLarge
 
         onTextChanged: {            
-            if( text.length > 0 || !firstUsage ) {
+            if( text.length > 0 ) {
                 container.textChanged()
-                fakeText.firstUsage = false
             }
         }
         
         onAccepted: {
             container.accepted()
-	}
+        }
     }
 
     Text {
         id: fakeText
 
-        property bool firstUsage: true
 
         x: 15
         y: 15
@@ -117,12 +115,12 @@ BorderImage {
         font: input.font
         color: "slategrey"
 
-        visible: ( input.text == ""  && !input.focus && firstUsage ) ||( input.text == "" && input.readOnly && firstUsage )
+        visible: ( input.text == ""  && !input.focus ) || ( input.text == "" && input.readOnly )
 
         Connections {
             target: input
             onTextChanged: {
-                fakeText.visible = (input.text == "" && firstUsage)
+                fakeText.visible = (input.text == "")
             }
         }
     }

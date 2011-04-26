@@ -10,8 +10,7 @@ AppPage {
     Rectangle {
         anchors.fill: parent
         anchors.margins: 30
-
-        color: "blue"
+        color: "lightgreen"
 
         Text {
             anchors.centerIn: parent

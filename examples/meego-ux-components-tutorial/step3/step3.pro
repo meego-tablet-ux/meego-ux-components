@@ -10,9 +10,7 @@ INSTALLS += qmlfiles
 OTHER_FILES += main.qml \
                Page1.qml \
                Page2.qml \
-               Page1-2.qml \
-               Page2-2.qml \
-               Page1-3.qml \
-               Page2-3.qml \
+               Page1b.qml \
+               Page2b.qml
 
 PROJECT_NAME = step3

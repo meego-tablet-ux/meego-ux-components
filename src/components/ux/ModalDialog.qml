@@ -140,7 +140,7 @@ ModalFog {
     property string acceptButtonText: qsTr( "OK" )
 
     property string title: ""
-    property bool aligneTitleCenter: false
+    property bool alignTitleCenter: false
 
     property string cancelButtonImage: "image://themedimage/widgets/common/button/button"
     property string cancelButtonImagePressed: "image://themedimage/widgets/common/button/button-pressed"
@@ -194,17 +194,19 @@ ModalFog {
 
             anchors.top: parent.top
 
-            anchors.horizontalCenter: aligneTitleCenter ? parent.horizontalCenter : undefined
-            anchors.left: aligneTitleCenter ? undefined : parent.left
+            anchors.horizontalCenter: alignTitleCenter ? parent.horizontalCenter : undefined
+            anchors.left: alignTitleCenter ? undefined : parent.left
             anchors.leftMargin: 20
 
             height: inner.border.top
+            width:  parent.width - 40
             verticalAlignment: Text.AlignVCenter
 
             text: modalDialogBox.title
             font.weight: Font.Bold
             font.pixelSize: theme.dialogTitleFontPixelSize
             color: theme.dialogTitleFontColor
+            elide: Text.ElideRight
         }
 
         Item {

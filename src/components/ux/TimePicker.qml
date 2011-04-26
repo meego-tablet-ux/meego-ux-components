@@ -85,7 +85,7 @@ ModalDialog {
 
     property bool oldToggleState: false
 
-    aligneTitleCenter: true
+    alignTitleCenter: true
 
     buttonWidth: tPicker.width / 2.5
 

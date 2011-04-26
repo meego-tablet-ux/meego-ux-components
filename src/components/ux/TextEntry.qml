@@ -47,8 +47,8 @@
 
   \section2 Example
   \qml
-    TextField {
-        id: textField
+    TextEntry {
+        id: textEntry
 
        text: "Type here."
    }
@@ -102,7 +102,7 @@ BorderImage {
         
         onAccepted: {
             container.accepted()
-	}
+        }
     }
 
     Text {

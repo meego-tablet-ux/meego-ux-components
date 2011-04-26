@@ -122,27 +122,31 @@ BorderImage {
             wrapMode: TextEdit.Wrap
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
             font.pixelSize: theme.fontPixelSizeNormal
+
+            onTextChanged: {
+                container.textChanged()
+            }
         }
         
-	Text {
-	  id: fakeText
+        Text {
+            id: fakeText
 
-	  property bool firstUsage: true
+            property bool firstUsage: true
 
-          anchors.fill: edit
+            anchors.fill: edit
 
-          font: edit.font
-	  color: "slategrey"
+            font: edit.font
+            color: "slategrey"
 
-          visible: ( edit.text == "" && !edit.focus && firstUsage ) ||( edit.text == "" && edit.readOnly && firstUsage )
+            visible: ( edit.text == "" && !edit.focus && firstUsage ) ||( edit.text == "" && edit.readOnly && firstUsage )
 
-	  Connections {
-	      target: edit
-	      onTextChanged: {
-		  fakeText.visible = (edit.text == "" && firstUsage)
-                  firstUsage = false
-	      }
-	  }
-      }
+            Connections {
+                target: edit
+                onTextChanged: {
+                    fakeText.visible = (edit.text == "" && firstUsage)
+                    firstUsage = false
+                }
+            }
+        }
     }
 }

@@ -17,10 +17,11 @@
 
   \section2  API properties
   \qmlproperty int hours
-  \qmlcm currently selected hours.  This value is from 0-23, regardless of the value of hr24
+  \qmlcm Starting hours (input) and selected hours (output).
+         This value is from 0-23, regardless of the value of hr24
 
   \qmlproperty int minutes
-  \qmlcm currently selected minutes
+  \qmlcm  Starting minutes (input) and selected minutes (output)
 
   \qmlproperty string time
   \qmlcm contains the current hours and minutes separated by a colon
@@ -80,12 +81,29 @@ ModalDialog {
     height: tPicker.height + decorationHeight
     width: tPicker.width
 
+    // Input "use24" is true if displaying 24 hour time; "h" is from 0-23.
+    // Return is 1-12.
+    function toDisplayHours (use24, h) {
+        if (use24) return h
+        else if (h <= 0) return 12
+        else if (h <= 12) return h
+        else return (h - 12)
+    }
+
+    // Input "use24" is true if displaying 24 hour time; "h" is from 1-12; "am" is true if ante-meridian.
+    // Return is 0-23.
+    function fromDisplayHours (use24, h, am) {
+        if (use24) return h
+        else if (12 == h) return am?0:12
+        else if (am) return h
+        else return (h + 12)%24
+    }
+
     //if hours is changed, check if the new value is within the allowed boundaries to catch wrong input
     onHoursChanged: {
         hours %= 24
-        console.log("[CHANGED] hours:",hours,"- am:",ampmToggleBox.on)
-        var displayHours = hr24 ? hours : !ampmToggleBox.on ? hours - 12 : (hours==0) ? 12 : hours
-        hourSpinner.setValue( displayHours )
+        ampmToggleBox.on = (hours < 12)
+        hourSpinner.setValue( toDisplayHours(hr24, hours))
     }
 
     //if minutes is changed, check if the new value is within the allowed boundaries to catch wrong input
@@ -103,15 +121,12 @@ ModalDialog {
             hourSpinner.min = 1
             hourSpinner.count = 12
         }
-        var displayHours = hr24 ? hours : !ampmToggleBox.on ? hours - 12 : (hours==0) ? 12 : hours
-        hourSpinner.setValue( displayHours )
+        hourSpinner.setValue( toDisplayHours(hr24, hours))
     }
 
     onShowCalled:  {
-        var displayHours = hr24 ? hours : !ampmToggleBox.on ? hours - 12 : (hours==0) ? 12 : hours
-        hourSpinner.setValue( displayHours )
+        hourSpinner.setValue( toDisplayHours(hr24, hours))
         minutesSpinner.setValue( minutes )
-        console.log("[SHOW] displayHours:",displayHours, "  hours:", hours, "  am:", ampmToggleBox.on)
     }
 
     // if ok button is clicked, store the selected time
@@ -120,16 +135,7 @@ ModalDialog {
         var displayMinutes = ( minutes < 10 ? "0" : "" ) + minutes
 
         time = hourSpinner.value + ":" + displayMinutes + (hr24 ? "" : " " + ampmToggleBox.label)
-        if (hr24) {
-            hours = hourSpinner.value
-        } else {
-            if (ampmToggleBox.on && (hourSpinner == 0)) {
-                hours = 23
-            } else if (!ampmToggleBox.on && (hourSpinner > 0)) {
-                hours = hourSpinner + 12
-            } else
-                hours = hourSpinner
-            }
+        hours = fromDisplayHours(hr24, hourSpinner.value, ampmToggleBox.on)
     }
 
     content: Item {
@@ -222,9 +228,6 @@ ModalDialog {
 
                 on: (timePicker.hours < 12)
 
-                //onToggled: {
-                //    ampm = ampmToggleBox.on ? ampmToggleBox.onLabel : ampmToggleBox.offLabel;
-                //}
             }// ampmToggleBox
         }// ampmToggleBox
     }// timePicker

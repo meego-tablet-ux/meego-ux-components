@@ -127,20 +127,17 @@ BorderImage {
 	Text {
 	  id: fakeText
 
-	  property bool firstUsage: true
-
           anchors.fill: edit
 
           font: edit.font
 	  color: "slategrey"
 
-          visible: ( edit.text == "" && !edit.focus && firstUsage ) ||( edit.text == "" && edit.readOnly && firstUsage )
+          visible: ( edit.text == "" && !edit.focus ) ||( edit.text == "" && edit.readOnly )
 
 	  Connections {
 	      target: edit
 	      onTextChanged: {
-		  fakeText.visible = (edit.text == "" && firstUsage)
-                  firstUsage = false
+                  fakeText.visible = (edit.text == "")
 	      }
 	  }
       }

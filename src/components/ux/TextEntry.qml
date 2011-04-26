@@ -96,7 +96,6 @@ BorderImage {
         onTextChanged: {            
             if( text.length > 0 || !firstUsage ) {
                 container.textChanged()
-                fakeText.firstUsage = false
             }
         }
         
@@ -108,7 +107,6 @@ BorderImage {
     Text {
         id: fakeText
 
-        property bool firstUsage: true
 
         x: 15
         y: 15
@@ -117,12 +115,12 @@ BorderImage {
         font: input.font
         color: "slategrey"
 
-        visible: ( input.text == ""  && !input.focus && firstUsage ) ||( input.text == "" && input.readOnly && firstUsage )
+        visible: ( input.text == ""  && !input.focus ) || ( input.text == "" && input.readOnly )
 
         Connections {
             target: input
             onTextChanged: {
-                fakeText.visible = (input.text == "" && firstUsage)
+                fakeText.visible = (input.text == "")
             }
         }
     }

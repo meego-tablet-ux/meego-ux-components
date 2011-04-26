@@ -162,9 +162,9 @@ ModalDialog {
 
         if( selectSongs ) {
             if( multiSelection ){
-                multipleSongsSelected( PickerArray.titles, PickerArray.uris, selectedAlbumThumbUri, selectedAlbumName, PickerArray.types )
+                multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris[0], selectedAlbumName, PickerArray.types )
             }else {
-                songSelected( PickerArray.titles[0] , PickerArray.uris[0], selectedAlbumThumbUri, selectedAlbumName , PickerArray.types[0] )
+                songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
             }
         } else if( musicPicker.showAlbums || musicPicker.showPlaylists ) {
             if( PickerArray.titles.length > 0 && PickerArray.types.length > 0 ) {
@@ -262,7 +262,7 @@ ModalDialog {
                     PickerArray.push( title, "titles" );
                     PickerArray.push( type, "types" );
                     PickerArray.push( uri, "uris" );
-                    PickerArray.push( uri, "thumbUris" );
+                    PickerArray.push( selectedAlbumThumbUri, "thumbUris" );
 
                     selectedSong = itemid
 
@@ -314,12 +314,12 @@ ModalDialog {
                             PickerArray.push( payload.mtitle, "titles" );
                             PickerArray.push( payload.mitemtype, "types" );
                             PickerArray.push( payload.mthumburi, "thumbUris" );
-                            PickerArray.push( payload.uri, "uris" );
+                            PickerArray.push( payload.muri, "uris" );
                         }else {
                             PickerArray.remove( payload.mtitle, "titles" );
                             PickerArray.remove( payload.mitemtype, "types" );
                             PickerArray.remove( payload.mthumburi, "thumbUris" );
-                            PickerArray.remove( payload.uri, "uris" );
+                            PickerArray.remove( payload.muri, "uris" );
                         }
                         musicPicker.acceptButtonEnabled = true; //enable OK button
                     }else {
@@ -330,7 +330,7 @@ ModalDialog {
                         PickerArray.push( payload.mtitle, "titles" );
                         PickerArray.push( payload.mitemtype, "types" );
                         PickerArray.push( payload.mthumburi, "thumbUris" );
-                        PickerArray.push( payload.uri, "uris" );
+                        PickerArray.push( payload.muri, "uris" );
 
                         selectedItem = payload.mitemid; //memorize the newly selected item
                         musicPicker.acceptButtonEnabled = true; //enable OK button

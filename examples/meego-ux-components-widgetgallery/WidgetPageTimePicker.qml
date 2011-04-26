@@ -20,15 +20,54 @@ WidgetPage {
 
     controlContent: [
         LabeledEntry {
-            id: incrementEntry
+            id: hoursEntry
 
-            label:  "minutesIncrement: "
-            defaultValue: timePicker.minutesIncrement
+            label:  "hours: "
+            defaultValue: timePicker.hours
 
             onTextUpdated: {
                 if( value < 0 ){
                     text = "0"
-                    timePicker.minutesIncrement = 0
+                    timePicker.hours = 0
+                }else if( value > 23 ) {
+                    text = "23"
+                    timePicker.hours = 23
+                }else{
+                    timePicker.hours = value
+                }
+            }
+        },
+
+        LabeledEntry {
+            id: minutesEntry
+
+            label:  "minutes: "
+            defaultValue: timePicker.minutes
+
+            onTextUpdated: {
+                if( value < 0 ){
+                    text = "0"
+                    timePicker.minutes = 0
+                }else if( value > 60 ) {
+                    text = "60"
+                    timePicker.minutes = 60
+                }else{
+                    timePicker.minutes = value
+                }
+            }
+        },
+
+        LabeledEntry {
+            id: incrementEntry
+
+            label:  "minutesIncrement: "
+            defaultValue: timePicker.minutesIncrement
+            text: "1"
+
+            onTextUpdated: {
+                if( value < 1 ){
+                    text = "1"
+                    timePicker.minutesIncrement = 1
                 }else if( value > 60 ) {
                     text = "60"
                     timePicker.minutesIncrement = 60
@@ -61,14 +100,14 @@ WidgetPage {
         },
 
         StatusEntry {
-            id: hoursEntry
+            id: hoursStatus
 
             label: "Hours: "
             value: "-"
         },
 
         StatusEntry {
-            id: minutesEntry
+            id: minutesStatus
 
 	    label: "Minutes: "
 	    value: "-"
@@ -96,18 +135,18 @@ WidgetPage {
         id: timePicker
 
         hr24: timeSystemBox.isChecked
-        minutesIncrement: 1
+        minutesIncrement: +incrementEntry.text
 
         onAccepted: {
             timeEntry.value = time
-            hoursEntry.value = hours
-            minutesEntry.value = minutes
+            hoursStatus.value = hours
+            minutesStatus.value = minutes
             signalEntry.value = "accepted"
         }
         onRejected: {
             timeEntry.value = "-"
-            hoursEntry.value = "-"
-            minutesEntry.value = "-"
+            hoursStatus.value = "-"
+            minutesStatus.value = "-"
             signalEntry.value = "rejected"
         }
     }

@@ -17,28 +17,21 @@
 
   \section2  API properties
   \qmlproperty int hours
-  \qmlcm currently selected hours.
+  \qmlcm currently selected hours.  This value is from 0-23, regardless of the value of hr24
 
   \qmlproperty int minutes
   \qmlcm currently selected minutes
 
-  \qmlproperty string minutesPadded
-  \qmlcm currently selected minutes with a 0 added at the beginning in case of 0 - 9 minutes
-
   \qmlproperty string time
   \qmlcm contains the current hours and minutes separated by a colon
-         and followed by the content of the property ampm.  This property is
+         and optionally followed by a "AM/PM" designation.  This property is
          only valid once a time has been picked
 
   \qmlproperty bool hr24
   \qmlcm set to true if 24 hour system should be used.  Default is false (12 hr am/pm)
 
   \qmlproperty int minutesIncrement
-  \qmlcm sets the step width used to select minutes
-
-  \section2  Private Properties
-  \qmlproperty string ampm
-  \qmlcm contains "AM", "PM" or nothing, depending on the current time system
+  \qmlcm sets the step width used to select minutes.  Default is 1
 
   \section2  Signals
   \qmlnone
@@ -73,84 +66,32 @@ import MeeGo.Components 0.1
 ModalDialog {
     id: timePicker
 
-    // the timePicker doesn't return a time. Access these properties to get the info you want
-    property int hours: 1
-    property int minutes: 0
-    property string minutesPadded: ( minutes < 10 ? "0" : "" ) + minutes
-    property string ampm: ""
-    property string time: ""
-
     property bool hr24: false
     property int minutesIncrement: 1
 
-    property bool oldToggleState: false
+    property int hours: 0
+    property int minutes: 0
+    property string time: ""
 
     aligneTitleCenter: true
+    title: qsTr("Pick a time")
 
     buttonWidth: tPicker.width / 2.5
+    height: tPicker.height + decorationHeight
+    width: tPicker.width
 
     //if hours is changed, check if the new value is within the allowed boundaries to catch wrong input
     onHoursChanged: {
-        if( hr24 ) {
-            if( hours < 0 ) {
-                hours = 0
-            }else if( hours > 23 ) {
-                while( hours > 23 ) {
-                    hours = hours - 12
-                }
-            }
-        }else{
-            if( hours < 1 ) {
-                hours = 1
-            }else if( hours > 12 ) {
-                ampmToggle.on = false
-                while( hours > 12 ) {
-                    hours = hours - 12
-                }
-            }
-        }
+        hours %= 24
+        console.log("[CHANGED] hours:",hours,"- am:",ampmToggleBox.on)
+        var displayHours = hr24 ? hours : !ampmToggleBox.on ? hours - 12 : (hours==0) ? 12 : hours
+        hourSpinner.setValue( displayHours )
     }
 
     //if minutes is changed, check if the new value is within the allowed boundaries to catch wrong input
     onMinutesChanged: {
-        if( minutes < 0 ) {
-            minutes = 0
-        }else if( minutes > 59 ) {
-            minutes = 59
-        }
-    }
-
-    onShowCalled:  {
-        oldToggleState = ampmToggle.on
-
-        hourSpinner.setValue( hours )
+        minutes %= 60
         minutesSpinner.setValue( minutes )
-    }
-
-    // if ok button is clicked, store the selected time
-    onAccepted:  {
-        hours = hourSpinner.value
-        minutes = minutesSpinner.value
-        var timeFormat = "h:mm"
-        if( !hr24 ) {
-            ampm = " " + (ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel);
-            timeFormat = "h:mm AP"
-        }else {
-            ampm = ""
-        }
-        timePicker.time = hours + ":" + minutesPadded + ampm
-    }
-
-    // if cancel button is clicked, restore the old values
-    onRejected: {
-        hourSpinner.setValue( hours )
-        minutesSpinner.setValue( minutes )
-        ampmToggle.on = oldToggleState
-        if( !hr24 ) {
-            ampm = " " + (ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel);
-        }else {
-            ampm = ""
-        }
     }
 
     //on a switch between the 12 and 24 hour systems, some special cases have to be caught
@@ -158,33 +99,38 @@ ModalDialog {
         if( hr24 ){ //switched from 12 to 24 hour system
             hourSpinner.min = 0
             hourSpinner.count = 24
-            if( !ampmToggle.on ) {
-                if( hours < 12 ){
-                    hours += 12
-                }else{
-                    hours = 0
-                }
-            }
-        }else { //switched from 24 to 12 hour system
+        } else { //switched from 24 to 12 hour system
             hourSpinner.min = 1
             hourSpinner.count = 12
-            if( hours > 12 ){
-                hours -= 12
-                ampmToggle.on = false
-            }else if( hours == 0 ) {
-                hours = 12
-                ampmToggle.on = true
-            }else {
-                ampmToggle.on = true
-            }
         }
-        hourSpinner.setValue( hours )
+        var displayHours = hr24 ? hours : !ampmToggleBox.on ? hours - 12 : (hours==0) ? 12 : hours
+        hourSpinner.setValue( displayHours )
     }
 
-    height: tPicker.height + decorationHeight
-    width: tPicker.width
+    onShowCalled:  {
+        var displayHours = hr24 ? hours : !ampmToggleBox.on ? hours - 12 : (hours==0) ? 12 : hours
+        hourSpinner.setValue( displayHours )
+        minutesSpinner.setValue( minutes )
+        console.log("[SHOW] displayHours:",displayHours, "  hours:", hours, "  am:", ampmToggleBox.on)
+    }
 
-    title: qsTr("Pick a time")
+    // if ok button is clicked, store the selected time
+    onAccepted:  {
+        minutes = minutesSpinner.value
+        var displayMinutes = ( minutes < 10 ? "0" : "" ) + minutes
+
+        time = hourSpinner.value + ":" + displayMinutes + (hr24 ? "" : " " + ampmToggleBox.label)
+        if (hr24) {
+            hours = hourSpinner.value
+        } else {
+            if (ampmToggleBox.on && (hourSpinner == 0)) {
+                hours = 23
+            } else if (!ampmToggleBox.on && (hourSpinner > 0)) {
+                hours = hourSpinner + 12
+            } else
+                hours = hourSpinner
+            }
+    }
 
     content: Item {
         id: tPicker
@@ -217,7 +163,8 @@ ModalDialog {
                     height: spinnerBox.height - anchors.bottomMargin - anchors.topMargin
                     incr: 1
                     pad: false
-                    anchors { left: parent.left; right: parent.horizontalCenter; top: parent.top; bottom: parent.bottom;
+                    anchors { 
+                        left: parent.left; right: parent.horizontalCenter; top: parent.top; bottom: parent.bottom;
                         leftMargin: 14; rightMargin: 14; topMargin: 14; bottomMargin: hr24 ? 14 : 0;
                     }
                 } // hourSpinner
@@ -245,7 +192,7 @@ ModalDialog {
                     id: minutesSpinner
 
                     min: 0
-                    incr: timePicker.minutesIncrement
+                    incr: minutesIncrement
                     count: 60 / incr
                     pad: true
                     anchors { left: parent.horizontalCenter; right: parent.right; top: parent.top; bottom: parent.bottom;
@@ -258,24 +205,27 @@ ModalDialog {
         // used to choose between AM or PM time, if 12 hour system is active
         Item {
             id: ampmToggleBox
+            property string label: (ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel);
+            property alias on: ampmToggle.on
 
             anchors.top: spinnerBox.bottom
-
             width: tPicker.width
             height: ampmToggle.height + 28
 
             ToggleButton {
                 id: ampmToggle
 
-                visible: !timePicker.hr24
+                visible: !hr24
                 onLabel: qsTr("AM")
                 offLabel: qsTr("PM")
                 anchors.centerIn: parent
 
-                onToggled: {
-                    timePicker.ampm = ampmToggle.on ? ampmToggle.onLabel : ampmToggle.offLabel;
-                }
-            }// ampmToggle
+                on: (timePicker.hours < 12)
+
+                //onToggled: {
+                //    ampm = ampmToggleBox.on ? ampmToggleBox.onLabel : ampmToggleBox.offLabel;
+                //}
+            }// ampmToggleBox
         }// ampmToggleBox
     }// timePicker
 

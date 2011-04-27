@@ -220,10 +220,11 @@ ModalFog {
             // for the menu, keeping it onscreen.
             switch (menuContainer.fingerMode) {
                 case 0:container.subMenuVisible
+                    mouseX += menuContainer.fingerSize / 2;
 
                 case 1:
 
-                    mouseX -= 15;
+                    mouseX -= menuContainer.fingerSize / 2;
                     if( mouseY - (mh / 2) < 0 + space + top.topDecorationHeight ){    // if the menu exceeds at top
                         menuContainer.y = 0 + space + top.topDecorationHeight;        // + top.topDecorationHeight to keep the toolbar clear
                     }
@@ -241,13 +242,14 @@ ModalFog {
                         menuContainer.x = mouseX - mw;    // position box left of arrow
                     }
 
+                    menuContainer.fingerY = mouseY - menuContainer.y;
                     break;
 
                 case 2:
-                    mouseY -= 30
+                    mouseY -= menuContainer.fingerSize
 
                 case 3:
-                    mouseY += 15
+                    mouseY += menuContainer.fingerSize
 
                     // Clamp mouseX so that at the edges of the screen we don't
                     // try putting the finger at a location where the
@@ -261,15 +263,17 @@ ModalFog {
 
                     if (menuContainer.fingerMode == 2) {
                         menuContainer.y = mouseY;
+                        menuContainer.fingerY = mouseY - menuContainer.y;
                     }
                     else {
-                        menuContainer.y = mouseY - mh - (menuContainer.fingerSize);
+                        menuContainer.y = mouseY - mh + 2 - (menuContainer.fingerSize * 1.5);
+                        menuContainer.fingerY = mouseY - menuContainer.y - menuContainer.fingerSize;
                     }
                     break;
             }
 
             menuContainer.fingerX = mouseX - menuContainer.x;
-            menuContainer.fingerY = mouseY - menuContainer.y;
+//            menuContainer.fingerY = mouseY - menuContainer.y;
         }
 
         height: childrenRect.height

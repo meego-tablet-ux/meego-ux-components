@@ -102,6 +102,10 @@ BorderImage {
         onAccepted: {
             container.accepted()
         }
+
+        CCPContextArea {
+            editor: parent
+        }
     }
 
     Text {

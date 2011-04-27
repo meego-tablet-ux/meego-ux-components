@@ -25,37 +25,40 @@
       \qmlcm sets the color of the button's text.
 
       \qmlproperty bool hasBackground
-      \qmlcm If true the properties bgSourceUp and bgSourceDown are used to
-             render the background of the Button.
+      \qmlcm if set to false, the button graphics will be invisible, only the text will be displayed.
 
       \qmlproperty string bgSourceUp
-      \qmlcm path to an image file used for released state.
+      \qmlcm path to an image file used while the button is in released state and active is false.
 
       \qmlproperty string bgSourceDn
-      \qmlcm path to an image file used for pressed state.
+      \qmlcm path to an image file used while the button is in pressed state.
 
       \qmlproperty string bgSourceActive
-      \qmlcm path to an image file used for active state.
+      \qmlcm path to an image file used while the button is in released state and active is true.
 
       \qmlproperty bool elideText
-      \qmlcm activates text eliding on true.  If this property is true, the width property must be explicitly set.
+      \qmlcm activates text eliding on true. If this property is true, the width property must be explicitly set.
 
       \qmlproperty bool active
-      \qmlcm marks if the button is active. The bgSourceActive is sshown when active and released.
+      \qmlcm if active is set to true, then the button will use bgSourceActive instead of bgSourceUp
+             for its visual representation while in released state. For example the button could have
+             a red background image after it was clicked to simulate the behavior of a switch. This property
+             must be set externally, the button itself never changes the value.
 
       \qmlproperty bool enabled
-      \qmlcm enables he button if true, disables it on false.
+      \qmlcm if enabled is set to false, the button can't be clicked and it's opacity is set to 0.5
+             to give a visual feedback about this state.
 
   \section2 Private properties
 
       \qmlfn bool pressed
-      \qmlcm stores if the button is currently pressed.
+      \qmlcm true if the button is currently pressed.
 
   \section2 Signals
 
       \qmlsignal clicked
-      \qmlcm emitted if the button is active and clicked.
-        \param variant mouse
+      \qmlcm emitted if the button is enabled and clicked.
+        \param MouseEvent mouse
         \qmlpcm contains mouse event data. \endparam
 
   \section2 Functions
@@ -89,7 +92,7 @@ Item {
     property string textColor: theme.buttonFontColor
     signal clicked( variant mouse )
 
-    // lower the button's opacity to mark it inactive
+    // lower the button's opacity to mark that it can't be clicked anymore
     opacity: enabled ? 1.0 : 0.5
 
     width:  if (!elideText) { buttonText.paintedWidth + 20 }
@@ -120,17 +123,6 @@ Item {
         anchors.fill: parent
 
         visible: hasBackground
-
-//        states: [
-//            State {
-//                name: "pressed"
-//                when: container.pressed
-//                PropertyChanges {
-//                    target: icon
-//                    source: bgSourceDn
-//                }
-//            }
-//        ]
     }
 
     // the button's text

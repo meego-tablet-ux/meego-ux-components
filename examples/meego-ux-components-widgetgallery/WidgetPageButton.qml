@@ -98,8 +98,7 @@ WidgetPage {
         }
     ]
 
-    description: qsTr("This is a button with customizable size and label. If the label is too big to be displayed in the button, "
-               + "activate the checkbox for elide if desired. \n")
+    description: qsTr("This is a button with customizable size and label. Unless a specific width and height is specified, the button auto-sizes to the text and font size.  Activate the checkbox for elide if desired. \n")
 
     widget: Flickable {
 
@@ -112,16 +111,19 @@ WidgetPage {
             id: button
 
             anchors.centerIn: parent
-
-            width:  200
-            height:  80
             text: qsTr("Button")
 
             elideText: elideBox.isChecked
             active: activeBox.isChecked
             enabled: enabledBox.isChecked
 
-            onPressedChanged: { if( pressed ) { statusEntry.value = qsTr("pressed") } else { statusEntry.value = qsTr("released") } }
+            onPressedChanged: { 
+                if( pressed ) { 
+                    statusEntry.value = qsTr("pressed") 
+                } else { 
+                    statusEntry.value = qsTr("released") 
+                } 
+            }
             //onClicked: { widgetPage.outputText = "clicked" }
         }
     }

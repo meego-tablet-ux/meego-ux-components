@@ -521,7 +521,8 @@ Item {
 
                             anchors.fill: parent
                             onClicked: {
-                                bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , mapToItem( window_content_topitem, window_content_topitem.width / 2, applicationMenuButton.y + applicationMenuButton.height ).y )
+//                                bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , mapToItem( window_content_topitem, window_content_topitem.width / 2, applicationMenuButton.y + applicationMenuButton.height ).y )
+                                bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
                                 bookContextMenu.show()
                             }
                         }
@@ -570,10 +571,10 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 if( customActionMenu ){
-                                    actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+                                    actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 3 )
                                 }
                                 else{
-                                    pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
+                                    pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 3 )
                                     pageContextMenu.show()
                                 }
                             }
@@ -715,8 +716,8 @@ Item {
 
     // repositions the context menu after orientation change
     onOrientationChangeFinished: {
-        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
-        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 3 )
+        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
     }
 
     onInhibitScreenSaverChanged: { // to meego-qml-launcher
@@ -729,13 +730,13 @@ Item {
 
     // Repositions the context menu after the windows width and/or height have changed.
     onWidthChanged: {
-        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
-        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 3 )
+        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
     }
 
     onHeightChanged: {
-        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight )
-        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight )
+        pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 3 )
+        bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
     }
 
     Connections {

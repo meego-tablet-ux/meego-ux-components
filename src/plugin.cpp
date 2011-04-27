@@ -7,12 +7,6 @@
  */
 #include "plugin.h"
 
-//#include "models/applicationsmodel.h"
-//#include "models/recentapplicationsmodel.h"
-//#include "models/favoriteapplicationsmodel.h"
-//#include "models/desktop.h"
-//#include "kernel/valuespacepublisher.h"
-//#include "kernel/valuespacesubscriber.h"
 #include "kernel/scene.h"
 #include "kernel/musicserviceproxy.h"
 
@@ -22,10 +16,7 @@
 #include "components/networkindicator.h"
 #include "components/notificationindicator.h"
 #include "components/musicindicator.h"
-#include "components/gesturearea.h"
 #include "components/localtime.h"
-
-//#include "components/theme.h"
 
 #include "kernel/systemiconprovider.h"
 #include "kernel/windowiconprovider.h"
@@ -38,7 +29,6 @@
 #include "models/librarymodel.h"
 #include "models/browserlistmodel.h"
 #include "models/imageextension.h"
-//#include "models/timezonelistmodel.h"
 
 #include "kernel/windowlistener.h"
 #include "kernel/windowinfo.h"
@@ -65,7 +55,6 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scene>(uri, 0,1,"Scene");
     // Components
     qmlRegisterType<VolumeControl>(uri, 0,1,"VolumeControl");
-    qmlRegisterType<GestureArea>(uri, 0,1, "GestureArea");
     qmlRegisterType<LocalTime>(uri, 0,1, "LocalTime");
     qmlRegisterType<NotificationIndicator>(uri, 0, 1, "NotificationIndicator");
     qmlRegisterType<BluetoothIndicator>(uri, 0, 1, "BluetoothIndicator");

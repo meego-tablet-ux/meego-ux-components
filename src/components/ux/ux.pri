@@ -15,6 +15,7 @@ OTHER_FILES +=  qmldir \
                 ExpandingBox.qml \
                 IconButton.qml \
                 Label.qml \
+                LabelTextItem.qmnl \
                 MediaGridView.qml \
                 ModalFog.qml \
                 ModalContextMenu.qml \

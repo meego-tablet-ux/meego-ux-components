@@ -51,8 +51,10 @@
   \qmlproperty string selectedTitle
   \qmlcm the currently selected title
 
-  \qmlproperty int selectedIndex
-  \qmlcm the currently selected index
+  \qmlproperty alias selectedIndex
+  \qmlcm int which stores the index of the currently selected item. Can be set from outside, but make
+         sure it's set after a model is set, because setting a model resets the selectedIndex
+         to -1. See the example below where selectedIndex is set onCompleted.
 
   \section2  Private properties
   \qmlnone
@@ -101,6 +103,9 @@
 
             }
 
+            Component.onCompleted: {
+                selectedIndex = 0
+            }
         }
   \endqml
 */
@@ -126,7 +131,7 @@ Item {
 
     property string title: ""
     property string selectedTitle: ""
-    property int selectedIndex: -1
+    property alias selectedIndex: actionMenu.selectedIndex
     signal triggered( int index )
     signal expandingChanged( bool expanded )
 
@@ -225,12 +230,11 @@ Item {
                 id: actionMenu
 
                 onTriggered: {
+                    dropDown.selectedTitle = model[index]
+                    selectedIndex = index
                     dropDown.triggered( index )
                     dropDown.opened = false                    
                     contextMenu.hide()
-
-                    dropDown.selectedTitle = model[index]
-                    dropDown.selectedIndex = index
                 }
             }
 

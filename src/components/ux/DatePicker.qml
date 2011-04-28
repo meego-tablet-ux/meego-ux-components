@@ -216,13 +216,13 @@ ModalDialog {
     property int maxDay: 31
     property bool isDateInRange: true
 
-    property variant daysOfWeek: [ qsTr("S"),
-                                   qsTr("M"),
-                                   qsTr("T"),
-                                   qsTr("W"),
-                                   qsTr("T"),
-                                   qsTr("F"),
-                                   qsTr("S") ]
+    property variant daysOfWeek: [ qsTr("Sun"),
+                                   qsTr("Mon"),
+                                   qsTr("Tue"),
+                                   qsTr("Wed"),
+                                   qsTr("Thu"),
+                                   qsTr("Fri"),
+                                   qsTr("Sat") ]
 
     property variant shortMonths: [ qsTr("Jan"),
                                     qsTr("Feb"),

@@ -35,7 +35,7 @@ OTHER_FILES +=  qmldir \
                 StatusBar.qml \
                 ProgressBar.qml \
                 CheckBox.qml \
-                Spinner.qml \
+                ModalSpinner.qml \
                 Label.qml \
                 BottomToolBar.qml \
                 BottomToolBarRow \

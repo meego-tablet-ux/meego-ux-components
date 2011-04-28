@@ -15,9 +15,9 @@
         \o  \l { ExpandingBox }
         \o  \l { PopupList }
         \o  \l { Slider }
-        \o  \l { Slider }
         \o  \l { VerticalSlider }
         \o  \l { TextEntry }
+        \o  \l { LayoutTextItem }
         \o  \l { AppPage }
         \o  \l { PageStack }
         \o  \l { ProgressBar }

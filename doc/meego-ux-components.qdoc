@@ -30,6 +30,7 @@
         \o  \l { VerticalSlider }
         \o  \l { TextEntry }
         \o  \l { TextField }
+        \o  \l { LayoutTextItem }
         \o  \l { AppPage }
         \o  \l { PageStack }
         \o  \l { ProgressBar }

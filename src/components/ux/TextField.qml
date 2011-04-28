@@ -126,6 +126,10 @@ BorderImage {
             onTextChanged: {
                 container.textChanged()
             }
+
+            CCPContextArea {
+                editor: edit
+            }
         }
         
         Text {

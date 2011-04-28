@@ -72,7 +72,6 @@ WidgetPage {
         StatusEntry {
             id: lastSignalBox
             label: "Last signal sent:"
-            value: lastSign
         }
     ]
 

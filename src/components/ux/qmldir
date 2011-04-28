@@ -4,6 +4,7 @@ AppPageStack            0.1 AppPageStack.qml
 Button 			0.1 Button.qml
 BottomToolBar		0.1 BottomToolBar.qml
 BottomToolBarRow	0.1 BottomToolBarRow.qml
+CCPContextArea          0.1 CCPContextArea.qml
 CheckBox		0.1 CheckBox.qml
 ContactsPicker		0.1 ContactsPicker.qml
 DatePicker 		0.1 DatePicker.qml

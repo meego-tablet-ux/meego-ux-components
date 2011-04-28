@@ -58,6 +58,8 @@ Item {
     property string fontColorInactive: "grey"
     property string fontColorMediaHighlight: "white"
     property string fontBackgroundColor: "#fba2ff"
+    // generic font colors from intel theme.ini
+    property string fontColorSelected: "#ffffff"
 
     /* dialog properties */
     property string dialogFogColor: "slategray"

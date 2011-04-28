@@ -44,7 +44,8 @@ target.path = $$[QT_INSTALL_IMPORTS]/MeeGo/Components
 QML_SOURCES += \
     components/ux/*.qml \
     components/ux/*.js \
-    components/ux/qmldir
+    components/ux/qmldir \
+    components/ux/images/*.png
 
 OTHER_FILES += \
     $${QML_SOURCES}

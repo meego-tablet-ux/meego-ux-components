@@ -36,9 +36,17 @@ WidgetPage {
             defaultValue: togglebutton.offLabel
 
             onTextUpdated: {
-                togglebutton.offLabel = value
+               togglebutton.offLabel = value
             }
+        },
+
+        CheckBoxEntry {
+            id: enableBox
+
+            label: qsTr("enable:")
+            isChecked: true
         }
+
     ]
 
     statusContent: [
@@ -49,7 +57,12 @@ WidgetPage {
     ]
 
     description: "This is a toggle button with customizable labels. \n"
-               + "You can toggle the button by tapping it or by swiping horizontally. \n"
+               + "You can toggle the button by tapping it or by swiping horizontally. \n\n"
+               + "If due to i18n translation the labels for \"on\" or \"off\" are either "
+               + "too long or empty, icons will be displayed instead of the labels. The lower "
+               + "toggle button shows that case.\n\n"
+               + "If enabled is not checked, the toggle button can't be interacted with and is "
+               + "display with dimmed graphics."
 
     widget: Flickable {
 
@@ -61,8 +74,28 @@ WidgetPage {
         ToggleButton {
             id: togglebutton
 
+            enabled: enableBox.isChecked
             anchors.centerIn: parent
+            anchors.verticalCenterOffset: -25
             on: false
+            onToggled: {
+                toggleButtonNoText.on = isOn
+            }
+        }
+
+        ToggleButton {
+            id: toggleButtonNoText
+
+            enabled: enableBox.isChecked
+            anchors.top: togglebutton.bottom
+            anchors.topMargin: 50
+            anchors.horizontalCenter: togglebutton.horizontalCenter
+            on: false
+            onLabel: ""
+            offLabel: ""
+            onToggled: {
+                togglebutton.on = isOn
+            }
         }
     }
 }

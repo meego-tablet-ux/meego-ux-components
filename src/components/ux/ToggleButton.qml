@@ -16,13 +16,18 @@
 
   \section2  API properties
       \qmlproperty alias onLabel
-      \qmlcm points to the text of the left button label (on state)
+      \qmlcm points to the text of the left button label (on state). If the text is
+             either to long or empty, an icon will be displayed instead of the text.
 
       \qmlproperty alias offLabel
-      \qmlcm points to the text of the right button label (off state)
+      \qmlcm points to the text of the right button label (off state). If the text is
+             either to long or empty, an icon will be displayed instead of the text.
 
       \qmlproperty bool on
       \qmlcm true if the button is currently set to the left option (on state)
+
+      \qmlproperty bool enabled
+      \qmlcm if false, the toggleButton can't be clicked and uses dimmed graphics.
 
       \qmlproperty alias labelColorOn
       \qmlcm points to the color of the left label (on state)
@@ -60,24 +65,25 @@ import Qt 4.7
 import MeeGo.Components 0.1
 
 Image {
-    id: toggleSwitch
+    id: toggleButton
 
     property alias onLabel: elementLabelOn.text
     property alias offLabel: elementLabelOff.text
     property alias labelColorOn: elementLabelOn.color
     property alias labelColorOff: elementLabelOff.color
+    property bool enabled: true
     property bool on: false
     signal toggled(bool isOn);
 
     function toggle() {
-        toggleSwitch.on = !toggleSwitch.on
-        toggleSwitch.toggled( toggleSwitch.on );
+        toggleButton.on = !toggleButton.on
+        toggleButton.toggled( toggleButton.on );
     }
 
     width: sourceSize.width
     height: sourceSize.height
 
-    source: "image://themedimage/widgets/common/lightswitch/lightswitch-background"
+    source: ( enabled ) ? "image://themedimage/widgets/common/lightswitch/lightswitch-background" : "image://themedimage/widgets/common/lightswitch/lightswitch-background-disabled"
 
     MouseArea {
         id: toggleElementArea
@@ -99,24 +105,24 @@ Image {
         }
 
         onReleased: {
-            if( active && Math.abs( tempx - mouseX ) < 10 && Math.abs( tempy - mouseY ) < 10 ){
-                toggleSwitch.toggle()
+            if( active && Math.abs( tempx - mouseX ) < 10 && Math.abs( tempy - mouseY ) < 10 && toggleButton.enabled){
+                toggleButton.toggle()
             }
             active = true
         }
 
         onMousePositionChanged: {
-            if( pressed && active ) {
+            if( pressed && active && toggleButton.enabled ) {
                 if( Math.abs( mouseY - tempy ) < Math.abs( mouseX - tempx ) ){
-                    if( toggleSwitch.on ) {
+                    if( toggleButton.on ) {
                         if( tempx - mouseX > 20 ) {
                             active = false
-                            toggleSwitch.toggle()
+                            toggleButton.toggle()
                         }
                     }else {
                         if( mouseX - tempx > 20 ) {
                             active = false
-                            toggleSwitch.toggle()
+                            toggleButton.toggle()
                         }
                     }
                 }
@@ -124,53 +130,67 @@ Image {
         }
     }
 
-    //left option label
-    Text {
-        id: elementLabelOn
+    Item {
+        id: itemOn
 
-        anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: parent.width * 0.15
-        text: qsTr("On")
-        visible: toggleSwitch.on
-        color: theme.fontColorHighlightBlue
-        font.pointSize: toggleElement.height < toggleElement.width ? toggleElement.height/3 : toggleElement.width/4
+        anchors.right: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
+        Text {
+            id: elementLabelOn
+
+            anchors.centerIn: parent
+            text: qsTr("On")
+            color:  theme.fontColorSelected
+            visible: ( paintedWidth < parent.width * 0.8 && paintedWidth > 0 ) ? true : false
+            font.pointSize: toggleElement.height < toggleElement.width ? toggleElement.height/3 : toggleElement.width/4
+        }
+
+        Image {
+            id: imageOn
+
+            source: "toggle_on.png"
+            anchors.centerIn: parent
+            visible: !elementLabelOn.visible
+        }
     }
 
-    //right option label
-    Text {
-        id: elementLabelOff
+    Item {
+        id: itemOff
 
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.horizontalCenter
         anchors.right: parent.right
-        anchors.rightMargin: parent.width * 0.15
-        text: qsTr("Off")
-        visible: !toggleSwitch.on
-        color: theme.fontColorInactive
-        font.pointSize: toggleElement.height < toggleElement.width ? toggleElement.height/3 : toggleElement.width/4
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
+        Text {
+            id: elementLabelOff
+
+            anchors.centerIn: parent
+            text: qsTr("Off")
+            color: theme.fontColorSelected
+            visible: ( paintedWidth < parent.width * 0.8 && paintedWidth > 0 ) ? true : false
+            font.pointSize: toggleElement.height < toggleElement.width ? toggleElement.height/3 : toggleElement.width/4
+        }
+
+        Image {
+            id: imageOff
+
+            source: "toggle_off.png"
+            anchors.centerIn: parent
+            visible: !elementLabelOff.visible
+        }
     }
 
     Image {
         id: toggleElement
 
-        z: 0
-        source: "image://themedimage/widgets/common/lightswitch/lightswitch-handle"
+        z: 1
+        source: ( toggleButton.enabled ) ? "image://themedimage/widgets/common/lightswitch/lightswitch-handle" : "image://themedimage/widgets/common/lightswitch/lightswitch-handle-disabled"
         anchors.verticalCenter: parent.verticalCenter
         height: parent.height
-        width:  height
-        fillMode: Image.PreserveAspectCrop
-        smooth:  true
-    }
-
-    Image {
-        id: toggleElement2
-
-        z: 1
-        opacity:  1
-        source: "image://themedimage/widgets/common/lightswitch/lightswitch-handle-disabled"
-        anchors.centerIn: toggleElement
-        height: parent.height
-        width:  height
         fillMode: Image.PreserveAspectCrop
         smooth:  true
     }
@@ -182,13 +202,9 @@ Image {
             name: "on"
             PropertyChanges {
                 target: toggleElement
-                x: parent.width - width
+                x: parent.width - toggleElement.width
             }
-            PropertyChanges {
-                target: toggleElement2
-                opacity: 0
-            }
-            when: toggleSwitch.on == true
+            when: toggleButton.on == true
         },
         State {
             name: "off"
@@ -196,11 +212,7 @@ Image {
                 target: toggleElement
                 x: 0
             }
-            PropertyChanges {
-                target: toggleElement2
-                opacity: 1
-            }
-            when: toggleSwitch.on == false
+            when: toggleButton.on == false
         }
     ]
 
@@ -208,11 +220,6 @@ Image {
         Transition {
             NumberAnimation {
                 properties: "x"
-                duration: 200
-                easing.type: Easing.InCubic
-            }
-            NumberAnimation {
-                properties: "opacity"
                 duration: 200
                 easing.type: Easing.InCubic
             }

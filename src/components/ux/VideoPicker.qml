@@ -21,9 +21,6 @@
   \qmlproperty bool albumSelectionMode
   \qmlcm if true, selects albums instead of videos. DEPRECATED
 
- \section2 Private Properties
- \qmlnone
-
   \section2 Signals
 
   \qmlsignal videoSelected

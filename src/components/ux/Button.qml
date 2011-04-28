@@ -49,10 +49,8 @@
       \qmlcm if enabled is set to false, the button can't be clicked and it's opacity is set to 0.5
              to give a visual feedback about this state.
 
-  \section2 Private properties
-
       \qmlfn bool pressed
-      \qmlcm true if the button is currently pressed.
+      \qmlcm true if the button is currently pressed. Intended as read-only.
 
   \section2 Signals
 

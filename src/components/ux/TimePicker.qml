@@ -36,10 +36,6 @@
   \qmlproperty int minutesIncrement
   \qmlcm sets the step width used to select minutes
 
-  \section2  Private Properties
-  \qmlproperty string ampm
-  \qmlcm contains "AM", "PM" or nothing, depending on the current time system
-
   \section2  Signals
   \qmlnone
 

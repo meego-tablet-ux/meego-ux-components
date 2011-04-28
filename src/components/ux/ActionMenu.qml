@@ -41,10 +41,6 @@
          sure it's set after a model is set, because setting a model resets the selectedIndex
          to -1.
 
-  \section2 Private Properties
-  \qmlproperty int currentWidth
-  \qmlcm computed minimum width to show the text completely, clamped by minWidth and maxWidth.
-
   \section2 Signals
   \qmlfn triggered
   \qmlcm returns the index of the clicked entry.

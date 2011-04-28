@@ -116,15 +116,17 @@
  \qmlcm Item, an item spanning over the content area where the AppPages are shown. Here you can add for example
  application wide extra toolbars. This overlayItem will be above the AppPage contents, but below dialogs.
 
- \section1 Private Properties
- \qmlproperty pageStack, statusBar, toolBar and actionMenu are convenient properties if
- for example you want to anchor something to these items.
-       - customActionMenu: if enabled the own action context menu is not shown and the
-         signal actionMenuIconClicked emitted. This enables AppPages to use their
-         completely own context menus.
+ \qmlproperty alias statusBar
+ \qmlcm convenience property to anchor something to the statusBar for example. Intended as read-only.
+
+ \qmlproperty alias toolBar
+ \qmlcm convenience property to anchor something to the toolBar for example. Intended as read-only.
+
+ \qmlproperty bool customActionMenu
+ \qmlcm if true, the default context menu not shown. This enables AppPages to use completely custom context menus.
 
  \qmlproperty bool actionMenuPresent
- \qmlcm bool, this notifiers the action and bookmenu buttons if they should be 'pressed'
+ \qmlcm bool, this notifies the action and bookmenu buttons if they should be in 'pressed'
 
   \section1  Signals:
 

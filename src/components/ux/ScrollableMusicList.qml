@@ -28,23 +28,10 @@
   
   \qmlproperty int textPixelSize 
   \qmlcm size of text in pixels
-      
-  \section2 Private Properties
 
   \qmlproperty int estimatedHeight
-  \qmlcm estimates the height of the list
-  
-  \qmlproperty string labelUnknownArtist ("unknown artist")
-  \qmlcm standard label string
-  
-  \qmlproperty string labelUnknownAlbum ("unknown album")
-  \qmlcm standard label string
-  
-  \qmlproperty int highlightDuration
-  \qmlcm duration of the highlith in milliseconds. Default 300.
+  \qmlcm estimates the height of the list, intended as read-only
 
-  \qmlproperty int highlightSpeed
-  \qmlcm speed of the highlith in milliseconds. Default 400
   
   \section2 Signals
   

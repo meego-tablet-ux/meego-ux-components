@@ -69,26 +69,6 @@
   \qmlproperty variant yearModel
   \qmlcm contains a listModel for the years.
 
-  \section1 Private properties
-
-  \qmlproperty variant oldDate
-  \qmlcm stores the date which was selected when the dialog is shown to restore it on cancel.
-
-  \qmlproperty int day
-  \qmlcm used to initialize the day spinner.
-
-  \qmlproperty int month
-  \qmlcm used to initialize the month spinner.
-
-  \qmlproperty int year
-  \qmlcm used to initialize the year spinner.
-
-  \qmlproperty bool isFuture
-  \qmlcm true if the currently selected date is in the future.
-
-  \qmlproperty bool isPast
-  \qmlcm true if the currently selected date is in the past.
-
   \section1  Signals
   \qmlsignal dateSelected
   \qmlcm emitted when ok button is clicked, propagates the selected date.

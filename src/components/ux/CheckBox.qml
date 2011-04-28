@@ -16,9 +16,6 @@
    \qmlproperty bool isChecked
    \qmlcm holds the currently checked state. By default false
 
-   \section2 Private properties
-   \qmlnone
-
    \section2 Signals
    \qmlsignal clicked
    \qmlcm Emitted if the CheckBox is checked

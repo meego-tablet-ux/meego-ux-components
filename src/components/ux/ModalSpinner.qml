@@ -14,8 +14,6 @@
 
   \section2  API Properties
   \qmlnone
-  \section2 Private Properties
-  \qmlnone
 
   \section2 Signals
   \qmlnone

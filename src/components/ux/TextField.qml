@@ -26,9 +26,6 @@
   \qmlproperty alias defaultText
   \qmlcm sets a defaultText in case the TextField is emtpy
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed

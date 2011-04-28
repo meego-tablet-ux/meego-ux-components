@@ -40,10 +40,8 @@
       \qmlproperty bool active
       \qmlcm stores if the button is clickable.
 
-  \section2 Private properties
-
       \qmlfn bool pressed
-      \qmlcm stores if the button is currently pressed.
+      \qmlcm stores if the button is currently pressed. Intended as read-only.
 
   \section2 Signals
 

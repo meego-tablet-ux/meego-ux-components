@@ -36,9 +36,6 @@
   \qmlproperty int  contentVerticalCenterOffset
   \qmlcm DEPRECATED: corrects the position vertically. This is intended to keep the menubar completely visible.
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signal
 
   \qmlsignal accepted

@@ -37,9 +37,6 @@
   \qmlproperty string background
   \qmlcm sets the source for the background image
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signal
   \qmlnone
 

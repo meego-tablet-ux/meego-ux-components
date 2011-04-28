@@ -37,9 +37,6 @@
     \qmlcm sets the width and height of the position marker. Default value is the size of
            the image used for the marker.
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signals
     \qmlsignal sliderChanged
     \qmlcm is emitted when the value of the sliders changed

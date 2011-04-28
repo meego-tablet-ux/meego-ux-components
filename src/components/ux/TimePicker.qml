@@ -32,6 +32,7 @@
   \qmlcm set to true if 24 hour system should be used.  Default is false (12 hr am/pm)
 
   \qmlproperty int minutesIncrement
+
   \qmlcm sets the step width used to select minutes.  Default is 1
 
   \section2  Signals

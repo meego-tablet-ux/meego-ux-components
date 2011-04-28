@@ -23,9 +23,6 @@
   \qmlproperty bool fogMaskVisible
   \qmlcm hides the fog, but still maintains a invisible mouse area
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signal
 
   \qmlsignal visible

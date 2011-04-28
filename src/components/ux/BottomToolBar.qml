@@ -18,9 +18,6 @@
   \qmlcm this property holds the child widget of the BottomToolBar,
   most likely a BottomToolBarRow.
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signal
 
   \qmlsignal active

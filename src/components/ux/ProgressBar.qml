@@ -25,9 +25,6 @@
       \qmlcm provides access to the font color of the text which displays the percentage over
              the filled area.
 
-  \section2 Private properties
-  \qmlnone
-
   \section2 Signals
   \qmlnone
 

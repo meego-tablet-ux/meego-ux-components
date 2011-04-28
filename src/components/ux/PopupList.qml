@@ -33,22 +33,13 @@
     \qmlcm sets the value which will be used in the function reInit() to set the
            PathView's focus at
 
-  \section2 Private Properties
-
-    \qmlproperty real itemHeight
-    \qmlcm height of entries in the PathView, adapts to number of items and available space
-
-    \qmlproperty int count
-    \qmlcm the number of items in the model
-
-    \qmlproperty bool allowSignal
-    \qmlcm used to block selection change signals while reInit() is running
-
   \section2 Signals
     \qmlsignal valueSelected
     \qmlcm propagates that a value has been selected
     \param  int index
     \qmlpcm the index of the entry in the model \endparam
+    \param  variant tag
+    \qmlpcm the content of the selected entry \endparam
 
   \section2 Functions
     \qmlfn reInit
@@ -101,7 +92,7 @@ Item {
     property variant selectedValue: view.currentIndex
 
     property bool allowSignal: true
-    signal valueSelected ( int index )
+    signal valueSelected ( int index, variant tag )
 
     function reInit() {
         allowSignal = false
@@ -160,7 +151,7 @@ Item {
                onClicked: {
                    view.currentIndex = index
                    if( outer.allowSignal ) {
-                       outer.valueSelected( view.currentIndex )
+                       outer.valueSelected( view.currentIndex, tag )
                    }
                }
            }
@@ -222,7 +213,7 @@ Item {
 
             onMovementEnded: {
                 if( outer.allowSignal ) {
-                    outer.valueSelected( currentIndex )
+                    outer.valueSelected( currentIndex, model.get(currentIndex).tag )
                 }
             }
 

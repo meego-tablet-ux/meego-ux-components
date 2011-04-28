@@ -18,9 +18,6 @@
       \qmlproperty variant selectedValue
       \qmlcm holds the currently selected value.
 
-  \section2 Private properties
-  \qmlnone
-
   \section2 Signals
   \qmlnone
 

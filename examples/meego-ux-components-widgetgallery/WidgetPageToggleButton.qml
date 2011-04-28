@@ -58,8 +58,8 @@ WidgetPage {
 
     description: "This is a toggle button with customizable labels. \n"
                + "You can toggle the button by tapping it or by swiping horizontally. \n\n"
-               + "If due to i18n translation the labels for \"on\" or \"off\" are either "
-               + "too long or empty, icons will be displayed instead of the labels. The lower "
+               + "If the labels for \"on\" or \"off\" are either too long or empty (for example "
+               + "due to i18n translation ), icons will be displayed instead of the labels. The lower "
                + "toggle button shows that case.\n\n"
                + "If enabled is not checked, the toggle button can't be interacted with and is "
                + "display with dimmed graphics."

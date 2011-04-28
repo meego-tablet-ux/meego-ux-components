@@ -16,12 +16,14 @@
 
   \section2  API properties
       \qmlproperty alias onLabel
-      \qmlcm points to the text of the left button label (on state). If the text is
-             either to long or empty, an icon will be displayed instead of the text.
+      \qmlcm points to the text of the left button label (on state). If onLabel is
+             either to long or empty, an icon will be displayed instead of onLabel
+             as well as offLabel.
 
       \qmlproperty alias offLabel
-      \qmlcm points to the text of the right button label (off state). If the text is
-             either to long or empty, an icon will be displayed instead of the text.
+      \qmlcm points to the text of the right button label (off state). If offLabel is
+             either to long or empty, an icon will be displayed instead of offLabel
+             as well as onLabel.
 
       \qmlproperty bool on
       \qmlcm true if the button is currently set to the left option (on state)
@@ -73,6 +75,7 @@ Image {
     property alias labelColorOff: elementLabelOff.color
     property bool enabled: true
     property bool on: false
+
     signal toggled(bool isOn);
 
     function toggle() {
@@ -133,6 +136,9 @@ Image {
     Item {
         id: itemOn
 
+        property bool showIcons: ( elementLabelOn.paintedWidth > width * 0.8 || elementLabelOn.paintedWidth < 1
+                                || elementLabelOff.paintedWidth > width * 0.8 || elementLabelOff.paintedWidth < 1 ) ? true : false
+
         anchors.left: parent.left
         anchors.right: parent.horizontalCenter
         anchors.top: parent.top
@@ -144,7 +150,7 @@ Image {
             anchors.centerIn: parent
             text: qsTr("On")
             color:  theme.fontColorSelected
-            visible: ( paintedWidth < parent.width * 0.8 && paintedWidth > 0 ) ? true : false
+            visible: !itemOn.showIcons
             font.pointSize: toggleElement.height < toggleElement.width ? toggleElement.height/3 : toggleElement.width/4
         }
 
@@ -153,7 +159,7 @@ Image {
 
             source: "toggle_on.png"
             anchors.centerIn: parent
-            visible: !elementLabelOn.visible
+            visible: itemOn.showIcons
         }
     }
 
@@ -171,7 +177,7 @@ Image {
             anchors.centerIn: parent
             text: qsTr("Off")
             color: theme.fontColorSelected
-            visible: ( paintedWidth < parent.width * 0.8 && paintedWidth > 0 ) ? true : false
+            visible: !itemOn.showIcons
             font.pointSize: toggleElement.height < toggleElement.width ? toggleElement.height/3 : toggleElement.width/4
         }
 
@@ -180,7 +186,7 @@ Image {
 
             source: "toggle_off.png"
             anchors.centerIn: parent
-            visible: !elementLabelOff.visible
+            visible: itemOn.showIcons
         }
     }
 

@@ -49,6 +49,8 @@
     \qmlcm propagates that a value has been selected
     \param  int index
     \qmlpcm the index of the entry in the model \endparam
+    \param  variant tag
+    \qmlpcm the content of the selected entry \endparam
 
   \section2 Functions
     \qmlfn reInit
@@ -101,7 +103,7 @@ Item {
     property variant selectedValue: view.currentIndex
 
     property bool allowSignal: true
-    signal valueSelected ( int index )
+    signal valueSelected ( int index, variant tag )
 
     function reInit() {
         allowSignal = false
@@ -160,7 +162,7 @@ Item {
                onClicked: {
                    view.currentIndex = index
                    if( outer.allowSignal ) {
-                       outer.valueSelected( view.currentIndex )
+                       outer.valueSelected( view.currentIndex, tag )
                    }
                }
            }
@@ -222,7 +224,7 @@ Item {
 
             onMovementEnded: {
                 if( outer.allowSignal ) {
-                    outer.valueSelected( currentIndex )
+                    outer.valueSelected( currentIndex, model.get(currentIndex).tag )
                 }
             }
 

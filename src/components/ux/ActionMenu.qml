@@ -71,7 +71,7 @@ Flickable {
 
     property int minWidth : 200
     property int maxWidth : 500
-    property bool highlightSelectedItem: true
+    property bool highlightSelectedItem: false
 
     property int currentWidth: minWidth
     property int textMargin : 16

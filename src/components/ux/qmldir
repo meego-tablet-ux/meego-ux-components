@@ -12,6 +12,7 @@ DropDown		0.1 DropDown.qml
 ExpandingBox		0.1 ExpandingBox.qml
 IconButton              0.1 IconButton.qml
 Label			0.1 Label.qml
+LayoutTextItem          0.1 LayoutTextItem.qml
 MediaGridView 		0.1 MediaGridView.qml
 ModalContextMenu        0.1 ModalContextMenu.qml
 ModalDialog 		0.1 ModalDialog.qml

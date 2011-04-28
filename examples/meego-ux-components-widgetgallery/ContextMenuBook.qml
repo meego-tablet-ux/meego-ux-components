@@ -140,7 +140,7 @@ AppPage {
             }
         }
 
-        content: ActionMenu{
+        content: ActionMenu {
             id: bookMenu
 
             maxWidth: 200

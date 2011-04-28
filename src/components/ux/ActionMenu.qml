@@ -243,6 +243,8 @@ Flickable {
 
         layout.elideEnabled = true  // elide text that exceeds the maxWidth
         contentY = 0    // reset position
+
+        opacity = visible ? 1 : 0 // force repaint
     }
 
     states: [

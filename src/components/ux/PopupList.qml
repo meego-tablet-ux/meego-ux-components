@@ -33,17 +33,6 @@
     \qmlcm sets the value which will be used in the function reInit() to set the
            PathView's focus at
 
-  \section2 Private Properties
-
-    \qmlproperty real itemHeight
-    \qmlcm height of entries in the PathView, adapts to number of items and available space
-
-    \qmlproperty int count
-    \qmlcm the number of items in the model
-
-    \qmlproperty bool allowSignal
-    \qmlcm used to block selection change signals while reInit() is running
-
   \section2 Signals
     \qmlsignal valueSelected
     \qmlcm propagates that a value has been selected

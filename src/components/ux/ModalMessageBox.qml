@@ -31,9 +31,6 @@
   \qmlproperty bool fogClickable
   \qmlcm sets the fog clickable
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signals
   \qmlsignal accepted
   \qmlcm emitted on 'OK' clicked.

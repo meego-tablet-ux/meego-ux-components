@@ -56,9 +56,6 @@
          sure it's set after a model is set, because setting a model resets the selectedIndex
          to -1. See the example below where selectedIndex is set onCompleted.
 
-  \section2  Private properties
-  \qmlnone
-
   \section2 Signals
   \qmlsignal expandingChanged
   \qmlcm emitted if the box switches between expanded and not expanded

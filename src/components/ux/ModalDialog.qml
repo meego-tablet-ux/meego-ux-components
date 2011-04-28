@@ -70,11 +70,6 @@
            showCancelButton you can add a custom row of buttons. Note that you have to
            call hide() and show() on your own then.
 
-  \section2 Private Properties
-    \qmlproperty int decorationHeight
-    \qmlcm bound to the height of header and footer. decoration height plus the height
-           of the added content is the dialogs total height.
-
   \section2 Signals
     \qmlnone
 

@@ -33,9 +33,6 @@
     \qmlproperty bool busy
     \qmlcm shows if AppPageStack is busy right now
 
-    \section2 Private Properties
-    \qmlnone
-
     \section2 Signals
 
     \qmlsignal onVisibleChanged

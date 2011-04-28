@@ -36,9 +36,6 @@
   \qmlproperty Item detailsItem
   \qmlcm stores the contents when created
 
-  \section2  Private properties
-  \qmlnone
-
   \section2 Signals
   \qmlsignal expandingChanged
   \qmlcm emitted if the box switches between expanded and not expanded

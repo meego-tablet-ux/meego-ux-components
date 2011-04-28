@@ -32,9 +32,6 @@
   \qmlproperty alias defaultText
   \qmlcm sets a defaultText in case the TextEntry is empty. the Text will be displayed as single line
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed

@@ -21,9 +21,6 @@
   \qmlproperty bool albumSelectionMode
   \qmlcm selects albums instead of photos if true.
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signals
 
   \qmlsignal photoSelected

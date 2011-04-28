@@ -28,9 +28,6 @@
   \qmlproperty bool selectSongs
   \qmlcm property which sets the selection of songs in the media list
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signals
   \qmlsignal albumOrPlaylistSelected
   \qmlcm Signal which returns the selected albums and/or playlist if

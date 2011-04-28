@@ -39,17 +39,6 @@
           3: arrow tip will point to down
          \endqml
 
-  \section2 Private Properties
-
- \qmlproperty real baseX
-  \qmlcm stores the relative x-position.
-
-  \qmlproperty real baseY
-  \qmlcm stores the relative y-position.
-
-  \qmlproperty bool subMenuVisible
-  \qmlcm indicates if the sub menu is visible
-
   \section2 Signals
   \qmlsignal subMenuTriggered
   \qmlcm emitted when one of the sub menu entries was clicked

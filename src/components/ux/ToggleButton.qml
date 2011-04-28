@@ -30,14 +30,6 @@
       \qmlproperty alias labelColorOff
       \qmlcm points to the color of the right label (off state)
 
-  \section2  Private Properties
-
-      \qmlproperty real width
-      \qmlcm per default the width of the source image.
-
-      \qmlproperty real height
-      \qmlcm per default the height of the source image.
-
   \section2  Signals
       \qmlsignal toggled
       \qmlcm emitted if the button is toggled.

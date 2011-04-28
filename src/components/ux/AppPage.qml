@@ -56,9 +56,6 @@
  Every other value will unlock the orientation. Default is "".
  \endqml
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signals
 
   \qmlsignal actionMenuTriggered

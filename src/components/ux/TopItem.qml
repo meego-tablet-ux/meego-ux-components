@@ -25,9 +25,6 @@
       \qmlproperty int topHeight
       \qmlcm the top most item's height.
 
-  \section2 Private Properties
-  \qmlnone
-
   \section2 Signals
   \qmlfn orientationChangeFinished
   \qmlcm is sent when the orientation has changed.

@@ -29,20 +29,6 @@
   \qmlproperty int type
   \qmlcm the internal type. See the private properties for details.
 
-  \section2 Private properties
-
-  \qmlproperty int musictype
-  \qmlcm provide an enum for musictype
-
-  \qmlproperty int videotype
-  \qmlcm provide an enum for videotype
-
-  \qmlproperty int phototype
-  \qmlcm provide an enum for phototype
-
-  \qmlproperty int photoalbumtype
-  \qmlcm provide an enum for photoalbumtype
-
   \section2 Signals
   \qmlsignal clicked
   \qmlcm emitted when an item was clicked.

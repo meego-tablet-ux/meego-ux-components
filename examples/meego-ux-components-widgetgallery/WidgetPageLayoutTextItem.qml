@@ -67,12 +67,23 @@ WidgetPage {
             onTextUpdated: {
                 button.text = value
             }
+        },
+
+        CheckBoxEntry {
+            id: selectMultiBox
+
+            label: "autoResize:"
+
+            onCheckedChanged: {
+                button.autoResize = isChecked
+            }
         }
     ]
 
     description: "This is a basic text item that resizes to its given text. " +
                  "You can control the width of the item with minWidth and maxWidth. " +
-                 "If you set the width manually the automatic resizing is terminated."
+                 "The automatic resize can be controlled via 'bool autoResize''"
+
 
     widget: Flickable {
 
@@ -85,6 +96,7 @@ WidgetPage {
             id: button
 
             text: "Test me!"
+            autoResize : false
 
             anchors.centerIn: parent
             font.pixelSize: 30

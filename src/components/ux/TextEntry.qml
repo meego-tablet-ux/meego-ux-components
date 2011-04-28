@@ -14,26 +14,36 @@
          It will turn scrollable if the text is too big for the text field.
 
   \section2 API Properties
-  \qmlproperty alias text
-  \qmlcm provides access to the text of the TextInput
 
-  \qmlproperty alias textInput
-  \qmlcm provides access to the TextInput
+  \qmlproperty alias acceptableInput
+  \qmlcm See the corresponding QML TextInput property
+
+  \qmlproperty alias cursorPosition
+  \qmlcm See the corresponding QML TextInput property
+
+  \qmlproperty alias defaultText
+  \qmlcm sets a defaultText in case the input is empty.
+
+  \qmlproperty alias echoMode
+  \qmlcm See the corresponding QML TextInput property
 
   \qmlproperty alias font
-  \qmlcm provides access to the font of TextInput
+  \qmlcm provides access to the font used for the text
 
-  \qmlproperty alias readOnly
-  \qmlcm sets the text of TextInput to read only. The text can not be altered if set to true.
+  \qmlproperty alias inputMask
+  \qmlcm See the corresponding QML TextInput property
 
   \qmlproperty alias inputMethodHints
-  \qmlcm provides access to the inputMethodHints property of TextInput.
-  
-  \qmlproperty alias defaultText
-  \qmlcm sets a defaultText in case the TextEntry is empty. the Text will be displayed as single line
+  \qmlcm provides access to the inputMethodHints of the input.
 
-  \section2 Private Properties
-  \qmlnone
+  \qmlproperty alias readOnly
+  \qmlcm sets the input to read only. The text can not be altered if set to true
+
+  \qmlproperty alias text
+  \qmlcm provides access to the inputted text
+
+  \qmlproperty alias validator
+  \qmlcm See the corresponding QML TextInput property
 
   \section2 Signals
   \qmlsignal textChanged
@@ -43,14 +53,15 @@
   \qmlcm emitted when an enter was pressed and the input is in an acceptable state
 
   \section2 Functions
-  \qmlnone
+  \qmlmethod positionAt (int)
+  \qmlcm See the corresponding QML TextInput function
 
   \section2 Example
   \qml
     TextEntry {
         id: textEntry
 
-       text: "Type here."
+        text: "Type here"
    }
   \endqml
 */
@@ -61,15 +72,27 @@ import MeeGo.Components 0.1
 BorderImage {
     id: container
 
-    property alias text: input.text
-    property alias textInput: input
-    property alias inputMethodHints: input.inputMethodHints
-    property alias readOnly : input.readOnly
     property alias defaultText: fakeText.text
-    property alias font: input.font
+
+    property alias acceptableInput:  input.acceptableInput
+    property alias cursorPosition:   input.cursorPosition
+    property alias echoMode:         input.echoMode
+    property alias font:             input.font
+    property alias inputMask:        input.inputMask
+    property alias inputMethodHints: input.inputMethodHints
+    property alias readOnly:         input.readOnly
+    property alias text:             input.text
+    property alias validator:        input.validator
 
     signal textChanged
     signal accepted
+
+    function positionAt(x) {
+        return input.positionAt(x)
+    }
+
+    // TODO: remove this, it breaks encapsulation
+    property alias textInput: input
 
     border.top: 6
     border.bottom: 6

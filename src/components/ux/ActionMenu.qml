@@ -36,6 +36,11 @@
   \qmlproperty item currentItem
   \qmlcm stores the currently pressed Item to reset the pressed state on move.
 
+  \qmlproperty int selectedIndex
+  \qmlcm stores the index of the currently selected item. Can be set from outside, but make
+         sure it's set after a model is set, because setting a model resets the selectedIndex
+         to -1.
+
   \section2 Private Properties
   \qmlproperty int currentWidth
   \qmlcm computed minimum width to show the text completely, clamped by minWidth and maxWidth.
@@ -66,7 +71,7 @@ Flickable {
 
     property int minWidth : 200
     property int maxWidth : 500
-    property bool highlightSelectedItem: false
+    property bool highlightSelectedItem: true
 
     property int currentWidth: minWidth
     property int textMargin : 16
@@ -135,6 +140,14 @@ Flickable {
 
             delegate: Item {
                 id: delegateThingy
+
+                property int selectedIndex: container.selectedIndex
+
+                onSelectedIndexChanged: {
+                    if( index == selectedIndex ) {
+                        container.oldItem = highlight
+                    }
+                }
 
                 width: repeater.width
                 height: textItem.paintedHeight + textMargin * 2
@@ -205,17 +218,17 @@ Flickable {
                     anchors.fill: parent
 
                     // pressed state for the text entry:
-                    onClicked: {                        
+                    onClicked: {
                         container.triggered( index )
                         container.selectedIndex = index
 
 
-                        if( !highlightSelectedItem ){
+                        if( !highlightSelectedItem ) {
                             container.currentItem = null
                         }
-                        else{
-                            container.oldItem = highlight
-                        }
+//                        else {
+//                            container.oldItem = highlight
+//                        }
                     }
 
                     onPressed: {

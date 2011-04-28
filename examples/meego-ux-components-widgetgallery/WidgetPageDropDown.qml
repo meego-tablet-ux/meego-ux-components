@@ -157,7 +157,6 @@ WidgetPage {
             onTriggered: {
                 triggeredBox.value = index
             }
-
         }
 
         DropDown {
@@ -187,6 +186,9 @@ WidgetPage {
                 }
             ]
 
+            onTriggered: {
+                triggeredBox.value = index
+            }
         }
 
         DropDown {
@@ -216,6 +218,9 @@ WidgetPage {
                 }
             ]
 
+            onTriggered: {
+                triggeredBox.value = index
+            }
         }
 
         DropDown {
@@ -245,6 +250,9 @@ WidgetPage {
                 }
             ]
 
+            onTriggered: {
+                triggeredBox.value = index
+            }
         }
 
     }

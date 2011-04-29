@@ -67,16 +67,6 @@ WidgetPage {
             onTextUpdated: {
                 button.text = value
             }
-        },
-
-        CheckBoxEntry {
-            id: selectMultiBox
-
-            label: "autoResize:"
-
-            onCheckedChanged: {
-                button.autoResize = isChecked
-            }
         }
     ]
 
@@ -96,12 +86,15 @@ WidgetPage {
             id: button
 
             text: "Test me!"
-            autoResize : false
 
             anchors.centerIn: parent
             font.pixelSize: 30
+
+            Rectangle {
+                color:  "lightblue"
+                z: -1
+                anchors.fill: parent
+            }
         }
     }
-
-
 }

@@ -347,7 +347,8 @@ ModalDialog {
 
             text: qsTr( "Back" )
             height:  50
-            width:  musicPicker.width / 4
+            maxWidth:  musicPicker.width / 4
+            minWidth: musicPicker.width * 0.1
             visible: musicPicker.albumSelected
             anchors.verticalCenter: parent.verticalCenter
 
@@ -366,7 +367,8 @@ ModalDialog {
 
             text: qsTr( "OK" )
             height:  50
-            width:  musicPicker.width / 4
+            maxWidth:  musicPicker.width / 4
+            minWidth: musicPicker.width * 0.1
             anchors.verticalCenter: parent.verticalCenter
 
             bgSourceUp: acceptButtonImage
@@ -383,7 +385,8 @@ ModalDialog {
 
             text: qsTr( "Cancel" )
             height:  50
-            width:  musicPicker.width / 4
+            maxWidth:  musicPicker.width / 4
+            minWidth: musicPicker.width * 0.1
             anchors.verticalCenter: parent.verticalCenter
 
             bgSourceUp: cancelButtonImage

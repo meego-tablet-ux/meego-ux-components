@@ -52,6 +52,18 @@
       \qmlfn bool pressed
       \qmlcm true if the button is currently pressed. Intended as read-only.
 
+      \qmlproperty real maxWidth
+      \qmlcm real, defines the maximum width of the button.
+
+      \qmlproperty real minWidth
+      \qmlcm real, defines the minimum width of the button.
+
+      \qmlproperty real maxHeight
+      \qmlcm real, defines the maximum height of the button.
+
+      \qmlproperty real minHeight
+      \qmlcm real, defines the minimum height of the button.
+
   \section2 Signals
 
       \qmlsignal clicked
@@ -83,19 +95,25 @@ Item {
     property string bgSourceUp: "image://themedimage/widgets/common/button/button"
     property string bgSourceDn: "image://themedimage/widgets/common/button/button-pressed"
     property string bgSourceActive: "image://themedimage/widgets/common/button/button-default"
-    property bool elideText: false
+    property bool elideText: true
     property bool active: false
     property bool enabled: true
     property bool pressed: false
     property string textColor: theme.buttonFontColor
     signal clicked( variant mouse )
 
+    property int maxWidth: 10000
+    property int minWidth: 0
+    property int maxHeight: 10000
+    property int minHeight: 0
+
+    property int textMargins: 10
+
     // lower the button's opacity to mark that it can't be clicked anymore
     opacity: enabled ? 1.0 : 0.5
 
-    width:  if (!elideText) { buttonText.paintedWidth + 20 }
-    height: buttonText.paintedHeight + 20
-    clip:   true
+    width:  buttonText.width + textMargins * 2
+    height: buttonText.height + textMargins * 2
 
     onActiveChanged: {
         if(active){
@@ -104,7 +122,16 @@ Item {
         else{
             icon.source = bgSourceUp
         }
+    }
 
+    onWidthChanged: {
+        if( buttonText.width + textMargins * 2 != width )
+            buttonText.width = width - textMargins * 2
+    }
+
+    onHeightChanged: {
+        if( buttonText.height + textMargins * 2 != height )
+            buttonText.height = height - textMargins * 2
     }
 
     Theme { id: theme }
@@ -124,15 +151,20 @@ Item {
     }
 
     // the button's text
-    Text {
+    LayoutTextItem {
         id: buttonText
 
-        width: if (elideText) { parent.width - 20 }
         anchors.centerIn: parent
-        clip: true
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        elide: if( elideText ) { Text.ElideRight } else { Text.ElideNone }
+
+        maxWidth: container.maxWidth - container.textMargins * 2
+        minWidth: container.minWidth - container.textMargins * 2
+        maxHeight: container.maxHeight - container.textMargins * 2
+        minHeight: container.minHeight - container.textMargins * 2
+
+        clip: true
+        elide: elideText ? Text.ElideRight : Text.ElideNone
         font.pixelSize: theme.fontPixelSizeLargest
         color: parent.textColor
     }

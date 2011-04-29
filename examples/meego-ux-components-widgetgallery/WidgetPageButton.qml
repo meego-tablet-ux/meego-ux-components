@@ -45,6 +45,58 @@ WidgetPage {
         },
 
         LabeledEntry {
+            id: maxWidthEntry
+
+            label:  qsTr("maxWidth: ")
+            defaultValue: button.maxWidth
+
+            onTextUpdated: {
+                if( value >= 0 ){
+                    button.maxWidth = value
+                }
+            }
+        },
+
+        LabeledEntry {
+            id: minWidthEntry
+
+            label:  qsTr("minWidth: ")
+            defaultValue: button.minWidth
+
+            onTextUpdated: {
+                if( value >= 0 ){
+                    button.minWidth = value
+                }
+            }
+        },
+
+        LabeledEntry {
+            id: maxHeightEntry
+
+            label:  qsTr("maxHeight: ")
+            defaultValue: button.maxHeight
+
+            onTextUpdated: {
+                if( value >= 0 ){
+                    button.maxHeight = value
+                }
+            }
+        },
+
+        LabeledEntry {
+            id: minHeightEntry
+
+            label:  qsTr("minHeight: ")
+            defaultValue: button.minHeight
+
+            onTextUpdated: {
+                if( value >= 0 ){
+                    button.minHeight = value
+                }
+            }
+        },
+
+        LabeledEntry {
             id: labelEntry
 
             label:  qsTr("text: ")
@@ -113,8 +165,8 @@ WidgetPage {
 
             anchors.centerIn: parent
 
-            width:  200
-            height:  80
+//            width:  200
+//            height:  80
             text: qsTr("Button")
 
             elideText: elideBox.isChecked

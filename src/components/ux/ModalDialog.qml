@@ -148,8 +148,14 @@ ModalFog {
     property int topMargin: 0
     property int bottomMargin: 0
 
-    property int buttonWidth: width / 3
-    property int buttonHeight: 50
+    property int buttonWidth: width / 2.5     // deprecated
+    property int buttonHeight: width * 0.2     // deprecated
+
+    property real buttonMaxWidth: width / 2.5
+    property real buttonMinWidth: width * 0.2
+
+    property real buttonMaxHeight: 50
+    property real buttonMinHeight: 50
 
     property int decorationHeight: header.height + footer.height + topMargin + bottomMargin
 
@@ -224,8 +230,11 @@ ModalFog {
         Button {
             id: defaultButtonCancel
 
-            width: buttonWidth
-            height: buttonHeight
+            maxWidth: modalDialogBox.buttonMaxWidth
+            maxHeight: modalDialogBox.buttonMaxHeight
+            minWidth: modalDialogBox.buttonMinWidth
+            minHeight: modalDialogBox.buttonMinHeight
+
             anchors.verticalCenter: footer.verticalCenter
 
             anchors.horizontalCenter: parent.horizontalCenter
@@ -255,8 +264,12 @@ ModalFog {
             Button {
                 id: buttonAccept
 
-                width: visible ? modalDialogBox.buttonWidth : 1     // minimum width. Cannot be zero because button will choose its own width if zero
-                height: buttonHeight
+                maxWidth: visible ? modalDialogBox.buttonMaxWidth : 0
+                maxHeight: modalDialogBox.buttonMaxHeight
+
+                minWidth: visible ? modalDialogBox.buttonMinWidth : 0
+                minHeight: modalDialogBox.buttonMinHeight
+
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr( acceptButtonText )
 
@@ -272,8 +285,12 @@ ModalFog {
             Button {
                 id: buttonCancel
 
-                width: visible ? modalDialogBox.buttonWidth : 1
-                height: buttonHeight
+                maxWidth: visible ? modalDialogBox.buttonMaxWidth : 0
+                maxHeight: modalDialogBox.buttonHeight
+
+                minWidth: visible ? modalDialogBox.buttonMinWidth : 0
+                minHeight: modalDialogBox.buttonMinHeight
+
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr( cancelButtonText )
 

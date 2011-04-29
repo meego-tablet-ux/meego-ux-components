@@ -136,6 +136,7 @@ BorderImage {
 
             font: edit.font
             color: "slategrey"
+            wrapMode: TextEdit.Wrap
 
             visible: ( edit.text == "" && !edit.focus ) ||( edit.text == "" && edit.readOnly )
 

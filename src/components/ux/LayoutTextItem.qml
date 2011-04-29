@@ -49,7 +49,6 @@ Text {
         if( !autoResize )
             return
 
-        elide = Text.ElideNone
         dynamicWidth = paintedWidth
 
         if( dynamicWidth > maxWidth ){
@@ -62,10 +61,16 @@ Text {
             dynamicWidth = 0
         }
         width = dynamicWidth
-        elide = Text.ElideRight
     }
 
+    width: dynamicWidth
+
     elide: Text.ElideRight
+
+    Text {
+        id: widthComputingWorkaround
+        text: textItem.text
+    }
 
     onTextChanged: updateWidth()
     onFontChanged: updateWidth()

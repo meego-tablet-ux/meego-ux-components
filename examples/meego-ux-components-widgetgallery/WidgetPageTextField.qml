@@ -85,7 +85,7 @@ WidgetPage {
             width:  450
             height:  250
 
-            defaultText: qsTr( "This is a defaultText" )
+            defaultText: qsTr( "This is a defaultText hgggggggggggg ghhhhhhhhhh ghhhhhhhhhhh gh ghhhhhhhhhhhh gh g hj ghhhhhhhhhhhhhh gh gh " )
         }
     }
 }

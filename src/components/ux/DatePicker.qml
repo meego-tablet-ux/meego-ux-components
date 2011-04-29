@@ -245,6 +245,15 @@ ModalDialog {
 
     property bool allowUpdates: true
 
+    //these five properties are only meant to be used in the widgetgallery for
+    //demonstration purposes. Don't use them in your applications since they
+    //could be removed at any time.
+    property alias dateOrder: popupRow.dateOrder
+    property alias dateUnitOneText: dateUnitOne.text
+    property alias dateUnitTwoText: dateUnitTwo.text
+    property alias dateUnitThreeText: dateUnitThree.text
+    property alias dateUnitFourText: dateUnitFour.text
+
     signal dateSelected( variant date )
 
     function today() {
@@ -501,24 +510,111 @@ ModalDialog {
             source: "image://themedimage/images/menu_item_separator"
         } //end of titleDivider
 
-        Row {
+        Item {
             id: popupRow
 
-            property int unitWidth: ( parent.width - 2 * spacing - 2 * anchors.margins ) / 3 //width minus spacings divided by the number of units
+            /*: Controls the order in which the three spinners for days, months and years are displayed in the DatePicker
+                Don't translate this into your language. Instead order the three keywords to match the standards of
+                your language. For example "year-month-day". */
+            property string dateOrder: qsTr("day-month-year")
+            property int unitWidth: ( parent.width - 2 * anchors.margins ) / 13 // 3 * 3 units for the popuplists and 4 * 1 units for the dateunits
 
             z: 10
             anchors { margins: 10; left: parent.left; top: titleDivider.bottom; right: parent.right }
-            spacing: 10
             height: datePicker.height / 6
+
+            Text {
+                id: dateUnitOne
+
+                anchors.left: parent.left
+                width: parent.unitWidth
+                height: parent.height
+                verticalAlignment: "AlignVCenter"
+                horizontalAlignment: "AlignHCenter"
+                /*: This string is shown left of the left spinner. If the string doesn't fit into the
+                    given space, it won't be displayed. Depending on design decisions to make, only one
+                    or to characters may be in the string. */
+                text: qsTr("dateUnitOne")
+                visible: ( paintedWidth < width * 0.9 ) ? true : false
+            }
+
+            Item {
+                id: leftSpinnerItem
+
+                anchors.left: dateUnitOne.right
+                width: parent.unitWidth * 3
+                height: parent.height
+            }
+
+            Text {
+                id: dateUnitTwo
+
+                anchors.left: leftSpinnerItem.right
+                width: parent.unitWidth
+                height: parent.height
+                verticalAlignment: "AlignVCenter"
+                horizontalAlignment: "AlignHCenter"
+                /*: This string is shown between the left and the middle spinner. If the string doesn't fit into the
+                given space, it won't be displayed. Depending on design decisions to make, only one
+                or to characters may be in the string. */
+                text: qsTr("dateUnitTwo")
+                visible: ( paintedWidth < width * 0.9 ) ? true : false
+            }
+
+            Item {
+                id: middleSpinnerItem
+
+                anchors.left: dateUnitTwo.right
+                width: parent.unitWidth * 3
+                height: parent.height
+            }
+
+            Text {
+                id: dateUnitThree
+
+                anchors.left: middleSpinnerItem.right
+                width: parent.unitWidth
+                height: parent.height
+                verticalAlignment: "AlignVCenter"
+                horizontalAlignment: "AlignHCenter"
+                /*: This string is shown between the middle and the right spinner. If the string doesn't fit into the
+                given space, it won't be displayed. Depending on design decisions to make, only one
+                or to characters may be in the string. */
+                text: qsTr("dateUnitThree")
+                visible: ( paintedWidth < width * 0.9 ) ? true : false
+            }
+
+            Item {
+                id: rightSpinnerItem
+
+                anchors.left: dateUnitThree.right
+                width: parent.unitWidth * 3
+                height: parent.height
+            }
+
+            Text {
+                id: dateUnitFour
+
+                anchors.left: rightSpinnerItem.right
+                width: parent.unitWidth
+                height: parent.height
+                verticalAlignment: "AlignVCenter"
+                horizontalAlignment: "AlignHCenter"
+                /*: This string is shown right of the right spinner. If the string doesn't fit into the
+                given space, it won't be displayed. Depending on design decisions to make, only one
+                or to characters may be in the string. */
+                text: qsTr("dateUnitFour")
+                visible: ( paintedWidth < width * 0.9 ) ? true : false
+            }
+
 
             // pops up a list to choose a day
             PopupList {
                 id: dayButton
 
-                width:  parent.unitWidth
-                height: parent.height
                 popupListModel: dModel
                 value: day
+                anchors.fill: leftSpinnerItem
 
                 onValueSelected: {
                     if( allowUpdates ) {
@@ -535,10 +631,9 @@ ModalDialog {
             PopupList {
                 id: monthButton
 
-                width: parent.unitWidth
-                height: parent.height
                 popupListModel: mModel
                 value: shortMonths[month]
+                anchors.fill: middleSpinnerItem
 
                 onValueSelected: {
                     if( allowUpdates ) {
@@ -554,10 +649,9 @@ ModalDialog {
             PopupList {
                 id: yearButton
 
-                width: parent.unitWidth
-                height: parent.height
                 popupListModel: yModel
                 value: year
+                anchors.fill: rightSpinnerItem
 
                 onValueSelected: {
                     if( allowUpdates ) {
@@ -568,6 +662,53 @@ ModalDialog {
                     }
                 }
             }
+
+            states: [
+                State {
+                    name: "dmy"
+                    PropertyChanges { target: dayButton; anchors.fill: leftSpinnerItem }
+                    PropertyChanges { target: monthButton; anchors.fill: middleSpinnerItem }
+                    PropertyChanges { target: yearButton; anchors.fill: rightSpinnerItem }
+                    when: popupRow.dateOrder == "day-month-year"
+                },
+                State {
+                    name: "dym"
+                    PropertyChanges { target: dayButton; anchors.fill: leftSpinnerItem }
+                    PropertyChanges { target: monthButton; anchors.fill: rightSpinnerItem }
+                    PropertyChanges { target: yearButton; anchors.fill: middleSpinnerItem }
+                    when: popupRow.dateOrder == "day-year-month"
+                },
+                State {
+                    name: "mdy"
+                    PropertyChanges { target: dayButton; anchors.fill: middleSpinnerItem }
+                    PropertyChanges { target: monthButton; anchors.fill: leftSpinnerItem }
+                    PropertyChanges { target: yearButton; anchors.fill: rightSpinnerItem }
+                    when: popupRow.dateOrder == "month-day-year"
+                },
+                State {
+                    name: "myd"
+                    PropertyChanges { target: dayButton; anchors.fill: rightSpinnerItem }
+                    PropertyChanges { target: monthButton; anchors.fill: leftSpinnerItem }
+                    PropertyChanges { target: yearButton; anchors.fill: middleSpinnerItem }
+                    when: popupRow.dateOrder == "month-year-day"
+                },
+                State {
+                    name: "ydm"
+                    PropertyChanges { target: dayButton; anchors.fill: middleSpinnerItem }
+                    PropertyChanges { target: monthButton; anchors.fill: rightSpinnerItem }
+                    PropertyChanges { target: yearButton; anchors.fill: leftSpinnerItem }
+                    when: popupRow.dateOrder == "year-day-month"
+                },
+                State {
+                    name: "ymd"
+                    PropertyChanges { target: dayButton; anchors.fill: rightSpinnerItem }
+                    PropertyChanges { target: monthButton; anchors.fill: middleSpinnerItem }
+                    PropertyChanges { target: yearButton; anchors.fill: leftSpinnerItem }
+                    when: popupRow.dateOrder == "year-month-day"
+                }
+            ]
+
+
         } // date popups
 
         Item {

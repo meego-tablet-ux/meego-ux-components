@@ -147,7 +147,7 @@ MouseArea {
         showContextMenu (map.x, map.y);
     }
 
-    ModalContextMenu {
+    ContextMenu {
         id: clipboardContextMenu
 
         content: ActionMenu {

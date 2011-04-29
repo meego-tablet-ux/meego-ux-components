@@ -18,7 +18,7 @@ OTHER_FILES +=  qmldir \
                 LabelTextItem.qmnl \
                 MediaGridView.qml \
                 ModalFog.qml \
-                ModalContextMenu.qml \
+                ContextMenu.qml \
                 ModalMessageBox.qml \
                 ModalDialog.qml \
                 MusicPicker.qml \

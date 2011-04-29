@@ -2,17 +2,25 @@
    \qmlclass LayoutTextItem
    \title LayoutTextItem
    \section1 LayoutTextItem
-   This is a basic text item that resizes to its given text. You can control the width of the item with minWidth and maxWidth.
-   The automatic resize can be controlled via 'bool autoResize'. Important: If autoResize is true, width and elide will be set by
-   the automatic resizing. If autoResize is false, they must be set manually.
+   This is a basic text item that resizes to its given text. You can control the width of the item with minWidth and maxWidth, and
+   the height with minHeight and maxHeight. Note that this will only affect the text items dimensions. If you want the LayoutTextItem
+   to clip or elide if the text exceeds the item, you have to set these values appropriately. Once you set width or height explicitly,
+   the corresponding automatic resize is terminated.
+
 
    \section2 API properties
 
       \qmlproperty real maxWidth
-      \qmlcm real, defines the maximum width of the text. Text will be elided if it exceeds this width.
+      \qmlcm real, defines the maximum width of the text. The text item will not exceed this width. Note that elide is set to Text.ElideNone by default.
 
       \qmlproperty real minWidth
-      \qmlcm real, defines the minimum width of the text. If the text is to narrow, the item itself will keep the minimum width.
+      \qmlcm real, defines the minimum width of the text. If the text is to narrow, the text item itself will keep the minimum width.
+
+      \qmlproperty real maxHeight
+      \qmlcm real, defines the maximum height of the text. Note that 'clip' is false by default.
+
+      \qmlproperty real minHeight
+      \qmlcm real, defines the minimum height of the text. If the text is to flat, the text item itself will keep the minimum height.
 
   \section2 Signals
   \qmlnone
@@ -41,16 +49,16 @@ Text {
     property real minWidth: 0
     property real maxWidth: 10000
 
-    property bool autoResize: true
+    property real minHeight: 0
+    property real maxHeight: 10000
+
     property real dynamicWidth: 0
+    property real dynamicHeight: 0
 
 
     function updateWidth(){
-        if( !autoResize )
-            return
 
-        elide = Text.ElideNone
-        dynamicWidth = paintedWidth
+        dynamicWidth = widthComputingWorkaround.paintedWidth
 
         if( dynamicWidth > maxWidth ){
             dynamicWidth = maxWidth
@@ -61,16 +69,38 @@ Text {
         if( dynamicWidth < 0 ){
             dynamicWidth = 0
         }
-        width = dynamicWidth
-        elide = Text.ElideRight
+
+        dynamicHeight = widthComputingWorkaround.paintedHeight
+
+        if( dynamicHeight > maxHeight ){
+            dynamicHeight = maxHeight
+        }
+        if( dynamicHeight < minHeight ){
+            dynamicHeight = minHeight
+        }
+        if( dynamicHeight < 0 ){
+            dynamicHeight = 0
+        }
     }
 
-    elide: Text.ElideRight
+    width: dynamicWidth
+    height: dynamicHeight
 
-    onTextChanged: updateWidth()
-    onFontChanged: updateWidth()
+    Text {
+        id: widthComputingWorkaround
+        text: textItem.text
+        font: textItem.font
+        opacity: 0
+
+        // this has to be called here, because textItem sends them before the workaround notices it,
+        // which leads to wrong dimensions.
+        onTextChanged: updateWidth()
+        onFontChanged: updateWidth()
+    }
+
     onMinWidthChanged: updateWidth()
     onMaxWidthChanged: updateWidth()
+    onMinHeightChanged: updateWidth()
+    onMaxHeightChanged: updateWidth()
     Component.onCompleted: updateWidth()
-    onAutoResizeChanged: updateWidth()
 }

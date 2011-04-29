@@ -116,10 +116,8 @@ BorderImage {
 
         font.pixelSize: theme.fontPixelSizeLarge
 
-        onTextChanged: {            
-            if( text.length > 0 ) {
-                container.textChanged()
-            }
+        onTextChanged: {
+            container.textChanged()
         }
         
         onAccepted: {
@@ -137,6 +135,8 @@ BorderImage {
 
         x: 15
         y: 15
+        width: parent.width - 30
+        clip: true
         anchors.verticalCenter: parent.verticalCenter
 
         font: input.font

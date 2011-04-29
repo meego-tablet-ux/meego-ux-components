@@ -213,7 +213,7 @@ Item {
             }
         }
 
-        ModalContextMenu {
+        ContextMenu {
 
             id: contextMenu
 

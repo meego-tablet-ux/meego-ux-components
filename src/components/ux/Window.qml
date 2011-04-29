@@ -529,7 +529,7 @@ Item {
                             }
                         }
 
-                        ModalContextMenu{
+                        ContextMenu{
                             id: bookContextMenu
 
                             fogMaskVisible: false
@@ -582,7 +582,7 @@ Item {
                             }
                         }
 
-                        ModalContextMenu {
+                        ContextMenu {
                             id: pageContextMenu
 
                             fogMaskVisible: false

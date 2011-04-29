@@ -127,7 +127,7 @@ Basic widgets:
 
 Modal dialogs:
 - DatePicker
-- ModalContextMenu
+- ContextMenu
 - ModalMessageBox
 - MusicPicker
 - PhotoPicker

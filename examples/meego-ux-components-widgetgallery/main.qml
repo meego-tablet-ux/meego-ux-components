@@ -27,4 +27,5 @@ Window {
     Component { id: book3; Book3 {} }
     Component { id: bottomBar; WidgetPageBottomBar {} }
     Component { id: fullScreenPage; WidgetPageFullScreen {} }
+//    Component { id: test; WidgetPageLayoutTextItem {} }
 }

@@ -7,9 +7,9 @@
  */
 
 /*!
-  \qmlclass ModalContextMenu
-  \title ModalContextMenu
-  \section1 ModalContextMenu
+  \qmlclass ContextMenu
+  \title ContextMenu
+  \section1 ContextMenu
   \qmlcm  This qml provides an empty context menu. You can setPosition() where the
          menu should show up. On show() it will appear pointing to the given
          position and display the content set via the content property.
@@ -48,10 +48,10 @@
   \section2 Functions
 
   \qmlfn show
-  \qmlcm fades the ModalContextMenu in
+  \qmlcm fades the ContextMenu in
 
   \qmlfn hide
-  \qmlcm fades the ModalContextMenu out
+  \qmlcm fades the ContextMenu out
 
   \qmlfn setPosition
   \qmlcm sets the position the menu will point to. IMPORTANT: you have to
@@ -118,10 +118,13 @@ ModalFog {
     }
 
     onVisibleChanged: {
+        fogMaskVisible = false  // reset and ensure the ContextMenu is not modal
+        fogClickable = true
         container.subMenuVisible = false
     }
 
     fogMaskVisible: false
+    fogClickable: true
 
     modalSurface: Item {
         id: menuContainer

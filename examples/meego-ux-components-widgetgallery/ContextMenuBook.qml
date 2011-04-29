@@ -75,7 +75,7 @@ AppPage {
 
         font.pixelSize: 20
         wrapMode: Text.WordWrap
-        text:  qsTr( "This is an example page for different ModalContextMenus.<br>"
+        text:  qsTr( "This is an example page for different ContextMenus.<br>"
                 + "You can list a set of entries which are selectable. <br>"
                 + "The menu will always try to use as little space as possible, up to a given maximum width. "
                 + "If it exceeds in height it gets scrollable.<br>"
@@ -118,7 +118,7 @@ AppPage {
 
     TopItem{ id: topItem }
 
-    ModalContextMenu {
+    ContextMenu {
         id: contextMenu
 
         forceFingerMode: -1
@@ -165,7 +165,7 @@ AppPage {
         }
     }
 
-    ModalContextMenu {
+    ContextMenu {
         id: contextActionMenu
         forceFingerMode: 2
 

@@ -12,7 +12,7 @@ AppPage {
         area.color = "lightblue"
     }
 
-    pageTitle: qsTr("ModalContextMenu Test")
+    pageTitle: qsTr("ContextMenu Test")
 
     Rectangle {
         id: area
@@ -33,7 +33,7 @@ AppPage {
 
     TopItem{ id: topItem }
 
-    ModalContextMenu {
+    ContextMenu {
         id: contextMenu
 
         forceFingerMode: -1

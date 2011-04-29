@@ -208,7 +208,63 @@ WidgetPage {
                     }
                 }
             }
+        },
+
+        LabeledEntry {
+            id: dateOrderEntry
+
+            label: "dateOrder: "
+            defaultValue: "day-month-year"
+
+            onTextUpdated: {
+                datePicker.dateOrder = value
+            }
+        },
+
+        LabeledEntry {
+            id: dateUnitOneEntry
+
+            label: "dateUnitOneText: "
+            defaultValue: ""
+
+            onTextUpdated: {
+                datePicker.dateUnitOneText = value
+            }
+        },
+
+        LabeledEntry {
+            id: dateUnitTwoEntry
+
+            label: "dateUnitTwoText: "
+            defaultValue: ""
+
+            onTextUpdated: {
+                datePicker.dateUnitTwoText = value
+            }
+        },
+
+        LabeledEntry {
+            id: dateUnitThreeEntry
+
+            label: "dateUnitThreeText: "
+            defaultValue: ""
+
+            onTextUpdated: {
+                datePicker.dateUnitThreeText = value
+            }
+        },
+
+        LabeledEntry {
+            id: dateUnitFourEntry
+
+            label: "dateUnitFourText: "
+            defaultValue: ""
+
+            onTextUpdated: {
+                datePicker.dateUnitFourText = value
+            }
         }
+
     ]
 
     statusContent: [
@@ -256,7 +312,13 @@ WidgetPage {
                + "of that range can be selected but the Ok-button will be disabled. \n"
                + "Be aware that the min values may not exceed the max values and vice versa. So only allowed values are "
                + "handed through to the DatePicker. The currently active min and max date can be seen in the window below "
-               + "this text."
+               + "this text.\n \n"
+               + "With dateOrder you can specify in which order the day-, month- and year-spinner are displayed in the "
+               + "DatePicker. Any combinations of the keywords \"day\", \"month\" and \"year\" separated by \"-\" are accepted, "
+               + "for example \"year-month-day\". \n "
+               + "The four dateUnit... entries can be used to set some characters between the spinners, like a \"d\" to mark it "
+               + "as days for example or simply a pipe as separator. If the characters don't fit in the small space between "
+               + "the spinners, then they won't be displayed at all."
 
     widget: Button {
         id: button

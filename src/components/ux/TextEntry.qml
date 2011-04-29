@@ -90,10 +90,8 @@ BorderImage {
 
         font.pixelSize: theme.fontPixelSizeLarge
 
-        onTextChanged: {            
-            if( text.length > 0 ) {
-                container.textChanged()
-            }
+        onTextChanged: {
+            container.textChanged()
         }
         
         onAccepted: {

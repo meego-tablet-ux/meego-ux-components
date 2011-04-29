@@ -111,6 +111,8 @@ BorderImage {
 
         x: 15
         y: 15
+        width: parent.width - 30
+        clip: true
         anchors.verticalCenter: parent.verticalCenter
 
         font: input.font

@@ -76,9 +76,9 @@
     }
     \endqml
 
-    A ModalContextMenu is created in order to have a ContextMenu on the photos of the Albums:
+    A ContextMenu is created in order to have a ContextMenu on the photos of the Albums:
     \qml
-    ModalContextMenu {
+    ContextMenu {
         id: allPhotosContextMenu
 
         property alias payload: photoActionMenu.payload
@@ -380,7 +380,7 @@ AppPage {
 
     /* A ModalContextMnu is created here in order to have
        a ContextMenu on the photos */
-    ModalContextMenu {
+    ContextMenu {
         id: allPhotosContextMenu
 
         property alias payload: photoActionMenu.payload

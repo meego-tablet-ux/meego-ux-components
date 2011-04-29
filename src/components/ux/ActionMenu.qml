@@ -51,7 +51,7 @@
   \qmlnone
 
   \section2 Example
-  \qmlcm see ModalContextMenu
+  \qmlcm see ContextMenu
   \qml
     // -
   \endqml

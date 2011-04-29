@@ -28,7 +28,7 @@
       \o Modal dialogs:
         \list
         \o  \l { DatePicker }
-        \o  \l { ModalContextMenu }
+        \o  \l { ContextMenu }
         \o  \l { ModalMessageBox }
         \o  \l { MusicPicker }
         \o  \l { PhotoPicker }

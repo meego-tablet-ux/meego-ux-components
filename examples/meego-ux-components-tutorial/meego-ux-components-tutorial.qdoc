@@ -16,7 +16,7 @@
     \o Step1: Create a Window based application
     \o Step2: Create Books inside a Window
     \o Step3: Create AppPages to navigate inside Books
-    \o Step4: Usage of a ModalContextMenu
+    \o Step4: Usage of a ContextMenu
     \o Step5: Add an ActionMenu to a Page
     \o Step6: Open a ModalMessageBox in a Page
   \endlist
@@ -239,9 +239,9 @@
     }
   \endqml
 
-  \section2 Step4: Usage of a ModalContextMenu
+  \section2 Step4: Usage of a ContextMenu
 
-  A ModalContextMenu can be used to open up a context menu on any item shown in the window or page. The content
+  A ContextMenu can be used to open up a context menu on any item shown in the window or page. The content
   property can be used to set the content of the menu. Usually it is an ActionMenu.
 
   \qml
@@ -265,7 +265,7 @@
         area.color = "lightblue"
     }
 
-    pageTitle: qsTr("ModalContextMenu Test")
+    pageTitle: qsTr("ContextMenu Test")
 
     Rectangle {
         id: area
@@ -286,7 +286,7 @@
 
     TopItem{ id: topItem }
 
-    ModalContextMenu {
+    ContextMenu {
         id: contextMenu
 
         forceFingerMode: -1

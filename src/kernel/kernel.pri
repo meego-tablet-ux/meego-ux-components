@@ -10,7 +10,9 @@ SOURCES += \
            kernel/windowlistener.cpp \
            kernel/qmldebugtools.cpp \ 
 	   kernel/musicserviceproxy.cpp \
-    kernel/scene.cpp
+	   kernel/scene.cpp \
+	   kernel/units_p.cpp \
+	   kernel/units.cpp
 
 HEADERS += \
            kernel/fuzzydatetime.h \
@@ -23,4 +25,6 @@ HEADERS += \
            kernel/windowlistener.h \
            kernel/qmldebugtools.h \
 	   kernel/musicserviceproxy.h \
-	   kernel/scene.h
+	   kernel/scene.h \
+	   kernel/units_p.h \
+	   kernel/units.h

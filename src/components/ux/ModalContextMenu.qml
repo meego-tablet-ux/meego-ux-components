@@ -7,7 +7,7 @@
  */
 
 /*!
-  \qmlclass ContextMenu
+  \qmlclass ModalContextMenu
   \title ContextMenu
   \section1 ContextMenu
   \qmlcm  This qml provides an empty context menu. You can setPosition() where the
@@ -48,10 +48,10 @@
   \section2 Functions
 
   \qmlfn show
-  \qmlcm fades the ContextMenu in
+  \qmlcm fades the ModalContextMenu in
 
   \qmlfn hide
-  \qmlcm fades the ContextMenu out
+  \qmlcm fades the ModalContextMenu out
 
   \qmlfn setPosition
   \qmlcm sets the position the menu will point to. IMPORTANT: you have to
@@ -63,7 +63,7 @@
 
   \section2  Example
   \qml
-       ContextMenu {
+       ModalContextMenu {
            id: contextmenu
 
            content:  ActionMenu {
@@ -121,6 +121,7 @@ ModalFog {
         fogMaskVisible = false  // reset and ensure the ContextMenu is not modal
         fogClickable = true
         container.subMenuVisible = false
+        console.log( "ATTENTION: ModalContextMenu.qml was renamed to ContextMenu.qml. Please change your files!" )
     }
 
     fogMaskVisible: false
@@ -271,7 +272,10 @@ ModalFog {
         height: childrenRect.height
         width: childrenRect.width
 
-        Component.onCompleted: rescale()
+        Component.onCompleted: {
+            rescale()
+            console.log( "ATTENTION: ModalContextMenu.qml was renamed to ContextMenu.qml. Please change your files!" )
+        }
 
         Theme { id: theme }
 

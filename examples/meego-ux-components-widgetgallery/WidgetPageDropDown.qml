@@ -67,26 +67,26 @@ WidgetPage {
                 ddown.title = value;
             }
         },
-        LabeledEntry {
-            id: maxWidthEntry
+//        LabeledEntry {                // these values only change after the model has changed
+//            id: maxWidthEntry
 
-            label:  "ContextMenu maxWidth: "
-            defaultValue: ""
+//            label:  "maxWidth: "
+//            defaultValue: ddown.maxWidth
 
-            onTextUpdated: {
-                ddown.maxWidth = value
-            }
-        },
-        LabeledEntry {
-            id: minwidthEntry
+//            onTextUpdated: {
+//                ddown.maxWidth = value
+//            }
+//        },
+//        LabeledEntry {
+//            id: minwidthEntry
 
-            label:  "minWidth: "
-            defaultValue: "0"
+//            label:  "minWidth: "
+//            defaultValue: "0"
 
-            onTextUpdated: {
-                ddown.minWidth = value
-            }
-        },
+//            onTextUpdated: {
+//                ddown.minWidth = value
+//            }
+//        },
         CheckBoxEntry {
             id: replaceTitleOnSel
 
@@ -140,9 +140,10 @@ WidgetPage {
             title: "DropDown"
             titleColor: "black"
 
-            width: 450
+            width: 400
+            maxWidth: 250
 
-            model: [  qsTr( "First choice" ), qsTr( "Second choice" ), qsTr ( "Third choice" ) , qsTr ( "4th choice very long text that is" ) ]
+            model: [  qsTr( "First choice" ), qsTr( "Second choice" ), qsTr ( "Third choice" ) , qsTr ( "4th choice very long text that is too long and will be elided" ) ]
             payload: [ 1, 2, 3, 4 ]
 
             iconRow: [
@@ -173,6 +174,7 @@ WidgetPage {
             titleColor: ddown.titleColor
 
             width: ddown.width
+            maxWidth: ddown.maxWidth
 
             model: ddown.model
             payload: ddown.payload
@@ -205,6 +207,7 @@ WidgetPage {
             titleColor: ddown.titleColor
 
             width: ddown.width
+            maxWidth: ddown.maxWidth
 
             model: ddown.model
             payload: ddown.payload
@@ -239,6 +242,7 @@ WidgetPage {
             width: ddown.width
 
             model: ddown.model
+            maxWidth: ddown.maxWidth
             payload: ddown.payload
 
             iconRow: [

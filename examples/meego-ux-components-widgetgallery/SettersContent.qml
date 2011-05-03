@@ -506,6 +506,131 @@ Item {
                     Component{ id: popupComponent; WidgetPagePopupList{} }
                 }
 
+                Rectangle {
+                    id: modalSpinnerItem
+
+                    width: parent.width
+                    height: flickContainer.itemHeight
+
+                    border.width: 1
+                    border.color: "grey"
+
+                    color: flickContainer.backColor
+                    clip:  true
+
+                    MouseArea {
+                        anchors.fill: modalSpinnerItem
+                        z: 1
+
+                        onClicked: addPage( modalSpinnerComponent )
+                    }
+
+                    Item{
+                        id: modalSpinnerButton
+
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
+                        width:  parent.width * flickContainer.leftFactor
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Item{
+                            id: spinner
+
+                            anchors.centerIn: parent
+
+                            clip: true
+
+                            width:  spinnerImage.height
+                            height:  spinnerImage.height
+
+                            Image {
+                                id: spinnerImage
+
+                                x: 0
+
+                                source: "image://themedimage/widgets/common/spinner/spinner-small"
+                                width: sourceSize.width
+                                height: sourceSize.height
+                                smooth: true
+                            }
+                        }
+                    }
+
+                    Text {
+                        x: parent.width / 2
+                        width: parent.width * flickContainer.rightFactor
+                        height: parent.height
+
+                        verticalAlignment: Text.AlignVCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: flickContainer.textSize
+                        text: "ModalSpinner, to display while an application is busy with a blocking process."
+                    }
+
+                    Component{ id: modalSpinnerComponent; WidgetPageModalSpinner{} }
+                }
+
+                Rectangle {
+                    id: spinnerItem
+
+                    width: parent.width
+                    height: flickContainer.itemHeight
+
+                    border.width: 1
+                    border.color: "grey"
+
+                    color: flickContainer.backColor
+                    clip:  true
+
+                    MouseArea {
+                        anchors.fill: spinnerItem
+                        z: 1
+
+                        onClicked: addPage( spinnerComponent )
+                    }
+
+                    Item{
+                        id: spinnerButton
+
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
+                        width:  parent.width * flickContainer.leftFactor
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Item{
+                            id: spinner2
+
+                            anchors.centerIn: parent
+
+                            clip: true
+
+                            width:  spinnerImage2.height
+                            height:  spinnerImage2.height
+
+                            Image {
+                                id: spinnerImage2
+
+                                x: 0
+
+                                source: "image://themedimage/widgets/common/spinner/spinner-small"
+                                width: sourceSize.width
+                                height: sourceSize.height
+                                smooth: true
+                            }
+                        }
+                    }
+
+                    Text {
+                        x: parent.width / 2
+                        width: parent.width * flickContainer.rightFactor
+                        height: parent.height
+
+                        verticalAlignment: Text.AlignVCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: flickContainer.textSize
+                        text: "Spinner, to indicate that a currently running process needs some time to finish."
+                    }
+
+                    Component{ id: spinnerComponent; WidgetPageSpinner{} }
+                }
             }
         }
 

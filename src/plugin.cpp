@@ -36,12 +36,6 @@
 #include "models/windowmodel.h"
 
 #include <QtDeclarative/qdeclarative.h>
-#include <QGesture>
-#include <QPanGesture>
-#include <QTapGesture>
-#include <QTapAndHoldGesture>
-#include <QPinchGesture>
-#include <QSwipeGesture>
 
 void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
 {
@@ -62,14 +56,6 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<BatteryIndicator>(uri, 0, 1, "BatteryIndicator");
     qmlRegisterType<MusicIndicator>(uri, 0, 1, "MusicIndicator");
 
-    // 1.0
-    // Uncreatable
-    qmlRegisterUncreatableType<QGesture>(uri, 1, 0, "Gesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QPanGesture>(uri, 1, 0, "PanGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QTapGesture>(uri, 1, 0, "TapGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QTapAndHoldGesture>(uri, 1, 0, "TapAndHoldGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QPinchGesture>(uri, 1, 0, "PinchGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QSwipeGesture>(uri, 1, 0, "SwipeGesture", QLatin1String("Do not create objects of this type."));
 }
 void MeeGoUxComponentsPlugin::initializeEngine(QDeclarativeEngine *engine, const char *uri)
 {

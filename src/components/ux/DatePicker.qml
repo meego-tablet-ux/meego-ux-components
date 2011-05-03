@@ -77,6 +77,12 @@
 
   \section1  Functions
 
+  \qmlfn setSelectedDate
+  \qmlcm sets the current date to the given values.
+  \param int  newDay \endparam
+  \param int  newMonth \endparam
+  \param int  newYear \endparam
+
   \qmlfn show
   \qmlcm fades the picker in, inherited from ModalFog.
 
@@ -256,6 +262,11 @@ ModalDialog {
 
     signal dateSelected( variant date )
 
+    function setSelectedDate( newDay, newMonth, newYear ) {
+        var newDate = new Date( newYear, newMonth - 1, newDay )
+        selectedDate = newDate
+    }
+
     function today() {
         var currentDate = new Date()
         month = currentDate.getMonth()
@@ -373,6 +384,7 @@ ModalDialog {
     }
 
     function updateSelectedDate( d, m, y ) {
+
         if( allowUpdates ) {
             allowUpdates = false
         }else {
@@ -472,7 +484,11 @@ ModalDialog {
         return true
     }
 
-    Component.onCompleted: { selectedDate = today(); }
+    Component.onCompleted: {
+        if( !selectedDate ) {
+            selectedDate = today();
+        }
+    }
 
     //when the DatePicker shows up, store the current date
     onShowCalled: {

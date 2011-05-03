@@ -313,12 +313,13 @@ WidgetPage {
                + "Be aware that the min values may not exceed the max values and vice versa. So only allowed values are "
                + "handed through to the DatePicker. The currently active min and max date can be seen in the window below "
                + "this text.\n \n"
+               + "The following properties are not meant to be part of the API, they exist for demonstration purposes: \n \n"
                + "With dateOrder you can specify in which order the day-, month- and year-spinner are displayed in the "
                + "DatePicker. Any combinations of the keywords \"day\", \"month\" and \"year\" separated by \"-\" are accepted, "
                + "for example \"year-month-day\". \n "
                + "The four dateUnit... entries can be used to set some characters between the spinners, like a \"d\" to mark it "
                + "as days for example or simply a pipe as separator. If the characters don't fit in the small space between "
-               + "the spinners, then they won't be displayed at all."
+               + "the spinners, then they won't be displayed at all.\n"
 
     widget: Button {
         id: button
@@ -342,7 +343,7 @@ WidgetPage {
 //        height: topItem.topItem.height * 0.9
 
         onDateSelected: {
-            stateEntry.value = selectedDate.getFullYear() + "." + ( selectedDate.getMonth() + 1 ) + "." + selectedDate.getDate()
+            stateEntry.value = date.getFullYear() + "." + ( date.getMonth() + 1 ) + "." + date.getDate()
             signalEntry.value = "dateSelected"
 
             if( datePicker.isFuture ){

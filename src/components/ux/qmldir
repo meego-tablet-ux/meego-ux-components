@@ -7,6 +7,7 @@ BottomToolBarRow	0.1 BottomToolBarRow.qml
 CCPContextArea          0.1 CCPContextArea.qml
 CheckBox		0.1 CheckBox.qml
 ContactsPicker		0.1 ContactsPicker.qml
+ContextMenu             0.1 ContextMenu.qml
 DatePicker 		0.1 DatePicker.qml
 DropDown		0.1 DropDown.qml
 ExpandingBox		0.1 ExpandingBox.qml
@@ -14,11 +15,10 @@ IconButton              0.1 IconButton.qml
 Label			0.1 Label.qml
 LayoutTextItem          0.1 LayoutTextItem.qml
 MediaGridView 		0.1 MediaGridView.qml
-ContextMenu        0.1 ContextMenu.qml
 ModalDialog 		0.1 ModalDialog.qml
 ModalFog 		0.1 ModalFog.qml
 ModalMessageBox         0.1 ModalMessageBox.qml
-ModalSpinner     	0.1 ModalSpinner.qml
+ModalSpinner		0.1 ModalSpinner.qml
 MusicPicker 		0.1 MusicPicker.qml
 PhotoPicker 		0.1 PhotoPicker.qml
 PopupList               0.1 PopupList.qml
@@ -26,6 +26,7 @@ ProgressBar             0.1 ProgressBar.qml
 RadioButton 		0.1 RadioButton.qml
 RadioGroup 		0.1 RadioGroup.qml
 Slider 			0.1 Slider.qml
+Spinner                 0.1 Spinner.qml
 StatusBar               0.1 StatusBar.qml
 TextEntry 		0.1 TextEntry.qml
 TextField 		0.1 TextField.qml

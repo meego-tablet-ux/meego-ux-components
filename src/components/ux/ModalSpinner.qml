@@ -10,10 +10,15 @@
   \qmlclass ModalSpinner
   \title ModalSpinner
   \section1 ModalSpinner
-  \qmlcm
+  The ModalSpinner shows a spinning animation indicating that a currently running process
+  takes some time to finish and blocks user interaction.
 
   \section2  API Properties
-  \qmlnone
+      \qmlproperty int interval
+      \qmlcm sets the time in milliseconds needed for one animation step.
+
+      \qmlproperty alias source
+      \qmlcm sets the image used for the animations of the ModalSpinner.
 
   \section2 Signals
   \qmlnone
@@ -21,10 +26,10 @@
   \section2  Functions
 
   \qmlfn show
-  \qmlcm starts the animation and fades the spinner in
+  \qmlcm starts the animation and fades the ModalSpinner in
 
   \qmlfn hide
-  \qmlcm fades the spinner out and stops the animation
+  \qmlcm fades the ModalSpinner out and stops the animation
 
   \section2 Example
   \qmlnone
@@ -38,6 +43,7 @@ ModalFog {
     id: spinnerBox
 
     property int interval: 100
+    property alias source: spinnerImage.source
 
     autoCenter: true
     fogClickable: false
@@ -66,7 +72,7 @@ ModalFog {
 
             x: 0
 
-            source: "image://themedimage/widgets/common/spinner/spinner"
+            source: "image://themedimage/widgets/common/spinner/spinner-small"
             width: sourceSize.width
             height: sourceSize.height
             smooth: true

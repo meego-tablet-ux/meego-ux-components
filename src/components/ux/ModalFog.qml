@@ -72,6 +72,7 @@ Item {
     property alias modalSurface : modalSurface.children
     property bool autoCenter: false
     property bool fogClickable: true
+    property Item targetParent: null
 
     property bool fogMaskVisible: true
     property alias theme: theme
@@ -96,10 +97,16 @@ Item {
 
     // this updates the top most item on visibility change
     onVisibleChanged: {
-        topItem.calcTopParent()     // force an update to get the current top most item
-        fogContainer.parent = topItem.topItem;
-        fog.parent = topItem.topItem;
-        mouseArea.parent = topItem.topItem;
+        if (targetParent != null) {
+            fogContainer.parent = targetParent;
+            fog.parent = targetParent;
+            mouseArea.parent = targetParent;
+        } else {
+            topItem.calcTopParent()     // force an update to get the current top most item
+            fogContainer.parent = topItem.topItem;
+            fog.parent = topItem.topItem;
+            mouseArea.parent = topItem.topItem;
+        }
         // Note: We want to enable setting the size of dialogs with width and height,
         // but that will change the fogContainers size as well. So fog had to be
         // linked to the top most item directly.

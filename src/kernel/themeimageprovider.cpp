@@ -15,16 +15,13 @@
 
 ThemeImageProvider::ThemeImageProvider() :
         QDeclarativeImageProvider(QDeclarativeImageProvider::Pixmap),
-        m_cache( 
+        m_cache( 512, 16, this )
 {
     themeItem = new MGConfItem(THEME_KEY);
     if (themeItem->value().isNull() ||
             !QFile::exists(QString("/usr/share/themes/") + themeItem->value().toString()))
     {
         QRect screenRect = qApp->desktop()->screenGeometry();
-
-        // TODO: Check both the resolution and the DPI to determine the default
-        //       theme location
 
         if (screenRect.width() == 1024 && screenRect.height() == 600)
             themeItem->set("1024-600-10");

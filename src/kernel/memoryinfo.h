@@ -10,13 +10,20 @@ class MemoryInfo
 public:
     MemoryInfo() {
         lastUpdate = 0;
-        clients = 0;
+        clientCount = 0;
+        cacheBegin = 0;
+        cacheEnd = 0;
         cacheSize = 0;
-        tableSize = 0;
         imageCount = 0;
         imageMaxCount = 0;
-        tableBegin = 0;
-        tableEnd = 0;
+        imageTableBegin = 0;
+        imageTableEnd = 0;
+        imageTableSize = 0;
+        pixmapCount = 0;
+        pixmapMaxCount = 0;
+        pixmapTableBegin = 0;
+        pixmapTableEnd = 0;
+        pixmapTableSize = 0;
         dataBegin = 0;
         dataEnd = 0;
     }
@@ -24,75 +31,69 @@ public:
 
     }
 
+    inline uint incUpdate() {
+        lastUpdate = ( ++lastUpdate % 150000 );
+        return lastUpdate;
+    }
+
     inline void saveToStream( QDataStream& dataStream )
     {
         dataStream << lastUpdate;
-        dataStream << clients;
-        dataStream << cacheSize;
+        dataStream << clientCount;
+        dataStream << cacheBegin;
+        dataStream << cacheEnd;
+        dataStream >> cacheSize;
         dataStream << imageCount;
         dataStream << imageMaxCount;
-        dataStream << tableBegin;
-        dataStream << tableEnd;
-        dataStream << tableSize;
+        dataStream << imageTableBegin;
+        dataStream << imageTableEnd;
+        dataStream << imageTableSize;
+        dataStream << pixmapCount;
+        dataStream << pixmapMaxCount;
+        dataStream << pixmapTableBegin;
+        dataStream << pixmapTableEnd;
+        dataStream << pixmapTableSize;
         dataStream << dataBegin;
-        dataStream << dataEnd;
-        dataStream << cacheEnd;
+        dataStream >> dataEnd;
     }
     inline void loadFromStream( QDataStream& dataStream )
-    {
+    {        
         dataStream >> lastUpdate;
-        dataStream >> clients;
+        dataStream >> clientCount;
+        dataStream >> cacheBegin;
+        dataStream >> cacheEnd;
         dataStream >> cacheSize;
         dataStream >> imageCount;
         dataStream >> imageMaxCount;
-        dataStream >> tableBegin;
-        dataStream >> tableEnd;
-        dataStream >> tableSize;
+        dataStream >> imageTableBegin;
+        dataStream >> imageTableEnd;
+        dataStream >> imageTableSize;
+        dataStream >> pixmapCount;
+        dataStream >> pixmapMaxCount;
+        dataStream >> pixmapTableBegin;
+        dataStream >> pixmapTableEnd;
+        dataStream >> pixmapTableSize;
         dataStream >> dataBegin;
         dataStream >> dataEnd;
-        dataStream >> cacheEnd;
     }
 
     uint lastUpdate;
-    uint clients;
-    uint cacheSize;
+    uint clientCount;
+    uint cacheBegin;
     uint cacheEnd;
+    uint cacheSize;
     uint imageCount;
     uint imageMaxCount;
-    uint tableBegin;
-    uint tableEnd;
-    uint tableSize;
+    uint imageTableBegin;
+    uint imageTableEnd;
+    uint imageTableSize;
+    uint pixmapCount;
+    uint pixmapMaxCount;
+    uint pixmapTableBegin;
+    uint pixmapTableEnd;
+    uint pixmapTableSize;
     uint dataBegin;
     uint dataEnd;
 
 };
-
-/*
-QDataStream& operator<<( QDataStream& dataStream, const MemoryInfo& memoryInfo )
-{
-    dataStream << memoryInfo.lastUpdate;
-    dataStream << memoryInfo.cacheSize;
-    dataStream << memoryInfo.imageCount;
-    dataStream << memoryInfo.imageMaxCount;
-    dataStream << memoryInfo.tableBegin;
-    dataStream << memoryInfo.tableEnd;
-    dataStream << memoryInfo.dataBegin;
-    dataStream << memoryInfo.dataEnd;
-
-    return dataStream;
-}
-QDataStream& operator>>( QDataStream& dataStream, MemoryInfo& memoryInfo )
-{
-    dataStream >> memoryInfo.lastUpdate;
-    dataStream >> memoryInfo.cacheSize;
-    dataStream >> memoryInfo.imageCount;
-    dataStream >> memoryInfo.imageMaxCount;
-    dataStream >> memoryInfo.tableBegin;
-    dataStream >> memoryInfo.tableEnd;
-    dataStream >> memoryInfo.dataBegin;
-    dataStream >> memoryInfo.dataEnd;
-
-    return dataStream;
-}
- */
 #endif // MEMORYINFO_H

@@ -32,6 +32,9 @@
   \qmlproperty alias textFormat
   \qmlcm See the corresponding QML TextEdit property.
 
+  \qmlproperty alias textFocus
+  \qmlcm Provides access to the focus property of the TextEdit element.
+
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed
@@ -61,6 +64,7 @@ BorderImage {
     property alias readOnly: edit.readOnly
     property alias text: edit.text
     property alias textFormat: edit.textFormat
+    property alias textFocus: edit.focus
 
     signal textChanged
 

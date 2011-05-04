@@ -76,7 +76,7 @@ WidgetPage {
     ]
 
     description: "This is a input field for a single line of text. It can be set to " +
-                 "to read-only to block user input."
+                 "read-only to block user input. "
 
     widget: Flickable {
 

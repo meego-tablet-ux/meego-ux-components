@@ -173,12 +173,17 @@ ModalFog {
             // 2 - top
             // 3 - bottom
 
-            top.calcTopParent()
+            top.calcTopParent() 
             var pw = top.topWidth;
             var ph = top.topHeight;
             var mw = menu.width;
             var mh = menu.height;
             var fmode = 0;
+
+            if (targetParent != null) {
+                pw = targetParent.width;
+                ph = targetParent.height;
+            }
 
             menuContainer.fingerMode = 0;
             // Step one
@@ -498,10 +503,11 @@ ModalFog {
         id: top
 
         onGeometryChanged: {
-            menuContainer.mouseX = baseX * top.topWidth
-            menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
-
-            menuContainer.rescale()
+            if (targetParent != null) {
+                menuContainer.mouseX = baseX * top.topWidth
+                menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
+                menuContainer.rescale()
+            }
         }
     }
 }

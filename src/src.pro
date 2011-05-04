@@ -6,6 +6,7 @@ include(kernel/kernel.pri)
 include(models/models.pri)
 include(components/components.pri)
 include(components/ux/ux.pri)
+include(units/units.pri)
 
 QT += declarative \
       network \
@@ -45,7 +46,8 @@ QML_SOURCES += \
     components/ux/*.qml \
     components/ux/*.js \
     components/ux/qmldir \
-    components/ux/images/*.png
+    components/ux/images/*.png \
+    units/*.qml
 
 OTHER_FILES += \
     $${QML_SOURCES}

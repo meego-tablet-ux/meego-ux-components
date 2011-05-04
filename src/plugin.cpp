@@ -24,6 +24,7 @@
 #include "kernel/qmldebugtools.h"
 #include "kernel/fuzzydatetime.h"
 #include "kernel/translator.h"
+#include "kernel/units.h"
 
 #include "models/devicemodel.h"
 #include "models/librarymodel.h"
@@ -47,6 +48,7 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<devicemodel>(uri, 0,1,"UDiskDeviceModel");
     qmlRegisterType<ImageExtension>(uri, 0,1,"ImageExtension");
     qmlRegisterType<Scene>(uri, 0,1,"Scene");
+    qmlRegisterType<Units>(uri, 0,1, "UnitsProvider");
     // Components
     qmlRegisterType<VolumeControl>(uri, 0,1,"VolumeControl");
     qmlRegisterType<LocalTime>(uri, 0,1, "LocalTime");

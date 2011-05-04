@@ -14,7 +14,7 @@ ExpandingBox		0.1 ExpandingBox.qml
 IconButton              0.1 IconButton.qml
 Label			0.1 Label.qml
 LayoutTextItem          0.1 LayoutTextItem.qml
-MediaGridView 		0.1 MediaGridView.qml
+MucMediaGridView        0.1 MucMediaGridView.qml
 ModalContextMenu        0.1 ModalContextMenu.qml
 ModalDialog 		0.1 ModalDialog.qml
 ModalFog 		0.1 ModalFog.qml

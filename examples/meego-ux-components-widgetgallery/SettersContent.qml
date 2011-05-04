@@ -563,7 +563,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "ModalSpinner, to display while an application is busy with a blocking process."
+                        text: "ModalSpinner, blocking the complete app."
                     }
 
                     Component{ id: modalSpinnerComponent; WidgetPageModalSpinner{} }
@@ -626,7 +626,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
-                        text: "Spinner, to indicate that a currently running process needs some time to finish."
+                        text: "Spinner, that can be placed anywhere."
                     }
 
                     Component{ id: spinnerComponent; WidgetPageSpinner{} }

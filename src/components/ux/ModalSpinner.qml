@@ -42,41 +42,17 @@ import MeeGo.Components 0.1
 ModalFog {
     id: spinnerBox
 
-    property int interval: 100
-    property alias source: spinnerImage.source
+    property int interval: spinner.interval
+    property alias source: spinner.source
 
     autoCenter: true
     fogClickable: false
 
-    modalSurface: Item{
+    modalSurface: Spinner{
         id: spinner
 
-        anchors.centerIn: parent
-
-        clip: true
-
-        width:  spinnerImage.height
-        height:  spinnerImage.height
-
-        Timer {
-            id: spinnerTimer
-            interval: spinnerBox.interval
-            repeat: true
-            onTriggered: {
-                spinnerImage.x = (spinnerImage.x - spinnerImage.height) % - (spinnerImage.height * 11)
-            }
-        }
-
-        Image {
-            id: spinnerImage
-
-            x: 0
-
-            source: "image://themedimage/widgets/common/spinner/spinner-small"
-            width: sourceSize.width
-            height: sourceSize.height
-            smooth: true
-        }
+        spinning: true
+        continuousSpinning: true
     }
 
     onFogHideFinished: { spinnerTimer.running = false }

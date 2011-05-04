@@ -31,7 +31,11 @@
     \qmlcm used to check if the textoverlay needs to be laid out vertically or horizontally
 
     \qmlproperty bool textOverlayVisible
-    \qmlcm makes te text overlay visible or invisible.
+    \qmlcm makes the text overlay visible or invisible.
+
+    \qmlproperty bool textOverlayAlwaysVisible
+    \qmlcm makes the text overlay always visible if set to true, textOverlayVisible is then
+    ignored. If set to false it will behave as textOverlayVisible dictates.
 
     \qmlproperty alias markerSize
     \qmlcm sets the width and height of the position marker. Default value is the size of
@@ -72,6 +76,7 @@ Item {
     property real percentage: 0
     property bool textOverlayVertical: false
     property bool textOverlayVisible: true
+    property bool textOverlayAlwaysVisible: false
     property alias markerSize: marker.width
 
     signal sliderChanged(int sliderValue)
@@ -180,8 +185,8 @@ Item {
             anchors { bottom: marker.top; bottomMargin: 5; horizontalCenter: marker.horizontalCenter }
             width: overlaytext.width * 1.25
             height: overlaytext.height * 1.25
-            visible: false
-            opacity: textOverlayVisible ? 1 : 0 // Workaround: setting visible to textOverlayVisible in state has repaints issues
+            visible: textOverlayAlwaysVisible
+            opacity: (textOverlayVisible || textOverlayAlwaysVisible) ? 1 : 0 // Workaround: setting visible to textOverlayVisible in state has repaints issues
 
             rotation: container.textOverlayVertical? 90 : 0
 

@@ -224,6 +224,8 @@ Item {
             content: ActionMenu {
                 id: actionMenu
 
+                highlightSelectedItem: true
+
                 onTriggered: {
                     dropDown.selectedTitle = model[index]
                     selectedIndex = index

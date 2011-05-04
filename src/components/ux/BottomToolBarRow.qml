@@ -58,6 +58,10 @@ Item {
     property alias centerContent: contentCenter.children
     property alias rightContent: contentRight.children
 
+    property int contentVerticalMargins: 5
+    property int contentHorizontalMargins: 5
+    property int spacing: 2
+
     anchors.fill: parent
 
     Row {
@@ -66,8 +70,11 @@ Item {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.margins: 5
-        spacing: 2
+        anchors {
+            leftMargin: contentHorizontalMargins; rightMargin: contentHorizontalMargins;
+            topMargin: contentVerticalMargins; bottomMargin: contentVerticalMargins
+        }
+        spacing: spacing
 
         visible: parent.visible
         opacity: visible ? 1 : 0    // force repaint
@@ -80,7 +87,7 @@ Item {
         anchors.left: contentLeft.right
         anchors.right: contentRight.left
         anchors.margins: 5
-        spacing: 2
+        spacing: spacing
 
         visible: parent.visible
         opacity: visible ? 1 : 0    // force repaint
@@ -92,7 +99,7 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.margins: 5
-        spacing: 2
+        spacing: spacing
 
         visible: parent.visible
         opacity: visible ? 1 : 0    // force repaint

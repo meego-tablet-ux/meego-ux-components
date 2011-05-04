@@ -121,7 +121,6 @@ ModalFog {
         fogMaskVisible = false  // reset and ensure the ContextMenu is not modal
         fogClickable = true
         container.subMenuVisible = false
-        console.log( "ATTENTION: ModalContextMenu.qml was renamed to ContextMenu.qml. Please change your files!" )
     }
 
     fogMaskVisible: false
@@ -272,10 +271,7 @@ ModalFog {
         height: childrenRect.height
         width: childrenRect.width
 
-        Component.onCompleted: {
-            rescale()
-            console.log( "ATTENTION: ModalContextMenu.qml was renamed to ContextMenu.qml. Please change your files!" )
-        }
+        Component.onCompleted: rescale()
 
         Theme { id: theme }
 

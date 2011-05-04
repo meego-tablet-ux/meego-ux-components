@@ -19,6 +19,17 @@ WidgetPage {
 
     controlContent: [
         LabeledEntry {
+            id: titleEntry
+
+            label:  "title: "
+            defaultValue: "Pick a date"
+
+            onTextUpdated: {
+                datePicker.title = value
+            }
+        },
+
+        LabeledEntry {
             id: widthEntry
 
             label:  "width: "
@@ -335,10 +346,10 @@ WidgetPage {
     DatePicker {
         id: datePicker
 
-
         minYear: 2009; minMonth: 3; minDay: 10
         maxYear: 2012; maxMonth: 9; maxDay: 20
 
+        title: "Pick a date"
 //        width: height * 0.6
 //        height: topItem.topItem.height * 0.9
 

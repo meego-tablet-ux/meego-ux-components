@@ -13,6 +13,8 @@
   \qmlcm  This qml provides an empty context menu. You can setPosition() where the
          menu should show up. On show() it will appear pointing to the given
          position and display the content set via the content property.
+         When used inside an AppPage or inside a Windows overlayItem, rotation and
+         repositioning is done automatically. Otherwise this has to be set manually.
 
   \section2 API Properties
 

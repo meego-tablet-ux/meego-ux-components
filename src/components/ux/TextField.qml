@@ -63,6 +63,8 @@ BorderImage {
     property alias readOnly:       edit.readOnly
     property alias text:           edit.text
     property alias textFormat:     edit.textFormat
+    property alias textEditFocus:  edit.focus
+    property alias contentHeight:  flick.contentHeight
 
     signal textChanged
 

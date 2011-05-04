@@ -135,7 +135,7 @@ Modal dialogs:
 - VideoPicker
 
 Basic components:
-- MediaGridView
+- MucMediaGridView
 - ScrollableMusicList
 - ModalDialog
 - ModalFog

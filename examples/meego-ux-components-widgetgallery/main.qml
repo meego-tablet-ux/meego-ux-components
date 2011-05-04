@@ -28,18 +28,4 @@ Window {
     Component { id: bottomBar; WidgetPageBottomBar {} }
     Component { id: fullScreenPage; WidgetPageFullScreen {} }
 //    Component { id: test; WidgetPageLayoutTextItem {} }
-
-    ContextMenu {
-
-        content: Rectangle{
-            width: 50
-            height: 50
-            color: "red"
-        }
-
-        Component.onCompleted:{
-            setPosition( 100, 100)
-            show()
-        }
-    }
 }

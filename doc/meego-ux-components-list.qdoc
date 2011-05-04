@@ -37,7 +37,7 @@
         \endlist
       \o Basic components:
         \list
-        \o  \l { MediaGridView }
+        \o  \l { MucMediaGridView }
         \o  \l { ModalDialog }
         \o  \l { ModalFog }
         \o  \l { ScrollableMusicList }

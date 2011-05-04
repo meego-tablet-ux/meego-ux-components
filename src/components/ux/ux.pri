@@ -16,7 +16,7 @@ OTHER_FILES +=  qmldir \
                 IconButton.qml \
                 Label.qml \
                 LabelTextItem.qmnl \
-                MediaGridView.qml \
+                MucMediaGridView.qml \
                 ModalFog.qml \
                 ContextMenu.qml \
                 ModalMessageBox.qml \

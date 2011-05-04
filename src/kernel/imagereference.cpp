@@ -1,0 +1,3 @@
+#include "imagereference.h"
+
+

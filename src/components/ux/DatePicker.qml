@@ -99,12 +99,6 @@
         \param   date    \qmlcm date object.\endparam
         \retval  bool	 \qmlcm true if the parameter date matches the current date \endretval
 
-  \qmlfn startDay
-  \qmlcm returns the first day of month mm in year yyyy, internal use only.
-  \param int  mm \endparam
-  \param int  yyyy \endparam
-  \retval int \qmlcm the first day of the given month and year \endretval
-
   \qmlfn daysInMonth
   \qmlcm returns the number of days of month mm in year yyyy, internal use only.
   \param int    mm  \endparam
@@ -286,11 +280,6 @@ ModalDialog {
             return true
         else
             return false;
-    }
-
-    function startDay ( mm, yyyy ) {
-        var firstDay = new Date( yyyy, mm, 1, 0, 0, 0, 0 )
-        return firstDay.getDay()
     }
 
     function daysInMonth(mm, yyyy) {
@@ -845,7 +834,7 @@ ModalDialog {
                         model: daysOfWeek
                         Text {
                             id: daysText
-                            text: daysOfWeek[index]
+                            text:  ( index + calendarGrid.dayOffset <= 6 ) ? daysOfWeek[index + calendarGrid.dayOffset] : daysOfWeek[index + calendarGrid.dayOffset - 7] //daysOfWeek[index] //
                             horizontalAlignment: "AlignHCenter";
                             verticalAlignment: "AlignVCenter"
                             font.pixelSize: daysGrid.cellFontSize
@@ -871,6 +860,21 @@ ModalDialog {
                 property real cellGridHeight: height / rows
                 property int cellFontSize;
 
+                //: handles with which day the calendar grid starts. Type monday, tuesday, wednesday, thursday, friday, saturday or sunday, without capital letters
+                property string firstDayInWeek: qsTr( "firstDayInWeek" )
+                property int dayOffset: 0
+
+                function startDay ( mm, yyyy ) {
+                    var firstDay = new Date( yyyy, mm, 1, 0, 0, 0, 0 )
+
+                    var temp = firstDay.getDay() - calendarGrid.dayOffset
+                    if( temp >= 0 ) {
+                        return temp
+                    }else {
+                        return temp + 7
+                    }
+                }
+
                 function indexToDay(index) {
                     var firstDay = startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
                     var dayCount = daysInMonth( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() )
@@ -894,6 +898,24 @@ ModalDialog {
                 x: ( width - childrenRect.width ) * 0.5
                 rows: 6; columns: 7; spacing: 0
 
+                Component.onCompleted: {
+                    if( firstDayInWeek == "monday" ) {
+                        dayOffset = 1
+                    }else if ( firstDayInWeek == "tuesday" ) {
+                        dayOffset = 2
+                    }else if ( firstDayInWeek == "wednesday" ) {
+                        dayOffset = 3
+                    }else if ( firstDayInWeek == "thursday" ) {
+                        dayOffset = 4
+                    }else if ( firstDayInWeek == "friday" ) {
+                        dayOffset = 5
+                    }else if ( firstDayInWeek == "saturday" ) {
+                        dayOffset = 6
+                    }else {
+                        dayOffset = 0
+                    }
+                }
+
                 Repeater {
                     model: 42
 
@@ -914,7 +936,7 @@ ModalDialog {
                         color: if( doTag ){
                                    return theme.datePickerSelectedColor
                                }else if( calendarGrid.indexToDay( index ) == -1
-                                        || !checkSelectedDate( ( index + 1 ) - startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() ), calendarView.calendarShown.getMonth() + 1, calendarView.calendarShown.getFullYear() ) ) {
+                                        || !checkSelectedDate( ( index + 1 ) - calendarGrid.startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() ), calendarView.calendarShown.getMonth() + 1, calendarView.calendarShown.getFullYear() ) ) {
                                    return theme.datePickerUnselectableColor
                                }else {
                                    return theme.datePickerUnselectedColor

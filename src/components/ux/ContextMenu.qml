@@ -180,9 +180,9 @@ ModalFog {
             var mh = menu.height;
             var fmode = 0;
 
-            if (targetParent != null) {
-                pw = targetParent.width;
-                ph = targetParent.height;
+            if (targetContainer != null) {
+                pw = targetContainer.width;
+                ph = targetContainer.height;
             }
 
             menuContainer.fingerMode = 0;
@@ -503,7 +503,7 @@ ModalFog {
         id: top
 
         onGeometryChanged: {
-            if (targetParent != null) {
+            if (targetContainer != null) {
                 menuContainer.mouseX = baseX * top.topWidth
                 menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
                 menuContainer.rescale()

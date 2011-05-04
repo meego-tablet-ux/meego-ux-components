@@ -72,7 +72,7 @@ Item {
     property alias modalSurface : modalSurface.children
     property bool autoCenter: false
     property bool fogClickable: true
-    property Item targetParent: null
+    property Item targetContainer: null
 
     property bool fogMaskVisible: true
     property alias theme: theme
@@ -97,10 +97,10 @@ Item {
 
     // this updates the top most item on visibility change
     onVisibleChanged: {
-        if (targetParent != null) {
-            fogContainer.parent = targetParent;
-            fog.parent = targetParent;
-            mouseArea.parent = targetParent;
+        if (targetContainer != null) {
+            fogContainer.parent = targetContainer;
+            fog.parent = targetContainer;
+            mouseArea.parent = targetContainer;
         } else {
             topItem.calcTopParent()     // force an update to get the current top most item
             fogContainer.parent = topItem.topItem;

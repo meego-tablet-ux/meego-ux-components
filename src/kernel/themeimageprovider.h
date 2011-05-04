@@ -2,7 +2,7 @@
 #define THEMEIMAGEPROVIDER_H
 
 #include <QDeclarativeImageProvider>
-#include "imageprovidercache.h"
+//#include "imageprovidercache.h"
 
 class MGConfItem;
 
@@ -17,7 +17,7 @@ public:
 
 private:
     MGConfItem *themeItem;
-    ImageProviderCache m_cache;
+    //ImageProviderCache m_cache;
 };
 
 #endif // THEMEIMAGEPROVIDER_H

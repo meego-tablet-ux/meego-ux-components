@@ -4,9 +4,9 @@ SOURCES += \
            kernel/fuzzydatetime.cpp \
            kernel/systemiconprovider.cpp \
            kernel/themeimageprovider.cpp \
-           kernel/imagereference.cpp \
-           kernel/memoryinfo.cpp \
-           kernel/imageprovidercache.cpp \
+           # kernel/imagereference.cpp \
+           # kernel/memoryinfo.cpp \
+           # kernel/imageprovidercache.cpp \
            kernel/translator.cpp \           
            kernel/windowelement.cpp \
            kernel/windowiconprovider.cpp \
@@ -19,9 +19,9 @@ HEADERS += \
            kernel/fuzzydatetime.h \
            kernel/systemiconprovider.h \
            kernel/themeimageprovider.h \
-           kernel/imagereference.h \
-           kernel/memoryinfo.h \
-           kernel/imageprovidercache.h \
+           # kernel/imagereference.h \
+           # kernel/memoryinfo.h \
+           # kernel/imageprovidercache.h \
            kernel/translator.h \
            kernel/windowelement.h \
            kernel/windowiconprovider.h \

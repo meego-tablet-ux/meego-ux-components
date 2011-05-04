@@ -14,17 +14,23 @@
          It will turn scrollable if the text is too big for the text field.
 
   \section2 API Properties
-  \qmlproperty string text
-  \qmlcm the text fields text
+  \qmlproperty alias cursorPosition
+  \qmlcm See corresponding QML TextEdit property
+
+  \qmlproperty alias defaultText
+  \qmlcm sets a defaultText in case the TextField is emtpy
 
   \qmlproperty alias font
   \qmlcm the texts font item
 
-  \qmlproperty bool readOnly
+  \qmlproperty alias readOnly
   \qmlcm sets the text read only. The text can not be altered if set to true.
 
-  \qmlproperty alias defaultText
-  \qmlcm sets a defaultText in case the TextField is emtpy
+  \qmlproperty alias text
+  \qmlcm the text fields text
+
+  \qmlproperty alias textFormat
+  \qmlcm See the corresponding QML TextEdit property.
 
   \section2 Signals
   \qmlsignal textChanged
@@ -38,7 +44,7 @@
     TextField {
         id: textField
 
-       text: "Type here."
+        text: "Type here."
    }
   \endqml
 */
@@ -49,10 +55,12 @@ import MeeGo.Components 0.1
 BorderImage {
     id: container
 
-    property alias text: edit.text
+    property alias defaultText: fakeText.text
+    property alias cursorPosition: edit.cursorPosition
     property alias font: edit.font
     property alias readOnly: edit.readOnly
-    property alias defaultText: fakeText.text
+    property alias text: edit.text
+    property alias textFormat: edit.textFormat
 
     signal textChanged
 

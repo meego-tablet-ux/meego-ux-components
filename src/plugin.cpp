@@ -24,6 +24,7 @@
 #include "kernel/qmldebugtools.h"
 #include "kernel/fuzzydatetime.h"
 #include "kernel/translator.h"
+#include "kernel/units.h"
 
 #include "models/devicemodel.h"
 #include "models/librarymodel.h"
@@ -36,12 +37,6 @@
 #include "models/windowmodel.h"
 
 #include <QtDeclarative/qdeclarative.h>
-#include <QGesture>
-#include <QPanGesture>
-#include <QTapGesture>
-#include <QTapAndHoldGesture>
-#include <QPinchGesture>
-#include <QSwipeGesture>
 
 void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
 {
@@ -53,6 +48,7 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<devicemodel>(uri, 0,1,"UDiskDeviceModel");
     qmlRegisterType<ImageExtension>(uri, 0,1,"ImageExtension");
     qmlRegisterType<Scene>(uri, 0,1,"Scene");
+    qmlRegisterType<Units>(uri, 0,1, "UnitsProvider");
     // Components
     qmlRegisterType<VolumeControl>(uri, 0,1,"VolumeControl");
     qmlRegisterType<LocalTime>(uri, 0,1, "LocalTime");
@@ -62,14 +58,6 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<BatteryIndicator>(uri, 0, 1, "BatteryIndicator");
     qmlRegisterType<MusicIndicator>(uri, 0, 1, "MusicIndicator");
 
-    // 1.0
-    // Uncreatable
-    qmlRegisterUncreatableType<QGesture>(uri, 1, 0, "Gesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QPanGesture>(uri, 1, 0, "PanGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QTapGesture>(uri, 1, 0, "TapGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QTapAndHoldGesture>(uri, 1, 0, "TapAndHoldGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QPinchGesture>(uri, 1, 0, "PinchGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QSwipeGesture>(uri, 1, 0, "SwipeGesture", QLatin1String("Do not create objects of this type."));
 }
 void MeeGoUxComponentsPlugin::initializeEngine(QDeclarativeEngine *engine, const char *uri)
 {

@@ -98,9 +98,17 @@ WidgetPage {
         CheckBoxEntry {
             id: overlayBox
 
-            label: "textOverlyVisible:"
+            label: "textOverlayVisible:"
 
             isChecked: true
+        },
+
+        CheckBoxEntry {
+            id: overlayAlwaysBox
+
+            label: "textOverlayAlwaysVisible:"
+
+            isChecked: false
         }
     ]
 
@@ -127,6 +135,7 @@ WidgetPage {
 
             anchors.centerIn: parent
             textOverlayVisible: overlayBox.isChecked
+            textOverlayAlwaysVisible: overlayAlwaysBox.isChecked
             min: 0
             max: 100
         }

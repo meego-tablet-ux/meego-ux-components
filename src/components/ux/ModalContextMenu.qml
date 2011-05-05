@@ -7,14 +7,12 @@
  */
 
 /*!
-  \qmlclass ContextMenu
+  \qmlclass ModalContextMenu
   \title ContextMenu
   \section1 ContextMenu
   \qmlcm  This qml provides an empty context menu. You can setPosition() where the
          menu should show up. On show() it will appear pointing to the given
          position and display the content set via the content property.
-         When used inside an AppPage or inside a Windows overlayItem, rotation and
-         repositioning is done automatically. Otherwise this has to be set manually.
 
   \section2 API Properties
 
@@ -50,10 +48,10 @@
   \section2 Functions
 
   \qmlfn show
-  \qmlcm fades the ContextMenu in
+  \qmlcm fades the ModalContextMenu in
 
   \qmlfn hide
-  \qmlcm fades the ContextMenu out
+  \qmlcm fades the ModalContextMenu out
 
   \qmlfn setPosition
   \qmlcm sets the position the menu will point to. IMPORTANT: you have to
@@ -65,7 +63,7 @@
 
   \section2  Example
   \qml
-       ContextMenu {
+       ModalContextMenu {
            id: contextmenu
 
            content:  ActionMenu {
@@ -173,17 +171,12 @@ ModalFog {
             // 2 - top
             // 3 - bottom
 
-            top.calcTopParent() 
+            top.calcTopParent()
             var pw = top.topWidth;
             var ph = top.topHeight;
             var mw = menu.width;
             var mh = menu.height;
             var fmode = 0;
-
-            if (targetContainer != null) {
-                pw = targetContainer.width;
-                ph = targetContainer.height;
-            }
 
             menuContainer.fingerMode = 0;
             // Step one
@@ -503,11 +496,10 @@ ModalFog {
         id: top
 
         onGeometryChanged: {
-            if (targetContainer != null) {
-                menuContainer.mouseX = baseX * top.topWidth
-                menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
-                menuContainer.rescale()
-            }
+            menuContainer.mouseX = baseX * top.topWidth
+            menuContainer.mouseY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
+
+            menuContainer.rescale()
         }
     }
 }

@@ -32,10 +32,10 @@
     \endqml
 
 
-    A MediaGridView is created to display the albums as thumbnails in a grid. The width of the grid
+    A MucMediaGridView is created to display the albums as thumbnails in a grid. The width of the grid
     cells is calculated to fit six thumbnails in landscape mode and three in portrait mode.
     \qml
-    MediaGridView {
+    MucMediaGridView {
         id: view
         ...
         cellHeight: cellWidth
@@ -48,7 +48,7 @@
             var sizeL = Math.floor(Math.max(window.width, window.height) / 6)
             var sizeP = Math.floor(Math.min(window.width, window.height) / 3)
 
-            // work around bug in MediaGridView
+            // work around bug in MucMediaGridView
             sizeP -= 1
 
             if (preferPortrait)
@@ -123,7 +123,7 @@ Item {
         anchors { top: parent.top; left: parent.left; topMargin: 5; }
     }
 
-    MediaGridView {
+    MucMediaGridView {
         id: view
 
         property int parentWidth: -1
@@ -132,7 +132,7 @@ Item {
             var columns = Math.floor(parent.width / cellWidth)
             var gridWidth = columns * cellWidth
             var remain = parent.width - gridWidth
-            // workaound MediaGridView miscalculation with +1 below
+            // workaound MucMediaGridView miscalculation with +1 below
             anchors.leftMargin = Math.floor(remain / 2) + 1
             header.anchors.leftMargin = anchors.leftMargin
         }
@@ -156,7 +156,7 @@ Item {
             var sizeL = Math.floor(Math.max(window.width, window.height) / 6)
             var sizeP = Math.floor(Math.min(window.width, window.height) / 3)
 
-            // work around bug in MediaGridView
+            // work around bug in MucMediaGridView
             sizeP -= 1
 
             if (preferPortrait)

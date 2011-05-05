@@ -10,6 +10,7 @@
    book/page concept */
 
 import Qt 4.7
+import MeeGo.Components 0.1
 
 PageDummy {
     id: pageDummy
@@ -28,6 +29,31 @@ PageDummy {
         PageDummy {
             id: pageDummy2
 
+            enableCustomActionMenu: true
+
+            onActionMenuIconClicked: {
+                pageDummy.actionMenuOpen = true
+                contextActionMenu.setPosition( mouseX, mouseY )
+                contextActionMenu.show()
+            }
+
+            ContextMenu {
+                id: contextActionMenu
+                forceFingerMode: 2
+
+                onVisibleChanged: {
+                    actionMenuOpen = visible
+                }
+
+                title:  qsTr("Custom ContextMenu")
+
+                content:  Rectangle {
+                    width: 300
+                    height: 300
+                    color: "red"
+                }
+            }
+
             innerText: qsTr("book 2, page 2")
             rectColor: "lightgreen"
             showButton: true
@@ -44,6 +70,31 @@ PageDummy {
 
         PageDummy {
             id: pageDummy3
+
+            enableCustomActionMenu: true
+
+            onActionMenuIconClicked: {
+                pageDummy.actionMenuOpen = true
+                contextActionMenu.setPosition( mouseX, mouseY )
+                contextActionMenu.show()
+            }
+
+            ContextMenu {
+                id: contextActionMenu
+                forceFingerMode: 2
+
+                onVisibleChanged: {
+                    actionMenuOpen = visible
+                }
+
+                title:  qsTr("Custom ContextMenu")
+
+                content:  Rectangle {
+                    width: 400
+                    height: 200
+                    color: "blue"
+                }
+            }
 
             innerText: qsTr("book 2, page 3")
             rectColor: "orange"

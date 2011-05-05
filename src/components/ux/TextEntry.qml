@@ -14,6 +14,7 @@
          It will turn scrollable if the text is too big for the text field.
 
   \section2 API Properties
+
   \qmlproperty alias acceptableInput
   \qmlcm See the corresponding QML TextInput property
 
@@ -21,7 +22,7 @@
   \qmlcm See the corresponding QML TextInput property
 
   \qmlproperty alias defaultText
-  \qmlcm sets a default text in case the input is empty
+  \qmlcm sets a defaultText in case the input is empty.
 
   \qmlproperty alias echoMode
   \qmlcm See the corresponding QML TextInput property
@@ -33,10 +34,11 @@
   \qmlcm See the corresponding QML TextInput property
 
   \qmlproperty alias inputMethodHints
-  \qmlcm provides access to the inputMethodHints of the input
+
+  \qmlcm provides access to the inputMethodHints of the input.
 
   \qmlproperty alias readOnly
-  \qmlcm sets the input to read only. The text can't be altered if set to true
+  \qmlcm sets the input to read only. The text can not be altered if set to true
 
   \qmlproperty alias text
   \qmlcm provides access to the inputted text
@@ -47,7 +49,6 @@
   \qmlproperty alias textFocus
   \qmlcm Provides access to the focus property of the TextInput element.
 
-
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed
@@ -56,6 +57,7 @@
   \qmlcm emitted when an enter was pressed and the input is in an acceptable state
 
   \section2 Functions
+
   \qmlmethod positionAt(int)
   \qmlcm See the corresponding QML TextInput function
 
@@ -63,6 +65,7 @@
   \qml
     TextEntry {
         id: textEntry
+
 
         text: "Type here."
    }

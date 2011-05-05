@@ -14,8 +14,9 @@
          It will turn scrollable if the text is too big for the text field.
 
   \section2 API Properties
+
   \qmlproperty alias cursorPosition
-  \qmlcm See corresponding QML TextEdit property
+  \qmlcm See the corresponding QML TextEdit property
 
   \qmlproperty alias defaultText
   \qmlcm sets a defaultText in case the TextField is emtpy
@@ -30,6 +31,7 @@
   \qmlcm the text fields text
 
   \qmlproperty alias textFormat
+
   \qmlcm See the corresponding QML TextEdit property.
 
   \qmlproperty alias textFocus
@@ -60,11 +62,12 @@ BorderImage {
 
     property alias defaultText: fakeText.text
     property alias cursorPosition: edit.cursorPosition
-    property alias font: edit.font
-    property alias readOnly: edit.readOnly
-    property alias text: edit.text
-    property alias textFormat: edit.textFormat
-    property alias textFocus: edit.focus
+    property alias font:           edit.font
+    property alias readOnly:       edit.readOnly
+    property alias text:           edit.text
+    property alias textFormat:     edit.textFormat
+    property alias textFocus:  edit.focus
+    property alias contentHeight:  flick.contentHeight
 
     signal textChanged
 
@@ -131,6 +134,7 @@ BorderImage {
             wrapMode: TextEdit.Wrap
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
             font.pixelSize: theme.fontPixelSizeNormal
+            Keys.forwardTo: container
 
             onTextChanged: {
                 container.textChanged()

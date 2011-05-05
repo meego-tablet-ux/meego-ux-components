@@ -277,10 +277,10 @@ ModalDialog {
             }
         }
 
-        MediaGridView {
+        MucMediaGridView {
             id: musicGridView
 
-            // the MediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
+            // the MucMediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
             // the the number of columns and the width is then set to estimateColumnCount x cellWidth. Unfortunately, the pickers width is needed
             // for this, a value which can't be retrieved via parent.width. So the computation has to be in the picker.
 
@@ -344,7 +344,7 @@ ModalDialog {
                     buttonAccept.enabled = true //enable OK button
                 } //end !selectSongs
             } // onClicked
-        } // MediaGridView
+        } // MucMediaGridView
     } // Item
 
     showAcceptButton: false

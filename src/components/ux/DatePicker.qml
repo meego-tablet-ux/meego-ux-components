@@ -19,6 +19,9 @@
 
   \section1  API properties
 
+  \qmlproperty string title
+  \qmlcm title of the date picker dialogs. This is defined in ModalDialog.
+
   \qmlproperty variant selectedDate
   \qmlcm contains the currently selected date.
 
@@ -501,9 +504,7 @@ ModalDialog {
     acceptButtonEnabled: isDateInRange
 
     width: height * 0.6
-    height: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95    // ###
-
-    title: qsTr("Due Date")
+    height: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95
 
     alignTitleCenter: true
 

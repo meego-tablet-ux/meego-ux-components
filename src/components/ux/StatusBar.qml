@@ -75,13 +75,13 @@ Item {
     }
     Row {
         anchors.left: parent.left
-        //NetworkIndicator {
-        //    active: container.active
-        //}
-        //BluetoothIndicator {
-        //    hideOnActiveNetwork: true
-        //    active: container.active
-        //}
+        NetworkIndicator {
+            active: container.active
+        }
+        BluetoothIndicator {
+            hideOnActiveNetwork: true
+            active: container.active
+        }
     }
     Text {
         anchors.centerIn: parent

@@ -72,6 +72,7 @@ Item {
     property real percentage: 0
     property bool textOverlayVertical: false
     property bool textOverlayVisible: true
+    property bool textOverlayAlwaysVisible: false
     property alias markerSize: marker.width
 
     signal sliderChanged(int sliderValue)
@@ -179,8 +180,8 @@ Item {
             anchors { bottom: marker.top; bottomMargin: 5; horizontalCenter: marker.horizontalCenter }
             width: overlaytext.height * 1.25
             height: overlaytext.width * 1.25
-            visible: false
-            opacity: textOverlayVisible ? 1 : 0 // Workaround: setting visible to textOverlayVisible in state has repaints issues
+            visible: textOverlayAlwaysVisible
+            opacity: (textOverlayVisible || textOverlayAlwaysVisible) ? 1 : 0 // Workaround: setting visible to textOverlayVisible in state has repaints issues
 
             rotation: container.textOverlayVertical? 90 : 0
 
@@ -248,11 +249,6 @@ Item {
                 visible: true
             }
             when: mouseAreaFTW.pressed
-        }
-    ]
-    transitions: [
-        Transition {
-            NumberAnimation { target: marker; property: "x"; duration: 1000 }
         }
     ]
 }

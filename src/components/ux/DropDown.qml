@@ -15,8 +15,6 @@
   indicates if the box is expanded or not. Clicking on the header expands the
   box and shows the content.
 
-  The behaviour isn't final because detailed specifications are missing.
-
   \section2 API properties
   \qmlproperty bool opened
   \qmlcm true if the dropdown is currently opened
@@ -123,7 +121,7 @@ Item {
     property alias currentWidth: actionMenu.currentWidth
     property alias highlightSelectedItem: actionMenu.highlightSelectedItem
 
-    property bool replaceDropDownTitle: false
+    property bool replaceDropDownTitle: true
     property bool showTitleInMenu: false
 
     property string title: ""
@@ -225,6 +223,8 @@ Item {
 
             content: ActionMenu {
                 id: actionMenu
+
+                highlightSelectedItem: true
 
                 onTriggered: {
                     dropDown.selectedTitle = model[index]

@@ -71,6 +71,11 @@
  \qmlproperty bool actionMenuActive
  \qmlcm activates/deactivates the windowMenuButton.
 
+ \qmlproperty bool automaticBookSwitching
+ \qmlcm if set to 'true', selected book pages will automatically be called.
+ If set to false, the page is not switched and a signal bookMenuTriggered() is sent
+ to react on the selection manually.
+
  \qmlproperty int orientation
  \qmlcm int, the orientation the window is in. This property can be set manualy.
  \qml
@@ -137,9 +142,14 @@
    \qmlcm provides the action menu context menu coordinate
     for custom action menus created by AppPages
 
+  \qmlsignal bookMenuTriggered
+   \param variant selectItem
+    \qmlpcm selected payload item of the BookMenu. This is only sent when automaticBookSwitching
+     is set to false. \endparam
+
   \qmlsignal actionMenuTriggered( variant selectedItem )
    \param variant selectItem
-    \qmlpcm selected Item of the ActionMenu \endparam
+    \qmlpcm selected payload item of the ActionMenu \endparam
 
   \qmlsignal actionMenuIconClicked
    \param int mouseX
@@ -254,10 +264,12 @@ Item {
     property alias pageStack: pageStack
     property alias statusBar: statusBar
     property alias toolBar: toolBar
+    property bool automaticBookSwitching: true
     property bool customActionMenu: false
     property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullScreen ) ? 0 : statusBar.height )
 
     signal search(string needle)
+    signal bookMenuTriggered( variant selectedItem )
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
     signal windowActiveChanged( bool isActiveWindow )
@@ -539,7 +551,13 @@ Item {
                                 id: bookMenu
 
                                 onTriggered: {
-                                    switchBook( payload[index] )
+                                    if(automaticBookSwitching ) {
+                                        switchBook( payload[index] )
+                                    }
+                                    else {
+                                        bookMenuTriggered( payload[index] )
+                                    }
+
                                     bookContextMenu.hide()
                                 }
                             }
@@ -743,6 +761,7 @@ Item {
 
     Connections {
         target: qApp
+
         onForegroundChanged: {
             isActiveWindow = foreground
             qApp.orientationLocked = scene.orientationLocked
@@ -756,6 +775,7 @@ Item {
             if( scene.orientationLocked != qApp.orientationLock )
             scene.orientationLocked = qApp.orientationLock
         }
+
         onOrientationChanged: {
             scene.orientation = qApp.orientation;
         }

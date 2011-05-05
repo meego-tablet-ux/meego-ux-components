@@ -142,7 +142,8 @@ ModalDialog {
         }
     }
 
-    onShowCalled: {     // reset MediaGridView on show
+    onShowCalled: {     // reset MucMediaGridView on show
+
         acceptBlocked = false
 
         gridView.positionViewAtIndex( 0, GridView.Beginning )
@@ -174,10 +175,10 @@ ModalDialog {
 
     title: qsTr("Pick a video")
 
-    content: MediaGridView {
+    content: MucMediaGridView {
         id: gridView
 
-        // the MediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
+        // the MucMediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
         // the the number of columns and the width is then set to estimateColumnCount x cellWidth. Unfortunately, the pickers width is needed
         // for this, a value which can't be retrieved via parent.width. So the computation has to be in the picker.
 

@@ -19,6 +19,9 @@
       \qmlproperty int maxSpinTime
       \qmlcm sets how long the spinner should run repeatedly in milliseconds.
 
+      \qmlproperty bool continuousSpinning
+      \qmlcm if set to true the spinner will always spin.
+
       \qmlproperty bool spinning
       \qmlcm Setting this property to true will show the Spinner and start its animation.
              Settings this property to false will stop the animation and hide the Spinner.
@@ -44,10 +47,12 @@ import Qt 4.7
 Item {
     id: spinner
 
-    property int interval: 100
+    property int interval: 80
     property int maxSpinTime: 6000
     property bool spinning: false
     property alias source: spinnerImage.source
+    property bool continuousSpinning: false
+
 
     anchors.centerIn: parent
 
@@ -60,7 +65,7 @@ Item {
 
     onSpinningChanged: {
         if ( spinning ) {
-            cancelTimer.running = true;
+            cancelTimer.running = !continuousSpinning;
             spinnerTimer.running = true;
             spinner.opacity = 1.0
         }
@@ -77,7 +82,7 @@ Item {
 
         interval: spinner.maxSpinTime
 
-        onTriggered: spinner.spinning = false
+        onTriggered: spinner.spinning = continuousSpinning
     }
 
     Timer {

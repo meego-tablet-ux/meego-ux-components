@@ -77,8 +77,7 @@ Item {
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.left: contentLeft.right
-        anchors.right: contentRight.left
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.margins: 5
         spacing: 2
 

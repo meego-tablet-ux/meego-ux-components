@@ -12,7 +12,8 @@ SOURCES += \
 	   kernel/musicserviceproxy.cpp \
 	   kernel/scene.cpp \
 	   kernel/units_p.cpp \
-	   kernel/units.cpp
+	   kernel/units.cpp \
+	   kernel/contextproperty.cpp
 
 HEADERS += \
            kernel/fuzzydatetime.h \
@@ -27,4 +28,5 @@ HEADERS += \
 	   kernel/musicserviceproxy.h \
 	   kernel/scene.h \
 	   kernel/units_p.h \
-	   kernel/units.h
+	   kernel/units.h \
+	   kernel/contextproperty.h

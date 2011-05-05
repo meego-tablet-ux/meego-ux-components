@@ -108,6 +108,8 @@ ModalDialog {
 
     property real topHeight: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95  // maximum height relativ to top item height
 
+    property bool acceptBlocked: false //private property
+
     signal photoSelected( variant photoid, string title, string uri, string thumbUri )
     signal multiplePhotosSelected( variant ids, variant titles, variant uris, variant thumbUris )
     signal albumSelected( variant albumid, string title )
@@ -128,24 +130,30 @@ ModalDialog {
              }
 
     onAccepted:{
-        if( PickerArray.ids.length > 0 && PickerArray.titles.length > 0 ) {
-            if( albumSelectionMode ) {
-                if( multiSelection ) {
-                    multipleAlbumsSelected( PickerArray.ids, PickerArray.titles )
-                }else {
-                    albumSelected( PickerArray.ids[0], PickerArray.titles[0] )
-                }
-            }else if( PickerArray.uris.length > 0 ) {
-                if( multiSelection ) {
-                    multiplePhotosSelected( PickerArray.ids, PickerArray.titles, PickerArray.uris, PickerArray.thumbUris )
-                }else {
-                    photoSelected( PickerArray.ids[0], PickerArray.titles[0], PickerArray.uris[0], PickerArray.thumbUris[0] )
+        if( !acceptBlocked ) {
+            acceptBlocked = true
+
+            if( PickerArray.ids.length > 0 && PickerArray.titles.length > 0 ) {
+                if( albumSelectionMode ) {
+                    if( multiSelection ) {
+                        multipleAlbumsSelected( PickerArray.ids, PickerArray.titles )
+                    }else {
+                        albumSelected( PickerArray.ids[0], PickerArray.titles[0] )
+                    }
+                }else if( PickerArray.uris.length > 0 ) {
+                    if( multiSelection ) {
+                        multiplePhotosSelected( PickerArray.ids, PickerArray.titles, PickerArray.uris, PickerArray.thumbUris )
+                    }else {
+                        photoSelected( PickerArray.ids[0], PickerArray.titles[0], PickerArray.uris[0], PickerArray.thumbUris[0] )
+                    }
                 }
             }
         }
     }
 
     onShowCalled: {     // reset MediaGridView on show
+        acceptBlocked = false
+
         gridView.positionViewAtIndex( 0, GridView.Beginning )
 
         for( var i = 0; i < PickerArray.ids.length; i++ ) {

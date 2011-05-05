@@ -155,26 +155,33 @@ ModalDialog {
 
     property string backButtonText: qsTr( "Back...")
 
-    onAccepted:{
+    property bool acceptBlocked: false
 
-        if( selectSongs ) {
-            if( multiSelection ){
-                multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris[0], selectedAlbumName, PickerArray.types )
-            }else {
-                songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
-            }
-        } else if( musicPicker.showAlbums || musicPicker.showPlaylists ) {
-            if( PickerArray.titles.length > 0 && PickerArray.types.length > 0 ) {
-                if( multiSelection ) {
-                    multipleAlbumsOrPlaylistsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, PickerArray.types )
+    onAccepted:{
+        if( !acceptBlocked ) {
+            acceptBlocked = true
+
+            if( selectSongs ) {
+                if( multiSelection ){
+                    multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris[0], selectedAlbumName, PickerArray.types )
                 }else {
-                    albumOrPlaylistSelected( PickerArray.titles[0], PickerArray.uris[0], PickerArray.thumbUris[0], PickerArray.types[0] )
+                    songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
+                }
+            } else if( musicPicker.showAlbums || musicPicker.showPlaylists ) {
+                if( PickerArray.titles.length > 0 && PickerArray.types.length > 0 ) {
+                    if( multiSelection ) {
+                        multipleAlbumsOrPlaylistsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, PickerArray.types )
+                    }else {
+                        albumOrPlaylistSelected( PickerArray.titles[0], PickerArray.uris[0], PickerArray.thumbUris[0], PickerArray.types[0] )
+                    }
                 }
             }
         }
     } // onAccepted
 
     onShowCalled: {
+        acceptBlocked = false
+
         musicGridView.positionViewAtIndex( 0, GridView.Beginning )
 
         for( var i = 0; i < PickerArray.ids.length; i++ ) {

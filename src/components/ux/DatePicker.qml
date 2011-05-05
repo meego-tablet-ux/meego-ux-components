@@ -245,6 +245,8 @@ ModalDialog {
 
     property bool allowUpdates: true
 
+    property bool acceptBlocked: false
+
     //these five properties are only meant to be used in the widgetgallery for
     //demonstration purposes. Don't use them in your applications since they
     //could be removed at any time.
@@ -481,6 +483,7 @@ ModalDialog {
 
     //when the DatePicker shows up, store the current date
     onShowCalled: {
+        acceptBlocked = false
         oldDate = selectedDate;
         updateSelectedDate( selectedDate.getDate(), selectedDate.getMonth(), selectedDate.getFullYear() )
     }
@@ -488,7 +491,12 @@ ModalDialog {
     //when the DatePicker is closed via cancel, restore the formerly selected date
     onRejected: { selectedDate = oldDate }
 
-    onAccepted: { dateSelected( selectedDate ) }
+    onAccepted: {
+        if( !acceptBlocked ) {
+            acceptBlocked = true
+            dateSelected( selectedDate )
+        }
+    }
 
     acceptButtonEnabled: isDateInRange
 

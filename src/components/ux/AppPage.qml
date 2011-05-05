@@ -108,7 +108,6 @@ import Qt 4.7
 import MeeGo.Components 0.1
 
 Item {
-
     id: appPage
 
     width:  parent ? parent.width : 0
@@ -126,6 +125,7 @@ Item {
     property bool fullContent: false
     property bool backButtonLocked: false
     property bool enableCustomActionMenu: false
+    property bool allowActionMenuSignal: true
 
     property string lockOrientationIn: "" // FixMe: strings right now. Should be: enum of qApp
 
@@ -153,6 +153,11 @@ Item {
         window.actionMenuModel = actionMenuModel
         window.actionMenuPayload = actionMenuPayload
         window.actionMenuTitle = actionMenuTitle
+        allowActionMenuSignal = true
+    }
+
+    onDeactivating: { // from PageStack.qml
+        allowActionMenuSignal = false
     }
 
     onFullScreenChanged: {
@@ -177,7 +182,8 @@ Item {
         }
 
         onActionMenuIconClicked: {
-            actionMenuIconClicked( mouseX, mouseY )
+            if( appPage.allowActionMenuSignal == true )
+                actionMenuIconClicked( mouseX, mouseY )
         }
 
 //        onWindowFocusChanged: { // from Window.qml

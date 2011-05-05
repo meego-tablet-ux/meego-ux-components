@@ -261,45 +261,98 @@ ModalFog {
             anchors.horizontalCenter: parent.horizontalCenter
             clip: true
 
-            Button {
-                id: buttonAccept
+            Item {
+                id: defaultButtons
 
-                maxWidth: visible ? modalDialogBox.buttonMaxWidth : 0
-                maxHeight: modalDialogBox.buttonMaxHeight
+                /*: Handles layout of OK/Cancel buttons in ModalDialogs according to reading direction
+                    for specific languages. Expects "left-to-right" or "right-to-left".
+                    "left-to-right" would mean the OK button is on the left side and the Cancel button is
+                    on the right side. "right-to-left" is vice versa. Default is "left-to-right. */
+                property string readingDirection: qsTr("left-to-right")
 
-                minWidth: visible ? modalDialogBox.buttonMinWidth : 0
-                minHeight: modalDialogBox.buttonMinHeight
+                property int acceptWidth: buttonAccept.visible ? buttonAccept.width : 0
+                property int cancelWidth: buttonCancel.visible ? buttonCancel.width : 0
+                property int spacing: ( acceptWidth > 0 && cancelWidth > 0 ) ? parent.spacing : 0
+
+                property int acceptHeight: buttonAccept.visible ? buttonAccept.height : 0
+                property int cancelHeight: buttonCancel.visible ? buttonCancel.height : 0
 
                 anchors.verticalCenter: parent.verticalCenter
-                text: qsTr( acceptButtonText )
+                width: acceptWidth + cancelWidth + spacing
+                height: ( acceptHeight > cancelHeight ) ? acceptHeight : cancelHeight
 
-                bgSourceUp: acceptButtonImage
-                bgSourceDn: acceptButtonImagePressed
+                states: [
+                    State {
+                        name: "leftToRight"
+                        when: defaultButtons.readingDirection != "right-to-left"
+                        AnchorChanges {
+                            target: buttonAccept
+                            anchors.left: defaultButtons.left
+                            anchors.right: undefined
+                        }
+                        AnchorChanges {
+                            target: buttonCancel
+                            anchors.left: undefined
+                            anchors.right: defaultButtons.right
+                        }
+                    },
+                    State {
+                        name: "rightToLeft"
+                        when: defaultButtons.readingDirection == "right-to-left"
+                        AnchorChanges {
+                            target: buttonAccept
+                            anchors.left: undefined
+                            anchors.right: defaultButtons.right
+                        }
+                        AnchorChanges {
+                            target: buttonCancel
+                            anchors.left: defaultButtons.left
+                            anchors.right: undefined
+                        }
+                    }
+                ]
 
-                onClicked: {
-                    modalDialogBox.accepted()
-                    modalDialogBox.hide()
+
+                Button {
+                    id: buttonAccept
+
+                    maxWidth: visible ? modalDialogBox.buttonMaxWidth : 0
+                    maxHeight: modalDialogBox.buttonMaxHeight
+
+                    minWidth: visible ? modalDialogBox.buttonMinWidth : 0
+                    minHeight: modalDialogBox.buttonMinHeight
+
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr( acceptButtonText )
+
+                    bgSourceUp: acceptButtonImage
+                    bgSourceDn: acceptButtonImagePressed
+
+                    onClicked: {
+                        modalDialogBox.accepted()
+                        modalDialogBox.hide()
+                    }
                 }
-            }
 
-            Button {
-                id: buttonCancel
+                Button {
+                    id: buttonCancel
 
-                maxWidth: visible ? modalDialogBox.buttonMaxWidth : 0
-                maxHeight: modalDialogBox.buttonHeight
+                    maxWidth: visible ? modalDialogBox.buttonMaxWidth : 0
+                    maxHeight: modalDialogBox.buttonHeight
 
-                minWidth: visible ? modalDialogBox.buttonMinWidth : 0
-                minHeight: modalDialogBox.buttonMinHeight
+                    minWidth: visible ? modalDialogBox.buttonMinWidth : 0
+                    minHeight: modalDialogBox.buttonMinHeight
 
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr( cancelButtonText )
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr( cancelButtonText )
 
-                bgSourceUp: cancelButtonImage
-                bgSourceDn: cancelButtonImagePressed
+                    bgSourceUp: cancelButtonImage
+                    bgSourceDn: cancelButtonImagePressed
 
-                onClicked: {
-                    modalDialogBox.rejected()
-                    modalDialogBox.hide()
+                    onClicked: {
+                        modalDialogBox.rejected()
+                        modalDialogBox.hide()
+                    }
                 }
             }
         }

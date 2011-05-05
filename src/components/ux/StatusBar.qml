@@ -107,7 +107,7 @@ Item {
         anchors.right: volumeIndicator.left
         active: container.active
         onNotify: {
-            var msg = summary + ": " + body;
+            var msg = qsTr("%1: %2").arg(summary).arg(body)
             showBanner(msg.replace(/\n/g, ' '));
         }
     }

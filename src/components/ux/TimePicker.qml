@@ -135,7 +135,7 @@ ModalDialog {
         minutes = minutesSpinner.value
         var displayMinutes = ( minutes < 10 ? "0" : "" ) + minutes
 
-        time = hourSpinner.value + ":" + displayMinutes + (hr24 ? "" : " " + ampmToggleBox.label)
+        time = qsTr("%1:%2 %3").arg(hourSpinner.value).arg(displayMinutes).arg((hr24 ? "" : ampmToggleBox.label))
         hours = fromDisplayHours(hr24, hourSpinner.value, ampmToggleBox.on)
     }
 

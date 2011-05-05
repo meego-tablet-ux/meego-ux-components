@@ -142,6 +142,7 @@ BorderImage {
 
             CCPContextArea {
                 editor: edit
+                visible: !edit.readOnly
             }
         }
         

@@ -183,7 +183,7 @@ Item {
                 function formatTime(time){
                     var min = parseInt(time/60);
                     var sec = parseInt(time%60);
-                    return min+ (sec<10 ? ":0":":") + sec
+                    return qsTr("%1:%2").arg(min).arg( (sec<10 ? "0":"") + sec ) // min+ (sec<10 ? ":0":":") + sec
                 }
 
                 text: formatTime(length)

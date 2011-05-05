@@ -290,6 +290,8 @@ ModalDialog {
 
             Component.onCompleted: { musicGridView.model = musicPicker.model }
 
+            defaultThumbnail: "image://themedimage/images/media/music_thumb_med"
+
             visible: !musicPicker.albumSelected
             opacity: (musicPicker.albumSelected) ? 0 : 1    // this forces a repaint
 

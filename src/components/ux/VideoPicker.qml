@@ -185,6 +185,8 @@ ModalDialog {
         property int estimateColumnCount: Math.floor( ( videoPicker.width - videoPicker.leftMargin - videoPicker.rightMargin ) / cellWidth )
         property string selectedItem: ""
 
+        defaultThumbnail: "image://themedimage/images/media/video_thumb_med"
+
         model: allAlbumsListModel
 
         anchors.top: parent.top

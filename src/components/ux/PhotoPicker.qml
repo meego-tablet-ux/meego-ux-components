@@ -179,6 +179,8 @@ ModalDialog {
         property int estimateColumnCount: Math.floor( ( photoPicker.width - photoPicker.leftMargin - photoPicker.rightMargin ) / cellWidth )
         property string selectedItem: ""
 
+        defaultThumbnail: "image://themedimage/images/media/photo_thumb_default"
+
         model: theModel
         type: albumSelectionMode ? photoalbumtype : phototype
 

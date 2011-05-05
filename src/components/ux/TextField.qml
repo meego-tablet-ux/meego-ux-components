@@ -131,6 +131,7 @@ BorderImage {
             wrapMode: TextEdit.Wrap
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
             font.pixelSize: theme.fontPixelSizeNormal
+            Keys.forwardTo: container
 
             onTextChanged: {
                 container.textChanged()

@@ -101,6 +101,14 @@ Item {
 
     }
 
+    Component.onCompleted: {
+        if(value < min)
+            value = min
+        if(value > max)
+            value = max
+        centerItem.x = ((value - min) / (max - min)) * (fillArea.width - container.height / 4)
+    }
+
     BorderImage {
         id: fillArea
 

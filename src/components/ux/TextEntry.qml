@@ -34,6 +34,7 @@
   \qmlcm See the corresponding QML TextInput property
 
   \qmlproperty alias inputMethodHints
+
   \qmlcm provides access to the inputMethodHints of the input.
 
   \qmlproperty alias readOnly
@@ -45,6 +46,9 @@
   \qmlproperty alias validator
   \qmlcm See the corresponding QML TextInput property
 
+  \qmlproperty alias textFocus
+  \qmlcm Provides access to the focus property of the TextInput element.
+
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed
@@ -53,7 +57,8 @@
   \qmlcm emitted when an enter was pressed and the input is in an acceptable state
 
   \section2 Functions
-  \qmlmethod positionAt (int)
+
+  \qmlmethod positionAt(int)
   \qmlcm See the corresponding QML TextInput function
 
   \section2 Example
@@ -61,7 +66,8 @@
     TextEntry {
         id: textEntry
 
-        text: "Type here"
+
+        text: "Type here."
    }
   \endqml
 */
@@ -72,17 +78,20 @@ import MeeGo.Components 0.1
 BorderImage {
     id: container
 
+    property alias acceptableInput: input.acceptableInput
+    property alias cursorPosition: input.cursorPosition
     property alias defaultText: fakeText.text
-
-    property alias acceptableInput:  input.acceptableInput
-    property alias cursorPosition:   input.cursorPosition
-    property alias echoMode:         input.echoMode
-    property alias font:             input.font
-    property alias inputMask:        input.inputMask
+    property alias echoMode: input.echoMode
+    property alias font: input.font
+    property alias inputMask: input.inputMask
     property alias inputMethodHints: input.inputMethodHints
-    property alias readOnly:         input.readOnly
-    property alias text:             input.text
-    property alias validator:        input.validator
+    property alias readOnly: input.readOnly
+    property alias text: input.text
+    property alias validator: input.validator
+    property alias textFocus: input.focus
+
+    //TODO: remove this, it breaks encapsulation
+    property alias textInput: input
 
     signal textChanged
     signal accepted
@@ -90,9 +99,6 @@ BorderImage {
     function positionAt(x) {
         return input.positionAt(x)
     }
-
-    // TODO: remove this, it breaks encapsulation
-    property alias textInput: input
 
     border.top: 6
     border.bottom: 6

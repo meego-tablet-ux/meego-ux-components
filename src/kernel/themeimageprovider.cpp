@@ -22,9 +22,6 @@ ThemeImageProvider::ThemeImageProvider() :
     {
         QRect screenRect = qApp->desktop()->screenGeometry();
 
-        // TODO: Check both the resolution and the DPI to determine the default
-        //       theme location
-
         if (screenRect.width() == 1024 && screenRect.height() == 600)
             themeItem->set("1024-600-10");
         else if (screenRect.width() == 1280 && screenRect.height() == 800)
@@ -43,6 +40,9 @@ ThemeImageProvider::~ThemeImageProvider()
 QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size,
                                            const QSize &requestedSize)
 {
+    //QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
+    //return m_cache.requestPixmap( path, size, requestedSize );
+
     QPixmap pixmap;
 
     QString themeDir = QString("/usr/share/themes/") + themeItem->value().toString() + "/";
@@ -57,7 +57,7 @@ QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size,
             imageReader.setScaledSize(requestedSize);
         }
 
-	pixmap = QPixmap::fromImageReader(&imageReader);
+        pixmap = QPixmap::fromImageReader(&imageReader);
     }
     else
     {
@@ -77,4 +77,14 @@ QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size,
         *size = pixmap.size();
 
     return pixmap;
+
+}
+
+QImage ThemeImageProvider::requestImage( const QString &id, QSize *size,
+                                           const QSize &requestedSize)
+{
+    return QImage();
+    //QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
+    //return m_cache.requestImage( path, size, requestedSize );
+
 }

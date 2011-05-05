@@ -69,7 +69,7 @@ WidgetPage {
     ]
 
     description: "This is a text field for multiple lines of text. If the text does not fit, it becomes scrollable. " +
-                 "It can be set to to read-only to block user input."
+                 "It can be set to to read-only to block user input. "
 
     widget: Flickable {
 

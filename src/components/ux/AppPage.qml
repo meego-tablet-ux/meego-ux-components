@@ -45,6 +45,12 @@
   \qmlproperty string actionMenuTitle
   \qmlcm holds the title of the actionMenu
 
+  \qmlproperty bool showSearch
+  qmlcm extends the searchbar if set to true, hides it on false. Default is false.
+
+  \qmlproperty bool disableSearch
+  qmlcm disables the searchbar on true, enables it on false. Default is false.
+
  \qmlproperty string lockOrientationIn
  \qmlcm this property can be used to lock the window in a given orientation.
  Possible values are:
@@ -81,6 +87,17 @@
   \qmlcm Signal that fires if the focus was changed.
         \param bool appPageHasFocus
         \qmlpcm true if the page has focus. \endparam
+
+  \qmlsignal searchExtended
+  \qmlcm Signal that fires when the searchbar is extending.
+
+  \qmlsignal searchRetracted
+  \qmlcm Signal that fires when the searchbar retracted.
+
+  \qmlsignal search
+  \qmlcm is sent when a string was typed into the searchbar
+        \param string needle
+        \qmlpcm The text that was typed in. \endparam
 
   \section2 Functions
   \qmlnone
@@ -126,6 +143,8 @@ Item {
     property bool backButtonLocked: false
     property bool enableCustomActionMenu: false
     property bool allowActionMenuSignal: true
+    property bool showSearch: false
+    property bool disableSearch: false
 
     property string lockOrientationIn: "" // FixMe: strings right now. Should be: enum of qApp
 
@@ -137,6 +156,10 @@ Item {
     signal deactivated // emitted by PageStack.qml    
     signal focusChanged(bool appPageHasFocus)
 
+    signal searchExtended()
+    signal searchRetracted()
+    signal search( string needle )
+
     anchors.fill:  parent
 
     onActivating: { // from PageStack.qml
@@ -146,6 +169,8 @@ Item {
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
         window.backButtonLocked = backButtonLocked
         window.lockOrientationIn = lockOrientationIn
+        window.showToolBarSearch = showSearch
+        window.disableToolBarSearch = disableSearch
     }
     
     onActivated: { // from PageStack.qml
@@ -193,5 +218,10 @@ Item {
         onWindowActiveChanged: { // from Window.qml
 
         }
+
+        onSearch: appPage.search( needle )
+        onSearchExtended: appPage.searchExtended()
+        onSearchRetracted: appPage.searchRetracted()
+
     }
 }

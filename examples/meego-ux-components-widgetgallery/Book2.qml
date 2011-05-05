@@ -23,6 +23,12 @@ PageDummy {
 
     onClicked: { addPage( page2 ) }
 
+    onSearch: {}
+
+    onSearchExtended: {}
+
+    onSearchRetracted: {}
+
     Component{
         id: page2;
 

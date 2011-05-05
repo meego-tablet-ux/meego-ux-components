@@ -268,7 +268,10 @@ Item {
     property bool customActionMenu: false
     property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullScreen ) ? 0 : statusBar.height )
 
-    signal search(string needle)
+    signal searchExtended()
+    signal searchRetracted()
+    signal search( string needle )
+
     signal bookMenuTriggered( variant selectedItem )
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
@@ -401,6 +404,15 @@ Item {
                 //If search isn't shown, hide behind statusbar
                 anchors.top: clipBox.top
                 anchors.topMargin: offset // toolBar.showSearch ? 0 : -searchTitleBar.height
+
+                onShowSearchChanged: {
+                    if( showSearch ){
+                        window.searchExtended()
+                    }
+                    else{
+                        window.searchRetracted()
+                    }
+                }
 
                 Behavior on anchors.topMargin {
                     NumberAnimation{
@@ -590,10 +602,10 @@ Item {
 
                             anchors.fill: parent
                             onClicked: {
-                                if( customActionMenu ){
-                                    actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 3 )
-                                }
-                                else{
+
+                                actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 3 )
+
+                                if( !customActionMenu ){
                                     pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 3 )
                                     pageContextMenu.show()
                                 }

@@ -21,11 +21,16 @@ Window {
 
     Component.onCompleted: switchBook( gallery )
 
+//    overlayItem: Rectangle {  // this is a very simple example for overlayItem use.
+//        color: "green"
+//        anchors.fill: parent
+//        opacity: 0.5
+//    }
+
     Component { id: gallery; MainPage {} }
     Component { id: contextMenuBook; ContextMenuBook {} }
     Component { id: book2; Book2 {} }
     Component { id: book3; Book3 {} }
     Component { id: bottomBar; WidgetPageBottomBar {} }
     Component { id: fullScreenPage; WidgetPageFullScreen {} }
-//    Component { id: test; WidgetPageLayoutTextItem {} }
 }

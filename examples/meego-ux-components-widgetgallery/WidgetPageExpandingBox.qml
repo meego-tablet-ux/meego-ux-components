@@ -69,7 +69,7 @@ WidgetPage {
         ExpandingBox {
             id: ebox1
 
-            height: 0
+            height: 50
             width: 400
             titleText: "Expanding Box"
             titleTextColor: "black"
@@ -111,14 +111,14 @@ WidgetPage {
             titleText: "Dummy Box"
             titleTextColor: "black"
 
-            iconRow: [
-                Image {
-                    height: parent.height * 0.9
-                    anchors.verticalCenter: parent.verticalCenter
-                    fillMode: Image.PreserveAspectFit
-                    source: "image://theme/camera/camera_lens_sm_up"
-                }
-            ]
+//            iconRow: [
+//                Image {
+//                    height: parent.height * 0.9
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    fillMode: Image.PreserveAspectFit
+//                    source: "image://theme/camera/camera_lens_sm_up"
+//                }
+//            ]
 
             detailsComponent: demoComponent1
 

@@ -135,8 +135,16 @@
 
   \section1  Signals:
 
+  \qmlsignal searchExtended
+  \qmlcm Signal that fires when the searchbar is extending.
+
+  \qmlsignal searchRetracted
+  \qmlcm Signal that fires when the searchbar retracted.
+
   \qmlsignal search
    \qmlcm indicates that a search was started
+   \param string needle
+    \qmlpcm The text that was typed into the searchbar. This signal is sent for every key pressed. \endparam
 
   \qmlsignal actionMenuIconClicked
    \qmlcm provides the action menu context menu coordinate

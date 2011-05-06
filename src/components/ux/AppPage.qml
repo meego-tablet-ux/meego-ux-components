@@ -97,7 +97,7 @@
   \qmlsignal search
   \qmlcm is sent when a string was typed into the searchbar
         \param string needle
-        \qmlpcm The text that was typed in. \endparam
+        \qmlpcm The text that was typed into the searchbar. This signal is sent for every key pressed. \endparam
 
   \section2 Functions
   \qmlnone
@@ -194,6 +194,16 @@ Item {
 
     onActionMenuOpenChanged: {
         window.actionMenuPresent = actionMenuOpen
+    }
+
+    onActionMenuModelChanged: {
+        window.actionMenuModel = actionMenuModel
+    }
+    onActionMenuPayloadChanged: {
+        window.actionMenuPayload = actionMenuPayload
+    }
+    onActionMenuTitleChanged: {
+        window.actionMenuTitle = actionMenuTitle
     }
 
     Component.onCompleted: {

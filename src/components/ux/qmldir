@@ -14,14 +14,11 @@ ExpandingBox		0.1 ExpandingBox.qml
 IconButton              0.1 IconButton.qml
 Label			0.1 Label.qml
 LayoutTextItem          0.1 LayoutTextItem.qml
-MucMediaGridView        0.1 MucMediaGridView.qml
 ModalContextMenu        0.1 ModalContextMenu.qml
 ModalDialog 		0.1 ModalDialog.qml
 ModalFog 		0.1 ModalFog.qml
 ModalMessageBox         0.1 ModalMessageBox.qml
 ModalSpinner		0.1 ModalSpinner.qml
-MusicPicker 		0.1 MusicPicker.qml
-PhotoPicker 		0.1 PhotoPicker.qml
 PopupList               0.1 PopupList.qml
 ProgressBar             0.1 ProgressBar.qml
 RadioButton 		0.1 RadioButton.qml
@@ -36,7 +33,6 @@ TimePicker		0.1 TimePicker.qml
 ToggleButton 		0.1 ToggleButton.qml
 TopItem			0.1 TopItem.qml
 VerticalSlider		0.1 VerticalSlider.qml
-VideoPicker 		0.1 VideoPicker.qml
 Window 			0.1 Window.qml
 
 plugin                  meego-ux-components

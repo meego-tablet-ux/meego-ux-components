@@ -16,15 +16,12 @@ OTHER_FILES +=  qmldir \
                 IconButton.qml \
                 Label.qml \
                 LabelTextItem.qmnl \
-                MucMediaGridView.qml \
                 ModalFog.qml \
                 ContextMenu.qml \
                 ModalMessageBox.qml \
                 ModalDialog.qml \
-                MusicPicker.qml \
                 PageStack.js \
                 PageStack.qml \
-                PhotoPicker.qml \
                 pickerArray.js \
                 PopupList.qml \
                 ProgressBar.qml \
@@ -43,5 +40,4 @@ OTHER_FILES +=  qmldir \
                 TimePicker.qml \
                 TopItem.qml \
                 VerticalSlider.qml \
-                VideoPicker.qml \
                 Window.qml

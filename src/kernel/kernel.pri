@@ -14,9 +14,10 @@ SOURCES += \
            kernel/qmldebugtools.cpp \ 
            kernel/musicserviceproxy.cpp \
 	   kernel/scene.cpp \
-	   kernel/units_p.cpp \
+           kernel/units_p.cpp \
            kernel/units.cpp \
-           kernel/themereader.cpp
+           kernel/themereader.cpp \
+           kernel/contextproperty.cpp
 
 HEADERS += \
            kernel/fuzzydatetime.h \
@@ -34,5 +35,6 @@ HEADERS += \
 	   kernel/musicserviceproxy.h \
 	   kernel/scene.h \
 	   kernel/units_p.h \
-	   kernel/units.h \
-           kernel/themereader.h
+           kernel/units.h \
+           kernel/themereader.h \
+           kernel/contextproperty.h

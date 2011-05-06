@@ -34,12 +34,12 @@
 
   \qmlcm See the corresponding QML TextEdit property.
 
-  \qmlproperty alias textFocus
-  \qmlcm Provides access to the focus property of the TextEdit element.
-
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed
+
+  \qmlsignal cursorRectangleChanged
+  \qmlcm emitted when the cursor bounding box (position or size) has changed
 
   \section2 Functions
   \qmlnone
@@ -66,10 +66,10 @@ BorderImage {
     property alias readOnly:       edit.readOnly
     property alias text:           edit.text
     property alias textFormat:     edit.textFormat
-    property alias textFocus:  edit.focus
     property alias contentHeight:  flick.contentHeight
 
     signal textChanged
+    signal cursorRectangleChanged
 
     border.top: 6
     border.bottom: 6
@@ -81,6 +81,10 @@ BorderImage {
     clip: true
 
     opacity: readOnly ? 0.5 : 1.0
+
+    onFocusChanged: {
+        edit.focus = focus
+    }
 
     onHeightChanged: {
         if( flick.contentHeight <= flick.height ){
@@ -132,7 +136,10 @@ BorderImage {
             height: flick.height
 
             wrapMode: TextEdit.Wrap
-            onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
+            onCursorRectangleChanged: {
+                flick.ensureVisible(cursorRectangle)
+                container.cursorRectangleChanged()
+            }   
             font.pixelSize: theme.fontPixelSizeNormal
             Keys.forwardTo: container
 

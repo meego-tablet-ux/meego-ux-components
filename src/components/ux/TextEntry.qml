@@ -46,9 +46,6 @@
   \qmlproperty alias validator
   \qmlcm See the corresponding QML TextInput property
 
-  \qmlproperty alias textFocus
-  \qmlcm Provides access to the focus property of the TextInput element.
-
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed
@@ -88,7 +85,6 @@ BorderImage {
     property alias readOnly: input.readOnly
     property alias text: input.text
     property alias validator: input.validator
-    property alias textFocus: input.focus
 
     //TODO: remove this, it breaks encapsulation
     property alias textInput: input
@@ -112,6 +108,10 @@ BorderImage {
 
     Theme{ id: theme }
     
+    onFocusChanged: {
+        input.focus = focus
+    }
+
     TextInput {
         id: input
 

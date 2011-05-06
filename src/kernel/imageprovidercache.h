@@ -23,7 +23,7 @@ class ImageProviderCache : public QObject
     Q_OBJECT
 
 public:
-    explicit ImageProviderCache(  uint maxImages = 512 , uint sizeInMb = 32, QObject *parent = 0 );
+    explicit ImageProviderCache( const QString ThemeName, int maxImages = 512 , int sizeInMb = 32, QObject *parent = 0 );
     virtual ~ImageProviderCache();
 
     QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize = QSize() );
@@ -46,7 +46,9 @@ private:
 
     bool isResizedImageWorthCaching( const QString &id );
     void addImageToMemory( const QString &id, const QImage &image, const ImageReference &reference = ImageReference() );
-    void addPixMapToCache( const QString &id, const QPixmap &pixmap, const PixmapReference &reference = PixmapReference() );
+    void addPixmapToCache( const QString &id, const QPixmap &pixmap, const PixmapReference &reference = PixmapReference() );
+
+    void calcSizes();
 
     // ~~~~~~~ SharedMemory Handling
 
@@ -76,14 +78,20 @@ private:
     QList<ImageReference> m_imageTable;
     QList<PixmapReference> m_pixmapTable;
 
+    uint addCache( uint ref );
+
     uint m_lastUpdate;
     QString m_key;
-    uint m_size;
-    uint m_images;
+    int m_size;
+    int m_images;
 
     QImage m_emptyImage;
     QPixmap m_emptyPixmap;
     QString m_filename;
+
+    int streamMemoryInfoSize;
+    int streamImageReferenceSize;
+    int streamPixmapReferenceSize;
 
 };
 

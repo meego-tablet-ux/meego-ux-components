@@ -94,7 +94,7 @@
   \qmlfn show
   \qmlcm fades the picker in, inherited from ModalFog.
 
-  \qmlfn hide
+  \qmlfn hides
   \qmlcm fades the picker out, inherited from ModalFog.
 
   \section2 Example
@@ -155,33 +155,26 @@ ModalDialog {
 
     property string backButtonText: qsTr( "Back...")
 
-    property bool acceptBlocked: false
-
     onAccepted:{
-        if( !acceptBlocked ) {
-            acceptBlocked = true
 
-            if( selectSongs ) {
-                if( multiSelection ){
-                    multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris[0], selectedAlbumName, PickerArray.types )
+        if( selectSongs ) {
+            if( multiSelection ){
+                multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris[0], selectedAlbumName, PickerArray.types )
+            }else {
+                songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
+            }
+        } else if( musicPicker.showAlbums || musicPicker.showPlaylists ) {
+            if( PickerArray.titles.length > 0 && PickerArray.types.length > 0 ) {
+                if( multiSelection ) {
+                    multipleAlbumsOrPlaylistsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, PickerArray.types )
                 }else {
-                    songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
-                }
-            } else if( musicPicker.showAlbums || musicPicker.showPlaylists ) {
-                if( PickerArray.titles.length > 0 && PickerArray.types.length > 0 ) {
-                    if( multiSelection ) {
-                        multipleAlbumsOrPlaylistsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, PickerArray.types )
-                    }else {
-                        albumOrPlaylistSelected( PickerArray.titles[0], PickerArray.uris[0], PickerArray.thumbUris[0], PickerArray.types[0] )
-                    }
+                    albumOrPlaylistSelected( PickerArray.titles[0], PickerArray.uris[0], PickerArray.thumbUris[0], PickerArray.types[0] )
                 }
             }
         }
     } // onAccepted
 
     onShowCalled: {
-        acceptBlocked = false
-
         musicGridView.positionViewAtIndex( 0, GridView.Beginning )
 
         for( var i = 0; i < PickerArray.ids.length; i++ ) {
@@ -277,10 +270,10 @@ ModalDialog {
             }
         }
 
-        MucMediaGridView {
+        MediaGridView {
             id: musicGridView
 
-            // the MucMediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
+            // the MediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
             // the the number of columns and the width is then set to estimateColumnCount x cellWidth. Unfortunately, the pickers width is needed
             // for this, a value which can't be retrieved via parent.width. So the computation has to be in the picker.
 
@@ -289,8 +282,6 @@ ModalDialog {
             property string selectedItem: ""
 
             Component.onCompleted: { musicGridView.model = musicPicker.model }
-
-            defaultThumbnail: "image://themedimage/images/media/music_thumb_med"
 
             visible: !musicPicker.albumSelected
             opacity: (musicPicker.albumSelected) ? 0 : 1    // this forces a repaint
@@ -309,9 +300,11 @@ ModalDialog {
 
             onClicked: {
                 if( musicPicker.selectSongs ) {
+		  
                     selectedAlbumName = payload.mtitle;
                     selectedAlbumThumbUri = payload.mthumburi
-                    albumSelected = true;
+                    musicPicker.albumSelected = true;		
+		    
                 } else {
                     if( musicPicker.multiSelection ) {
                         var itemSelected = !model.isSelected( payload.mitemid ); //if the item was already selected, set itemSelected to false
@@ -344,7 +337,7 @@ ModalDialog {
                     buttonAccept.enabled = true //enable OK button
                 } //end !selectSongs
             } // onClicked
-        } // MucMediaGridView
+        } // MediaGridView
     } // Item
 
     showAcceptButton: false

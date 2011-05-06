@@ -26,6 +26,8 @@ MouseArea {
     // drag
     property bool currentlySelecting: false
 
+    property bool copyOnly: false
+
     // The mouse area needs to expand outside of the parent
     // so that the selection handles can be clicked when they
     // are in the gutter
@@ -151,7 +153,7 @@ MouseArea {
         id: clipboardContextMenu
 
         content: ActionMenu {
-            model: [qsTr ("Copy"), qsTr ("Cut"), qsTr ("Paste")]
+            model: box.copyOnly ? [qsTr ("Copy")] : [qsTr ("Copy"), qsTr ("Cut"), qsTr ("Paste")]
 
             onTriggered: {
                 editor.select ( box.selectionStart, box.selectionEnd);

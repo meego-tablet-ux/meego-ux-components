@@ -66,8 +66,10 @@ BorderImage {
     property alias readOnly:       edit.readOnly
     property alias text:           edit.text
     property alias textFormat:     edit.textFormat
-    property alias textFocus:  edit.focus
+    property alias textFocus:      edit.focus
     property alias contentHeight:  flick.contentHeight
+    property alias color:          edit.color
+
 
     signal textChanged
 
@@ -152,7 +154,8 @@ BorderImage {
             anchors.fill: edit
 
             font: edit.font
-            color: "slategrey"
+            color: edit.color
+            opacity: 0.6
             wrapMode: TextEdit.Wrap
 
             visible: ( edit.text == "" && !edit.focus ) ||( edit.text == "" && edit.readOnly )

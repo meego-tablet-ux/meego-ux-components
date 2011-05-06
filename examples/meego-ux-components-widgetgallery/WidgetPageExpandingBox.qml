@@ -36,6 +36,7 @@ WidgetPage {
 
             onTextUpdated: {
                 ebox1.height = value
+                ebox1.buttonHeight = value
             }
         },
         LabeledEntry {
@@ -68,7 +69,7 @@ WidgetPage {
         ExpandingBox {
             id: ebox1
 
-            height: 50
+            height: 0
             width: 400
             titleText: "Expanding Box"
             titleTextColor: "black"

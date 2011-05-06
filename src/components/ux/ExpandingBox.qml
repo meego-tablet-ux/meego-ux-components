@@ -107,7 +107,11 @@ Item {
 
     // if the expanded state changes, propagate the change via signal
     onExpandedChanged: {
-            expandingBox.expandingChanged( expanded );
+        if(expanded){
+            console.log("--- ", height)
+            buttonHeight = height
+        }
+        expandingBox.expandingChanged( expanded );
     }
 
     Theme { id: theme }
@@ -223,9 +227,14 @@ Item {
         }
     ]
 
+    property bool toast: true
+
+
+
     transitions: [
         Transition {
            SequentialAnimation {
+               onStarted:{ expandingBox.toast = false }
                 NumberAnimation {
                     properties: "height"
                     duration: 200
@@ -236,6 +245,7 @@ Item {
                     duration: 350
                     easing.type: Easing.OutCubic
                 }
+                onCompleted:{ expandingBox.toast = true}
             }
         }
     ]

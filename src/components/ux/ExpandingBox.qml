@@ -83,6 +83,7 @@ Item {
     property Component detailsComponent: null
     property Item detailsItem: null
     property alias iconRow: iconArea.children
+    property int buttonHeight
 
     signal expandingChanged( bool expanded )
 
@@ -97,6 +98,7 @@ Item {
 
     // if content has been set, destroy any old content and create the new one
     Component.onCompleted: {
+        buttonHeight = height
         if( detailsComponent ) {
             if ( detailsItem ) detailsItem.destroy();
             detailsItem = detailsComponent.createObject( boxDetailsArea )
@@ -132,7 +134,7 @@ Item {
             id: header
 
             // the header adapts its height to the height of the title and the button plus some space
-            height: expandingBox.height //20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height )
+            height: buttonHeight//expandingBox.height //20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height )
             width: parent.width
             anchors.top:  parent.top
 
@@ -188,6 +190,10 @@ Item {
 
             PropertyChanges {
                 target: pulldownImage
+                height: header.height + detailsItem.height + boxDetailsArea.itemMargins * 2
+            }
+            PropertyChanges {
+                target: expandingBox
                 height: header.height + detailsItem.height + boxDetailsArea.itemMargins * 2
             }
 

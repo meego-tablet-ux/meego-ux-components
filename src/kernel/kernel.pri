@@ -16,7 +16,7 @@ SOURCES += \
 	   kernel/scene.cpp \
 	   kernel/units_p.cpp \
            kernel/units.cpp \
-    kernel/themereader.cpp
+           kernel/themereader.cpp
 
 HEADERS += \
            kernel/fuzzydatetime.h \

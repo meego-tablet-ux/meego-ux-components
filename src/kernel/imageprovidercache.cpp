@@ -399,6 +399,8 @@ QPixmap ImageProviderCache::loadPixmapFromXServer( const QString &id, const QSiz
     return pixmap;
 }
 
+
+
 QImage ImageProviderCache::loadImageFromMemory( const QString& id, const QSize& size )
 {
     QImage image;
@@ -450,7 +452,6 @@ QImage ImageProviderCache::loadImageFromMemory( const QString& id, const QSize& 
     }
     return image;
 }
-
 void ImageProviderCache::readMemoryInfo()
 {
     if( m_bMemoryReady ) {
@@ -889,9 +890,9 @@ void ImageProviderCache::calcSizes()
     newSize = buffer.pos();
     streamImageReferenceSize = newSize - size;
 
-    //qDebug() << "size ofa MemoryInfo: " << streamMemoryInfoSize;
-    //qDebug() << "size of ImageReference: " << streamImageReferenceSize;
-    //qDebug() << "size of PixmapReference: " << streamPixmapReferenceSize;
+    qDebug() << "size ofa MemoryInfo: " << streamMemoryInfoSize;
+    qDebug() << "size of ImageReference: " << streamImageReferenceSize;
+    qDebug() << "size of PixmapReference: " << streamPixmapReferenceSize;
 
 }
 

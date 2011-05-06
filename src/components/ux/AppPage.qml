@@ -171,6 +171,10 @@ Item {
         window.actionMenuPresent = actionMenuOpen
     }
 
+    onBackButtonLockedChanged: {
+        window.backButtonLocked = backButtonLocked
+    }
+
     Component.onCompleted: {
         window.toolBarTitle = pageTitle
     }

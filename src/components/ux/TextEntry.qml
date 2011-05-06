@@ -85,6 +85,7 @@ BorderImage {
     property alias readOnly: input.readOnly
     property alias text: input.text
     property alias validator: input.validator
+    property alias color: input.color
 
     //TODO: remove this, it breaks encapsulation
     property alias textInput: input
@@ -147,7 +148,8 @@ BorderImage {
         anchors.verticalCenter: parent.verticalCenter
 
         font: input.font
-        color: "slategrey"
+        color: input.color
+        opacity: 0.6
 
         visible: ( input.text == ""  && !input.focus ) || ( input.text == "" && input.readOnly )
 

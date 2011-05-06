@@ -67,6 +67,8 @@ BorderImage {
     property alias text:           edit.text
     property alias textFormat:     edit.textFormat
     property alias contentHeight:  flick.contentHeight
+    property alias color:          edit.color
+
 
     signal textChanged
     signal cursorRectangleChanged
@@ -159,7 +161,8 @@ BorderImage {
             anchors.fill: edit
 
             font: edit.font
-            color: "slategrey"
+            color: edit.color
+            opacity: 0.6
             wrapMode: TextEdit.Wrap
 
             visible: ( edit.text == "" && !edit.focus ) ||( edit.text == "" && edit.readOnly )

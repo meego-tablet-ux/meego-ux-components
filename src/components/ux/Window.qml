@@ -487,7 +487,7 @@ Item {
                         id: backButton
 
                         anchors.left: parent.left
-                        source: if( backButtonMouseArea.pressed ) {
+                        source: if( backButtonMouseArea.pressed && !backButtonLocked ) {
                             "image://themedimage/images/icn_toolbar_back_button_dn"
                         } else {
                             "image://themedimage/images/icn_toolbar_back_button_up"

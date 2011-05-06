@@ -196,14 +196,21 @@ Item {
         window.actionMenuPresent = actionMenuOpen
     }
 
+
     onActionMenuModelChanged: {
         window.actionMenuModel = actionMenuModel
     }
+
     onActionMenuPayloadChanged: {
         window.actionMenuPayload = actionMenuPayload
     }
+
     onActionMenuTitleChanged: {
         window.actionMenuTitle = actionMenuTitle
+    }
+
+    onBackButtonLockedChanged: {
+        window.backButtonLocked = backButtonLocked
     }
 
     Component.onCompleted: {
@@ -232,6 +239,5 @@ Item {
         onSearch: appPage.search( needle )
         onSearchExtended: appPage.searchExtended()
         onSearchRetracted: appPage.searchRetracted()
-
     }
 }

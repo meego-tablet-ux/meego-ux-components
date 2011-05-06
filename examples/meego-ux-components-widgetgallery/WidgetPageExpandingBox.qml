@@ -57,15 +57,17 @@ WidgetPage {
     widget: Flickable {
 
         anchors.fill: parent
-        contentHeight: height > ebox1.height ? height : ebox1.height
-        contentWidth: width > ebox1.width ? width : ebox1.width
+        contentHeight: height > colBox.height ? height : colBox.height
+        contentWidth: width > colBox.width ? width : colBox.width
         clip: true
 
         Column{
+            id:colBox
+            anchors.centerIn: parent
+
         ExpandingBox {
             id: ebox1
 
-//            anchors.centerIn: parent
             height: 50
             width: 400
             titleText: "Expanding Box"
@@ -103,7 +105,6 @@ WidgetPage {
         ExpandingBox {
             id: ebox2
 
-//            anchors.top: ebox1.bottom
             width: 400
             height: 50
             titleText: "Dummy Box"

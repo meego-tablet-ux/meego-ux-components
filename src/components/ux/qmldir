@@ -8,7 +8,6 @@ CCPContextArea          0.1 CCPContextArea.qml
 CheckBox		0.1 CheckBox.qml
 ContactsPicker		0.1 ContactsPicker.qml
 ContextMenu             0.1 ContextMenu.qml
-DatePicker 		0.1 DatePicker.qml
 DropDown		0.1 DropDown.qml
 ExpandingBox		0.1 ExpandingBox.qml
 IconButton              0.1 IconButton.qml
@@ -29,7 +28,6 @@ StatusBar               0.1 StatusBar.qml
 TextEntry 		0.1 TextEntry.qml
 TextField 		0.1 TextField.qml
 Theme                   0.1 Theme.qml
-TimePicker		0.1 TimePicker.qml
 ToggleButton 		0.1 ToggleButton.qml
 TopItem			0.1 TopItem.qml
 VerticalSlider		0.1 VerticalSlider.qml

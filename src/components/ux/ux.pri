@@ -10,7 +10,6 @@ OTHER_FILES +=  qmldir \
                 CheckBox.qml \
                 CCpcontextArea.qml\
                 ContactsPicker.qml \
-                DatePicker.qml \
                 DropDown.qml \
                 ExpandingBox.qml \
                 IconButton.qml \
@@ -37,7 +36,6 @@ OTHER_FILES +=  qmldir \
                 TextField.qml \
                 ToggleButton.qml \
                 Theme.qml \
-                TimePicker.qml \
                 TopItem.qml \
                 VerticalSlider.qml \
                 Window.qml

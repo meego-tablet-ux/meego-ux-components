@@ -11,15 +11,6 @@
 #include "plugin.h"
 
 #include "kernel/scene.h"
-#include "kernel/musicserviceproxy.h"
-
-#include "components/volumecontrol.h"
-#include "components/batteryindicator.h"
-#include "components/bluetoothindicator.h"
-#include "components/networkindicator.h"
-#include "components/notificationindicator.h"
-#include "components/musicindicator.h"
-#include "components/localtime.h"
 
 #include "kernel/systemiconprovider.h"
 #include "kernel/windowiconprovider.h"
@@ -52,15 +43,6 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scene>(uri, 0,1,"Scene");
     qmlRegisterType<Units>(uri, 0,1, "UnitsProvider");
     qmlRegisterType<QMLContextProperty>(uri, 0,1, "ContextProperty");
-    // Components
-    qmlRegisterType<VolumeControl>(uri, 0,1,"VolumeControl");
-    qmlRegisterType<LocalTime>(uri, 0,1, "LocalTime");
-    qmlRegisterType<NotificationIndicator>(uri, 0, 1, "NotificationIndicator");
-    qmlRegisterType<BluetoothIndicator>(uri, 0, 1, "BluetoothIndicator");
-    qmlRegisterType<NetworkIndicator>(uri, 0, 1, "NetworkIndicator");
-    qmlRegisterType<BatteryIndicator>(uri, 0, 1, "BatteryIndicator");
-    qmlRegisterType<MusicIndicator>(uri, 0, 1, "MusicIndicator");
-
 }
 void MeeGoUxComponentsPlugin::initializeEngine(QDeclarativeEngine *engine, const char *uri)
 {

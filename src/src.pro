@@ -4,7 +4,6 @@ TARGET = meego-ux-components
 
 include(kernel/kernel.pri)
 include(models/models.pri)
-include(components/components.pri)
 include(components/ux/ux.pri)
 include(units/units.pri)
 

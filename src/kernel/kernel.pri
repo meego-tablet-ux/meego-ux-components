@@ -13,8 +13,6 @@ SOURCES += \
            kernel/windowlistener.cpp \
            kernel/qmldebugtools.cpp \ 
 	   kernel/scene.cpp \
-           kernel/units_p.cpp \
-           kernel/units.cpp \
            kernel/themereader.cpp \
            kernel/contextproperty.cpp
 
@@ -32,7 +30,5 @@ HEADERS += \
            kernel/windowlistener.h \
            kernel/qmldebugtools.h \
 	   kernel/scene.h \
-	   kernel/units_p.h \
-           kernel/units.h \
            kernel/themereader.h \
            kernel/contextproperty.h

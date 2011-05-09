@@ -18,7 +18,6 @@
 #include "kernel/qmldebugtools.h"
 #include "kernel/fuzzydatetime.h"
 #include "kernel/translator.h"
-#include "kernel/units.h"
 #include "kernel/contextproperty.h"
 
 #include "models/devicemodel.h"
@@ -41,7 +40,6 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<devicemodel>(uri, 0,1,"UDiskDeviceModel");
     qmlRegisterType<ImageExtension>(uri, 0,1,"ImageExtension");
     qmlRegisterType<Scene>(uri, 0,1,"Scene");
-    qmlRegisterType<Units>(uri, 0,1, "UnitsProvider");
     qmlRegisterType<QMLContextProperty>(uri, 0,1, "ContextProperty");
 }
 void MeeGoUxComponentsPlugin::initializeEngine(QDeclarativeEngine *engine, const char *uri)

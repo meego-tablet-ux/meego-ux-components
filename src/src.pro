@@ -5,7 +5,6 @@ TARGET = meego-ux-components
 include(kernel/kernel.pri)
 include(models/models.pri)
 include(components/ux/ux.pri)
-include(units/units.pri)
 
 QT += declarative \
       network \

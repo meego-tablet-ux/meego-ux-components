@@ -786,6 +786,8 @@ Item {
             isActiveWindow = foreground
             qApp.orientationLocked = scene.orientationLocked
             windowFocusChanged( isActiveWindow )
+            statusBar.active = foreground
+            console.log(" ----- " + foreground)
 
             if( isActiveWindow ) {
                 scene.orientation = qApp.orientation;

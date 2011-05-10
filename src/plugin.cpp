@@ -16,7 +16,6 @@
 #include "kernel/windowiconprovider.h"
 #include "kernel/themeimageprovider.h"
 #include "kernel/qmldebugtools.h"
-#include "kernel/fuzzydatetime.h"
 #include "kernel/translator.h"
 #include "kernel/contextproperty.h"
 
@@ -36,7 +35,6 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     // Kernel
     qmlRegisterType<Translator>(uri, 0,1,"Translator");
     qmlRegisterType<QmlDebugTools>(uri, 0,1, "QmlDebugTools");
-    qmlRegisterType<FuzzyDateTime>(uri, 0,1, "FuzzyDateTime");
     qmlRegisterType<devicemodel>(uri, 0,1,"UDiskDeviceModel");
     qmlRegisterType<ImageExtension>(uri, 0,1,"ImageExtension");
     qmlRegisterType<Scene>(uri, 0,1,"Scene");

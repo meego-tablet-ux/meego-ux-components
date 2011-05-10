@@ -1,7 +1,6 @@
 INCLUDEPATH += kernel/
 
 SOURCES += \
-           kernel/fuzzydatetime.cpp \
            kernel/systemiconprovider.cpp \
            kernel/themeimageprovider.cpp \
            kernel/imagereference.cpp \
@@ -17,7 +16,6 @@ SOURCES += \
            kernel/contextproperty.cpp
 
 HEADERS += \
-           kernel/fuzzydatetime.h \
            kernel/systemiconprovider.h \
            kernel/themeimageprovider.h \
            kernel/imagereference.h \

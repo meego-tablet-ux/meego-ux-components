@@ -21,7 +21,9 @@ PageDummy {
     buttonLabel: "Page 2"
     pageTitle: "Dummy book 3"
 
-    onClicked: { addPage( page2 ) }
+    onClicked: {
+        addPage( page2 )
+    }
 
     Component{
         id: page2;
@@ -81,7 +83,6 @@ PageDummy {
             innerText: "book 3, page 5"
             rectColor: "slategrey"
             pageTitle: "book 3, page 5"
-            fullScreen: true
             showButton: true
              buttonLabel: "Page 6"
 
@@ -98,8 +99,6 @@ PageDummy {
             innerText: "book 3, page 6"
             rectColor: "slategrey"
             pageTitle: "book 3, page 6"
-            fullScreen: true
-            fullContent: true
             showButton: true
             buttonLabel: "back"
 

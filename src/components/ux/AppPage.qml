@@ -42,6 +42,11 @@
   \qmlproperty bool backButtonLocked
   \qmlcm set to true to lock the backButton
 
+  \qmlproperty bool fastPageSwitch
+  \qmlcm if true, allows multiple addPage and popPage. If false, addPage
+         and popPage calls are ignored while the page switch animation is
+         busy. Default is false.
+
   \qmlproperty string actionMenuTitle
   \qmlcm holds the title of the actionMenu
 
@@ -55,6 +60,9 @@
  "invertedPortrait"
  Every other value will unlock the orientation. Default is "".
  \endqml
+
+    property bool allowActionMenuSignal: true
+    property bool fastPageSwitch: false
 
   \section2 Signals
 
@@ -126,6 +134,7 @@ Item {
     property bool backButtonLocked: false
     property bool enableCustomActionMenu: false
     property bool allowActionMenuSignal: true
+    property bool fastPageSwitch: false
 
     property string lockOrientationIn: "" // FixMe: strings right now. Should be: enum of qApp
 
@@ -158,6 +167,10 @@ Item {
 
     onDeactivating: { // from PageStack.qml
         allowActionMenuSignal = false
+    }
+
+    onFastPageSwitchChanged: {
+        window.fastPageSwitch = fastPageSwitch
     }
 
     onFullScreenChanged: {

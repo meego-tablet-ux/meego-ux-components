@@ -268,6 +268,8 @@ Item {
     property bool customActionMenu: false
     property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullScreen ) ? 0 : statusBar.height )
 
+    property bool fastPageSwitch: false
+
     signal search(string needle)
     signal bookMenuTriggered( variant selectedItem )
     signal actionMenuTriggered( variant selectedItem )
@@ -296,12 +298,12 @@ Item {
 
     //adds a new page of a "book"
     function addPage( pageComponent ) {
-        if( !pageStack.busy ){ pageStack.push( pageComponent ) }//add the new page
+        if( !pageStack.busy || fastPageSwitch ){ pageStack.push( pageComponent ) }//add the new page
     }
 
     // pop the current Page from the stack
     function popPage() {
-        if( !pageStack.busy ){ pageStack.pop() }// pops the page
+        if( !pageStack.busy || fastPageSwitch ){ pageStack.pop() }// pops the page
     }
 
     width: { try { screenWidth; } catch (err) { 1024; } }

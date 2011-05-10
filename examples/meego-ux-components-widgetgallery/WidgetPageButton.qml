@@ -170,7 +170,7 @@ WidgetPage {
             active: activeBox.isChecked
             enabled: enabledBox.isChecked
 
-            onPressedChanged: { 
+            onPressedChanged: {
                 if( pressed ) { 
                     statusEntry.value = qsTr("pressed") 
                 } else { 

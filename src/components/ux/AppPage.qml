@@ -142,7 +142,7 @@ Item {
     property bool fullContent: false
     property bool backButtonLocked: false
     property bool enableCustomActionMenu: false
-    property bool allowActionMenuSignal: true
+    property bool allowActionMenuSignal: false
     property bool showSearch: false
     property bool disableSearch: false
 
@@ -224,7 +224,7 @@ Item {
         }
 
         onActionMenuIconClicked: {
-            if( appPage.allowActionMenuSignal == true )
+            if( appPage.allowActionMenuSignal || appPage.enableCustomActionMenu )
                 actionMenuIconClicked( mouseX, mouseY )
         }
 

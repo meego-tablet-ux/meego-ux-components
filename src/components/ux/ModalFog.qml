@@ -48,6 +48,9 @@
   \qmlcm notifies the children that the ModalFog is about to show up
 
   \qmlsignal fogHideFinished
+  \qmlcm DEPRECATED: notifies the children that the ModalFog is hidden
+
+  \qmlsignal closed
   \qmlcm notifies the children that the ModalFog is hidden
 
   \section2  Functions
@@ -82,6 +85,7 @@ Item {
     signal accepted
     signal showCalled
     signal fogHideFinished
+    signal closed
 
     function show(){
         showCalled()
@@ -182,6 +186,7 @@ Item {
         onCompleted: {
             visible = false
             fogContainer.fogHideFinished()
+            fogContainer.closed()
         }
     }
 

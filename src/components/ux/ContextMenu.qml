@@ -131,6 +131,10 @@ ModalFog {
     modalSurface: Item {
         id: menuContainer
 
+        onHeightChanged: {
+            rescale()
+        }
+
         /* Menu Container
          * This is the actual contextmenu.
          *

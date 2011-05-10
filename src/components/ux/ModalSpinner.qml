@@ -55,7 +55,7 @@ ModalFog {
         continuousSpinning: true
     }
 
-    onFogHideFinished: { spinnerTimer.running = false }
+    onClosed: { spinnerTimer.running = false }
 
     onShowCalled: { spinnerTimer.running = true }
 }

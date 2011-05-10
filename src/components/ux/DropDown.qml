@@ -235,7 +235,7 @@ Item {
                 }
             }
 
-            onFogHideFinished: {
+            onClosed: {
                 dropDown.opened = false
             }
         }    

@@ -20,14 +20,11 @@
 #include "kernel/contextproperty.h"
 
 #include "models/devicemodel.h"
-#include "models/librarymodel.h"
-#include "models/browserlistmodel.h"
 #include "models/imageextension.h"
 
 #include "kernel/windowlistener.h"
 #include "kernel/windowinfo.h"
 #include "kernel/windowelement.h"
-#include "models/windowmodel.h"
 
 void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
 {

@@ -19,9 +19,6 @@
 #include "kernel/translator.h"
 #include "kernel/contextproperty.h"
 
-#include "models/devicemodel.h"
-#include "models/imageextension.h"
-
 #include "kernel/windowlistener.h"
 #include "kernel/windowinfo.h"
 #include "kernel/windowelement.h"
@@ -32,8 +29,6 @@ void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
     // Kernel
     qmlRegisterType<Translator>(uri, 0,1,"Translator");
     qmlRegisterType<QmlDebugTools>(uri, 0,1, "QmlDebugTools");
-    qmlRegisterType<devicemodel>(uri, 0,1,"UDiskDeviceModel");
-    qmlRegisterType<ImageExtension>(uri, 0,1,"ImageExtension");
     qmlRegisterType<Scene>(uri, 0,1,"Scene");
     qmlRegisterType<QMLContextProperty>(uri, 0,1, "ContextProperty");
 }

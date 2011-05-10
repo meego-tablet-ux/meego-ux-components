@@ -3,7 +3,6 @@ MOBILITY = publishsubscribe
 TARGET = meego-ux-components
 
 include(kernel/kernel.pri)
-include(models/models.pri)
 include(components/ux/ux.pri)
 
 QT += declarative \

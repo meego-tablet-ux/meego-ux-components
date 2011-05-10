@@ -5,6 +5,9 @@
  * LGPL, version 2.1.  The full text of the LGPL Licence is at
  * http://www.gnu.org/licenses/lgpl.html
  */
+
+#include <QtDeclarative>
+
 #include "plugin.h"
 
 #include "kernel/scene.h"
@@ -36,8 +39,6 @@
 #include "kernel/windowinfo.h"
 #include "kernel/windowelement.h"
 #include "models/windowmodel.h"
-
-#include <QtDeclarative/qdeclarative.h>
 
 void MeeGoUxComponentsPlugin::registerTypes(const char *uri)
 {

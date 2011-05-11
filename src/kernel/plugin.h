@@ -6,13 +6,12 @@
  * http://www.gnu.org/licenses/lgpl.html
  */
 
-#ifndef COMPONENTS_H
-#define COMPONENTS_H
+#ifndef PLUGIN_H
+#define PLUGIN_H
 
 #include <QDeclarativeExtensionPlugin>
-#include <QDeclarativeEngine>
 
-class MeeGoUxComponentsPlugin : public QDeclarativeExtensionPlugin
+class MeeGoUxKernelPlugin : public QDeclarativeExtensionPlugin
 {
     Q_OBJECT
 
@@ -21,4 +20,4 @@ public:
     void initializeEngine(QDeclarativeEngine *engine, const char *uri);
 };
 
-#endif // COMPONENTS_H
+#endif // PLUGIN_H

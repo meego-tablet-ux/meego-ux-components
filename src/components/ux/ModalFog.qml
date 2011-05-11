@@ -69,7 +69,7 @@ import Qt 4.7
 import MeeGo.Components 0.1
 
 Item {
-    id : fogContainer
+    id: fogContainer
 
     // API
     property alias modalSurface : modalSurface.children
@@ -102,14 +102,16 @@ Item {
     // this updates the top most item on visibility change
     onVisibleChanged: {
         if (targetContainer != null) {
-            fogContainer.parent = targetContainer;
+            // order is extremely important! 1.fog 2.container!
             fog.parent = targetContainer;
-            mouseArea.parent = targetContainer;
+            fogContainer.parent = targetContainer;
         } else {
             topItem.calcTopParent()     // force an update to get the current top most item
-            fogContainer.parent = topItem.topItem;
+            // order is extremely important! 1.fog 2.container!
             fog.parent = topItem.topItem;
-            mouseArea.parent = topItem.topItem;
+            fogContainer.parent = topItem.topItem;
+
+//            mouseArea.parent = topItem.topItem;
         }
         // Note: We want to enable setting the size of dialogs with width and height,
         // but that will change the fogContainers size as well. So fog had to be
@@ -117,7 +119,7 @@ Item {
     }
 
     anchors.centerIn: autoCenter? parent : undefined
-    z: 100
+    z: 0
 
     visible: false
     opacity:  0
@@ -126,32 +128,37 @@ Item {
 
     Theme { id: theme }
 
-    Rectangle {
-        id: fog
+    Item {
+           id: fog
+           anchors.fill: parent
+           visible: fogContainer.visible
 
-        property bool closeOnFogClick: true
+        Rectangle {
+            id: grey
+            property bool closeOnFogClick: true
 
-        anchors.fill: parent
-        color: theme.dialogFogColor
+            anchors.fill: parent
+            color: theme.dialogFogColor
 
-        // these fogContainer properties ensure the fog behaves like a true child.
-        opacity: 0.5 * fogContainer.opacity
-        visible: fogMaskVisible ? fogContainer.visible : false
-    }
+            // to have the same fading as the fogContainer
+            opacity: 0.5 * fogContainer.opacity
+            visible: fogMaskVisible
+        }
 
-    MouseArea {
-        id: mouseArea
+        MouseArea {
+            id: mouseArea
 
-        anchors.fill: parent
-        visible: fogContainer.visible
-
-        onClicked: {
-            if(fogClickable){
-                fogContainer.hide()
-                fogContainer.rejected()
+            onClicked: {
+                if(fogContainer.fogClickable){
+                    fogContainer.hide()
+                    fogContainer.rejected()
+                }
             }
+
+            anchors.fill: parent
         }
     }
+
 
     // this item only sets up an orientation point for the content.
     // if autoCenter is off, origin is up left, otherwise it's centered.

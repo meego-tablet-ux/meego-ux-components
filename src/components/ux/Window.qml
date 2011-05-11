@@ -10,8 +10,6 @@
 \qmlclass Window
  \title Window
  \section1 Window
- This component provides the main window for an meegoUx-components application.
-
  This file provides the main window for an meego-ux-components based application.
  The navigation structure is intended as follows:
 
@@ -55,12 +53,6 @@
 
  \qmlproperty variant bookMenuPayload
  \qmlcm string list that sets the filenames for the books (their initial pages).
-
- \qmlproperty alias actionMenuModel
- \qmlcm string list that sets the menu entry labels for the actionMenu.
-
- \qmlproperty actionMenuPayload
- \qmlcm variant, sets payload for the actionMenu.
 
  \qmlproperty fullScreen
  \qmlcm bool, hides the statusbar if true.

@@ -108,7 +108,11 @@
         \qmlpcm The text that was typed into the searchbar. This signal is sent for every key pressed. \endparam
 
   \section2 Functions
-  \qmlnone
+  \qmlfn addPage
+  \qmlcm adds a page to the page stack and sets it as the current page. This
+  function is defined in Window.qml.
+           \param  AppPage pageComponent
+           \qmlpcm page which sould be added \endparam
 
   \section2 Example
   \qml
@@ -171,10 +175,13 @@ Item {
 
     anchors.fill:  parent
 
+    TopItem{ id: top }
+
     onActivating: { // from PageStack.qml
         window.fullScreen = fullScreen
         window.fullContent = fullContent
         window.toolBarTitle = pageTitle
+
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
         window.backButtonLocked = backButtonLocked
         window.lockOrientationIn = lockOrientationIn

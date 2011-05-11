@@ -157,7 +157,7 @@ Image {
         Image {
             id: imageOn
 
-            source: "toggle_on.png"
+            source: "images/toggle_on.png"
             anchors.centerIn: parent
             visible: itemOn.showIcons
         }
@@ -184,7 +184,7 @@ Image {
         Image {
             id: imageOff
 
-            source: "toggle_off.png"
+            source: "images/toggle_off.png"
             anchors.centerIn: parent
             visible: itemOn.showIcons
         }

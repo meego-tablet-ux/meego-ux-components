@@ -188,6 +188,7 @@ MouseArea {
         id: selectionHandleSurface
 
         editor: parent
+        z: 1
 
         onClose: {
             parent.state = "";

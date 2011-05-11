@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-SUBDIRS += datetime \
+SUBDIRS += common \
+        datetime \
         indicators \
         media

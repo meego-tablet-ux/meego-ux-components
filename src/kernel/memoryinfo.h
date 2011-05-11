@@ -5,6 +5,9 @@
 
 using namespace std;
 
+/* \class MemoryINfo
+   this data class handles the
+ */
 class MemoryInfo
 {
 public:
@@ -42,6 +45,11 @@ public:
         lastUpdate = lastUpdate % 150000;
         return lastUpdate;
 
+    }
+
+    inline uint calcPos( uint relativePosition )
+    {
+        return cacheBegin + relativePosition;
     }
 
     inline void saveToStream( QDataStream& dataStream )

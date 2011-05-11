@@ -15,6 +15,9 @@
 
 using namespace std;
 
+/*! \class PixmapReference
+ *  this data class is used to store the relevant pixmap data into the shared memory
+ */
 class PixmapReference
 {
 public:
@@ -29,7 +32,8 @@ public:
         width = 0;
         pixMapHandle = 0;
         refCount = 0;
-
+        memoryPosition = 0;
+        memorySize = 0;
         for( int i = 0; i < WCHARLENGTH; i++ )
             wurl[i] = '\0';
 
@@ -44,6 +48,8 @@ public:
         borderRight = other.borderRight;
         borderBottom = other.borderBottom;
         pixMapHandle = other.pixMapHandle;
+        memoryPosition = other.memoryPosition;
+        memorySize = other.memorySize;
     }
     ~PixmapReference()
     {
@@ -61,6 +67,8 @@ public:
         dataStream << borderLeft;
         dataStream << borderRight;
         dataStream << pixMapHandle;
+        dataStream << memoryPosition;
+        dataStream << memorySize;
 
     }
     inline void loadFromStream( QDataStream& dataStream)
@@ -74,6 +82,8 @@ public:
         dataStream >> borderLeft;
         dataStream >> borderRight;
         dataStream >> pixMapHandle;
+        dataStream >> memoryPosition;
+        dataStream >> memorySize;
     }
     inline bool equal( PixmapReference& other )
     {
@@ -110,7 +120,6 @@ public:
 
         if( wurl == 0 )
             return QString();
-
         return QString::fromWCharArray( wurl );
     }
 
@@ -122,9 +131,15 @@ public:
     uint borderTop;
     uint borderRight;
     uint borderBottom;
+    uint memoryPosition;
+    uint memorySize;
     quint64 pixMapHandle;
 };
 
+/*! \class ImageReference
+ *  this data class is used to store the relevant image data into the shared memory
+ *  the reference to the image is done by casting into the memory.
+ */
 class ImageReference
 {
 public:

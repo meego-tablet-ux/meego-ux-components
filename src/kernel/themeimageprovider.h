@@ -12,6 +12,7 @@ public:
     ThemeImageProvider();
     ~ThemeImageProvider();
 
+    QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize);
     QPixmap requestPixmap( const QString &id, QSize *size, const QSize &requestedSize);
 
 private:

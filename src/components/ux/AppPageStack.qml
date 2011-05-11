@@ -47,8 +47,8 @@
 
     \qmlfn pop
     \qmlcm pushes a page to the stack
-      \param Item pageStack
-      \qmlpcm the AppPage to push \endparam
+      \param int deep: default 1
+      \qmlpcm  \endparam
 
     \qmlfn replace
     \qmlcm replace the current stack
@@ -103,8 +103,8 @@ Item {
         }
     }
     
-    // Component for page slots.
-    Component {
+   
+    Component {  // Component for page slots.
         id: slotComponent
 
         Item {
@@ -115,6 +115,11 @@ Item {
 
             property int transitionDuration: 350
             property bool busy: false
+
+            width: parent ? parent.width : 0
+            height: parent ? parent.height : 0
+
+            state: "hidden"
 
             function pushEnter(replace, immediate) {
                 if (!immediate) {
@@ -151,7 +156,6 @@ Item {
                 }
             }
 
-            // Performs a pop exit transition.
             function popExit( immediate ) {
                 state = immediate ? "hidden" : "right";
                 if ( appPageStack.visible && immediate ) {
@@ -161,7 +165,6 @@ Item {
                 slot.destroy( immediate ? 0 : transitionDuration + 100 );
             }
             
-            // Called when a transition has started.
             function transitionStarted() {
                 busy = true;
                 if ( appPageStack.visible ) {
@@ -169,7 +172,6 @@ Item {
                 }
             }
             
-            // Called when a transition has ended.
             function transitionEnded() {
                 busy = false;
                 if ( appPageStack.visible ) {
@@ -180,79 +182,6 @@ Item {
                 }
             }
 
-            width: parent ? parent.width : 0
-            height: parent ? parent.height : 0
-
-            state: "hidden"
-
-            states: [
-                // Start state for pop entry, end state for push exit.
-                State {
-                    name: "left"
-                    PropertyChanges { target: slot; x: -width }
-                },
-                // Start state for push entry, end state for pop exit.
-                State {
-                    name: "right"
-                    PropertyChanges { target: slot; x: width }
-                },
-                // Start state for replace entry.
-                State {
-                    name: "front"
-                    PropertyChanges { target: slot; scale: 1.5; opacity: 0.0 }
-                },
-                // End state for replace exit.
-                State {
-                    name: "back"
-                    PropertyChanges { target: slot; scale: 0.5; opacity: 0.0 }
-                },
-                // Inactive state.
-                State {
-                    name: "hidden"
-                    PropertyChanges { target: slot; visible: false }
-                }
-            ]
-
-            transitions: [
-                // Pop entry and push exit transition.
-                Transition {
-                    from: ""; to: "left"; reversible: true
-                    SequentialAnimation {
-                        ScriptAction { script: if ( state == "left" ) { transitionStarted(); } else { transitionEnded(); } }
-                        PropertyAnimation { properties: "x"; easing.type: Easing.InOutExpo; duration: transitionDuration }
-                        ScriptAction { script: if ( state == "left" ) { transitionEnded(); } else { transitionStarted(); } }
-                    }
-                },
-                // Push entry and pop exit transition.
-                Transition {
-                    from: ""; to: "right"; reversible: true
-                    SequentialAnimation {
-                        ScriptAction { script: if ( state == "right" ) { transitionStarted(); } else { transitionEnded(); } }
-                        PropertyAnimation { properties: "x"; easing.type: Easing.InOutExpo; duration: transitionDuration }
-                        ScriptAction { script: if ( state == "right" ) { transitionEnded(); } else { transitionStarted(); } }
-                    }
-                },
-                // Replace entry transition.
-                Transition {
-                    from: "front"; to: "";
-                    SequentialAnimation {
-                        ScriptAction { script: transitionStarted(); }
-                        PropertyAnimation { properties: "scale,opacity"; easing.type: Easing.InOutExpo; duration: transitionDuration }
-                        ScriptAction { script: transitionEnded(); }
-                    }
-                },
-                // Replace exit transition.
-                Transition {
-                    from: ""; to: "back";
-                    SequentialAnimation {
-                        ScriptAction { script: transitionStarted(); }
-                        PropertyAnimation { properties: "scale,opacity"; easing.type: Easing.InOutExpo; duration: transitionDuration }
-                        ScriptAction { script: transitionEnded(); }
-                   }
-                }
-            ]
-
-            // Cleans up the slot.
             function cleanup() {
                 if ( page != null ) {
                     if ( state == "" ) {
@@ -270,26 +199,87 @@ Item {
                     page = null;
                 }
             }
-            // Called when the slot gets destroyed.
-            Component.onDestruction: {
-                cleanup();
-            }
+  
+            states: [
+          
+                State { // Start state for pop entry, end state for push exit.
+                    name: "left"
+                    PropertyChanges { target: slot; x: -width }
+                },                
+                State { // Start state for push entry, end state for pop exit.
+                    name: "right"
+                    PropertyChanges { target: slot; x: width }
+                },                
+                State { // Start state for replace entry.
+                    name: "front"
+                    PropertyChanges { target: slot; scale: 1.5; opacity: 0.0 }
+                },                
+                State {	// End state for replace exit.
+                    name: "back"
+                    PropertyChanges { target: slot; scale: 0.5; opacity: 0.0 }
+                },                
+                State { // Inactive state.
+                    name: "hidden"
+                    PropertyChanges { target: slot; visible: false }
+                }
+            ]
+
+            transitions: [
+                
+                Transition { // Pop entry and push exit transition.
+                    from: ""; to: "left"; reversible: true
+                    SequentialAnimation {
+                        ScriptAction { script: if ( state == "left" ) { transitionStarted(); } else { transitionEnded(); } }
+                        PropertyAnimation { properties: "x"; easing.type: Easing.InOutExpo; duration: transitionDuration }
+                        ScriptAction { script: if ( state == "left" ) { transitionEnded(); } else { transitionStarted(); } }
+                    }
+                },                
+                Transition { // Push entry and pop exit transition.
+                    from: ""; to: "right"; reversible: true
+                    SequentialAnimation {
+                        ScriptAction { script: if ( state == "right" ) { transitionStarted(); } else { transitionEnded(); } }
+                        PropertyAnimation { properties: "x"; easing.type: Easing.InOutExpo; duration: transitionDuration }
+                        ScriptAction { script: if ( state == "right" ) { transitionEnded(); } else { transitionStarted(); } }
+                    }
+                },                
+                Transition { // Replace entry transition.
+                    from: "front"; to: "";
+                    SequentialAnimation {
+                        ScriptAction { script: transitionStarted(); }
+                        PropertyAnimation { properties: "scale,opacity"; easing.type: Easing.InOutExpo; duration: transitionDuration }
+                        ScriptAction { script: transitionEnded(); }
+                    }
+                },                
+                Transition { // Replace exit transition.
+                    from: ""; to: "back";
+                    SequentialAnimation {
+                        ScriptAction { script: transitionStarted(); }
+                        PropertyAnimation { properties: "scale,opacity"; easing.type: Easing.InOutExpo; duration: transitionDuration }
+                        ScriptAction { script: transitionEnded(); }
+                   }
+                }
+            ]
         }
+	Component.onDestruction: {
+	  cleanup();
+	}      
     }
 
     Item {
       id: stack
 
-      var pageStack = [];
+      property variant pageStack: undefined
 
       function getDepth() {
 	  return pageStack.length;
       }
+            
       function emitPageStateChange( page, signal ) {
           if ( page[signal] ) {
 	      page[signal]();
 	  }
       }
+      
       function push( page, replace, immediate ) {
 	  var pages;
           if ( page instanceof Array ) {
@@ -343,6 +333,40 @@ Item {
 	      page.parent = slot;
 	  }
 	  return slot;
+      }
+
+      function popPages( pages, immediate ) {
+	
+	if ( pageStack.length > pages ) {
+	
+		var oldSlot = pageStack.pop();
+		var slot = pageStack[pageStack.length - 1];
+		if (page) {
+                    while ( slot.page != page && pageStack.length > 1 ) {
+			slot.cleanup();
+			slot.destroy();
+			pageStack.pop();
+                        slot = pageStack[ pageStack.length - 1 ];
+		    }
+		}
+
+		depth = pageStack.length;
+		currentPage = slot.page;
+
+		oldSlot.popExit(immediate);
+		slot.popEnter(immediate);
+
+		var tools = slot.page.tools || null;
+		if (toolBar) {
+                    toolBar.setTools( tools, immediate ? "set" : "pop" );
+		}
+
+		return oldSlot.page;
+	    } else {
+		return null;
+	    }
+	}
+	
       }
 
       function pop(page, immediate) {

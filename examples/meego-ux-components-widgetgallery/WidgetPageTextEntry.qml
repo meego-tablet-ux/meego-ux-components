@@ -32,6 +32,19 @@ WidgetPage {
         },
 
         LabeledEntry {
+            id: textEntry
+
+            label:  "Text: "
+            defaultValue: button.width
+
+            onTextUpdated: {
+//                if( value >= 0 ){
+                    button.text = value
+//                }
+            }
+        },
+
+        LabeledEntry {
             id: heightEntry
 
             label:  "height: "

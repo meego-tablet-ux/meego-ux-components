@@ -44,7 +44,7 @@
   \section2 Signals
   \qmlfn triggered
   \qmlcm returns the index of the clicked entry.
-        \param int parameter
+        \param int index
         \qmlpcm index of the currentItem. \endparam
 
   \section2 Functions

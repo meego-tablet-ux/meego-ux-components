@@ -15,11 +15,15 @@
 
 using namespace std;
 
+/*! \class PixmapReference
+ *  this data class is used to store the relevant pixmap data into the shared memory
+ */
 class PixmapReference
 {
 public:
 
     PixmapReference() {
+
         borderBottom = 0;
         borderLeft = 0;
         borderRight = 0;
@@ -28,9 +32,11 @@ public:
         width = 0;
         pixMapHandle = 0;
         refCount = 0;
-
+        memoryPosition = 0;
+        memorySize = 0;
         for( int i = 0; i < WCHARLENGTH; i++ )
             wurl[i] = '\0';
+
     }
     PixmapReference( const PixmapReference& other ) {
         wcscpy( wurl, other.wurl );
@@ -42,6 +48,8 @@ public:
         borderRight = other.borderRight;
         borderBottom = other.borderBottom;
         pixMapHandle = other.pixMapHandle;
+        memoryPosition = other.memoryPosition;
+        memorySize = other.memorySize;
     }
     ~PixmapReference()
     {
@@ -59,9 +67,12 @@ public:
         dataStream << borderLeft;
         dataStream << borderRight;
         dataStream << pixMapHandle;
+        dataStream << memoryPosition;
+        dataStream << memorySize;
+
     }
     inline void loadFromStream( QDataStream& dataStream)
-    {
+    {        
         dataStream.readRawData( (char*)wurl , WCHARLENGTH * WCHARBYTE );
         dataStream >> refCount;
         dataStream >> width;
@@ -71,9 +82,10 @@ public:
         dataStream >> borderLeft;
         dataStream >> borderRight;
         dataStream >> pixMapHandle;
+        dataStream >> memoryPosition;
+        dataStream >> memorySize;
     }
-
-    inline bool equal( ImageReference& other )
+    inline bool equal( PixmapReference& other )
     {
         if( wcscmp( wurl, other.wurl ) == 0 &&
             width == other.width &&
@@ -83,7 +95,8 @@ public:
     }
     inline bool equal( const QString& id, const QSize& size )
     {
-        if( id() == id &&
+        QString myId = QString::fromWCharArray( wurl );
+        if( ( QString::compare( id, myId ) == 0 ) &&
             width == size.width() &&
             height == size.height() )
             return true;
@@ -91,12 +104,15 @@ public:
     }
     inline bool equal( const QString& id )
     {
-        if( id == id() )
+        QString myId = QString::fromWCharArray( wurl );
+        if( QString::compare( id, myId ) == 0 )
             return true;
         return false;
     }
-    inline void setId( QString& id ) {
+    inline void setId( const QString& id ) {
         if( id.length() < WCHARLENGTH ) {
+            for( int i = 0; i < WCHARLENGTH; i++ )
+                wurl[i] = '\0';
             id.toWCharArray( wurl );
         }
     }
@@ -104,7 +120,6 @@ public:
 
         if( wurl == 0 )
             return QString();
-
         return QString::fromWCharArray( wurl );
     }
 
@@ -116,9 +131,15 @@ public:
     uint borderTop;
     uint borderRight;
     uint borderBottom;
-    Qt::HANDLE pixMapHandle;
+    uint memoryPosition;
+    uint memorySize;
+    quint64 pixMapHandle;
 };
 
+/*! \class ImageReference
+ *  this data class is used to store the relevant image data into the shared memory
+ *  the reference to the image is done by casting into the memory.
+ */
 class ImageReference
 {
 public:
@@ -136,6 +157,7 @@ public:
 
         for( int i = 0; i < WCHARLENGTH; i++ )
             wurl[i] = '\0';
+
     }
     ImageReference( const ImageReference& other ) {
         wcscpy( wurl, other.wurl );
@@ -191,31 +213,39 @@ public:
     }
     inline bool equal( const QString& id, const QSize& size )
     {
-        if( id() == id &&
+        QString myId = QString::fromWCharArray( wurl );
+        if( ( QString::compare( id, myId ) == 0 ) &&
             width == size.width() &&
-            height == size.height() )
+            height == size.height() ) {
             return true;
+        }
         return false;
     }    
     inline bool equal( const QString& id )
     {
-        if( id == id() )
+        QString myId = QString::fromWCharArray( wurl );
+        if( QString::compare( id, myId ) == 0 )
             return true;
         return false;
     }
 
-    inline void setId( QString& id ) {
-        if( id.length() < WCHARLENGTH ) {
+    void setId( const QString& id ) {
+
+        if( id.length() < WCHARLENGTH ) {            
+            for( int i = 0; i < WCHARLENGTH; i++ )
+                wurl[i] = '\0';
             id.toWCharArray( wurl );
         }
     }
-    inline QString id() {
+    QString id() {
 
         if( wurl == 0 )
             return QString();
 
         return QString::fromWCharArray( wurl );
     }
+
+    size_t sizeOfStream;
 
     wchar_t wurl[WCHARLENGTH];
     uint refCount;

@@ -14,7 +14,8 @@
 #define THEME_KEY "/meego/ux/theme"
 
 ThemeImageProvider::ThemeImageProvider() :
-        QDeclarativeImageProvider(QDeclarativeImageProvider::Pixmap)
+        QDeclarativeImageProvider(QDeclarativeImageProvider::Image),
+        m_cache( QString("themeImageProvider%1").arg(THEME_KEY), 512, 16 )
 {
     themeItem = new MGConfItem(THEME_KEY);
     if (themeItem->value().isNull() ||
@@ -24,7 +25,11 @@ ThemeImageProvider::ThemeImageProvider() :
 
         if (screenRect.width() == 1024 && screenRect.height() == 600)
             themeItem->set("1024-600-10");
+        else if (screenRect.height() == 1024 && screenRect.width() == 600)
+            themeItem->set("1024-600-10");
         else if (screenRect.width() == 1280 && screenRect.height() == 800)
+            themeItem->set("1280-800-7");
+        else if (screenRect.height() == 1280 && screenRect.width() == 800)
             themeItem->set("1280-800-7");
         else
             // fallback to something...
@@ -37,11 +42,17 @@ ThemeImageProvider::~ThemeImageProvider()
     delete themeItem;
 }
 
-QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size,
-                                           const QSize &requestedSize)
+QImage ThemeImageProvider::requestImage( const QString &id, QSize *size, const QSize &requestedSize)
 {
-    //QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
-    //return m_cache.requestPixmap( path, size, requestedSize );
+    QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
+    return m_cache.requestImage( path, size, requestedSize );
+}
+
+
+QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
+{
+    QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
+    return m_cache.requestPixmap( path, size, requestedSize );
 
     QPixmap pixmap;
 
@@ -77,14 +88,5 @@ QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size,
         *size = pixmap.size();
 
     return pixmap;
-
-}
-
-QImage ThemeImageProvider::requestImage( const QString &id, QSize *size,
-                                           const QSize &requestedSize)
-{
-    return QImage();
-    //QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
-    //return m_cache.requestImage( path, size, requestedSize );
 
 }

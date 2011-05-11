@@ -280,6 +280,8 @@ Item {
     signal searchRetracted()
     signal search( string needle )
 
+    property bool fastPageSwitch: false
+
     signal bookMenuTriggered( variant selectedItem )
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
@@ -307,12 +309,12 @@ Item {
 
     //adds a new page of a "book"
     function addPage( pageComponent ) {
-        if( !pageStack.busy ){ pageStack.push( pageComponent ) }//add the new page
+        if( !pageStack.busy || fastPageSwitch ){ pageStack.push( pageComponent ) }//add the new page
     }
 
     // pop the current Page from the stack
     function popPage() {
-        if( !pageStack.busy ){ pageStack.pop() }// pops the page
+        if( !pageStack.busy || fastPageSwitch ){ pageStack.pop() }// pops the page
     }
 
     width: { try { screenWidth; } catch (err) { 1024; } }

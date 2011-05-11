@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Intel Corporation.
+ * Copyright 2010 Nokia Corporation and/or its subsidiary(-ies).
  *
  * This program is licensed under the terms and conditions of the
  * LGPL, version 2.1.  The full text of the LGPL Licence is at

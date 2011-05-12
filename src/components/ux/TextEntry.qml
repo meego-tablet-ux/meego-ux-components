@@ -112,6 +112,7 @@ BorderImage {
 
     height: 50
     source: (input.focus && !readOnly) ? "image://themedimage/widgets/common/text-area/text-area-background-active" : "image://themedimage/widgets/common/text-area/text-area-background"
+    clip: true
 
     opacity: readOnly ? 0.5 : 1.0
 
@@ -127,7 +128,7 @@ BorderImage {
         x: horizontalMargins
 
         width: parent.width - horizontalMargins * 2
-        clip: true
+
         anchors.verticalCenter: parent.verticalCenter
 
         font.pixelSize: theme.fontPixelSizeLarge

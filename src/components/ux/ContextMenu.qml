@@ -99,12 +99,13 @@ ModalFog {
     property alias content: contentArea.children
     property int forceFingerMode: -1
 
-    property real baseX: 0
-    property real baseY: 0
+    property real baseX: 0  // stores the relative positions
+    property real baseY: 0  // this is used for repositioning afer rotation
 
     property alias subMenuModel : subContextMenu.model
     property alias subMenuPayload : subContextMenu.payload
     property alias title: headerText.text
+    property int decorationHeight: headerText.height + realMenu.border.bottom + menuContainer.fingerSize
 
     property bool subMenuVisible: false
 
@@ -114,8 +115,9 @@ ModalFog {
         top.calcTopParent()
         baseX =  x / top.topWidth
         baseY = (y - top.topDecorationHeight) / (top.topHeight - top.topDecorationHeight)
-        menuContainer.mouseX = x
-        menuContainer.mouseY = y
+
+        menuContainer.mouseEventX = x
+        menuContainer.mouseEventY = y
         menuContainer.rescale()
     }
 
@@ -130,10 +132,6 @@ ModalFog {
 
     modalSurface: Item {
         id: menuContainer
-
-        onHeightChanged: {
-            rescale()
-        }
 
         /* Menu Container
          * This is the actual contextmenu.
@@ -151,10 +149,14 @@ ModalFog {
         property int mouseX: 0
         property int mouseY: 0
 
-        property int fingerMode: 0
+        // this is magic until the arrow images are quadratic. Then is should be the images width/height.
         property int fingerSize: 30
+
+        property int fingerMode: 0
         property int fingerX: 0
         property int fingerY: 0
+        property real mouseEventY: 0
+        property real mouseEventX: 0
 
         // space defines the distance the menu will keep from the edges
         property int space: (top.topHeight > top.topWidth) ? top.topWidth * 0.02 : top.topHeight * 0.02 // 10
@@ -183,6 +185,9 @@ ModalFog {
             var mw = menu.width;
             var mh = menu.height;
             var fmode = 0;
+
+            mouseX = mouseEventX
+            mouseY = mouseEventY
 
             if (targetContainer != null) {
                 pw = targetContainer.width;
@@ -222,7 +227,7 @@ ModalFog {
             // Given the finger direction, find the correct location
             // for the menu, keeping it onscreen.
             switch (menuContainer.fingerMode) {
-                case 0:container.subMenuVisible
+                case 0:
                     mouseX += menuContainer.fingerSize / 2;
 
                 case 1:
@@ -276,13 +281,14 @@ ModalFog {
             }
 
             menuContainer.fingerX = mouseX - menuContainer.x;
-//            menuContainer.fingerY = mouseY - menuContainer.y;
         }
 
         height: childrenRect.height
         width: childrenRect.width
 
         Component.onCompleted: rescale()
+        onHeightChanged: rescale()
+        onWidthChanged: rescale()
 
         Theme { id: theme }
 

@@ -149,15 +149,28 @@ AppPage {
             model: model2
 
             onTriggered: {
-                if( index == 0 )
+                if( index == 0 ){
                     activeModel = 0
-                if( index == 1 )
+                }
+                if( index == 1 ){
                     activeModel = 1
-                if( index == 2 )
+                }
+                if( index == 2 ){
                     activeModel = 2
+                }
                 if( index == 3 ){
                     contextMenu.subMenuVisible = true
                 }
+
+                // This tests the resizing behaviour.
+//                if( activeModel == 0 )
+//                    bookMenu.model = model0
+//                else if( activeModel == 1 )
+//                    bookMenu.model = model1
+//                else if( activeModel == 2 )
+//                    bookMenu.model = model2
+//                else
+                // end of test for the resizing behaviour.
 
                 if( index != 3 )
                     contextMenu.hide()
@@ -176,6 +189,7 @@ AppPage {
         title:  qsTr("Custom ContextMenu")
 
         content:  Item {
+            id: contentItem
             width: 300
             height: 300
 
@@ -189,8 +203,22 @@ AppPage {
 
                 spacing: 10
 
-                ToggleButton{
+                Row {
+                    spacing: 10
+                    ToggleButton{
+                        onToggled:{
+                            if(isOn)
+                                contentItem.height = 400
+                            else
+                                contentItem.height = 300
+                        }
+                    }
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
 
+                        font.pixelSize: 20
+                        text: qsTr("Test me!")
+                    }
                 }
 
                 TextEntry{

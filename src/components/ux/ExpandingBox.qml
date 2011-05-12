@@ -108,7 +108,6 @@ Item {
     // if the expanded state changes, propagate the change via signal
     onExpandedChanged: {
         if(expanded){
-            console.log("--- ", height)
             buttonHeight = height
         }
         expandingBox.expandingChanged( expanded );

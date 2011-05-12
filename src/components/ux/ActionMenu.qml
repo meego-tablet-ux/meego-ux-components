@@ -222,9 +222,6 @@ Flickable {
                         if( !highlightSelectedItem ) {
                             container.currentItem = null
                         }
-//                        else {
-//                            container.oldItem = highlight
-//                        }
                     }
 
                     onPressed: {

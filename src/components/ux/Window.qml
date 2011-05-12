@@ -143,8 +143,8 @@
     for custom action menus created by AppPages
 
   \qmlsignal bookMenuTriggered
-   \param variant selectItem
-    \qmlpcm selected payload item of the BookMenu. This is only sent when automaticBookSwitching
+   \param int index
+    \qmlpcm selected index of the BookMenu. This is only sent when automaticBookSwitching
      is set to false. \endparam
 
   \qmlsignal actionMenuTriggered( variant selectedItem )
@@ -274,7 +274,7 @@ Item {
 
     property bool fastPageSwitch: false
 
-    signal bookMenuTriggered( variant selectedItem )
+    signal bookMenuTriggered( int index )
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )
     signal windowActiveChanged( bool isActiveWindow )
@@ -569,7 +569,7 @@ Item {
                                         switchBook( payload[index] )
                                     }
                                     else {
-                                        bookMenuTriggered( payload[index] )
+                                        bookMenuTriggered( index )
                                     }
 
                                     bookContextMenu.hide()

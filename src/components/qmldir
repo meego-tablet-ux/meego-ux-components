@@ -26,7 +26,6 @@ ScrollableMusicList 0.1 Common/ScrollableMusicList.qml
 SelectionHandleSurface 0.1 Common/SelectionHandleSurface.qml
 Slider 0.1 Common/Slider.qml
 Spinner 0.1 Common/Spinner.qml
-StatusBar 0.1 Common/StatusBar.qml
 TextEntry 0.1 Common/TextEntry.qml
 TextField 0.1 Common/TextField.qml
 Theme 0.1 Common/Theme.qml
@@ -38,6 +37,8 @@ Window 0.1 Common/Window.qml
 
 DatePicker 0.1 DateTime/DatePicker.qml
 TimePicker 0.1 DateTime/TimePicker.qml
+
+StatusBar 0.1 Indicators/StatusBar.qml
 
 MusicPicker 0.1 Media/MusicPicker.qml
 PhotoPicker 0.1 Media/PhotoPicker.qml

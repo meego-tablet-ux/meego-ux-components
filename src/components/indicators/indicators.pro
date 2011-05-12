@@ -35,7 +35,8 @@ HEADERS += batteryindicator.h \
         plugin.h \
         volumecontrol.h
 
-QML_FILES = qmldir
+QML_FILES = qmldir \
+        StatusBar.qml
 
 qmlfiles.files = $$QML_FILES
 qmlfiles.sources = $$QML_FILES

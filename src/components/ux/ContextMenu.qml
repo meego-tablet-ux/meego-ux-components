@@ -105,7 +105,11 @@ ModalFog {
     property alias subMenuModel : subContextMenu.model
     property alias subMenuPayload : subContextMenu.payload
     property alias title: headerText.text
-    property int decorationHeight: headerText.height + realMenu.border.bottom + menuContainer.fingerSize
+
+    property int sizeHintMaxWidth: top.topWidth
+    property int sizeHintMaxHeight: top.topHeight
+                                    - headerText.height - realMenu.border.bottom - menuContainer.fingerSize
+                                    - top.topDecorationHeight
 
     property bool subMenuVisible: false
 

@@ -11,7 +11,7 @@
 
 import Qt 4.7
 import MeeGo.Components 0.1
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 
 WidgetPage {
     id: widgetPage
@@ -171,7 +171,7 @@ WidgetPage {
         contentWidth: width > button.width ? width : button.width
         clip: true
 
-        Button {
+        Labs.Button {
             id: button
 
             anchors.centerIn: parent

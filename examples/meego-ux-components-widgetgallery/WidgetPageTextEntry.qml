@@ -57,6 +57,19 @@ WidgetPage {
             }
         },
 
+        LabeledEntry {
+            id: marginsEntry
+
+            label:  "margins: "
+            defaultValue: button.horizontalMargins
+
+            onTextUpdated: {
+                if( value >= 0 ){
+                    button.horizontalMargins = parseInt( value )
+                }
+            }
+        },
+
         CheckBoxEntry {
             id: readBox
 

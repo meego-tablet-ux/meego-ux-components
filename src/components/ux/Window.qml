@@ -776,10 +776,13 @@ Item {
     Connections {
         target: qApp
 
-        onForegroundChanged: {
-            isActiveWindow = foreground
-            qApp.orientationLocked = scene.orientationLocked
+        onForegroundWindowChanged: {
+
+            //FIXME what does onForegroundWindowChanged do
+            isActiveWindow = (foregroundWindow != 0)
+            qApp.orientationLock = scene.orientationLocked
             windowFocusChanged( isActiveWindow )
+
             statusBar.active = foreground
             console.log(" ----- " + foreground)
 
@@ -787,10 +790,11 @@ Item {
                 scene.orientation = qApp.orientation;
             }
         }
+        /* FIXME currently not available
         onOrientationLockChanged: {
             if( scene.orientationLocked != qApp.orientationLock )
             scene.orientationLocked = qApp.orientationLock
-        }
+        } */
 
         onOrientationChanged: {
             scene.orientation = qApp.orientation;

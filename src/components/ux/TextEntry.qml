@@ -46,6 +46,12 @@
   \qmlproperty alias validator
   \qmlcm See the corresponding QML TextInput property
 
+  \qmlproperty alias textFocus
+  \qmlcm Provides access to the focus property of the TextInput element.
+
+  \qmlproperty int horizontalMargins
+  \qmlcm defines the horizintal margins for the text. Default is 6 (borderimage border).
+
   \section2 Signals
   \qmlsignal textChanged
   \qmlcm emitted when the text has changed
@@ -86,6 +92,8 @@ BorderImage {
     property alias text: input.text
     property alias validator: input.validator
     property alias color: input.color
+    property alias textFocus: input.focus
+    property int horizontalMargins: 6
 
     //TODO: remove this, it breaks encapsulation
     property alias textInput: input
@@ -116,9 +124,10 @@ BorderImage {
     TextInput {
         id: input
 
-        x: 15
-        y: 15
-        width: parent.width - 30
+        x: horizontalMargins
+
+        width: parent.width - horizontalMargins * 2
+        clip: true
         anchors.verticalCenter: parent.verticalCenter
 
         font.pixelSize: theme.fontPixelSizeLarge
@@ -141,9 +150,9 @@ BorderImage {
         id: fakeText
 
 
-        x: 15
-        y: 15
-        width: parent.width - 30
+        x: horizontalMargins
+
+        width: parent.width - horizontalMargins * 2
         clip: true
         anchors.verticalCenter: parent.verticalCenter
 

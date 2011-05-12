@@ -15,11 +15,11 @@
 
 ThemeImageProvider::ThemeImageProvider() :
         QDeclarativeImageProvider(QDeclarativeImageProvider::Image),
-        m_cache( QString("themeImageProvider%1").arg(THEME_KEY), 512, 16 )
+        m_cache( QString("IconImageProvider%1").arg(THEME_KEY), 512, 16 )
 {
     themeItem = new MGConfItem(THEME_KEY);
     if (themeItem->value().isNull() ||
-            !QFile::exists(QString("/usr/share/themes/") + themeItem->value().toString()))
+        !QFile::exists(QString("/usr/share/themes/") + themeItem->value().toString()))
     {
         QRect screenRect = qApp->desktop()->screenGeometry();
 
@@ -48,12 +48,11 @@ QImage ThemeImageProvider::requestImage( const QString &id, QSize *size, const Q
     return m_cache.requestImage( path, size, requestedSize );
 }
 
-
 QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
     return m_cache.requestPixmap( path, size, requestedSize );
-
+    /* deprecated
     QPixmap pixmap;
 
     QString themeDir = QString("/usr/share/themes/") + themeItem->value().toString() + "/";
@@ -87,6 +86,5 @@ QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size, const 
     if (size)
         *size = pixmap.size();
 
-    return pixmap;
-
+    return pixmap; */
 }

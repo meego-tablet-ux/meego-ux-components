@@ -730,8 +730,10 @@ ModalDialog {
 
             property variant calendarShown: today() // points to a date for the currently shown calendar
 
-            anchors { margins: 10; left: parent.left; top: popupRow.bottom;
-                right: parent.right; bottom: todayButton.top}
+            anchors { left: parent.left; top: popupRow.bottom;
+                      right: parent.right; bottom: todayButton.top;
+                      leftMargin: 10; rightMargin: 10; topMargin: 10;
+                      bottomMargin: todayButton.anchors.bottomMargin }
 
             BorderImage {
                 id: calBg
@@ -978,45 +980,27 @@ ModalDialog {
         Item {
             id: todayButton
 
-            anchors { left:parent.left; right: parent.right; bottom: parent.bottom; topMargin: 2; bottomMargin: 2 }
+            anchors { left:parent.left; right: parent.right; bottom: parent.bottom;
+                      bottomMargin: 6; leftMargin: 10; rightMargin: 10 }
+
             height: datePicker.height / 16
 
-            Image {
-                id:buttonDivider1
+            Button {
+                id: tButton
 
-                anchors.top: parent.top
-                width: parent.width
-                source: "image://themedimage/images/menu_item_separator"
-            } //end of buttonDivider1
+                anchors.centerIn: parent
+                minHeight:  parent.height
+                maxHeight: parent.height
+                maxWidth: parent.width
+                textMargins: 4
 
-            Text {
-                id: todayText
-
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                width: parent.width
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-
-                elide:  Text.ElideRight
-
-                text: qsTr( "Go to todays date" );
-
-                clip: true
-
-                font.pixelSize: if( theme.fontPixelSizeLarge < height - 4 ) {
-                                    return theme.fontPixelSizeLarge
+                font.pixelSize: if( theme.fontPixelSizeLargest < parent.height * 0.85 - 2 * textMargins ) {
+                                    return theme.fontPixelSizeLargest
                                 }else {
-                                    return height - 4
+                                    return parent.height * 0.85 - 2 * textMargins
                                 }
 
-                color: theme.fontColorHighlightBlue
-            }
-
-            MouseArea {
-                id: todayArea
-
-                anchors.fill: todayButton
+                text: qsTr( "Today" );
 
                 onClicked: {
                     var todayYear = today().getFullYear()

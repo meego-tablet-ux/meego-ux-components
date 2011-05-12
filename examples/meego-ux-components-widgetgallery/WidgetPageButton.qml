@@ -171,7 +171,7 @@ WidgetPage {
         contentWidth: width > button.width ? width : button.width
         clip: true
 
-        Labs.Button {
+        Button {
             id: button
 
             anchors.centerIn: parent

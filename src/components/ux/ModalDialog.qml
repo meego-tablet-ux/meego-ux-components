@@ -268,7 +268,7 @@ ModalFog {
                     for specific languages. Expects "left-to-right" or "right-to-left".
                     "left-to-right" would mean the OK button is on the left side and the Cancel button is
                     on the right side. "right-to-left" is vice versa. Default is "left-to-right. */
-                property string readingDirection: "left-to-right"
+                property string readingDirection: qsTr("left-to-right")
 
                 property int acceptWidth: buttonAccept.visible ? buttonAccept.width : 0
                 property int cancelWidth: buttonCancel.visible ? buttonCancel.width : 0

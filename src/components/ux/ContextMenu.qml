@@ -13,6 +13,8 @@
   \qmlcm  This qml provides an empty context menu. You can setPosition() where the
          menu should show up. On show() it will appear pointing to the given
          position and display the content set via the content property.
+         It will size to whatever content is set. It provides sizeHintMaxWidth and
+         sizeHintMaxHeight to provide maximum dimensions for the content.
          When used inside an AppPage or inside a Windows overlayItem, rotation and
          repositioning is done automatically. Otherwise this has to be set manually.
 
@@ -29,6 +31,12 @@
 
   \qmlproperty string[] subMenuPayload
   \qmlcm the sub menus payload.
+
+  \qmlproperty int sizeHintMaxHeight
+  \qmlcm the maximum height the contents should not exceed.
+
+  \qmlproperty int sizeHintMaxWidth
+  \qmlcm the maximum width the contents should not exceed.
 
   \qmlproperty int forceFingerMode
   \qmlcm the context menu will apear in the set finger mode. If set to -1, the default, the context menu will choose the most
@@ -108,8 +116,8 @@ ModalFog {
 
     property int sizeHintMaxWidth: top.topWidth
     property int sizeHintMaxHeight: top.topHeight
-                                    - headerText.height - realMenu.border.bottom - menuContainer.fingerSize
-                                    - top.topDecorationHeight
+                                    - headerText.height - realMenu.border.bottom
+                                    - menuContainer.fingerSize - top.topDecorationHeight
 
     property bool subMenuVisible: false
 
@@ -129,6 +137,8 @@ ModalFog {
         fogMaskVisible = false  // reset and ensure the ContextMenu is not modal
         fogClickable = true
         container.subMenuVisible = false
+        console.log("headerText.height", headerText.height)
+
     }
 
     fogMaskVisible: false
@@ -278,7 +288,7 @@ ModalFog {
                         menuContainer.fingerY = mouseY - menuContainer.y;
                     }
                     else {
-                        menuContainer.y = mouseY - mh + 2 - (menuContainer.fingerSize * 1.5);
+                        menuContainer.y = mouseY - mh + 1 - (menuContainer.fingerSize * 1.5);
                         menuContainer.fingerY = mouseY - menuContainer.y - menuContainer.fingerSize;
                     }
                     break;

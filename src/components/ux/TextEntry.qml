@@ -150,7 +150,6 @@ BorderImage {
     Text {
         id: fakeText
 
-
         x: horizontalMargins
 
         width: parent.width - horizontalMargins * 2

@@ -145,6 +145,7 @@ AppPage {
 
             maxWidth: 200
             minWidth: 100
+            maxHeight: contextMenu.sizeHintMaxHeight
 
             model: model2
 

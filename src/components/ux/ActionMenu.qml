@@ -30,6 +30,10 @@
   \qmlproperty int maxWidth
   \qmlcm  int, the maximum width of the ActionMenu. Text that exceeds the maximum width will be elided.
 
+  \qmlproperty int maxHeight
+  \qmlcm int, the maximum height the ActionMenu will not exceed. It will turn flickable if the list
+  is too long. When used in a ContextMenu, this should be bound to ContextMenu.sizeHintMaxHeight.
+
   \qmlproperty int textMargin
   \qmlcm left and right margin of the text entries.
 
@@ -67,6 +71,8 @@ Flickable {
 
     property int minWidth : 200
     property int maxWidth : 500
+    property int maxHeight: ( topItem.topHeight - topItem.topDecorationHeight ) * 0.8
+
     property bool highlightSelectedItem: false
 
     property int currentWidth: minWidth
@@ -257,9 +263,9 @@ Flickable {
         State {
            PropertyChanges {
                 target: container
-                height: ( topItem.topHeight - topItem.topDecorationHeight ) * 0.8   // defines the maximum height of the ActionMenu
+                height: maxHeight   // defines the maximum height of the ActionMenu
             }
-           when: layout.height > ( topItem.topHeight - topItem.topDecorationHeight ) * 0.8
+           when: layout.height > maxHeight
         }
     ]
 }

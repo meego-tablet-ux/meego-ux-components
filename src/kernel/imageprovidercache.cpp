@@ -753,7 +753,7 @@ void ImageProviderCache::readMemoryInfo()
                 referenceTableInfo.loadFromStream( imageIn );
 
                 bool bFound = false;
-                for( int i; i < m_imageTable.size(); i++ )
+                for( int i = 0; i < m_imageTable.size(); i++ )
                 {
                     if( m_imageTable[i].equal( referenceTableInfo ) ) {
                         m_imageTable[i].refCount = referenceTableInfo.refCount;
@@ -784,7 +784,7 @@ void ImageProviderCache::readMemoryInfo()
                 //qDebug() << "loadFrom Stream:" << referenceInfo.id();
 
                 bool bFound = false;
-                for( int i; i < m_pixmapTable.size(); i++ )
+                for( int i = 0; i < m_pixmapTable.size(); i++ )
                 {                    
                     if( m_pixmapTable[i].equal( referenceInfo ) ) {
                         bFound = true;

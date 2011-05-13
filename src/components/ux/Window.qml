@@ -77,7 +77,7 @@
  4 = inverted portrait
  \endqml
 
- \qmlproperty string lockOrientationIn
+ \qmlproperty enim lockOrientationIn
  \qmlcm string, this property can be used to lock the window in a given orientation.
  Possible values are:
  \qml
@@ -243,21 +243,21 @@ Item {
 
     property bool fullScreen: false
     property bool fullContent: false
-    property bool isActiveWindow: true
 
     property bool actionMenuPresent: false
 
+    property string lockOrientationIn: "noLock" // deprecated see orientationLock
+
+    property alias isActiveWindow: scene.isActiveScene
     property alias orientation: scene.orientation
-    property bool isOrientationLocked: (lockOrientationIn == "landscape" || lockOrientationIn == "invertedLandscape"
-                                         || lockOrientationIn == "portrait" || lockOrientationIn == "invertedPortrait")
-    property string lockOrientationIn: ""
+    property alias orientationLock: scene.orientationLock
+    property alias isOrientationLocked: scene.orientationLocked
+    property alias lockCurrentOrientation: scene.lockCurrentOrientation
+    property alias inhibitScreenSaver: scene.inhibitScreenSaver
+    property alias inLandscape: scene.inLandscape
+    property alias inPortrait: scene.inPortrait
+    property alias orientationString: scene.orientationString
 
-    property bool inLandscape: window_content_topitem.state == "landscape"
-    property bool inPortrait: window_content_topitem.state == "portrait"
-    property bool inInvertedPortrait: window_content_topitem.state == "invertedPortrait"
-    property bool inInvertedLandscape: window_content_topitem.state == "invertedLandscape"
-
-    property bool inhibitScreenSaver: false
     property bool backButtonLocked: false
 
     property alias overlayItem: overlayArea.children
@@ -318,25 +318,6 @@ Item {
     Translator {
         id: translator
         catalog: "meego-ux-components"
-    }
-
-    Scene {
-        id: scene
-
-        onOrientationChanged: {
-            if( qApp ) {
-                if(qApp.orientation != orientation)
-                    qApp.orientation = orientation
-            }
-        }
-
-        onOrientationLockChanged: {
-            if( qApp ) {
-                if( qApp.orientationLock != orientationLock )
-                    qApp.orientationLock = lockOrientation
-            }
-        }
-
     }
 
     Item {
@@ -652,18 +633,6 @@ Item {
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
-        state: if(isActiveWindow){
-                   if(lockOrientationIn != "landscape" && lockOrientationIn != "invertedLandscape"
-                           && lockOrientationIn != "portrait" && lockOrientationIn != "invertedPortrait")
-                       scene.orientationString
-                   else{
-                       lockOrientationIn
-                   }
-               }
-               else{
-                   "windowHasNoFocus"
-               }
-
         states:  [
             State {
                 name: "windowHasNoFocus"
@@ -671,6 +640,7 @@ Item {
             },
             State {
                 name: "landscape"                
+                when: ( isActiveWindow && scene.orientationString == "landscape")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -678,9 +648,11 @@ Item {
                     width: parent.width
                     height: parent.height
                 }
+
             },
             State {
                 name: "invertedLandscape"
+                when: ( isActiveWindow && scene.orientationString == "invertedLandscape")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -691,6 +663,7 @@ Item {
             },
             State {
                 name: "portrait"                
+                when: ( isActiveWindow && scene.orientationString == "portrait")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -701,6 +674,7 @@ Item {
             },
             State {
                 name: "invertedPortrait"
+                when: ( isActiveWindow && scene.orientationString == "invertedPortrait")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -754,15 +728,7 @@ Item {
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
     }
 
-    onInhibitScreenSaverChanged: { // to meego-qml-launcher
-        try {
-	    mainWindow.inhibitScreenSaver = inhibitScreenSaver            
-        } catch (err) {        
-	  console.log("mainWindow does not exist")
-        }        
-    }
-
-    // Repositions the context menu after the windows width and/or height have changed.
+     // Repositions the context menu after the windows width and/or height have changed.
     onWidthChanged: {
         pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 3 )
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
@@ -773,30 +739,80 @@ Item {
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
     }
 
-    Connections {
-        target: qApp
+    onLockOrientationInChanged: { // deprecated!
 
-        onForegroundWindowChanged: {
-
-            //FIXME what does onForegroundWindowChanged do
-            isActiveWindow = (foregroundWindow != 0)
-            qApp.orientationLock = scene.orientationLocked
-            windowFocusChanged( isActiveWindow )
-
-            statusBar.active = foreground
-
-            if( isActiveWindow ) {
-                scene.orientation = qApp.orientation;
-            }
+        if( lockOrientationIn == "landscape" ) {
+            scene.orientationLock = Scene.lockLandscape;
+        } else if( lockOrientationIn == "portrait" ) {
+            scene.orientationLock = Scene.lockPortrait
+        } else if( lockOrientationIn == "invertedLandscape" ) {
+            scene.orientationLock = Scene.lockInvertedLandscape;
+        } else if( lockOrientationIn == "invertedPortrait" ) {
+            scene.orientationLock = Scene.lockInvertedPortrait;
+        } else if( lockOrientationIn == "allLandscape" ) {
+            scene.orientationLock = Scene.lockAllLandscape;
+        } else if( lockOrientationIn == "allPortrait" ) {
+            scene.orientationLock = Scene.lockAllPortrait;
+        } else {
+            lockOrientationIn = "noLock"
+            scene.orientationLock = 0;
         }
-        /* FIXME currently not available
-        onOrientationLockChanged: {
-            if( scene.orientationLocked != qApp.orientationLock )
-            scene.orientationLocked = qApp.orientationLock
-        } */
+    }
+
+    // Meego-qml-launcher handling
+    Scene {
+        id: scene
 
         onOrientationChanged: {
+
+            if( mainWindow && mainWindow.actualOrientation != orientation)
+                mainWindow.actualOrientation = orientation;
+
+        }
+
+        onOrientationLockChanged: {
+
+            if( qApp && qApp.orientationLocked != orientationLocked ) {
+                if( scene.orientationLock < 5 ) //FIXME -> no orientation stop on AllLandscape and AllPortrait lock
+                    qApp.orientationLocked = scene.orientationLocked
+            }
+        }
+
+        onInhibitScreenSaverChanged: {
+            if( mainWindow )
+                mainWindow.inhibitScreenSaver = scene.inhibitScreenSaver
+        }
+
+        Component.onCompleted: {
+
+            if( mainWindow ) {
+                scene.winId = mainWindow.winId;
+            } else {
+                scene.winId = 0;
+            }
+
+            if( qApp ) {
+                scene.activeWinId = qApp.foregroundWindow;
+            } else {
+                scene.activeWinId = 0;
+            }
+
+        }
+    }
+    Connections {
+        target: qApp
+        onForegroundWindowChanged: {
+            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
+            scene.activeWinId = qApp.foregroundWindow;
+        }
+        onOrientationChanged: {
             scene.orientation = qApp.orientation;
+        }
+    }
+    Connections {
+        target: mainWindow
+        onWinIdChanged: { //FIXME not catched yet
+            scene.winId = mainWindow.winId;
         }
     }
 }

@@ -15,8 +15,8 @@ import MeeGo.Components 0.1
 Window {
     id: window
 
-    bookMenuModel: [ qsTr("Gallery"), qsTr("Context menu test"), qsTr("Book 2"), qsTr("Book 3"), qsTr("BottomBar"), qsTr("Fullscreen Test") ]
-    bookMenuPayload: [ gallery, contextMenuBook, book2, book3, bottomBar, fullScreenPage ]
+    bookMenuModel: [ qsTr("Gallery"), qsTr("Context menu test"), qsTr("Book 2"), qsTr("Book 3"), qsTr("BottomBar"), qsTr("Fullscreen Test"), qsTr("Orientation Test") ]
+    bookMenuPayload: [ gallery, contextMenuBook, book2, book3, bottomBar, fullScreenPage, orientationPage ]
     bookMenuTitle: qsTr("Book Menu")
 
     Component.onCompleted: switchBook( gallery )
@@ -33,4 +33,5 @@ Window {
     Component { id: book3; Book3 {} }
     Component { id: bottomBar; WidgetPageBottomBar {} }
     Component { id: fullScreenPage; WidgetPageFullScreen {} }
+    Component { id: orientationPage; WidgetPageOrientation {} }
 }

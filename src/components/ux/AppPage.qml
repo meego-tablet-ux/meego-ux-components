@@ -159,7 +159,7 @@ Item {
     property bool disableSearch: false
     property bool fastPageSwitch: false
 
-    property string lockOrientationIn: "" // FixMe: strings right now. Should be: enum of qApp
+    property string lockOrientationIn: "" // FIXME: strings right now. Should be: enum of qApp
 
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )

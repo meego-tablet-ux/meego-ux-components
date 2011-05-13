@@ -4,7 +4,10 @@ Scene::Scene(QObject *parent) :
     QObject(parent),
     m_orientation( landscape ),
     m_orientationLock( noLock ),
-    m_lockCurrentOrientation( false )
+    m_lockCurrentOrientation( false ),
+    m_bSceneActive( true ),
+    m_activeWinId( 0 ),
+    m_myWinId( 0 )
 {
 }
 Scene::Orientation Scene::orientation() const
@@ -15,7 +18,9 @@ QString Scene::orientationString() const
 {
     QString str;
 
-    if( landscape == m_orientation ) {
+    if( !m_bSceneActive ) {
+        str = QString::fromLatin1("windowHasNoFocus");
+    } else if( landscape == m_orientation ) {
         str = QString::fromLatin1("landscape");
     } else if( portrait == m_orientation ) {
         str = QString::fromLatin1("portrait");
@@ -31,52 +36,56 @@ void Scene::setOrientation( Orientation orientation )
 {
     m_realOrientation = orientation;
 
-    if( noLock == m_orientationLock ) {
+    if( m_bSceneActive ) {
 
-        m_orientation = orientation;
-        emit onOrientationChanged();
+        if( noLock == m_orientationLock ) {
 
-    } else if ( lockLandscape == m_orientationLock ) {
-
-        if( landscape == orientation) {
             m_orientation = orientation;
-            emit onOrientationChanged();
+            emit orientationChanged();
+
+        } else if ( lockLandscape == m_orientationLock ) {
+
+            if( landscape == orientation) {
+                m_orientation = orientation;
+                emit orientationChanged();
+            }
+
+        } else if ( lockPortrait == m_orientationLock ) {
+
+            if( portrait == orientation) {
+                m_orientation = orientation;
+                emit orientationChanged();
+            }
+
+        } else if ( lockInvertedLandscape == m_orientationLock ) {
+
+            if( invertedLandscape == orientation) {
+                m_orientation = orientation;
+                emit orientationChanged();
+            }
+
+        } else if ( lockInvertedPortrait == m_orientationLock ) {
+
+            if( invertedPortrait == orientation) {
+                m_orientation = orientation;
+                emit orientationChanged();
+            }
+
+        } else if ( lockAllLandscape == m_orientationLock ) {
+
+            if( landscape == orientation || invertedLandscape == orientation ) {
+                m_orientation = orientation;                
+                emit orientationChanged();
+            }
+
+        } else if ( lockAllPortrait == m_orientationLock ) {
+
+            if(  portrait == orientation || invertedPortrait == orientation ) {
+                m_orientation = orientation;                
+                emit orientationChanged();
+            }
         }
 
-    } else if ( lockPortrait == m_orientationLock ) {
-
-        if( portrait == orientation) {
-            m_orientation = orientation;
-            emit onOrientationChanged();
-        }
-
-    } else if ( lockInvertedLandscape == m_orientationLock ) {
-
-        if( invertedLandscape == orientation) {
-            m_orientation = orientation;
-            emit onOrientationChanged();
-        }
-
-    } else if ( lockInvertedPortrait == m_orientationLock ) {
-
-        if( invertedPortrait == orientation) {
-            m_orientation = orientation;
-            emit onOrientationChanged();
-        }
-
-    } else if ( lockAllLandscape == m_orientationLock ) {
-
-        if( landscape == orientation || invertedLandscape == orientation ) {
-            m_orientation = orientation;
-            emit onOrientationChanged();
-        }
-
-    } else if ( lockAllPortrait == m_orientationLock ) {
-
-        if(  portrait == orientation || invertedPortrait == orientation ) {
-            m_orientation = orientation;
-            emit onOrientationChanged();
-        }
     }
 }
 Scene::OrientationLock Scene::orientationLock() const
@@ -88,54 +97,53 @@ void Scene::setOrientationLock( OrientationLock orientationLock )
     if( m_orientationLock != orientationLock) {
 
         m_orientationLock = orientationLock;
-        emit onOrientationLockChanged();
 
         if( noLock == m_orientationLock ) {
 
             if( m_orientation != m_realOrientation ) {
                 m_orientation = m_realOrientation;
-                emit onOrientationChanged();
+                emit orientationChanged();
             }
         } else if( lockLandscape == m_orientationLock ) {
 
             if( m_orientation != landscape ) {
                 m_orientation = landscape;
-                emit onOrientationChanged();
+                emit orientationChanged();
             }
 
         } else if( lockPortrait == m_orientationLock ) {
 
             if( m_orientation != portrait ) {
                 m_orientation = portrait;
-                emit onOrientationChanged();
+                emit orientationChanged();
             }
 
         } else if( lockInvertedLandscape == m_orientationLock ) {
 
             if( m_orientation != invertedLandscape ) {
                 m_orientation = invertedLandscape;
-                emit onOrientationChanged();
+                emit orientationChanged();
             }
 
         } else if( lockInvertedPortrait == m_orientationLock ) {
 
             if( m_orientation != invertedPortrait ) {
                 m_orientation = invertedPortrait;
-                emit onOrientationChanged();
+                emit orientationChanged();
             }
 
         } else if( lockAllLandscape == m_orientationLock ) {
 
             if( m_orientation != landscape && m_orientation != invertedLandscape ) {
                 m_orientation = landscape;
-                emit onOrientationChanged();
+                emit orientationChanged();
             }
 
         } else if( lockAllPortrait == m_orientationLock ) {
 
             if( m_orientation != portrait && m_orientation != invertedPortrait ) {
                 m_orientation = portrait;
-                emit onOrientationChanged();
+                emit orientationChanged();
             }
         }
     }
@@ -179,11 +187,96 @@ void Scene::lockCurrentOrientation( bool lock )
             m_orientationLock = noLock;
             if( m_realOrientation != m_orientation) {
                 m_orientation = m_realOrientation;
-                emit onOrientationChanged();
+                emit orientationChanged();
             }
         }
-        emit onOrientationLockChanged();
+        emit orientationLockChanged();
     }
 }
 
+bool Scene::isActiveScene() const
+{
+    return m_bSceneActive;
+}
 
+int Scene::winId() const
+{
+    return m_myWinId;
+}
+
+void Scene::setWinId( int winId )
+{
+    if( m_myWinId == 0 )
+        m_myWinId = winId;
+}
+
+int Scene::activeWinId() const
+{
+    return m_activeWinId;
+}
+void Scene::setActiveWinId( int activeWinId )
+{
+    if( activeWinId != m_activeWinId) {
+
+        m_activeWinId = activeWinId;
+
+        if( m_myWinId != activeWinId && m_bSceneActive ) {
+
+            //deactivate Window:
+
+            m_bSceneActive = false;
+            emit activeSceneChanged();
+
+            if( m_bInhibitScreenSaver == false ) {
+
+                m_bActiveInhibitScreenSaver = false;
+                m_bInhibitScreenSaver = true;
+                emit inhibitScreenSaverChanged();
+
+            } else {
+
+                m_bActiveInhibitScreenSaver = true;
+
+            }
+
+        } else if ( m_myWinId == activeWinId && !m_bSceneActive ) {
+
+            //activate Window:
+
+            m_bSceneActive = true;
+            emit activeSceneChanged();
+
+            if( !m_bActiveInhibitScreenSaver ) {
+
+                m_bInhibitScreenSaver = m_bActiveInhibitScreenSaver;
+                emit inhibitScreenSaverChanged();
+
+            }
+            setOrientation( m_realOrientation );
+
+        }
+    }
+}
+
+bool Scene::inhibitScreenSaver() const
+{
+    return m_bInhibitScreenSaver;
+}
+
+void Scene::setInhibitScreenSaver( bool inhibit )
+{
+    if( m_bInhibitScreenSaver != inhibit )
+    {
+
+        if( m_bSceneActive ) {
+
+            m_bInhibitScreenSaver = inhibit;
+            emit inhibitScreenSaverChanged();
+
+        } else {
+
+            m_bActiveInhibitScreenSaver = inhibit;
+
+        }
+    }
+}

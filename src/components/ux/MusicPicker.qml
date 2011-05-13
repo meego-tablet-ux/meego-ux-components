@@ -270,7 +270,7 @@ ModalDialog {
             }
         }
 
-        MediaGridView {
+        MucMediaGridView {
             id: musicGridView
 
             // the MediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes

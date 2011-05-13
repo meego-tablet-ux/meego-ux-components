@@ -155,26 +155,33 @@ ModalDialog {
 
     property string backButtonText: qsTr( "Back...")
 
-    onAccepted:{
+    property bool acceptBlocked: false
 
-        if( selectSongs ) {
-            if( multiSelection ){
-                multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris[0], selectedAlbumName, PickerArray.types )
-            }else {
-                songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
-            }
-        } else if( musicPicker.showAlbums || musicPicker.showPlaylists ) {
-            if( PickerArray.titles.length > 0 && PickerArray.types.length > 0 ) {
-                if( multiSelection ) {
-                    multipleAlbumsOrPlaylistsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, PickerArray.types )
+    onAccepted:{
+        if( !acceptBlocked ) {
+            acceptBlocked = true
+
+            if( selectSongs ) {
+                if( multiSelection ){
+                    multipleSongsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris[0], selectedAlbumName, PickerArray.types )
                 }else {
-                    albumOrPlaylistSelected( PickerArray.titles[0], PickerArray.uris[0], PickerArray.thumbUris[0], PickerArray.types[0] )
+                    songSelected( PickerArray.titles[0] , PickerArray.uris[0], PickerArray.thumbUris[0], selectedAlbumName , PickerArray.types[0] )
+                }
+            } else if( musicPicker.showAlbums || musicPicker.showPlaylists ) {
+                if( PickerArray.titles.length > 0 && PickerArray.types.length > 0 ) {
+                    if( multiSelection ) {
+                        multipleAlbumsOrPlaylistsSelected( PickerArray.titles, PickerArray.uris, PickerArray.thumbUris, PickerArray.types )
+                    }else {
+                        albumOrPlaylistSelected( PickerArray.titles[0], PickerArray.uris[0], PickerArray.thumbUris[0], PickerArray.types[0] )
+                    }
                 }
             }
         }
     } // onAccepted
 
     onShowCalled: {
+        acceptBlocked = false
+
         musicGridView.positionViewAtIndex( 0, GridView.Beginning )
 
         for( var i = 0; i < PickerArray.ids.length; i++ ) {
@@ -273,7 +280,7 @@ ModalDialog {
         MucMediaGridView {
             id: musicGridView
 
-            // the MediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
+            // the MucMediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
             // the the number of columns and the width is then set to estimateColumnCount x cellWidth. Unfortunately, the pickers width is needed
             // for this, a value which can't be retrieved via parent.width. So the computation has to be in the picker.
 
@@ -282,6 +289,8 @@ ModalDialog {
             property string selectedItem: ""
 
             Component.onCompleted: { musicGridView.model = musicPicker.model }
+
+            defaultThumbnail: "image://themedimage/images/media/music_thumb_med"
 
             visible: !musicPicker.albumSelected
             opacity: (musicPicker.albumSelected) ? 0 : 1    // this forces a repaint
@@ -337,7 +346,7 @@ ModalDialog {
                     buttonAccept.enabled = true //enable OK button
                 } //end !selectSongs
             } // onClicked
-        } // MediaGridView
+        } // MucMediaGridView
     } // Item
 
     showAcceptButton: false

@@ -8,7 +8,11 @@ class MGConfItem;
 
 class ThemeImageProvider : public QDeclarativeImageProvider
 {
+    static ImageProviderCache* m_cache;
 public:
+
+    static ImageProviderCache* getCacheInstance();
+
     ThemeImageProvider();
     ~ThemeImageProvider();
 
@@ -17,7 +21,6 @@ public:
 
 private:
     MGConfItem *themeItem;
-    ImageProviderCache m_cache;
 };
 
 #endif // THEMEIMAGEPROVIDER_H

@@ -13,10 +13,20 @@
 
 #define THEME_KEY "/meego/ux/theme"
 
-ThemeImageProvider::ThemeImageProvider() :
-        QDeclarativeImageProvider(QDeclarativeImageProvider::Image),
-        m_cache( QString("IconImageProvider%1").arg(THEME_KEY), 512, 16 )
+ImageProviderCache* ThemeImageProvider::m_cache = 0;
+
+ImageProviderCache* ThemeImageProvider::getCacheInstance()
 {
+    if( m_cache == 0 )
+        m_cache = new ImageProviderCache( QString("ImageProviderCache%1").arg(THEME_KEY), 512, 16 );
+    return m_cache;
+}
+
+ThemeImageProvider::ThemeImageProvider() :
+        QDeclarativeImageProvider(QDeclarativeImageProvider::Image)
+{
+    ThemeImageProvider::getCacheInstance();
+
     themeItem = new MGConfItem(THEME_KEY);
     if (themeItem->value().isNull() ||
         !QFile::exists(QString("/usr/share/themes/") + themeItem->value().toString()))
@@ -35,6 +45,8 @@ ThemeImageProvider::ThemeImageProvider() :
             // fallback to something...
             themeItem->set("1024-600-10");
     }
+
+    ThemeImageProvider::m_cache->setPath( QString("/usr/share/themes/") + themeItem->value().toString() + "/" ) ;
 }
 
 ThemeImageProvider::~ThemeImageProvider()
@@ -45,13 +57,13 @@ ThemeImageProvider::~ThemeImageProvider()
 QImage ThemeImageProvider::requestImage( const QString &id, QSize *size, const QSize &requestedSize)
 {
     QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
-    return m_cache.requestImage( path, size, requestedSize );
+    return ThemeImageProvider::m_cache->requestImage( path, size, requestedSize );
 }
 
 QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QString path = QString("/usr/share/themes/") + themeItem->value().toString() + "/" + id;
-    return m_cache.requestPixmap( path, size, requestedSize );
+    return ThemeImageProvider::m_cache->requestPixmap( path, size, requestedSize );
     /* deprecated
     QPixmap pixmap;
 

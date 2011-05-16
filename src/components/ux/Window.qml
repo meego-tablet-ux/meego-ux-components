@@ -756,9 +756,11 @@ Item {
     Connections {
         target: qApp
 
-        onForegroundChanged: {
-            isActiveWindow = foreground
-            qApp.orientationLocked = scene.orientationLocked
+        onForegroundWindowChanged: {
+
+            //FIXME what does onForegroundWindowChanged do
+            isActiveWindow = (foregroundWindow != 0)
+            qApp.orientationLock = scene.orientationLocked
             windowFocusChanged( isActiveWindow )
 
             if( isActiveWindow ) {
@@ -767,7 +769,7 @@ Item {
         }
         onOrientationLockChanged: {
             if( scene.orientationLocked != qApp.orientationLock )
-            scene.orientationLocked = qApp.orientationLock
+                scene.orientationLocked = qApp.orientationLock
         }
 
         onOrientationChanged: {

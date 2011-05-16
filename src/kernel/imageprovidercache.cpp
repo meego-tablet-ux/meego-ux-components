@@ -110,6 +110,45 @@ QImage ImageProviderCache::requestImage( const QString& id, QSize* size, const Q
     return requestImage( id, true, size, requestedSize );
 }
 
+void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, int &borderBottom, int &borderLeft, int &borderRight )
+{
+    QString path = m_path + id;
+    path.remove( QString::fromLatin1("image://themedimage/") );
+    bulk();
+    if( existImage ( path, QSize() ) ) {
+
+        qDebug() << "existImage";
+        for( int i = 0; i < m_imageTable.size(); i++ ) {
+            if( m_imageTable[i].equal( path ) ) {
+
+                borderTop = m_imageTable[i].borderTop;
+                borderBottom = m_imageTable[i].borderBottom;
+                borderLeft = m_imageTable[i].borderLeft;
+                borderRight = m_imageTable[i].borderRight;
+                return;
+
+            }
+        }
+
+    } else {
+
+        requestImage( path, true, 0 );
+
+        for( int i = 0; i < m_imageTable.size(); i++ ) {
+
+            if( m_imageTable[i].equal( path ) ) {
+
+                borderTop = m_imageTable[i].borderTop;
+                borderBottom = m_imageTable[i].borderBottom;
+                borderLeft = m_imageTable[i].borderLeft;
+                borderRight = m_imageTable[i].borderRight;
+                return;
+
+            }
+        }
+    }
+}
+
 // ~~~~~~ Private
 
 bool ImageProviderCache::existImage( const QString & id, const QSize& size )
@@ -512,7 +551,7 @@ ImageReference ImageProviderCache::loadSciFile( const QString& id )
     QFile file( filename );
     if( file.open( QFile::ReadOnly ) ) {
 
-        //qDebug() << "load file: " << filename;
+        qDebug() << "load file: " << filename;
 
         int l = -1;
         int r = -1;
@@ -570,12 +609,11 @@ ImageReference ImageProviderCache::loadSciFile( const QString& id )
         reference.setId( picturefile );
     }
 
-    //qDebug() << reference.id();
-    //qDebug() << reference.borderLeft;
-    //qDebug() << reference.borderRight;
-    //qDebug() << reference.borderBottom;
-    //qDebug() << reference.borderTop;
-
+    qDebug() << reference.id();
+    qDebug() << reference.borderLeft;
+    qDebug() << reference.borderRight;
+    qDebug() << reference.borderBottom;
+    qDebug() << reference.borderTop;
     return reference;
 }
 
@@ -753,7 +791,7 @@ void ImageProviderCache::readMemoryInfo()
                 referenceTableInfo.loadFromStream( imageIn );
 
                 bool bFound = false;
-                for( int i; i < m_imageTable.size(); i++ )
+                for( int i = 0; i < m_imageTable.size(); i++ )
                 {
                     if( m_imageTable[i].equal( referenceTableInfo ) ) {
                         m_imageTable[i].refCount = referenceTableInfo.refCount;
@@ -784,7 +822,7 @@ void ImageProviderCache::readMemoryInfo()
                 //qDebug() << "loadFrom Stream:" << referenceInfo.id();
 
                 bool bFound = false;
-                for( int i; i < m_pixmapTable.size(); i++ )
+                for( int i = 0 ; i < m_pixmapTable.size(); i++ )
                 {                    
                     if( m_pixmapTable[i].equal( referenceInfo ) ) {
                         bFound = true;

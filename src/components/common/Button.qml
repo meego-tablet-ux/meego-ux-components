@@ -85,6 +85,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Components 0.1
 
 Item {
     id: container
@@ -137,17 +138,14 @@ Item {
     Theme { id: theme }
 
     // the button's image
-    BorderImage {
+    ThemeBorderImage {
         id: icon
 
-        border.bottom: 10
-        border.top: 10
-        border.left: 10
-        border.right: 10
         source: bgSourceUp
         anchors.fill: parent
 
         visible: hasBackground
+
     }
 
     // the button's text

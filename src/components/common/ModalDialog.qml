@@ -166,7 +166,7 @@ ModalFog {
 
     fogClickable: false
 
-    modalSurface: BorderImage {
+    modalSurface: ThemeBorderImage {
         id: inner
 
         width: modalDialogBox.width
@@ -174,11 +174,6 @@ ModalFog {
 
         x: ( topItem.topWidth - modalDialogBox.width ) / 2
         y: ( topItem.topHeight - modalDialogBox.height + verticalOffset ) / 2
-
-        border.left:   6
-        border.top:    77
-        border.bottom: 64
-        border.right:  6
 
         source: "image://themedimage/widgets/common/modal-dialog/modal-dialog-background"
 

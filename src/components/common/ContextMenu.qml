@@ -137,6 +137,8 @@ ModalFog {
         fogMaskVisible = false  // reset and ensure the ContextMenu is not modal
         fogClickable = true
         container.subMenuVisible = false
+        console.log("headerText.height", headerText.height)
+
     }
 
     fogMaskVisible: false

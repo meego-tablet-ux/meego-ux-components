@@ -57,7 +57,7 @@
 
 import Qt 4.7
 
-BorderImage {
+ThemeBorderImage {
     id : container
 
     // API
@@ -72,11 +72,7 @@ BorderImage {
     property string background : "image://themedimage/widgets/common/menu/menu-background"
 
     source: background
-    border.top: 10
-    border.bottom: 10
-    border.left: 10
-    border.right: 10
-		
+
     width: 210
     height: 60
     visible: true

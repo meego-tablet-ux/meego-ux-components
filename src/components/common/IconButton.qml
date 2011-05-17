@@ -94,15 +94,12 @@ Item {
     Theme { id: theme }
 
     // iconsButtons Background Image    
-    BorderImage {
+    ThemeBorderImage {
 
         id: bgImage
 
         visible: hasBackground
-        border.bottom: 10
-        border.top: 10
-        border.left: 10
-        border.right: 10
+
         source: bgSourceUp
         anchors.fill: parent
 

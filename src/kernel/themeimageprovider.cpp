@@ -8,15 +8,26 @@
 #include <MGConfItem>
 #include <QDebug>
 #include <QImageReader>
-
 #include "themeimageprovider.h"
+#include "imageprovidercache.h"
 
 #define THEME_KEY "/meego/ux/theme"
 
-ThemeImageProvider::ThemeImageProvider() :
-        QDeclarativeImageProvider(QDeclarativeImageProvider::Image),
-        m_cache( QString("IconImageProvider%1").arg(THEME_KEY), 512, 16 )
+ImageProviderCache* ThemeImageProvider::m_cache = 0;
+
+ImageProviderCache* ThemeImageProvider::getCacheInstance()
 {
+    if( m_cache == 0 )
+        m_cache = new ImageProviderCache( QString("ImageProviderCache%1").arg(THEME_KEY), 512, 16 );
+    return m_cache;
+}
+
+ThemeImageProvider::ThemeImageProvider() :
+        QDeclarativeImageProvider(QDeclarativeImageProvider::Image)
+{
+
+  ThemeImageProvider::getCacheInstance();
+
     MGConfItem* themeItem = new MGConfItem(THEME_KEY);
 
     if( themeItem ) {
@@ -54,21 +65,22 @@ ThemeImageProvider::ThemeImageProvider() :
     }
 
     qDebug() << m_themePath;
+    ThemeImageProvider::m_cache->setPath( m_themePath );
 
 }
 
 ThemeImageProvider::~ThemeImageProvider()
-{    
+{
 }
 
 QImage ThemeImageProvider::requestImage( const QString &id, QSize *size, const QSize &requestedSize)
 {
-    QString path = m_themePath + id;
-    return m_cache.requestImage( path, size, requestedSize );
+    QString path = m_themePath + id;   
+    return ThemeImageProvider::m_cache->requestImage( path, size, requestedSize );
 }
 
 QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QString path = m_themePath + id;
-    return m_cache.requestPixmap( path, size, requestedSize );    
+    return ThemeImageProvider::m_cache->requestPixmap( path, size, requestedSize );
 }

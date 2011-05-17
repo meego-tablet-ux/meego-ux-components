@@ -94,7 +94,7 @@ Item {
 
     Theme { id: theme }
 
-    BorderImage {
+    ThemeBorderImage {
         id: background
 
         property bool extend: false   // hidden from extern

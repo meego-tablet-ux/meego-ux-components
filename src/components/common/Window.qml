@@ -744,19 +744,18 @@ Item {
     onLockOrientationInChanged: { // deprecated!
 
         if( lockOrientationIn == "landscape" ) {
-            scene.orientationLock = Scene.lockLandscape;
+            scene.orientationLock = 1;
         } else if( lockOrientationIn == "portrait" ) {
-            scene.orientationLock = Scene.lockPortrait
+            scene.orientationLock = 2;
         } else if( lockOrientationIn == "invertedLandscape" ) {
-            scene.orientationLock = Scene.lockInvertedLandscape;
+            scene.orientationLock = 3;
         } else if( lockOrientationIn == "invertedPortrait" ) {
-            scene.orientationLock = Scene.lockInvertedPortrait;
+            scene.orientationLock = 4;
         } else if( lockOrientationIn == "allLandscape" ) {
-            scene.orientationLock = Scene.lockAllLandscape;
+            scene.orientationLock = 5;
         } else if( lockOrientationIn == "allPortrait" ) {
-            scene.orientationLock = Scene.lockAllPortrait;
-        } else {
-            lockOrientationIn = "noLock"
+            scene.orientationLock = 6;
+        } else if( lockOrientationIn == "noLock" ) { {            
             scene.orientationLock = 0;
         }
     }

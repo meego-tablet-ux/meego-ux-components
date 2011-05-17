@@ -6,6 +6,10 @@
 class Scene : public QObject
 {
     Q_OBJECT
+
+    Q_ENUMS( Orientation );
+    Q_ENUMS( OrientationLock );
+
     Q_PROPERTY( QString orientationString READ orientationString NOTIFY orientationChanged )
     Q_PROPERTY( Scene::Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged )
     Q_PROPERTY( Scene::OrientationLock orientationLock READ orientationLock WRITE setOrientationLock NOTIFY orientationLockChanged )
@@ -18,11 +22,10 @@ class Scene : public QObject
     Q_PROPERTY( int winId READ winId WRITE setWinId )
     Q_PROPERTY( int activeWinId READ activeWinId WRITE setActiveWinId )
 
-    Q_PROPERTY( bool inLandscape READ inLandscape NOTIFY inLandscapeChanged )
-    Q_PROPERTY( bool inPortrait READ inPortrait NOTIFY inPortraitChanged )
-
-    Q_ENUMS( Orientation );
-    Q_ENUMS( OrientationLock );
+    Q_PROPERTY( bool inLandscape READ inLandscape NOTIFY orientationChanged )
+    Q_PROPERTY( bool inPortrait READ inPortrait NOTIFY orientationChanged )
+    Q_PROPERTY( bool inInvertedLandscape READ inInvertedLandscape NOTIFY orientationChanged )
+    Q_PROPERTY( bool inInvertedPortrait READ inInvertedPortrait NOTIFY orientationChanged )
 
 public:
 
@@ -56,6 +59,8 @@ public:
 
     bool inLandscape() const;
     bool inPortrait() const;
+    bool inInvertedLandscape() const;
+    bool inInvertedPortrait() const;
 
     bool isActiveScene() const;
 
@@ -71,8 +76,6 @@ public:
 signals:
     void orientationChanged();
     void orientationLockChanged();
-    void inLandscapeChanged();
-    void inPortraitChanged();
     void activeSceneChanged();
     void inhibitScreenSaverChanged();
 

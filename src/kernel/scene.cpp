@@ -1,4 +1,5 @@
 #include "scene.h"
+#include <QDebug>
 
 Scene::Scene(QObject *parent) :
     QObject(parent),
@@ -36,6 +37,8 @@ void Scene::setOrientation( Orientation orientation )
 {
     m_realOrientation = orientation;
 
+    qDebug() << "real orientation: " << m_realOrientation;
+
     if( m_bSceneActive ) {
 
         if( noLock == m_orientationLock ) {
@@ -47,7 +50,7 @@ void Scene::setOrientation( Orientation orientation )
 
             if( landscape == orientation) {
                 m_orientation = orientation;
-                emit orientationChanged();
+                emit orientationChanged();             
             }
 
         } else if ( lockPortrait == m_orientationLock ) {
@@ -85,6 +88,8 @@ void Scene::setOrientation( Orientation orientation )
                 emit orientationChanged();
             }
         }
+
+        qDebug() << "orientation: " << m_orientation;
 
     }
 }
@@ -164,9 +169,22 @@ bool Scene::inPortrait() const
 }
 bool Scene::inLandscape() const
 {
-    if( m_orientation == portrait || m_orientation == invertedPortrait )
+    if( m_orientation == landscape || m_orientation == invertedLandscape )
         return false;
     return true;
+}
+
+bool Scene::inInvertedLandscape() const
+{
+    if( m_orientation == landscape )
+        return true;
+    return false;
+}
+bool Scene::inInvertedPortrait() const
+{
+    if( m_orientation == portrait )
+        return true;
+    return false;
 }
 
 void Scene::lockCurrentOrientation( bool lock )
@@ -206,8 +224,20 @@ int Scene::winId() const
 
 void Scene::setWinId( int winId )
 {
-    if( m_myWinId == 0 )
+    if( m_myWinId == 0 ) {
+
         m_myWinId = winId;
+        if( m_myWinId == m_activeWinId ) {
+
+            m_bSceneActive = true;
+
+        } else {
+
+            m_bSceneActive = false;
+
+        }
+        emit activeSceneChanged();
+    }
 }
 
 int Scene::activeWinId() const
@@ -220,9 +250,7 @@ void Scene::setActiveWinId( int activeWinId )
 
         m_activeWinId = activeWinId;
 
-        if( m_myWinId != activeWinId && m_bSceneActive ) {
-
-            //deactivate Window:
+        if( m_myWinId != m_activeWinId && m_bSceneActive ) {
 
             m_bSceneActive = false;
             emit activeSceneChanged();
@@ -236,10 +264,11 @@ void Scene::setActiveWinId( int activeWinId )
             } else {
 
                 m_bActiveInhibitScreenSaver = true;
+                emit inhibitScreenSaverChanged();
 
             }
 
-        } else if ( m_myWinId == activeWinId && !m_bSceneActive ) {
+        } else if ( m_myWinId == m_activeWinId && !m_bSceneActive ) {
 
             //activate Window:
 
@@ -267,7 +296,6 @@ void Scene::setInhibitScreenSaver( bool inhibit )
 {
     if( m_bInhibitScreenSaver != inhibit )
     {
-
         if( m_bSceneActive ) {
 
             m_bInhibitScreenSaver = inhibit;

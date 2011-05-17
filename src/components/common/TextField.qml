@@ -57,7 +57,7 @@
 import Qt 4.7
 import MeeGo.Components 0.1
 
-BorderImage {
+ThemeBorderImage {
     id: container
 
     property alias defaultText: fakeText.text
@@ -68,15 +68,8 @@ BorderImage {
     property alias textFormat:     edit.textFormat
     property alias contentHeight:  flick.contentHeight
     property alias color:          edit.color
-
-
     signal textChanged
     signal cursorRectangleChanged
-
-    border.top: 6
-    border.bottom: 6
-    border.left: 6
-    border.right: 6
 
     height: 50
     source: (edit.focus && !readOnly) ? "image://themedimage/widgets/common/text-area/text-area-background-active" : "image://themedimage/widgets/common/text-area/text-area-background"

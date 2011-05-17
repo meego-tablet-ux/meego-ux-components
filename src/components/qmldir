@@ -29,6 +29,7 @@ Spinner 0.1 Common/Spinner.qml
 TextEntry 0.1 Common/TextEntry.qml
 TextField 0.1 Common/TextField.qml
 Theme 0.1 Common/Theme.qml
+ThemeBorderImage 0.1 Common/ThemeBorderImage.qml
 TimeSpinner 0.1 Common/TimeSpinner.qml
 ToggleButton 0.1 Common/ToggleButton.qml
 TopItem 0.1 Common/TopItem.qml
@@ -43,6 +44,7 @@ StatusBar 0.1 Indicators/StatusBar.qml
 MusicPicker 0.1 Media/MusicPicker.qml
 PhotoPicker 0.1 Media/PhotoPicker.qml
 VideoPicker 0.1 Media/VideoPicker.qml
+MucMediaGridView 0.1 Media/MucMediaGridView.qml
 
 plugin meego-ux-components-datetime DateTime
 plugin meego-ux-components-indicators Indicators

@@ -79,6 +79,9 @@ public:
     /*! this method returns a requested QImage*/
     QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize = QSize() );
 
+    void requestBorderGrid( const QString &id, int &borderTop, int &borderBottom, int &borderLeft, int &borderRight );
+    void setPath( const QString path) { m_path = path; }
+
     //FIXME to be removed
     void bulk();
 
@@ -161,6 +164,8 @@ private:
     QImage m_emptyImage;
     QPixmap m_emptyPixmap;
     QString m_filename;
+
+    QString m_path;
 
     int streamMemoryInfoSize;
     int streamImageReferenceSize;

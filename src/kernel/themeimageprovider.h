@@ -2,8 +2,8 @@
 #define THEMEIMAGEPROVIDER_H
 
 #include <QDeclarativeImageProvider>
-#include "imageprovidercache.h"
 
+class ImageProviderCache;
 class MGConfItem;
 
 class ThemeImageProvider : public QDeclarativeImageProvider
@@ -15,8 +15,12 @@ public:
     QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize);
     QPixmap requestPixmap( const QString &id, QSize *size, const QSize &requestedSize);
 
+    static ImageProviderCache* getCacheInstance();
+    
 private:    
-    ImageProviderCache m_cache;
+
+    // static for borderimage workaround @see borderimagedecorator
+    static ImageProviderCache* m_cache;
     QString m_themePath;
 };
 

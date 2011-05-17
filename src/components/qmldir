@@ -44,6 +44,7 @@ StatusBar 0.1 Indicators/StatusBar.qml
 MusicPicker 0.1 Media/MusicPicker.qml
 PhotoPicker 0.1 Media/PhotoPicker.qml
 VideoPicker 0.1 Media/VideoPicker.qml
+MucMediaGridView 0.1 Media/MucMediaGridView.qml
 
 plugin meego-ux-components-datetime DateTime
 plugin meego-ux-components-indicators Indicators

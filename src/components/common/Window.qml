@@ -54,11 +54,11 @@
  \qmlproperty variant bookMenuPayload
  \qmlcm string list that sets the filenames for the books (their initial pages).
 
- \qmlproperty fullScreen
- \qmlcm bool, hides the statusbar if true.
-
  \qmlproperty fullContent
  \qmlcm bool, hides the statusbar and the toolbar if true.
+
+ \qmlproperty fullScreen
+ \qmlcm bool, hides the statusbar if true.
 
  \qmlproperty bool actionMenuActive
  \qmlcm activates/deactivates the windowMenuButton.
@@ -241,8 +241,8 @@ Item {
     property alias actionMenuTitle: pageContextMenu.title
     property alias actionMenuHighlightSelection: actionMenu.highlightSelectedItem
 
-    property bool fullScreen: false
     property bool fullContent: false
+    property bool fullScreen: false
 
     property bool actionMenuPresent: false
 
@@ -268,7 +268,7 @@ Item {
     property alias toolBar: toolBar
     property bool automaticBookSwitching: true
     property bool customActionMenu: false
-    property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullScreen ) ? 0 : statusBar.height )
+    property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullContent ) ? 0 : statusBar.height )
 
     signal searchExtended()
     signal searchRetracted()
@@ -336,10 +336,10 @@ Item {
             id: statusBar
 
             x: 0
-            y: if( fullContent ){
+            y: if( fullScreen ){
                 - statusBar.height - clipBox.height
             }
-            else if( fullScreen ){
+            else if( fullContent ){
                 - statusBar.height
             }
             else{

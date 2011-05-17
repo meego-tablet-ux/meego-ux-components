@@ -60,7 +60,6 @@
    \\FIXME statistic must be considerd to have an aged statistic
    \\FIXME name of the statistics file / place to store is unclear
  */
-
 class ImageProviderCache : public QObject
 {
     Q_OBJECT
@@ -80,10 +79,7 @@ public:
     /*! this method returns a requested QImage*/
     QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize = QSize() );
 
-    void requestBorderGrid( const QString &id, int &borderTop, int &borderBottom, int &borderLeft, int &borderRight );
-
     //FIXME to be removed
-    void setPath( const QString path) { m_path = path; }
     void bulk();
 
 private:
@@ -165,8 +161,6 @@ private:
     QImage m_emptyImage;
     QPixmap m_emptyPixmap;
     QString m_filename;
-
-    QString m_path;
 
     int streamMemoryInfoSize;
     int streamImageReferenceSize;

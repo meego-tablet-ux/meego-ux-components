@@ -56,7 +56,7 @@
       \o Basic components:
         \list
         \o  \l { ActionMenu }
-        \o  \l { MediaGridView }
+        \o  \l { MucMediaGridView }
         \o  \l { ModalDialog }
         \o  \l { ModalFog }
         \o  \l { ScrollableMusicList }

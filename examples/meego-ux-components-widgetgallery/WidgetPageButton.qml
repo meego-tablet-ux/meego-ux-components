@@ -11,9 +11,21 @@
 
 import Qt 4.7
 import MeeGo.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 
 WidgetPage {
     id: widgetPage
+
+    // This is an example
+//    Component {
+//        id: contactsPicker
+//        ContactsPicker{}
+//    }
+
+//    Component.onCompleted : {
+//        var picker = contactsPicker.createObject (widgetPage);
+//        picker.show ();
+//    }
 
     pageTitle: qsTr("Button")
 
@@ -170,7 +182,7 @@ WidgetPage {
             active: activeBox.isChecked
             enabled: enabledBox.isChecked
 
-            onPressedChanged: { 
+            onPressedChanged: {
                 if( pressed ) { 
                     statusEntry.value = qsTr("pressed") 
                 } else { 

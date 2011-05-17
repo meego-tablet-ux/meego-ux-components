@@ -36,6 +36,7 @@ WidgetPage {
 
             onTextUpdated: {
                 ebox1.height = value
+                ebox1.buttonHeight = value
             }
         },
         LabeledEntry {
@@ -57,16 +58,20 @@ WidgetPage {
     widget: Flickable {
 
         anchors.fill: parent
-        contentHeight: height > ebox1.height ? height : ebox1.height
-        contentWidth: width > ebox1.width ? width : ebox1.width
+        contentHeight: height > colBox.height ? height : colBox.height
+        contentWidth: width > colBox.width ? width : colBox.width
         clip: true
+
+        Column{
+            id:colBox
+            anchors.centerIn: parent
 
         ExpandingBox {
             id: ebox1
 
-            anchors.centerIn: parent
+            height: 50
             width: 400
-            titleText: "Expanding Box1"
+            titleText: "Expanding Box"
             titleTextColor: "black"
 
             iconRow: [
@@ -97,6 +102,43 @@ WidgetPage {
                 }
             }
         }
+
+        ExpandingBox {
+            id: ebox2
+
+            width: 400
+            height: 50
+            titleText: "Dummy Box"
+            titleTextColor: "black"
+
+//            iconRow: [
+//                Image {
+//                    height: parent.height * 0.9
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    fillMode: Image.PreserveAspectFit
+//                    source: "image://theme/camera/camera_lens_sm_up"
+//                }
+//            ]
+
+            detailsComponent: demoComponent1
+
+            Component {
+                id: demoComponent2
+
+                Rectangle {
+
+                    height: 50
+                    color: "blue"
+                    width: parent.width
+
+                    Text {
+                        id: text2
+
+                        text: "Demo Component1"
+                    }
+                }
+            }
+        }}
     }
 
     TopItem {

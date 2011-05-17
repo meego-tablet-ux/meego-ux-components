@@ -755,7 +755,7 @@ Item {
             scene.orientationLock = 5;
         } else if( lockOrientationIn == "allPortrait" ) {
             scene.orientationLock = 6;
-        } else if( lockOrientationIn == "noLock" ) { {            
+        } else if( lockOrientationIn == "noLock" ) {
             scene.orientationLock = 0;
         }
     }

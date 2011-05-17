@@ -20,9 +20,15 @@ Item {
 
     signal close()
 
-    TopItem {
-        id: topItem
+    // this function allows to determine the time and place in stack when the handles
+    // are created. This way we can ensure SelectionHandleSurface is always behind the
+    // CCP ContextMenu.
+    function initiate(){
+        topItem.calcTopParent()
+        innerItem.parent = topItem.topItem
     }
+
+    TopItem { id: topItem }
 
     Item {
         id: innerItem
@@ -121,7 +127,7 @@ Item {
                     return;
                 }
 
-                var map = mapToItem (scene.content, mouse.x, mouse.y);
+                var map = mapToItem (topItem.topItem, mouse.x, mouse.y);
                 container.editor.showContextMenu (map.x, map.y);
 
                 // Now a menu is popped up we don't want the release to
@@ -164,8 +170,6 @@ Item {
     }
 
     onVisibleChanged: {
-        topItem.calcTopParent()
-        innerItem.parent = topItem.topItem
         innerItem.visible = visible;
     }
 

@@ -18,6 +18,9 @@ MouseArea {
     property real yOffset: 0
     property int pendingCursorPosition: 0
 
+    property int mouseX: 0
+    property int mouseY: 0
+
     // The Item this mouse area handles
     property Item editor: null
 
@@ -57,7 +60,8 @@ MouseArea {
         selectionStart = s;
 
         var rect = editor.positionToRectangle (selectionStart);
-        var map = mapToItem (window, rect.x, rect.y);
+
+        var map = mapToItem (top.topItem, rect.x, rect.y);
         selectionHandleSurface.startHandle.setPosition (map.x, map.y, rect.height);
     }
 
@@ -71,8 +75,28 @@ MouseArea {
         selectionEnd = e;
 
         var rect = editor.positionToRectangle (selectionEnd);
-        var map = mapToItem (window, rect.x, rect.y);
+        var map = mapToItem (top.topItem, rect.x, rect.y);
         selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
+    }
+
+    TopItem {
+        id: top
+        onGeometryChanged: {
+            var rect = editor.positionToRectangle (selectionStart);
+
+            var map = mapToItem (top.topItem, rect.x, rect.y);
+            console.log(" -- ",map.x, map.y)
+
+            selectionHandleSurface.startHandle.setPosition (map.x, map.y, rect.height);
+
+            rect = editor.positionToRectangle (selectionEnd);
+            map = mapToItem (top.topItem, rect.x, rect.y);
+
+            selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
+
+            map = mapToItem (top.topItem, box.mouseX, box.mouseY);
+            clipboardContextMenu.setPosition ( map.x, map.y )
+        }
     }
 
     Timer {
@@ -104,7 +128,7 @@ MouseArea {
             selectionEnd = selectionStart;
 
             var rect = editor.positionToRectangle (selectionStart);
-            var map = mapToItem (window, rect.x, rect.y);
+            var map = mapToItem (top.topItem, rect.x, rect.y);
             selectionHandleSurface.startHandle.setPosition (map.x, map.y, rect.height);
             selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
 
@@ -119,9 +143,16 @@ MouseArea {
 
         if (state == "selection") {
             // If there is a selection, then we want to pop up the menu
-            var map = mapToItem (window, mouse.x, mouse.y);
+            var map = mapToItem (top.topItem, mouse.x, mouse.y);
 
             showContextMenu (map.x, map.y);
+
+            map = mapToItem (box, mouse.x, mouse.y)
+            box.mouseX = map.x
+            box.mouseY = map.y
+
+            // ensure selection is visible
+            editor.select (selectionStart, selectionEnd);
         }
     }
 
@@ -134,7 +165,7 @@ MouseArea {
         editor.select (selectionStart, selectionEnd);
 
         var rect = editor.positionToRectangle (selectionEnd);
-        var map = mapToItem (window, rect.x, rect.y);
+        var map = mapToItem (top.topItem, rect.x, rect.y);
 
         selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
     }
@@ -144,9 +175,14 @@ MouseArea {
             return;
         }
 
-        var map = mapToItem (window, mouse.x, mouse.y);
+        var map = mapToItem (top.topItem, mouse.x, mouse.y);
 
         showContextMenu (map.x, map.y);
+    }
+
+    Component.onCompleted: {
+        // This sets the SelectionHandles parent and ensures the ContextMenu is always above.
+        selectionHandleSurface.initiate()
     }
 
     ContextMenu {

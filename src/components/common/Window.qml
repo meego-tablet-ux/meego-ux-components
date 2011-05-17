@@ -532,7 +532,6 @@ Item {
 
                             anchors.fill: parent
                             onClicked: {
-//                                bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , mapToItem( window_content_topitem, window_content_topitem.width / 2, applicationMenuButton.y + applicationMenuButton.height ).y )
                                 bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
                                 bookContextMenu.show()
                             }

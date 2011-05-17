@@ -17,9 +17,11 @@
 #include "themeimageprovider.h"
 #include "translator.h"
 #include "windowiconprovider.h"
+#include "borderimagedecorator.h"
 
 void MeeGoUxKernelPlugin::registerTypes(const char *uri)
 {
+    qmlRegisterType<BorderImageDecorator>(uri, 0,1, "ThemeImageBorder");
     qmlRegisterType<QMLContextProperty>(uri, 0,1, "ContextProperty");
     qmlRegisterType<QmlDebugTools>(uri, 0,1, "QmlDebugTools");
     qmlRegisterType<Scene>(uri, 0,1,"Scene");

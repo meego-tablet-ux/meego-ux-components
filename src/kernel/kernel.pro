@@ -26,7 +26,8 @@ SOURCES += contextproperty.cpp \
         translator.cpp \
         windowelement.cpp \
         windowiconprovider.cpp \
-        windowlistener.cpp
+        windowlistener.cpp \
+    borderimagedecorator.cpp
 
 HEADERS += contextproperty.h \
         imageprovidercache.h \
@@ -41,7 +42,8 @@ HEADERS += contextproperty.h \
         windowelement.h \
         windowiconprovider.h \
         windowinfo.h \
-        windowlistener.h
+        windowlistener.h \
+    borderimagedecorator.h
 
 QML_FILES = qmldir
 

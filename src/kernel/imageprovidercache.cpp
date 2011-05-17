@@ -110,6 +110,46 @@ QImage ImageProviderCache::requestImage( const QString& id, QSize* size, const Q
     return requestImage( id, true, size, requestedSize );
 }
 
+void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, int &borderBottom, int &borderLeft, int &borderRight )
+{
+    QString path = m_path + id;
+    path.remove( QString::fromLatin1("image://themedimage/") );
+    bulk();
+    if( existImage ( path, QSize() ) ) {
+
+        for( int i = 0; i < m_imageTable.size(); i++ ) {
+            if( m_imageTable[i].equal( path ) ) {
+
+                borderTop = m_imageTable[i].borderTop;
+                borderBottom = m_imageTable[i].borderBottom;
+                borderLeft = m_imageTable[i].borderLeft;
+                borderRight = m_imageTable[i].borderRight;
+                return;
+            }
+        }
+
+    } else {
+
+        requestImage( path, true, 0 );
+
+        for( int i = 0; i < m_imageTable.size(); i++ ) {
+
+            if( m_imageTable[i].equal( path ) ) {
+
+                borderTop = m_imageTable[i].borderTop;
+                borderBottom = m_imageTable[i].borderBottom;
+                borderLeft = m_imageTable[i].borderLeft;
+                borderRight = m_imageTable[i].borderRight;
+                return;
+
+            }
+        }
+    }
+
+    qDebug() << " Image borders for " << path << "not found";
+    return;
+}
+
 // ~~~~~~ Private
 
 bool ImageProviderCache::existImage( const QString & id, const QSize& size )
@@ -502,7 +542,6 @@ QPixmap ImageProviderCache::loadPixmapFromGles( const QString &id, const QSize& 
 
     return pixmap;
 }
-
 
 ImageReference ImageProviderCache::loadSciFile( const QString& id )
 {

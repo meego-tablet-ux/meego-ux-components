@@ -15,9 +15,9 @@ public:
     QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize);
     QPixmap requestPixmap( const QString &id, QSize *size, const QSize &requestedSize);
 
-private:
-    MGConfItem *themeItem;
+private:    
     ImageProviderCache m_cache;
+    QString m_themePath;
 };
 
 #endif // THEMEIMAGEPROVIDER_H

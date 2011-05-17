@@ -460,25 +460,24 @@ Item {
                         }
                     }
 
-                    Image {
+                    IconButton {
                         id: backButton
 
-                        anchors.left: parent.left
-                        source: if( backButtonMouseArea.pressed && !backButtonLocked ) {
-                            "image://themedimage/images/icn_toolbar_back_button_dn"
-                        } else {
-                            "image://themedimage/images/icn_toolbar_back_button_up"
-                        }
-                        visible: toolBar.showBackButton
+                        anchors.left:  parent.left
+                        visible:  toolBar.showBackButton
 
-                        MouseArea {
-                            id: backButtonMouseArea
-                            enabled: !pageStack.busy
-                            anchors.fill: parent
-                            onClicked: {
-                                backButtonPressed( backButtonLocked )
-                                if( !backButtonLocked )
+                        icon: "image://themedimage/icons/toolbar/go-back"
+                        iconDown: "image://themedimage/icons/toolbar/go-back-selected"
+
+                        bgSourceDn: "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active"
+                        bgSourceUp: ""
+
+                        onClicked: {
+                            if( !pageStack.busy ) {
+                                window.backButtonPressed( window.backButtonLocked )
+                                if( !window.backButtonLocked ) {
                                     pageStack.pop()
+                                }
                             }
                         }
                     }
@@ -515,26 +514,21 @@ Item {
                     }
 
                     //the application menu is used to switch between "books"
-                    Image {
+                    IconButton {
                         id: applicationMenuButton
 
                         anchors.right: spacer2.left
                         visible: bookMenu.height > 0
 
-                        source: if( applicationMenuButtonMouseArea.pressed || bookContextMenu.visible ) {
-                            "image://themedimage/images/icn_toolbar_view_menu_dn"
-                        } else {
-                            "image://themedimage/images/icn_toolbar_view_menu_up"
-                        }
+                        icon: "image://themedimage/icons/toolbar/view-change"
+                        iconDown: "image://themedimage/icons/toolbar/view-change-selected"
 
-                        MouseArea {
-                            id: applicationMenuButtonMouseArea
+                        bgSourceDn: "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active"
+                        bgSourceUp: ""
 
-                            anchors.fill: parent
-                            onClicked: {
-                                bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
-                                bookContextMenu.show()
-                            }
+                        onClicked: {
+                            bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 10 )
+                            bookContextMenu.show()
                         }
 
                         ContextMenu{
@@ -569,30 +563,24 @@ Item {
                     }
 
                     //the window menu is used to perform actions on the current page
-                    Image {
+                    IconButton {
                         id: windowMenuButton
 
                         anchors.right: parent.right
                         visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
 
-                        source: if( windowMenuButtonMouseArea.pressed || window.actionMenuPresent) {
-                            "image://themedimage/images/icn_toolbar_applicationpage_menu_dn"
-                        } else {
-                            "image://themedimage/images/icn_toolbar_applicationpage_menu_up"
-                        }
+                        icon: "image://themedimage/icons/toolbar/view-actions"
+                        iconDown: "image://themedimage/icons/toolbar/view-actions-selected"
 
-                        MouseArea {
-                            id: windowMenuButtonMouseArea
+                        bgSourceDn: "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active"
+                        bgSourceUp: ""
 
-                            anchors.fill: parent
-                            onClicked: {
+                        onClicked: {
+                            actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 10 )
 
-                                actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 3 )
-
-                                if( !customActionMenu ){
-                                    pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 3 )
-                                    pageContextMenu.show()
-                                }
+                            if( !customActionMenu ){
+                                pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 10 )
+                                pageContextMenu.show()
                             }
                         }
 

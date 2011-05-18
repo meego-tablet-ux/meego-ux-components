@@ -775,6 +775,8 @@ Item {
             if( qApp && qApp.orientationLocked != orientationLocked ) {
                 if( scene.orientationLock < 5 ) //FIXME -> no orientation stop on AllLandscape and AllPortrait lock
                     qApp.orientationLocked = scene.orientationLocked
+                else
+                    qApp.orientationLocked = false
             }
         }
 

@@ -7,8 +7,7 @@ class Scene : public QObject
 {
     Q_OBJECT
 
-    Q_ENUMS( Orientation );
-    Q_ENUMS( OrientationLock );
+    Q_ENUMS( Orientation OrientationLock );
 
     Q_PROPERTY( QString orientationString READ orientationString NOTIFY orientationChanged )
     Q_PROPERTY( Scene::Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged )

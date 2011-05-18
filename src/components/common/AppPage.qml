@@ -33,6 +33,11 @@
   \qmlproperty bool fullContent
   \qmlcm hides the statusbar and the toolbar if true.
 
+  \qmlproperty bool pageUsingFullScreen
+  \qmlcm If set to true, the page will use the complete space available. Statusbar and
+  toolbar will still be visible above it and obfuscate what's below. If set to false,
+  the page will always occupy the space below the toolbar, stretching/squeezing to fit it.
+
   \qmlproperty bool actionMenuHighlightSelection
   \qmlcm set true if the actionMenu should highlight the last selected item
 

@@ -257,7 +257,7 @@ Item {
                if( appPage.allowActionMenuSignal || appPage.enableCustomActionMenu ){
                   actionMenuIconClicked( mouseX, mouseY )
                }
-            }s
+            }
         }
 
 //        onWindowFocusChanged: { // from Window.qml

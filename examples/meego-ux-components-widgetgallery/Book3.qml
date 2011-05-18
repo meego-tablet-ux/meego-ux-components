@@ -69,7 +69,7 @@ PageDummy {
             pageTitle: "book 3, page 4"
             buttonLabel: "Page 5"
             showButton: true
-            fullScreen: false
+            fullContent: false
 
             onClicked: { addPage( page5 ) }
         }
@@ -86,8 +86,8 @@ PageDummy {
             pageTitle: "book 3, page 5"
             showButton: true
             buttonLabel: "Page 6"
-            fullScreen: true
-            fullContent: false
+            fullScreen: false
+            fullContent: true
 
             onClicked: { addPage( page6 ) }
         }

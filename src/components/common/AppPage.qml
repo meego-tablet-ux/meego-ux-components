@@ -152,6 +152,7 @@ Item {
     property bool actionMenuOpen: false
     property bool fullScreen: false
     property bool fullContent: false
+    property bool pageUsingFullScreen: false
     property bool backButtonLocked: false
     property bool enableCustomActionMenu: false
     property bool allowActionMenuSignal: false
@@ -174,6 +175,7 @@ Item {
     signal search( string needle )
 
     anchors.fill:  parent
+    anchors.topMargin: pageUsingFullScreen? 0 : top.topDecorationHeight //window.barsHeight
 
     TopItem{ id: top }
 

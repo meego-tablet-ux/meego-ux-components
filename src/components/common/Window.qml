@@ -697,12 +697,12 @@ Item {
                     RotationAnimation {
                         target: window_content_topitem
                         direction: RotationAnimation.Shortest;
-                        duration: theme.dialogAnimationDuration : 0
+                        duration: window.isActiveWindow ? theme.dialogAnimationDuration : 0
                     }
                     PropertyAnimation {
                         target: window_content_topitem
                         properties: "width,height"
-                        duration: theme.dialogAnimationDuration : 0
+                        duration:  window.isActiveWindow ? theme.dialogAnimationDuration : 0
                         easing.type: "OutSine"
                     }
                 }

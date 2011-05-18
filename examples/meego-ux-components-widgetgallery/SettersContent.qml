@@ -388,6 +388,8 @@ Item {
                             width:  parent.width
                             anchors.centerIn: parent
 
+                            replaceDropDownTitle: false
+
                             title: "DropDown"
                             titleColor: "black"
                         }

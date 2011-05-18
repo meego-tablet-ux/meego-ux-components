@@ -71,6 +71,7 @@ Item {
     property int topWidth: 0
     property int topHeight: 0
     property int topDecorationHeight
+    property int windowBarsHeight
 
     signal orientationChangeFinished()
     signal geometryChanged( real newWidth, real newHeight )
@@ -84,6 +85,18 @@ Item {
         }
         catch(err){
             return 0;
+        }
+    }
+
+    windowBarsHeight: {
+       try {
+            if (window.barsHeight == undefined)
+                return 80;      // return the magic numbers when 'window' is not found
+            else
+                return window.barsHeight;
+        }
+        catch(err){
+            return 80;
         }
     }
 

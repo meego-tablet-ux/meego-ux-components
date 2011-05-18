@@ -268,13 +268,13 @@ Item {
     property alias toolBar: toolBar
     property bool automaticBookSwitching: true
     property bool customActionMenu: false
-    property int topDecorationHeight: toolBar.height + toolBar.offset + ( ( fullContent ) ? 0 : statusBar.height )
+    property int topDecorationHeight: toolBar.height + toolBar.y + statusBar.height  + statusBar.y
+//    property int barsHeight: toolBar.height - searchTitleBar.height + statusBar.height + statusBar.y
+    property bool fastPageSwitch: false
 
     signal searchExtended()
     signal searchRetracted()
     signal search( string needle )
-
-    property bool fastPageSwitch: false
 
     signal bookMenuTriggered( int index )
     signal actionMenuTriggered( variant selectedItem )
@@ -347,7 +347,6 @@ Item {
             }
             width: window_content_topitem.width
             height: 30
-            z: 1
 
             Behavior on y {
                 PropertyAnimation {
@@ -623,14 +622,22 @@ Item {
             } //end toolBar
         }
 
+//        Item{
+//            id: pageSpacer
+//            width: parent.width
+//            height: 0//pagesAlwaysFullscreen? 0 : clipBox.height + statusBar.y + statusBar.height
+//        }
+
         //add a page stack to manage pages
         PageStack {
             id: pageStack
-            anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+            z: -2
+            anchors.fill:  parent// { top: pageSpacer.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
         Item {
             id: overlayArea
+            z: -1
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 

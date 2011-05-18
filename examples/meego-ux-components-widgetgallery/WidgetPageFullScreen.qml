@@ -72,6 +72,34 @@ WidgetPage {
                 elide: Text.ElideRight
                 text: widgetPage.fullContent
             }
+        },
+
+        Item {
+            id: fullScreenBox2
+
+            anchors { left: parent.left; right: parent.right }
+            height:  50
+
+            Text {
+                id: label3
+
+                anchors { left: parent.left; right: parent.horizontalCenter; top: parent.top; bottom: parent.bottom; margins: 5 }
+                verticalAlignment: "AlignVCenter"
+                horizontalAlignment: "AlignLeft"
+                font.pixelSize: parent.height * 0.5
+                elide: Text.ElideRight
+                text: qsTr("pageUsingFullScreen: " )
+            }
+
+            Text {
+                id: pageFullscreen
+
+                anchors { left: parent.horizontalCenter; right: parent.right; top: parent.top; bottom: parent.bottom; margins: 5 }
+                verticalAlignment: "AlignVCenter"
+                font.pixelSize: parent.height * 0.5
+                elide: Text.ElideRight
+                text: widgetPage.pageUsingFullScreen
+            }
         }
     ]
 
@@ -108,6 +136,17 @@ WidgetPage {
 
                 onClicked: {
                     widgetPage.fullContent = widgetPage.fullContent ? false : true
+                }
+            }
+
+            Button {
+                id: ebox3
+
+
+                text: widgetPage.pageUsingFullScreen ? qsTr("End Page using Fullscreen") : qsTr("Page using Fullscreen")
+
+                onClicked: {
+                    widgetPage.pageUsingFullScreen = widgetPage.pageUsingFullScreen ? false : true
                 }
             }
         }

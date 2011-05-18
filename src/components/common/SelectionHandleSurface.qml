@@ -85,7 +85,7 @@ Item {
             }
 
             onPressed: {
-                ignorePressAndHold = true;
+                ignorePressAndHold = false;
                 // We store the handle that the mouse pointer was over
                 // so we can drag the correct end of the selection
                 // on movement.
@@ -94,7 +94,6 @@ Item {
                 } else if (insideHandle (endHandle, mouse.x, mouse.y)) {
                     selectedHandle = endHandle;
                 } else {
-                    ignorePressAndHold = false;
                     selectedHandle = null;
                 }
 
@@ -114,8 +113,6 @@ Item {
 
                 if (selectedHandle == null) {
                     container.close ();
-                } else {
-                    container.editor.showContextMenu (mouse.x, mouse.y);
                 }
             }
 
@@ -129,6 +126,7 @@ Item {
 
                 var map = mapToItem (topItem.topItem, mouse.x, mouse.y);
                 container.editor.showContextMenu (map.x, map.y);
+                container.editor.ensureSelection()
 
                 // Now a menu is popped up we don't want the release to
                 // close the selection
@@ -137,6 +135,7 @@ Item {
 
             onPositionChanged: {
                 if (selectedHandle) {
+                    ignorePressAndHold = true;
                     var nx, ny;
 
                     // Work out where the handle would be moved to

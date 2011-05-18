@@ -30,6 +30,7 @@ MouseArea {
     property bool currentlySelecting: false
 
     property bool copyOnly: false
+    property bool pasteOnly: false
 
     // The mouse area needs to expand outside of the parent
     // so that the selection handles can be clicked when they
@@ -42,8 +43,35 @@ MouseArea {
     // Shows the context menu at cx,cy. cx & cy are in the root windows
     // coordinate space, not the CCPContextArea's.
     function showContextMenu (cx, cy) {
+        if( selectionStart == selectionEnd ){
+            box.pasteOnly = true
+
+            if(  state != "selection" ){
+                // this is a workaround for problems pasting contents into the middle of a TextInput
+                // this ensures something is 'selected'
+                var mapHelp = mapFromItem (top.topItem, cx, cy)
+                selectionStart = editor.positionAt (mapHelp.x, mapHelp.y);
+                selectionEnd = selectionStart;
+            }
+        }
+        else{
+            box.pasteOnly = false
+        }
+
+        if( selectionStart == selectionEnd && copyOnly )
+            return
+
         clipboardContextMenu.setPosition(  cx, cy )
         clipboardContextMenu.show()
+
+        var map = mapFromItem (top.topItem, cx, cy)
+        box.mouseX = map.x
+        box.mouseY = map.y
+    }
+
+    function ensureSelection() {
+        // ensure selection is visible
+        editor.select (selectionStart, selectionEnd);
     }
 
     // We set the position here, which in turn controls where the
@@ -124,6 +152,8 @@ MouseArea {
         if (clickCount == 2) {
             state = "selection"
 
+            selectionHandleSurface.initiate()
+
             selectionStart = editor.positionAt (mouse.x, mouse.y);
             selectionEnd = selectionStart;
 
@@ -142,17 +172,7 @@ MouseArea {
         currentlySelecting = false;
 
         if (state == "selection") {
-            // If there is a selection, then we want to pop up the menu
-            var map = mapToItem (top.topItem, mouse.x, mouse.y);
-
-            showContextMenu (map.x, map.y);
-
-            map = mapToItem (box, mouse.x, mouse.y)
-            box.mouseX = map.x
-            box.mouseY = map.y
-
-            // ensure selection is visible
-            editor.select (selectionStart, selectionEnd);
+            ensureSelection()
         }
     }
 
@@ -175,27 +195,35 @@ MouseArea {
             return;
         }
 
+        selectionHandleSurface.initiate()
         var map = mapToItem (top.topItem, mouse.x, mouse.y);
 
-        showContextMenu (map.x, map.y);
-    }
 
-    Component.onCompleted: {
-        // This sets the SelectionHandles parent and ensures the ContextMenu is always above.
-        selectionHandleSurface.initiate()
+        showContextMenu (map.x, map.y);
     }
 
     ContextMenu {
         id: clipboardContextMenu
 
         content: ActionMenu {
-            model: box.copyOnly ? [qsTr ("Copy")] : [qsTr ("Copy"), qsTr ("Cut"), qsTr ("Paste")]
+            model: if(box.copyOnly){
+                       [qsTr ("Copy")] }
+                   else if( box.pasteOnly ){
+                       [qsTr ("Paste")]
+                   }else{
+                       [qsTr ("Copy"), qsTr ("Cut"), qsTr ("Paste")]
+                   }
 
             onTriggered: {
                 editor.select ( box.selectionStart, box.selectionEnd);
                 switch (index) {
                 case 0:
-                    box.parent.copy();
+                    if( box.pasteOnly ){
+                        box.parent.paste();
+                    }
+                    else {
+                        box.parent.copy();
+                    }
                     break;
 
                 case 1:

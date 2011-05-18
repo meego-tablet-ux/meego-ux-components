@@ -1,3 +1,11 @@
+/*
+ * Copyright 2011 Intel Corporation.
+ *
+ * This program is licensed under the terms and conditions of the
+ * LGPL, version 2.1.  The full text of the LGPL Licence is at
+ * http://www.gnu.org/licenses/lgpl.html
+ */
+
 #ifndef SCENE_H
 #define SCENE_H
 
@@ -7,8 +15,7 @@ class Scene : public QObject
 {
     Q_OBJECT
 
-    Q_ENUMS( Orientation );
-    Q_ENUMS( OrientationLock );
+    Q_ENUMS( Orientation OrientationLock );
 
     Q_PROPERTY( QString orientationString READ orientationString NOTIFY orientationChanged )
     Q_PROPERTY( Scene::Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged )
@@ -17,7 +24,7 @@ class Scene : public QObject
     Q_PROPERTY( bool lockCurrentOrientation READ orientationLocked WRITE lockCurrentOrientation )
 
     Q_PROPERTY( bool inhibitScreenSaver READ inhibitScreenSaver WRITE setInhibitScreenSaver NOTIFY inhibitScreenSaverChanged )
-    Q_PROPERTY( bool isActiveScene READ isActiveScene NOTIFY activeSceneChanged )
+    Q_PROPERTY( bool isActiveScene READ isActiveScene WRITE setActiveScene NOTIFY activeSceneChanged )
 
     Q_PROPERTY( int winId READ winId WRITE setWinId )
     Q_PROPERTY( int activeWinId READ activeWinId WRITE setActiveWinId )
@@ -63,6 +70,7 @@ public:
     bool inInvertedPortrait() const;
 
     bool isActiveScene() const;
+    void setActiveScene( bool active ) { m_bSceneActive = active; }
 
     int winId() const;
     void setWinId( int winId );
@@ -78,6 +86,7 @@ signals:
     void orientationLockChanged();
     void activeSceneChanged();
     void inhibitScreenSaverChanged();
+    void disableSceneChanged();
 
 private:
    Orientation m_orientation;

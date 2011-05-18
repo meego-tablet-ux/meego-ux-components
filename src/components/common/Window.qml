@@ -262,7 +262,7 @@ Item {
 
     property bool backButtonLocked: false
 
-    property alias overlayItem: overlayArea.children
+    property alias overlayItem: overlayArea.children    
     property alias pageStack: pageStack
     property alias statusBar: statusBar
     property alias toolBar: toolBar
@@ -634,14 +634,10 @@ Item {
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
-        states:  [
-            State {
-                name: "windowHasNoFocus"
-                when: (!isActiveWindow)
-            },
+        states:  [            
             State {
                 name: "landscape"                
-                when: ( isActiveWindow && scene.orientationString == "landscape")
+                when: ( scene.orientationString == "landscape")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -653,7 +649,7 @@ Item {
             },
             State {
                 name: "invertedLandscape"
-                when: ( isActiveWindow && scene.orientationString == "invertedLandscape")
+                when: ( scene.orientationString == "invertedLandscape")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -664,7 +660,7 @@ Item {
             },
             State {
                 name: "portrait"                
-                when: ( isActiveWindow && scene.orientationString == "portrait")
+                when: ( scene.orientationString == "portrait")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -675,7 +671,7 @@ Item {
             },
             State {
                 name: "invertedPortrait"
-                when: ( isActiveWindow && scene.orientationString == "invertedPortrait")
+                when: ( scene.orientationString == "invertedPortrait")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -804,8 +800,13 @@ Item {
     Connections {
         target: qApp
         onForegroundWindowChanged: {
-            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
+
             scene.activeWinId = qApp.foregroundWindow;
+            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
+
+            console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
+
+
         }
         onOrientationChanged: {
             scene.orientation = qApp.orientation;

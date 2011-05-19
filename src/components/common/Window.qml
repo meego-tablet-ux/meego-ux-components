@@ -280,8 +280,9 @@ Item {
     property bool automaticBookSwitching: true
     property bool customActionMenu: false
     property int topDecorationHeight: toolBar.height + toolBar.y + statusBar.height  + statusBar.y
-//    property int barsHeight: toolBar.height - searchTitleBar.height + statusBar.height + statusBar.y
     property bool fastPageSwitch: false
+
+    property real contentVerticalShift: 0
 
     signal searchExtended()
     signal searchRetracted()
@@ -604,6 +605,10 @@ Item {
 
                             onVisibleChanged: {
                                 window.actionMenuPresent = visible
+//                                if(window.contentVerticalShift == 0)
+//                                    window.contentVerticalShift = -100
+//                                else
+//                                    window.contentVerticalShift = 0
                             }
 
                             content:  ActionMenu {
@@ -623,23 +628,35 @@ Item {
             } //end toolBar
         }
 
-//        Item{
-//            id: pageSpacer
-//            width: parent.width
-//            height: 0//pagesAlwaysFullscreen? 0 : clipBox.height + statusBar.y + statusBar.height
-//        }
-
         //add a page stack to manage pages
         PageStack {
             id: pageStack
             z: -2
-            anchors.fill:  parent// { top: pageSpacer.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+            y: window.contentVerticalShift
+
+            width: parent.width
+            height: parent.height
+
+            Behavior on y{
+                NumberAnimation{
+                    duration:  200
+                }
+            }
         }
 
         Item {
             id: overlayArea
             z: -1
-            anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+            y: window.contentVerticalShift
+
+            width: parent.width
+            height: parent.height
+
+            Behavior on y{
+                NumberAnimation{
+                    duration:  200
+                }
+            }
         }
 
         states:  [         

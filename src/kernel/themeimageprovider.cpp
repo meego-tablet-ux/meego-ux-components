@@ -33,8 +33,7 @@ ImageProviderCache* ThemeImageProvider::getCacheInstance()
 ThemeImageProvider::ThemeImageProvider() :
         QDeclarativeImageProvider(QDeclarativeImageProvider::Image)
 {
-
-  ThemeImageProvider::getCacheInstance();
+    ThemeImageProvider::getCacheInstance();
 
     MGConfItem* themeItem = new MGConfItem(THEME_KEY);
 

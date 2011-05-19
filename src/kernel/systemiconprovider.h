@@ -12,6 +12,7 @@
 
 #include <QDeclarativeImageProvider>
 
+class ImageProviderCache;
 class MGConfItem;
 
 class SystemIconProvider : public QDeclarativeImageProvider
@@ -20,10 +21,16 @@ public:
     SystemIconProvider();
     ~SystemIconProvider();
 
+    QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize);
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
 
 private:
-    MGConfItem *themeItem;
+
+    QPixmap readPixmapFromFile( const QString& file, const QSize& requestedSize );
+    QImage readImageFromFile( const QString& file, const QSize& requestedSize );
+
+    ImageProviderCache* m_cache;
+    QString m_themePath;
 };
 
 #endif // SYSTEMICONPROVIDER_H

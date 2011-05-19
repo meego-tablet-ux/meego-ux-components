@@ -175,7 +175,7 @@ ModalFog {
 
     property int verticalOffset: topItem.topDecorationHeight
 
-    width: if( sizeHintWidth < topItem.topWidth * 0.9 ){
+    width: if( sizeHintWidth < topItem.topWidth * 0.95 ){
                if( sizeHintWidth < topItem.topWidth * 0.2 ){
                    topItem.topWidth * 0.2
                }
@@ -184,10 +184,10 @@ ModalFog {
                }
            }
            else{
-               topItem.topWidth * 0.9
+               topItem.topWidth * 0.95
            }
 
-    height: if( sizeHintHeight < (topItem.topHeight - topItem.topDecorationHeight) * 0.9 ){
+    height: if( sizeHintHeight < (topItem.topHeight - topItem.topDecorationHeight) * 0.95 ){
                 if( sizeHintHeight < decorationHeight){
                     decorationHeight
                 }
@@ -196,7 +196,7 @@ ModalFog {
                 }
             }
             else{
-                (topItem.topHeight - topItem.topDecorationHeight) * 0.9
+                (topItem.topHeight - topItem.topDecorationHeight) * 0.95
             }
 
     fogClickable: false

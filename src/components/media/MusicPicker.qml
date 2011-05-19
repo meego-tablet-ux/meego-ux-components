@@ -157,6 +157,8 @@ ModalDialog {
 
     property bool acceptBlocked: false
 
+    onModelChanged: musicGridView.model = musicPicker.model;
+
     onAccepted:{
         if( !acceptBlocked ) {
             acceptBlocked = true

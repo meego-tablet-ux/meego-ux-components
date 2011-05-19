@@ -249,7 +249,7 @@ Flickable {
                 currentWidth = minWidth
                 layout.elideEnabled = false
 
-                if( !starting ){    // This ensures that the value set initial hardcode survives until the ActionMenu is ready
+                if( !layout.starting ){    // This ensures that the value set initial hardcode survives until the ActionMenu is ready
                     container.selectedIndex = -1
                 }
             }

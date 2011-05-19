@@ -11,6 +11,8 @@
 
 #include <QObject>
 
+class SaveRestoreState;
+
 class Scene : public QObject
 {
     Q_OBJECT
@@ -103,6 +105,7 @@ private:
    bool m_bBlockOrientationWhenInactive;
    int m_activeWinId;
    int m_myWinId;
+   SaveRestoreState *m_saveRestoreState;
 
 };
 

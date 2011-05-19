@@ -830,18 +830,6 @@ Item {
         }
     }
 
-    SaveRestoreState {
-        id: saveRestoreSignaler
-        alwaysValid: true
-    }
-
-    Connections {
-	target: scene
-	onIsActiveSceneChanged: {
-	    if (!scene.isActiveScene) saveRestoreSignaler.requireSaveAll()
-	}
-    }
-
     Connections {
         target: qApp
         onForegroundWindowChanged: {

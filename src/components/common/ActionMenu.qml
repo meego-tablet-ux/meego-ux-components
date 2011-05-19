@@ -166,7 +166,7 @@ Flickable {
                     height: parent.height + 1
                     anchors.verticalCenterOffset: -1
 
-                    opacity: ( highlight == container.currentItem || highlight == container.oldItem ) ? 1 : 0 // this forces a repaint
+                    opacity: ( highlight == container.oldItem ) ? (highlight == container.currentItem ? 0.5 : 1) : (highlight == container.currentItem ? 0.5 : 0) // this forces a repaint
                     visible: opacity != 0
 
                 }

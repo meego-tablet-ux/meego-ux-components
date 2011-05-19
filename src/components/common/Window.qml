@@ -298,6 +298,14 @@ Item {
         if( !pageStack.busy ){
             pageStack.clear();  //first remove all pages from the stack
             pageStack.push( pageComponent ) //then add the new page
+            console.log(" --- ", pageComponent)
+            console.log( bookMenuPayload.indexOf( pageComponent ) )
+
+            for( var i = 0; i < bookMenuPayload.length; i++ ){
+                console.log("Muh", pageStack.currentPage.parent)
+                if(bookMenuPayload[i].pageActive)
+                    console.log(" --- ", i)
+            }
         }
     }
 
@@ -539,6 +547,8 @@ Item {
                             content:  ActionMenu{
                                 id: bookMenu
 
+                                highlightSelectedItem: true
+
                                 onTriggered: {
                                     if(automaticBookSwitching ) {
                                         switchBook( payload[index] )
@@ -557,7 +567,7 @@ Item {
                         id: spacer2
 
                         anchors.right: windowMenuButton.left
-                        visible: windowMenuButton.visible
+                        //visible: windowMenuButton.visible // To be discussed: This should be always visible to clearly show the buttons size
                         source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
                     }
 

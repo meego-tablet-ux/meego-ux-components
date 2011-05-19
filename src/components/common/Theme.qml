@@ -102,7 +102,7 @@ Item {
 
     /* toolbar properties */
     property int toolbarFontPixelSize: 21
-    property string toolbarFontColor: "#3d3d3d"
+    property string toolbarFontColor: "white"
 
     /* thumbnail properties */
     property int thumbSize: 230

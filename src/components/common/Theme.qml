@@ -208,6 +208,16 @@ Item {
     property string mediaGridTitleBackgroundColor: "#000000"
     property real mediaGridTitleBackgroundAlpha: 0.7
 
+    /* General separator */
+    property string separatorLightColor: "#FFFFFF"
+    property real separatorLightAlpha: 1
+    property string separatorDarkColor: "#000000"
+    property real separatorDarkAlpha: 0.15
+
+    /* Action bar divider */
+    property string actionBarDividerColor: "#454646"
+    property real actionBarDividerAlpha: 1
+
     /* date picker properties */
     property string datePickerSelectedColor: "#2fa7d4"
     property string datePickerUnselectedColor: "white"

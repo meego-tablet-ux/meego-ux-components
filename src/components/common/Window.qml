@@ -261,6 +261,7 @@ Item {
 
     property alias isActiveWindow: scene.isActiveScene
     property alias orientation: scene.orientation
+    property alias blockOrientationWhenInactive: scene .blockOrientationWhenInActive
     property alias orientationLock: scene.orientationLock
     property alias isOrientationLocked: scene.orientationLocked
     property alias lockCurrentOrientation: scene.lockCurrentOrientation
@@ -708,12 +709,12 @@ Item {
                     RotationAnimation {
                         target: window_content_topitem
                         direction: RotationAnimation.Shortest;
-                        duration: window.isActiveWindow ? theme.dialogAnimationDuration : 0
+                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration : 0
                     }
                     PropertyAnimation {
                         target: window_content_topitem
                         properties: "width,height"
-                        duration:  window.isActiveWindow ? theme.dialogAnimationDuration : 0
+                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration : 0
                         easing.type: "OutSine"
                     }
                 }
@@ -778,10 +779,12 @@ Item {
         onOrientationLockChanged: {
 
             if( qApp && qApp.orientationLocked != orientationLocked ) {
-                if( scene.orientationLock < 5 ) //FIXME -> no orientation stop on AllLandscape and AllPortrait lock
-                    qApp.orientationLocked = scene.orientationLocked
-                else
-                    qApp.orientationLocked = false
+                if( scene.blockOrientationLockInApp ) {
+                    if( scene.orientationLock < 5 ) //  FIXME -> no orientation stop on AllLandscape and AllPortrait lock
+                        qApp.orientationLocked = scene.orientationLocked
+                    else
+                        qApp.orientationLocked = false
+                }
             }
         }
 

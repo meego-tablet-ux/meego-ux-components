@@ -22,7 +22,7 @@ Item{
     width: 200
     height: 0
 
-    BorderImage {
+    ThemeImage {
         anchors.fill: parent
 
         source: "image://themedimage/widgets/common/infobar/infobar-background"

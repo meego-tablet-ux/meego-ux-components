@@ -10,6 +10,7 @@ ContextMenu 0.1 Common/ContextMenu.qml
 DropDown 0.1 Common/DropDown.qml
 ExpandingBox 0.1 Common/ExpandingBox.qml
 IconButton 0.1 Common/IconButton.qml
+InfoBar.qml 0.1 Common/InfoBar.qml
 Label 0.1 Common/Label.qml
 LayoutTextItem 0.1 Common/LayoutTextItem.qml
 ModalContextMenu 0.1 Common/ModalContextMenu.qml
@@ -29,7 +30,7 @@ Spinner 0.1 Common/Spinner.qml
 TextEntry 0.1 Common/TextEntry.qml
 TextField 0.1 Common/TextField.qml
 Theme 0.1 Common/Theme.qml
-ThemeBorderImage 0.1 Common/ThemeBorderImage.qml
+ThemeImage 0.1 Common/ThemeImage.qml
 TimeSpinner 0.1 Common/TimeSpinner.qml
 ToggleButton 0.1 Common/ToggleButton.qml
 TopItem 0.1 Common/TopItem.qml

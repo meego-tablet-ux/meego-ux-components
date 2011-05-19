@@ -113,7 +113,6 @@ MouseArea {
             var rect = editor.positionToRectangle (selectionStart);
 
             var map = mapToItem (top.topItem, rect.x, rect.y);
-            console.log(" -- ",map.x, map.y)
 
             selectionHandleSurface.startHandle.setPosition (map.x, map.y, rect.height);
 

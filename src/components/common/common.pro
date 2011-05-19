@@ -15,6 +15,7 @@ QML_FILES = qmldir \
         DropDown.qml \
         ExpandingBox.qml \
         IconButton.qml \
+        InfoBar.qml \
         Label.qml \
         LayoutTextItem.qml \
         ModalContextMenu.qml \
@@ -37,7 +38,7 @@ QML_FILES = qmldir \
         TextEntry.qml \
         TextField.qml \
         Theme.qml \
-        ThemeBorderImage.qml \
+        ThemeImage.qml \
         TimeSpinner.qml \
         ToggleButton.qml \
         TopItem.qml \

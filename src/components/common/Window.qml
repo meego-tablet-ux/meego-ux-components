@@ -54,6 +54,12 @@
  \qmlproperty variant bookMenuPayload
  \qmlcm string list that sets the filenames for the books (their initial pages).
 
+ \qmlproperty alias bookMenuHighlightSelection
+ \qmlcm bool, sets the highlightSelectedItem property of the book menu. See ActionMenu
+
+ \qmlproperty int bookMenuSelectedIndex
+ \qmlcm int, sets the selected index for the book menu.
+
  \qmlproperty fullContent
  \qmlcm bool, hides the statusbar and the toolbar if true.
 
@@ -105,6 +111,9 @@
 
  \qmlproperty bool inInvertedPortrait
  \qmlcm bool, true if the current orientation is inverted portrait
+
+ \qmlproerty bool blockOrientationWhenInactive
+ \qmlcm book, by default true, defines wheater the orientation will be processed while app is inactive, in the background
 
  \qmlproperty bool inhibitScreenSaver
  \qmlcm bool, inhibits activation of the screen saver.
@@ -238,11 +247,13 @@ Item {
     property alias bookMenuPayload: bookMenu.payload
     property alias bookMenuTitle: bookContextMenu.title
     property alias bookMenuHighlightSelection: bookMenu.highlightSelectedItem
+    property alias bookMenuSelectedIndex: bookMenu.selectedIndex
 
     property alias actionMenuModel: actionMenu.model
     property alias actionMenuPayload: actionMenu.payload
     property alias actionMenuTitle: pageContextMenu.title
     property alias actionMenuHighlightSelection: actionMenu.highlightSelectedItem
+    property alias actionMenuSelectedIndex: actionMenu.selectedIndex
 
     property bool fullContent: false
     property bool fullScreen: false
@@ -253,6 +264,7 @@ Item {
 
     property alias isActiveWindow: scene.isActiveScene
     property alias orientation: scene.orientation
+    property alias blockOrientationWhenInactive: scene .blockOrientationWhenInActive
     property alias orientationLock: scene.orientationLock
     property alias isOrientationLocked: scene.orientationLocked
     property alias lockCurrentOrientation: scene.lockCurrentOrientation
@@ -265,15 +277,16 @@ Item {
 
     property bool backButtonLocked: false
 
-    property alias overlayItem: overlayArea.children
+    property alias overlayItem: overlayArea.children    
     property alias pageStack: pageStack
     property alias statusBar: statusBar
     property alias toolBar: toolBar
     property bool automaticBookSwitching: true
     property bool customActionMenu: false
     property int topDecorationHeight: toolBar.height + toolBar.y + statusBar.height  + statusBar.y
-//    property int barsHeight: toolBar.height - searchTitleBar.height + statusBar.height + statusBar.y
     property bool fastPageSwitch: false
+
+    property real contentVerticalShift: 0
 
     signal searchExtended()
     signal searchRetracted()
@@ -542,6 +555,8 @@ Item {
                             content:  ActionMenu{
                                 id: bookMenu
 
+                                highlightSelectedItem: true
+
                                 onTriggered: {
                                     if(automaticBookSwitching ) {
                                         switchBook( payload[index] )
@@ -560,7 +575,7 @@ Item {
                         id: spacer2
 
                         anchors.right: windowMenuButton.left
-                        visible: windowMenuButton.visible
+                        //visible: windowMenuButton.visible // To be discussed: This should be always visible to clearly show the buttons size
                         source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
                     }
 
@@ -594,6 +609,10 @@ Item {
 
                             onVisibleChanged: {
                                 window.actionMenuPresent = visible
+//                                if(window.contentVerticalShift == 0)
+//                                    window.contentVerticalShift = -100
+//                                else
+//                                    window.contentVerticalShift = 0
                             }
 
                             content:  ActionMenu {
@@ -613,26 +632,39 @@ Item {
             } //end toolBar
         }
 
-//        Item{
-//            id: pageSpacer
-//            width: parent.width
-//            height: 0//pagesAlwaysFullscreen? 0 : clipBox.height + statusBar.y + statusBar.height
-//        }
-
         //add a page stack to manage pages
         PageStack {
             id: pageStack
             z: -2
-            anchors.fill:  parent// { top: pageSpacer.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+            y: window.contentVerticalShift
+
+            width: parent.width
+            height: parent.height
+
+            Behavior on y{
+                NumberAnimation{
+                    duration:  200
+                }
+            }
         }
 
         Item {
             id: overlayArea
             z: -1
-            anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
+            y: window.contentVerticalShift
+
+            width: parent.width
+            height: parent.height
+
+            Behavior on y{
+                NumberAnimation{
+                    duration:  200
+                }
+            }
         }
 
-        states:  [         
+
+        states:  [            
             State {
                 name: "landscape"                
                 when: ( scene.orientationString == "landscape")
@@ -697,12 +729,12 @@ Item {
                     RotationAnimation {
                         target: window_content_topitem
                         direction: RotationAnimation.Shortest;
-                        duration: window.isActiveWindow ? theme.dialogAnimationDuration : 0
+                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration : 0
                     }
                     PropertyAnimation {
                         target: window_content_topitem
                         properties: "width,height"
-                        duration:  window.isActiveWindow ? theme.dialogAnimationDuration : 0
+                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration : 0
                         easing.type: "OutSine"
                     }
                 }
@@ -742,7 +774,7 @@ Item {
             scene.orientationLock = 2;
         } else if( lockOrientationIn == "invertedLandscape" ) {
             scene.orientationLock = 3;
-        } else if( lockOrientationIn == "InvertedPortrait" ) {
+        } else if( lockOrientationIn == "invertedPortrait" ) {
             scene.orientationLock = 4;
         } else if( lockOrientationIn == "allLandscape" ) {
             scene.orientationLock = 5;
@@ -767,8 +799,12 @@ Item {
         onOrientationLockChanged: {
 
             if( qApp && qApp.orientationLocked != orientationLocked ) {
-                if( scene.orientationLock < 5 ) //FIXME -> no orientation stop on AllLandscape and AllPortrait lock
-                    qApp.orientationLocked = scene.orientationLocked
+                if( scene.blockOrientationLockInApp ) {
+                    if( scene.orientationLock < 5 ) //  FIXME -> no orientation stop on AllLandscape and AllPortrait lock
+                        qApp.orientationLocked = scene.orientationLocked
+                    else
+                        qApp.orientationLocked = false
+                }
             }
         }
 
@@ -796,8 +832,13 @@ Item {
     Connections {
         target: qApp
         onForegroundWindowChanged: {
-            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
+
             scene.activeWinId = qApp.foregroundWindow;
+            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
+
+            console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
+
+
         }
         onOrientationChanged: {
             scene.orientation = qApp.orientation;

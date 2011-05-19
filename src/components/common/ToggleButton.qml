@@ -157,7 +157,7 @@ Image {
         Image {
             id: imageOn
 
-            source: "images/toggle_on.png"
+            source: "image://themedimage/widgets/common/lightswitch/lightswitch-default-on"
             anchors.centerIn: parent
             visible: itemOn.showIcons
         }
@@ -184,7 +184,7 @@ Image {
         Image {
             id: imageOff
 
-            source: "images/toggle_off.png"
+            source: "image://themedimage/widgets/common/lightswitch/lightswitch-default-off"
             anchors.centerIn: parent
             visible: itemOn.showIcons
         }

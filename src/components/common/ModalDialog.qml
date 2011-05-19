@@ -19,11 +19,23 @@
     \qmlproperty string title
     \qmlcm title of the message box
 
-    \qmlproperty int buttonWidth
-    \qmlcm width of buttons
+    \qmlproperty int buttonMinWidth
+    \qmlcm minimum width of buttons
 
-    \qmlproperty int buttonHeight
-    \qmlcm height of buttons
+    \qmlproperty int buttonMinHeight
+    \qmlcm minimum height of buttons
+
+    \qmlproperty int buttonMaxWidth
+    \qmlcm maximum width of buttons
+
+    \qmlproperty int buttonMaxHeight
+    \qmlcm maximum height of buttons
+
+    \qmlproperty real sizeHintWidth
+    \qmlcm the width the dialog should have. It will keep a minimum width of 20% the windows width and will never exceed the window.
+
+    \qmlproperty real sizeHintHeight
+    \qmlcm the height the dialog should have. It will keep a minimum height to show header and buttons and will never exceed the window.
 
     \qmlproperty bool showCancelButton
     \qmlcm boolean to show/hide cancel button
@@ -154,19 +166,42 @@ ModalFog {
     property real buttonMaxWidth: width / 2.5
     property real buttonMinWidth: width * 0.2
 
-    property real buttonMaxHeight: 50
+    property real buttonMaxHeight: 50   // ToDo replace magic numbers with theme values
     property real buttonMinHeight: 50
+    property real sizeHintWidth: 600
+    property real sizeHintHeight: 300
 
     property int decorationHeight: header.height + footer.height + topMargin + bottomMargin
 
     property int verticalOffset: topItem.topDecorationHeight
 
-    width: 600
-    height: 300
+    width: if( sizeHintWidth < topItem.topWidth * 0.95 ){
+               if( sizeHintWidth < topItem.topWidth * 0.2 ){
+                   topItem.topWidth * 0.2
+               }
+               else{
+                   sizeHintWidth
+               }
+           }
+           else{
+               topItem.topWidth * 0.95
+           }
+
+    height: if( sizeHintHeight < (topItem.topHeight - topItem.topDecorationHeight) * 0.95 ){
+                if( sizeHintHeight < decorationHeight){
+                    decorationHeight
+                }
+                else{
+                    sizeHintHeight
+                }
+            }
+            else{
+                (topItem.topHeight - topItem.topDecorationHeight) * 0.95
+            }
 
     fogClickable: false
 
-    modalSurface: ThemeBorderImage {
+    modalSurface: ThemeImage {
         id: inner
 
         width: modalDialogBox.width

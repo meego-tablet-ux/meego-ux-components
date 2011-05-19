@@ -836,6 +836,13 @@ Item {
     }
 
     Connections {
+	target: scene
+	onIsActiveSceneChanged: {
+	    if (!scene.isActiveScene) saveRestoreSignaler.requireSaveAll()
+	}
+    }
+
+    Connections {
         target: qApp
         onForegroundWindowChanged: {
 
@@ -843,10 +850,6 @@ Item {
             scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
 
             console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
-            if (mainWindow.winId != qApp.foregroundWindow) {
-		// Window has been hidden, require state saving
-		saveRestoreSignaler.requireSaveAll()
-            }
         }
         onOrientationChanged: {
             scene.orientation = qApp.orientation;

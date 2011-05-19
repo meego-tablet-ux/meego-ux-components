@@ -201,7 +201,7 @@ ModalFog {
 
     fogClickable: false
 
-    modalSurface: ThemeBorderImage {
+    modalSurface: ThemeImage {
         id: inner
 
         width: modalDialogBox.width

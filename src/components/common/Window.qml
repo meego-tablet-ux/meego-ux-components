@@ -273,7 +273,7 @@ Item {
 
     property bool backButtonLocked: false
 
-    property alias overlayItem: overlayArea.children
+    property alias overlayItem: overlayArea.children    
     property alias pageStack: pageStack
     property alias statusBar: statusBar
     property alias toolBar: toolBar
@@ -659,7 +659,8 @@ Item {
             }
         }
 
-        states:  [         
+
+        states:  [            
             State {
                 name: "landscape"                
                 when: ( scene.orientationString == "landscape")
@@ -769,7 +770,7 @@ Item {
             scene.orientationLock = 2;
         } else if( lockOrientationIn == "invertedLandscape" ) {
             scene.orientationLock = 3;
-        } else if( lockOrientationIn == "InvertedPortrait" ) {
+        } else if( lockOrientationIn == "invertedPortrait" ) {
             scene.orientationLock = 4;
         } else if( lockOrientationIn == "allLandscape" ) {
             scene.orientationLock = 5;
@@ -796,6 +797,8 @@ Item {
             if( qApp && qApp.orientationLocked != orientationLocked ) {
                 if( scene.orientationLock < 5 ) //FIXME -> no orientation stop on AllLandscape and AllPortrait lock
                     qApp.orientationLocked = scene.orientationLocked
+                else
+                    qApp.orientationLocked = false
             }
         }
 
@@ -823,8 +826,13 @@ Item {
     Connections {
         target: qApp
         onForegroundWindowChanged: {
-            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
+
             scene.activeWinId = qApp.foregroundWindow;
+            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
+
+            console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
+
+
         }
         onOrientationChanged: {
             scene.orientation = qApp.orientation;

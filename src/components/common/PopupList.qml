@@ -187,7 +187,7 @@ Item {
         clip: true
         anchors.fill: parent
 
-        ThemeBorderImage {
+        ThemeImage {
             id: spinner
 
             source: "image://themedimage/images/pickers/timespinbg"
@@ -219,7 +219,7 @@ Item {
                 PathLine { x: view.width / 2; y: view.height }
             }
 
-            ThemeBorderImage {
+            ThemeImage {
                 id: innerBgImage
 
                 source:"image://themedimage/images/pickers/timespinhi"

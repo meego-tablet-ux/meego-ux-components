@@ -30,7 +30,7 @@ StatusBar 0.1 StatusBar.qml
 TextEntry 0.1 TextEntry.qml
 TextField 0.1 TextField.qml
 Theme 0.1 Theme.qml
-ThemeBorderImage 0.1 ThemeBorderImage.qml
+ThemeImage 0.1 ThemeImage.qml
 TimeSpinner 0.1 TimeSpinner.qml
 ToggleButton 0.1 ToggleButton.qml
 TopItem 0.1 TopItem.qml

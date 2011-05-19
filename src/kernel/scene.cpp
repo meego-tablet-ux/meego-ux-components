@@ -1,3 +1,11 @@
+/*
+ * Copyright 2011 Intel Corporation.
+ *
+ * This program is licensed under the terms and conditions of the
+ * LGPL, version 2.1.  The full text of the LGPL Licence is at
+ * http://www.gnu.org/licenses/lgpl.html
+ */
+
 #include "scene.h"
 #include <QDebug>
 
@@ -15,13 +23,12 @@ Scene::Orientation Scene::orientation() const
 {
     return m_orientation;
 }
+
 QString Scene::orientationString() const
 {
     QString str;
 
-    if( !m_bSceneActive ) {
-        str = QString::fromLatin1("windowHasNoFocus");
-    } else if( landscape == m_orientation ) {
+    if( landscape == m_orientation ) {
         str = QString::fromLatin1("landscape");
     } else if( portrait == m_orientation ) {
         str = QString::fromLatin1("portrait");
@@ -30,17 +37,17 @@ QString Scene::orientationString() const
     } else if( invertedLandscape == m_orientation ) {
         str = QString::fromLatin1("invertedLandscape");
     } else {
-        str = QString::fromLatin1("invertedLandscape");
+        str = QString::fromLatin1("landscape");
     }
+
     return str;
 }
 
 void Scene::setOrientation( Orientation orientation )
 {
+
     m_realOrientation = orientation;
-
-    qDebug() << "real orientation: " << m_realOrientation;
-
+  
     if( m_bSceneActive ) {
 
         if( noLock == m_orientationLock ) {
@@ -90,10 +97,9 @@ void Scene::setOrientation( Orientation orientation )
                 emit orientationChanged();
             }
         }
-
-        qDebug() << "orientation: " << m_orientation;
-
     }
+
+    emit orientationChanged();
 }
 Scene::OrientationLock Scene::orientationLock() const
 {
@@ -155,6 +161,9 @@ void Scene::setOrientationLock( OrientationLock orientationLock )
         }
         emit orientationChanged();
     }
+
+    emit orientationLockChanged();
+
 }
 
 bool Scene::orientationLocked() const
@@ -176,7 +185,6 @@ bool Scene::inLandscape() const
         return false;
     return true;
 }
-
 bool Scene::inInvertedLandscape() const
 {
     if( m_orientation == landscape )
@@ -247,6 +255,7 @@ int Scene::activeWinId() const
 {
     return m_activeWinId;
 }
+
 void Scene::setActiveWinId( int activeWinId )
 {
     if( activeWinId != m_activeWinId) {
@@ -287,6 +296,7 @@ void Scene::setActiveWinId( int activeWinId )
             setOrientation( m_realOrientation );
             emit orientationLockChanged();
 
+            emit orientationLockChanged();
         }
     }
 }

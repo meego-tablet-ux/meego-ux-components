@@ -7,14 +7,14 @@
  */
 
 /*!
-   \qmlclass ThemeBorderImage
-   \title ThemeBorderImage
-   \section1 ThemeBorderImage
+   \qmlclass ThemeImage
+   \title ThemeImage
+   \section1 ThemeImage
    This is a workaround for settings also the border pixels of a BorderImage by the Theme.
       
   \section2 Example
   \qml
-      ThemeBorderImage {
+      ThemeImage {
          id: image
 
          source: "image://myProvider/image";

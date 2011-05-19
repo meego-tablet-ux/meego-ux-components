@@ -112,6 +112,9 @@
  \qmlproperty bool inInvertedPortrait
  \qmlcm bool, true if the current orientation is inverted portrait
 
+ \qmlproerty bool blockOrientationWhenInactive
+ \qmlcm book, by default true, defines wheater the orientation will be processed while app is inactive, in the background
+
  \qmlproperty bool inhibitScreenSaver
  \qmlcm bool, inhibits activation of the screen saver.
 

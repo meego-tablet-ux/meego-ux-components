@@ -19,7 +19,10 @@ Window {
     bookMenuPayload: [ gallery, contextMenuBook, book2, book3, bottomBar, fullScreenPage, orientationPage ]
     bookMenuTitle: qsTr("Book Menu")
 
-    Component.onCompleted: switchBook( gallery )
+    Component.onCompleted: {
+        switchBook( gallery )
+        bookMenuSelectedIndex = 0
+    }
 
 //    overlayItem: Rectangle {  // this is a very simple example for overlayItem use.
 //        color: "green"

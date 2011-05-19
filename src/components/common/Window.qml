@@ -54,6 +54,12 @@
  \qmlproperty variant bookMenuPayload
  \qmlcm string list that sets the filenames for the books (their initial pages).
 
+ \qmlproperty alias bookMenuHighlightSelection
+ \qmlcm bool, sets the highlightSelectedItem property of the book menu. See ActionMenu
+
+ \qmlproperty int bookMenuSelectedIndex
+ \qmlcm int, sets the selected index for the book menu.
+
  \qmlproperty fullContent
  \qmlcm bool, hides the statusbar and the toolbar if true.
 
@@ -238,11 +244,13 @@ Item {
     property alias bookMenuPayload: bookMenu.payload
     property alias bookMenuTitle: bookContextMenu.title
     property alias bookMenuHighlightSelection: bookMenu.highlightSelectedItem
+    property alias bookMenuSelectedIndex: bookMenu.selectedIndex
 
     property alias actionMenuModel: actionMenu.model
     property alias actionMenuPayload: actionMenu.payload
     property alias actionMenuTitle: pageContextMenu.title
     property alias actionMenuHighlightSelection: actionMenu.highlightSelectedItem
+    property alias actionMenuSelectedIndex: actionMenu.selectedIndex
 
     property bool fullContent: false
     property bool fullScreen: false
@@ -542,6 +550,8 @@ Item {
                             content:  ActionMenu{
                                 id: bookMenu
 
+                                highlightSelectedItem: true
+
                                 onTriggered: {
                                     if(automaticBookSwitching ) {
                                         switchBook( payload[index] )
@@ -560,7 +570,7 @@ Item {
                         id: spacer2
 
                         anchors.right: windowMenuButton.left
-                        visible: windowMenuButton.visible
+                        //visible: windowMenuButton.visible // To be discussed: This should be always visible to clearly show the buttons size
                         source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
                     }
 

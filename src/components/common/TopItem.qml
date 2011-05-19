@@ -65,9 +65,7 @@ import MeeGo.Components 0.1
 Item {
     id: top
 
-    //This should be read only, but not possible currently in QML...
-    //See http://bugreports.qt.nokia.com/browse/QTBUG-15257
-    property Item topItem: null
+    property Item topItem: null    
     property int topWidth: 0
     property int topHeight: 0
     property int topDecorationHeight
@@ -105,8 +103,8 @@ Item {
         var lastp;
         while(p) {
             if(p.toString().indexOf("Window_QMLTYPE") == 0) {
-                topItem = lastp;//.content;		
-                break;
+                topItem = lastp
+                break
             }
             lastp = p;
             p = p.parent;
@@ -133,7 +131,6 @@ Item {
             geometryChanged( top.topWidth, top.topHeight )
         }
     }
-
 
     Component.onCompleted: { calcTopParent() }
 

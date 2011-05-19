@@ -41,9 +41,7 @@
   \qmlcm stores the currently pressed Item to reset the pressed state on move.
 
   \qmlproperty int selectedIndex
-  \qmlcm stores the index of the currently selected item. Can be set from outside, but make
-         sure it's set after a model is set, because setting a model resets the selectedIndex
-         to -1.
+  \qmlcm stores the index of the currently selected item. Can be set from outside. Changing the model will reset this value to -1.
 
   \section2 Signals
   \qmlfn triggered
@@ -130,6 +128,7 @@ Flickable {
         id: layout
 
         property bool elideEnabled: false
+        property bool starting: true
 
         width: parent.width
 
@@ -151,6 +150,12 @@ Flickable {
                     }
                 }
 
+                Component.onCompleted: {
+                    if( index == selectedIndex ) {  // this ensures the item is correctly highlighted on creation
+                        container.oldItem = highlight
+                    }
+                }
+
                 width: repeater.width
                 height: textItem.paintedHeight + textMargin * 2
 
@@ -166,7 +171,7 @@ Flickable {
                     height: parent.height + 1
                     anchors.verticalCenterOffset: -1
 
-                    opacity: ( highlight == container.currentItem || highlight == container.oldItem ) ? 1 : 0 // this forces a repaint
+                    opacity: ( highlight == container.oldItem ) ?  1 : (highlight == container.currentItem ? 0.5 : 0) // this forces a repaint
                     visible: opacity != 0
 
                 }
@@ -242,10 +247,17 @@ Flickable {
 
             onModelChanged: {       // if the model changed, the width has to be calculated again, so reset values
                 currentWidth = minWidth
-                container.selectedIndex = -1
                 layout.elideEnabled = false
+
+                if( !layout.starting ){    // This ensures that the value set initial hardcode survives until the ActionMenu is ready
+                    container.selectedIndex = -1
+                }
             }
         }
+    }
+
+    Component.onCompleted: {
+        layout.starting = false
     }
 
     onVisibleChanged: {

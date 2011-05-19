@@ -15,6 +15,7 @@ Scene::Scene(QObject *parent) :
     m_orientationLock( noLock ),
     m_lockCurrentOrientation( false ),
     m_bSceneActive( true ),
+    m_bBlockOrientationWhenInactive( true ),
     m_activeWinId( 0 ),
     m_myWinId( 0 )
 {
@@ -48,7 +49,7 @@ void Scene::setOrientation( Orientation orientation )
 
     m_realOrientation = orientation;
   
-    if( m_bSceneActive ) {
+    if( m_bSceneActive || !m_bBlockOrientationWhenInactive ) {
 
         if( noLock == m_orientationLock ) {
 
@@ -173,6 +174,16 @@ bool Scene::orientationLocked() const
     return false;
 }
 
+
+bool Scene::blockOrientationWhenInactive() const
+{
+    return m_bBlockOrientationWhenInactive;
+}
+void Scene::setBlockOrientationWhenInActive( bool block )
+{
+    m_bBlockOrientationWhenInactive = block;
+}
+
 bool Scene::inPortrait() const
 {
     if( m_orientation == portrait || m_orientation == invertedPortrait )
@@ -264,6 +275,8 @@ void Scene::setActiveWinId( int activeWinId )
 
         if( m_myWinId != m_activeWinId && m_bSceneActive ) {
 
+            //deactivate
+
             m_bSceneActive = false;
             emit activeSceneChanged();
 
@@ -296,7 +309,6 @@ void Scene::setActiveWinId( int activeWinId )
             setOrientation( m_realOrientation );
             emit orientationLockChanged();
 
-            emit orientationLockChanged();
         }
     }
 }

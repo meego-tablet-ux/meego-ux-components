@@ -22,7 +22,7 @@ class Scene : public QObject
     Q_PROPERTY( Scene::OrientationLock orientationLock READ orientationLock WRITE setOrientationLock NOTIFY orientationLockChanged )
     Q_PROPERTY( bool orientationLocked READ orientationLocked )
     Q_PROPERTY( bool lockCurrentOrientation READ orientationLocked WRITE lockCurrentOrientation )
-
+    Q_PROPERTY( bool blockOrientationWhenInActive READ blockOrientationWhenInactive WRITE setBlockOrientationWhenInActive )
     Q_PROPERTY( bool inhibitScreenSaver READ inhibitScreenSaver WRITE setInhibitScreenSaver NOTIFY inhibitScreenSaverChanged )
     Q_PROPERTY( bool isActiveScene READ isActiveScene WRITE setActiveScene NOTIFY activeSceneChanged )
 
@@ -64,6 +64,9 @@ public:
     bool orientationLocked() const;
     void lockCurrentOrientation( bool lock );
 
+    bool blockOrientationWhenInactive() const;
+    void setBlockOrientationWhenInActive( bool block );
+
     bool inLandscape() const;
     bool inPortrait() const;
     bool inInvertedLandscape() const;
@@ -97,6 +100,7 @@ private:
    bool m_bSceneActive;
    bool m_bInhibitScreenSaver;
    bool m_bActiveInhibitScreenSaver;
+   bool m_bBlockOrientationWhenInactive;
    int m_activeWinId;
    int m_myWinId;
 

@@ -164,6 +164,7 @@ Item {
     property bool showSearch: false
     property bool disableSearch: false
     property bool fastPageSwitch: false
+    property bool pageActive: false
 
     property string lockOrientationIn: "" // FIXME: strings right now. Should be: enum of qApp
 
@@ -201,11 +202,11 @@ Item {
         window.actionMenuModel = actionMenuModel
         window.actionMenuPayload = actionMenuPayload
         window.actionMenuTitle = actionMenuTitle
-        allowActionMenuSignal = true
+        pageActive = true
     }
 
     onDeactivating: { // from PageStack.qml
-        allowActionMenuSignal = false
+        pageActive = false
     }
 
     onFastPageSwitchChanged: {
@@ -247,12 +248,16 @@ Item {
     Connections{
         target: window
         onActionMenuTriggered: {
-            actionMenuTriggered( selectedItem )
+            if( pageActive )
+                actionMenuTriggered( selectedItem )
         }
 
         onActionMenuIconClicked: {
-            if( appPage.allowActionMenuSignal || appPage.enableCustomActionMenu )
-                actionMenuIconClicked( mouseX, mouseY )
+            if( pageActive ){
+               if( appPage.allowActionMenuSignal || appPage.enableCustomActionMenu ){
+                  actionMenuIconClicked( mouseX, mouseY )
+               }
+            }
         }
 
 //        onWindowFocusChanged: { // from Window.qml
@@ -263,8 +268,8 @@ Item {
 
         }
 
-        onSearch: appPage.search( needle )
-        onSearchExtended: appPage.searchExtended()
-        onSearchRetracted: appPage.searchRetracted()
+        onSearch: if( pageActive ) appPage.search( needle )
+        onSearchExtended: if( pageActive ) appPage.searchExtended()
+        onSearchRetracted: if( pageActive ) appPage.searchRetracted()
     }
 }

@@ -60,6 +60,9 @@
  \qmlproperty fullScreen
  \qmlcm bool, hides the statusbar if true.
 
+ \qmlproperty bool isActiveWindow
+ \qmlcm true if Window is on foreground
+
  \qmlproperty bool actionMenuActive
  \qmlcm activates/deactivates the windowMenuButton.
 
@@ -639,14 +642,10 @@ Item {
             anchors { top: clipBox.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
         }
 
-        states:  [
-            State {
-                name: "windowHasNoFocus"
-                when: (!isActiveWindow)
-            },
+        states:  [         
             State {
                 name: "landscape"                
-                when: ( isActiveWindow && scene.orientationString == "landscape")
+                when: ( scene.orientationString == "landscape")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -658,7 +657,7 @@ Item {
             },
             State {
                 name: "invertedLandscape"
-                when: ( isActiveWindow && scene.orientationString == "invertedLandscape")
+                when: ( scene.orientationString == "invertedLandscape")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -669,7 +668,7 @@ Item {
             },
             State {
                 name: "portrait"                
-                when: ( isActiveWindow && scene.orientationString == "portrait")
+                when: ( scene.orientationString == "portrait")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -680,7 +679,7 @@ Item {
             },
             State {
                 name: "invertedPortrait"
-                when: ( isActiveWindow && scene.orientationString == "invertedPortrait")
+                when: ( scene.orientationString == "invertedPortrait")
 
                 PropertyChanges {
                     target: window_content_topitem
@@ -708,12 +707,12 @@ Item {
                     RotationAnimation {
                         target: window_content_topitem
                         direction: RotationAnimation.Shortest;
-                        duration: isActiveWindow ? theme.dialogAnimationDuration : 0
+                        duration: window.isActiveWindow ? theme.dialogAnimationDuration : 0
                     }
                     PropertyAnimation {
                         target: window_content_topitem
                         properties: "width,height"
-                        duration: isActiveWindow ? theme.dialogAnimationDuration : 0
+                        duration:  window.isActiveWindow ? theme.dialogAnimationDuration : 0
                         easing.type: "OutSine"
                     }
                 }
@@ -753,7 +752,7 @@ Item {
             scene.orientationLock = 2;
         } else if( lockOrientationIn == "invertedLandscape" ) {
             scene.orientationLock = 3;
-        } else if( lockOrientationIn == "invertedPortrait" ) {
+        } else if( lockOrientationIn == "InvertedPortrait" ) {
             scene.orientationLock = 4;
         } else if( lockOrientationIn == "allLandscape" ) {
             scene.orientationLock = 5;

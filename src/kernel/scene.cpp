@@ -27,6 +27,8 @@ QString Scene::orientationString() const
         str = QString::fromLatin1("portrait");
     } else if( invertedPortrait == m_orientation ) {
         str = QString::fromLatin1("invertedPortrait");
+    } else if( invertedLandscape == m_orientation ) {
+        str = QString::fromLatin1("invertedLandscape");
     } else {
         str = QString::fromLatin1("invertedLandscape");
     }
@@ -151,6 +153,7 @@ void Scene::setOrientationLock( OrientationLock orientationLock )
                 emit orientationChanged();
             }
         }
+        emit orientationChanged();
     }
 }
 
@@ -282,6 +285,7 @@ void Scene::setActiveWinId( int activeWinId )
 
             }
             setOrientation( m_realOrientation );
+            emit orientationLockChanged();
 
         }
     }

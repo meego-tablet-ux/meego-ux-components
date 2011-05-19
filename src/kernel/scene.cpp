@@ -48,17 +48,21 @@ void Scene::setOrientation( Orientation orientation )
 
     m_realOrientation = orientation;
 
+    qDebug() << "orientation: " << m_realOrientation;
+
     if( m_bSceneActive ) {
 
         if( noLock == m_orientationLock ) {
 
             m_orientation = orientation;
+            qDebug() << "emit OrientationChange";
             emit orientationChanged();
 
         } else if ( lockLandscape == m_orientationLock ) {
 
             if( landscape == orientation) {
                 m_orientation = orientation;
+                qDebug() << "emit OrientationChange";
                 emit orientationChanged();             
             }
 
@@ -66,6 +70,7 @@ void Scene::setOrientation( Orientation orientation )
 
             if( portrait == orientation) {
                 m_orientation = orientation;
+                qDebug() << "emit OrientationChange";
                 emit orientationChanged();
             }
 
@@ -73,6 +78,7 @@ void Scene::setOrientation( Orientation orientation )
 
             if( invertedLandscape == orientation) {
                 m_orientation = orientation;
+                qDebug() << "emit OrientationChange";
                 emit orientationChanged();
             }
 
@@ -80,6 +86,7 @@ void Scene::setOrientation( Orientation orientation )
 
             if( invertedPortrait == orientation) {
                 m_orientation = orientation;
+                qDebug() << "emit OrientationChange";
                 emit orientationChanged();
             }
 
@@ -87,6 +94,7 @@ void Scene::setOrientation( Orientation orientation )
 
             if( landscape == orientation || invertedLandscape == orientation ) {
                 m_orientation = orientation;                
+                qDebug() << "emit OrientationChange";
                 emit orientationChanged();
             }
 

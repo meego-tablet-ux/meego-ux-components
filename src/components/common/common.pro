@@ -15,6 +15,7 @@ QML_FILES = qmldir \
         DropDown.qml \
         ExpandingBox.qml \
         IconButton.qml \
+        InfoBar.qml \
         Label.qml \
         LayoutTextItem.qml \
         ModalContextMenu.qml \

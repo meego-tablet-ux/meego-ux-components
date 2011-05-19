@@ -143,7 +143,7 @@ Item {
     height: 20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height ) //pulldownImage.height
 
     // the border image is the background graphic for the header and the content
-    ThemeBorderImage {
+    ThemeImage {
         id: pulldownImage
 
         property int borderSize: 5       

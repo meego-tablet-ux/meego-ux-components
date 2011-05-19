@@ -142,7 +142,7 @@ Rectangle {
         anchors.fill: parent
         focus: true
 
-        ThemeBorderImage {
+        ThemeImage {
             id: bgImage
 
             source: "image://themedimage/images/pickers/timespinbg"

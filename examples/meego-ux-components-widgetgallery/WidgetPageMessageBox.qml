@@ -23,12 +23,12 @@ WidgetPage {
         LabeledEntry {
             id: widthEntry
 
-            label:  "width: "
+            label:  "sizeHintWidth: "
             defaultValue: messageBox.width
 
             onTextUpdated: {
                 if( value >= 0 ){
-                    messageBox.width = value
+                    messageBox.sizeHintWidth = value
                 }
             }
         },
@@ -36,12 +36,12 @@ WidgetPage {
         LabeledEntry {
             id: heightEntry
 
-            label:  "height: "
+            label:  "sizeHintHeight: "
             defaultValue: messageBox.height
 
             onTextUpdated: {
                 if( value >= 0 ){
-                    messageBox.height = value
+                    messageBox.sizeHintHeight = value
                 }
             }
         },

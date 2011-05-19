@@ -138,7 +138,7 @@ Item {
     Theme { id: theme }
 
     // the button's image
-    ThemeBorderImage {
+    ThemeImage {
         id: icon
 
         source: bgSourceUp

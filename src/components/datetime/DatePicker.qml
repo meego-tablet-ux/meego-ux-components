@@ -756,27 +756,25 @@ ModalDialog {
                 anchors { left:parent.left; top:parent.top; right:parent.right }
                 height: datePicker.height / 13
 
-                Text {
-                    id: prevMonthText;
+                IconButton {
+                    id: prevMonthText
 
-                    text: "<";
-                    font.pixelSize: monthHeader.fontPixelSize; font.bold:  true
-                    verticalAlignment: "AlignVCenter"; horizontalAlignment: "AlignHCenter"
+                    icon: "image://themedimage/images/arrow-left"
+                    iconDown: "image://themedimage/images/arrow-left"
+                    bgSourceUp: ""
+                    bgSourceDn: ""
                     anchors { left: parent.left; right: monthAndYear.left; top: parent.top; bottom: parent.bottom }
 
-                    MouseArea {
-                        anchors.fill: parent
-
-                        onClicked: {
-                            var newMonth = prevMonth( selectedDate )
-                            var yearUpdate = 0
-                            if( newMonth == 11 && selectedDate.getFullYear() > datePicker.startYear  ) {
-                                yearUpdate = - 1
-                            }
-                            updateSelectedDate( selectedDate.getDate(), prevMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
+                    onClicked: {
+                        var newMonth = prevMonth( selectedDate )
+                        var yearUpdate = 0
+                        if( newMonth == 11 && selectedDate.getFullYear() > datePicker.startYear  ) {
+                            yearUpdate = - 1
                         }
+                        updateSelectedDate( selectedDate.getDate(), prevMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
                     }
                 }
+
                 Text {
                     id: monthAndYear
 
@@ -788,24 +786,22 @@ ModalDialog {
                     width: parent.width / 2
                 }
 
-                Text {
-                    id: nextMonthText;
+                IconButton {
+                    id: nextMonthText
 
-                    text: ">";
-                    font.pixelSize: monthHeader.fontPixelSize; font.bold: true
-                    verticalAlignment: "AlignVCenter"; horizontalAlignment: "AlignHCenter"
+                    icon: "image://themedimage/images/arrow-right"
+                    iconDown: "image://themedimage/images/arrow-right"
+                    bgSourceUp: ""
+                    bgSourceDn: ""
                     anchors { left: monthAndYear.right; right: parent.right; top: parent.top; bottom: parent.bottom }
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            var newMonth = nextMonth( selectedDate )
-                            var yearUpdate = 0
-                            if( newMonth == 0 && selectedDate.getFullYear() < datePicker.endYear) {
-                                yearUpdate = 1
-                            }
-                            updateSelectedDate( selectedDate.getDate(), nextMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
+                    onClicked: {
+                        var newMonth = nextMonth( selectedDate )
+                        var yearUpdate = 0
+                        if( newMonth == 0 && selectedDate.getFullYear() < datePicker.endYear) {
+                            yearUpdate = 1
                         }
+                        updateSelectedDate( selectedDate.getDate(), nextMonth( selectedDate ), selectedDate.getFullYear() + yearUpdate )
                     }
                 }
             } // month-year header
@@ -991,6 +987,7 @@ ModalDialog {
                 anchors.centerIn: parent
                 minHeight:  parent.height
                 maxHeight: parent.height
+                minWidth: parent.width
                 maxWidth: parent.width
                 textMargins: 4
 

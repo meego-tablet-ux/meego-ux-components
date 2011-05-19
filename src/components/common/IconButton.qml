@@ -94,7 +94,7 @@ Item {
     Theme { id: theme }
 
     // iconsButtons Background Image    
-    ThemeBorderImage {
+    ThemeImage {
 
         id: bgImage
 

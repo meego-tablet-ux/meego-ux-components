@@ -57,7 +57,7 @@
 
 import Qt 4.7
 
-ThemeBorderImage {
+ThemeImage {
     id : container
 
     // API

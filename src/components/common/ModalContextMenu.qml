@@ -301,7 +301,7 @@ ModalFog {
                 z:-1
             }
 
-            ThemeBorderImage {
+            ThemeImage {
                 id: realMenu
 
                 source: "image://themedimage/widgets/common/menu/menu-background"

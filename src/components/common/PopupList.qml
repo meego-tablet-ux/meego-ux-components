@@ -84,7 +84,7 @@ Item {
     id: outer
 
     property alias pathItemCount: view.pathItemCount
-    property int fontSize: theme.fontPixelSizeNormal
+    property int fontSize: theme.fontPixelSizeLarge
     property variant popupListModel
     property real itemHeight: height / ( view.pathItemCount + 1 )
     property variant value
@@ -129,8 +129,8 @@ Item {
 
            property bool isSelected: index == view.currentIndex
 
-           font.pixelSize: if( outer.fontSize < height - 4 ) {
-                               return outer.fontSize
+           font.pixelSize: if( theme.fontPixelSizeSmall < height - 4 ) {
+                               return theme.fontPixelSizeSmall
                            }else{
                                return height - 4
                            }
@@ -167,12 +167,8 @@ Item {
                        color: theme.fontColorNormal;
 
                        //adapt the font size to the available space to avoid overlapping
-                       font.pixelSize: if( theme.fontPixelSizeLargest3 < height - 4 ) {
-                                           return theme.fontPixelSizeLargest3
-                                       }else if( theme.fontPixelSizeLargest2 < height - 4 ) {
-                                           return theme.fontPixelSizeLargest2
-                                       }else if( theme.fontPixelSizeLargest < height - 4 ) {
-                                           return theme.fontPixelSizeLargest
+                       font.pixelSize: if( outer.fontSize < height - 4 ) {
+                                           return outer.fontSize
                                        }else {
                                            return height - 4
                                        }
@@ -191,7 +187,7 @@ Item {
         clip: true
         anchors.fill: parent
 
-        ThemeBorderImage {
+        ThemeImage {
             id: spinner
 
             source: "image://themedimage/images/pickers/timespinbg"
@@ -207,7 +203,7 @@ Item {
 
             pathItemCount: 3
             preferredHighlightBegin: 0.5
-            preferredHighlightEnd: 0.5
+            preferredHighlightEnd: preferredHighlightBegin
             dragMargin: view.width/2
             delegate: tsdelegate
 
@@ -220,13 +216,10 @@ Item {
             path: Path {
                 startX: view.width/2; startY: 0
 
-                PathLine {
-                    x: view.width/2;
-                    y: view.height
-                }
+                PathLine { x: view.width / 2; y: view.height }
             }
 
-            ThemeBorderImage {
+            ThemeImage {
                 id: innerBgImage
 
                 source:"image://themedimage/images/pickers/timespinhi"

@@ -29,7 +29,7 @@ Spinner 0.1 Common/Spinner.qml
 TextEntry 0.1 Common/TextEntry.qml
 TextField 0.1 Common/TextField.qml
 Theme 0.1 Common/Theme.qml
-ThemeBorderImage 0.1 Common/ThemeBorderImage.qml
+ThemeImage 0.1 Common/ThemeImage.qml
 TimeSpinner 0.1 Common/TimeSpinner.qml
 ToggleButton 0.1 Common/ToggleButton.qml
 TopItem 0.1 Common/TopItem.qml

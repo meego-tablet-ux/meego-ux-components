@@ -355,9 +355,11 @@ GridView {
             anchors.fill:parent
 
             onClicked:{
+                gridView.positionViewAtIndex( index, GridView.Contain );
                 gridView.clicked(mouseX,mouseY, dinstance);
             }
             onPressAndHold: {
+                gridView.positionViewAtIndex( index, GridView.Contain );
                 gridView.longPressAndHold(mouseX,mouseY,dinstance);
             }
             onDoubleClicked: {

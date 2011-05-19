@@ -57,7 +57,7 @@
 import Qt 4.7
 import MeeGo.Components 0.1
 
-ThemeBorderImage {
+ThemeImage {
     id: container
 
     property alias defaultText: fakeText.text

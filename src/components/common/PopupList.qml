@@ -191,7 +191,7 @@ Item {
         clip: true
         anchors.fill: parent
 
-        ThemeBorderImage {
+        ThemeImage {
             id: spinner
 
             source: "image://themedimage/images/pickers/timespinbg"
@@ -226,7 +226,7 @@ Item {
                 }
             }
 
-            ThemeBorderImage {
+            ThemeImage {
                 id: innerBgImage
 
                 source:"image://themedimage/images/pickers/timespinhi"

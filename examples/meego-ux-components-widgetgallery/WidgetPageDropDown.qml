@@ -67,36 +67,18 @@ WidgetPage {
                 ddown.title = value;
             }
         },
-//        LabeledEntry {                // these values only change after the model has changed
-//            id: maxWidthEntry
 
-//            label:  "maxWidth: "
-//            defaultValue: ddown.maxWidth
+//        CheckBoxEntry {
+//            id: replaceTitleOnSel
 
-//            onTextUpdated: {
-//                ddown.maxWidth = value
+//            label: "change title"
+
+//            onCheckedChanged: {
+//                ddown.replaceDropDownTitle = replaceTitleOnSel.isChecked
 //            }
+//            isChecked: true
 //        },
-//        LabeledEntry {
-//            id: minwidthEntry
 
-//            label:  "minWidth: "
-//            defaultValue: "0"
-
-//            onTextUpdated: {
-//                ddown.minWidth = value
-//            }
-//        },
-        CheckBoxEntry {
-            id: replaceTitleOnSel
-
-            label: "change title"
-
-            onCheckedChanged: {
-                ddown.replaceDropDownTitle = replaceTitleOnSel.isChecked
-            }
-            isChecked: false
-        },
         CheckBoxEntry {
             id: showTitle
 
@@ -114,7 +96,7 @@ WidgetPage {
             id: triggeredBox
 
             label: "selectedItem:"
-            value: "none"
+            value: "2"
         }
     ]
 
@@ -145,6 +127,8 @@ WidgetPage {
 
             model: [  qsTr( "First choice" ), qsTr( "Second choice" ), qsTr ( "Third choice" ) , qsTr ( "4th choice very long text that is too long and will be elided" ) ]
             payload: [ 1, 2, 3, 4 ]
+
+            selectedIndex: 2
 
             iconRow: [
                 Image {

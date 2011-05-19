@@ -46,9 +46,6 @@
   \qmlproperty int maxWidth
   \qmlcm  int, the maximum width of the ActionMenu. Text that exceeds the maximum width will be elided.
 
-  \qmlproperty string selectedTitle
-  \qmlcm the currently selected title
-
   \qmlproperty alias selectedIndex
   \qmlcm int which stores the index of the currently selected item. Can be set from outside, but make
          sure it's set after a model is set, because setting a model resets the selectedIndex
@@ -125,19 +122,28 @@ Item {
     property bool showTitleInMenu: false
 
     property string title: ""
-    property string selectedTitle: ""
-    property alias selectedIndex: actionMenu.selectedIndex
+    property string selectedTitle: "" // DEPRECATED
+    property int selectedIndex: 0
     signal triggered( int index )
     signal expandingChanged( bool expanded )
 
     property bool engouhSpaceLeft: mapToItem( topItem.topItem, dropDown.x + dropDown.width, dropDown.y ).x > actionMenu.width
+
+    onSelectedIndexChanged: {
+        actionMenu.selectedIndex = selectedIndex
+    }
+
+    Component.onCompleted: {
+        highlightSelectedItem = true
+        actionMenu.selectedIndex = selectedIndex
+    }
 
     width: parent.width
 
     height: 20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height ) //pulldownImage.height
 
     // the border image is the background graphic for the header and the content
-    ThemeBorderImage {
+    ThemeImage {
         id: pulldownImage
 
         property int borderSize: 5       
@@ -181,7 +187,7 @@ Item {
                 anchors.right: expandButton.left
                 anchors.leftMargin: 5
                 anchors.verticalCenter: expandButton.verticalCenter
-                text: replaceDropDownTitle ? selectedTitle : title
+                text: replaceDropDownTitle ? model[selectedIndex] : title
             }
 
             Image {
@@ -227,8 +233,7 @@ Item {
                 highlightSelectedItem: true
 
                 onTriggered: {
-                    dropDown.selectedTitle = model[index]
-                    selectedIndex = index
+                    dropDown.selectedIndex = index
                     dropDown.triggered( index )
                     dropDown.opened = false                    
                     contextMenu.hide()
@@ -252,10 +257,4 @@ Item {
     }
 
     Theme { id: theme }
-
-    Component.onCompleted: {
-        selectedTitle = title
-        highlightSelectedItem = true
-    }
-
 }

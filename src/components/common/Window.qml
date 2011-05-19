@@ -54,6 +54,12 @@
  \qmlproperty variant bookMenuPayload
  \qmlcm string list that sets the filenames for the books (their initial pages).
 
+ \qmlproperty alias bookMenuHighlightSelection
+ \qmlcm bool, sets the highlightSelectedItem property of the book menu. See ActionMenu
+
+ \qmlproperty int bookMenuSelectedIndex
+ \qmlcm int, sets the selected index for the book menu.
+
  \qmlproperty fullContent
  \qmlcm bool, hides the statusbar and the toolbar if true.
 
@@ -238,11 +244,13 @@ Item {
     property alias bookMenuPayload: bookMenu.payload
     property alias bookMenuTitle: bookContextMenu.title
     property alias bookMenuHighlightSelection: bookMenu.highlightSelectedItem
+    property alias bookMenuSelectedIndex: bookMenu.selectedIndex
 
     property alias actionMenuModel: actionMenu.model
     property alias actionMenuPayload: actionMenu.payload
     property alias actionMenuTitle: pageContextMenu.title
     property alias actionMenuHighlightSelection: actionMenu.highlightSelectedItem
+    property alias actionMenuSelectedIndex: actionMenu.selectedIndex
 
     property bool fullContent: false
     property bool fullScreen: false
@@ -301,14 +309,6 @@ Item {
         if( !pageStack.busy ){
             pageStack.clear();  //first remove all pages from the stack
             pageStack.push( pageComponent ) //then add the new page
-            console.log(" --- ", pageComponent)
-            console.log( bookMenuPayload.indexOf( pageComponent ) )
-
-            for( var i = 0; i < bookMenuPayload.length; i++ ){
-                console.log("Muh", pageStack.currentPage.parent)
-                if(bookMenuPayload[i].pageActive)
-                    console.log(" --- ", i)
-            }
         }
     }
 

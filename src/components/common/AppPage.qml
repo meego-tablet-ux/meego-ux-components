@@ -154,6 +154,7 @@ Item {
     property variant actionMenuPayload: []
     property string actionMenuTitle: ""
     property bool actionMenuHighlightSelection: false
+    property int actionMenuSelectedIndex: -1
     property bool actionMenuOpen: false
     property bool fullScreen: false
     property bool fullContent: false
@@ -191,6 +192,7 @@ Item {
         window.toolBarTitle = pageTitle
 
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
+        window.actionMenuSelectedIndex = actionMenuSelectedIndex
         window.backButtonLocked = backButtonLocked
         window.lockOrientationIn = lockOrientationIn
         window.showToolBarSearch = showSearch
@@ -224,6 +226,10 @@ Item {
         window.actionMenuPresent = actionMenuOpen
     }
 
+    onActionMenuSelectedIndexChanged: {
+        concole.log("muuuuuuh")
+        window.actionMenuSelectedIndex = actionMenuSelectedIndex
+    }
 
     onActionMenuModelChanged: {
         window.actionMenuModel = actionMenuModel

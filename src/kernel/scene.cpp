@@ -7,7 +7,8 @@
  */
 
 #include "scene.h"
-#include <QDebug>
+#include "saverestorestate.h"
+#include <QTimer>
 
 Scene::Scene(QObject *parent) :
     QObject(parent),
@@ -17,9 +18,12 @@ Scene::Scene(QObject *parent) :
     m_bSceneActive( true ),
     m_bBlockOrientationWhenInactive( true ),
     m_activeWinId( 0 ),
-    m_myWinId( 0 )
+    m_myWinId( 0 ),
+    m_saveRestoreState(new SaveRestoreState)
 {
+    m_saveRestoreState->setAlwaysValid(true);
 }
+
 Scene::Orientation Scene::orientation() const
 {
     return m_orientation;
@@ -292,6 +296,9 @@ void Scene::setActiveWinId( int activeWinId )
                 emit inhibitScreenSaverChanged();
 
             }
+
+            QTimer::singleShot(SaveRestoreState::MinimizeToSaveInterval,
+                               m_saveRestoreState, SLOT(requireSaveAll()));
 
         } else if ( m_myWinId == m_activeWinId && !m_bSceneActive ) {
 

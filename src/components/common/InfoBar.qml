@@ -50,7 +50,7 @@ Item{
 
     property alias text: textBox.text
     property int verticalMargins: 5
-    property int horizontalMargins: 5
+    property int horizontalMargins: 10
     property int animationTime: 200
 
     function show(){

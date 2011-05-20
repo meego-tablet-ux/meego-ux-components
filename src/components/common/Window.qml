@@ -331,6 +331,10 @@ Item {
     height: { try { screenHeight;} catch (err) {  576; } }
     clip: true
 
+    onSearchExtended: {
+        searchBox.text = ""
+    }
+
     Theme { id: theme }
 
     Translator {

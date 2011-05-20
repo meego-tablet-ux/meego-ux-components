@@ -41,15 +41,6 @@ Item {
             id: startHandle
             source: "image://themedimage/widgets/common/text-selection/text-selection-marker-start"
 
-            Rectangle {
-                anchors.fill: parent
-                color:  "red"
-                opacity: 0.5
-                anchors.leftMargin: -11
-                anchors.topMargin: -11
-                anchors.bottomMargin: height * 0.3
-            }
-
             // mh is unused here
             function setPosition (mx, my, mh) {
                 x = mx - (width / 2);

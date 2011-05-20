@@ -24,6 +24,12 @@ QT_BEGIN_NAMESPACE
 Q_DECLARE_METATYPE(QElapsedTimer)
 
 static const int PanGestureMovementThreshold = 30;
+static const bool debugGestures = (getenv("DEBUG_GESTURE") != NULL);
+enum {
+    GESTURE_INPUT_NONE = 0,
+    GESTURE_INPUT_MOUSE,
+    GESTURE_INPUT_TOUCH
+};
 
 QPanGestureRecognizer::QPanGestureRecognizer()
 {
@@ -51,11 +57,17 @@ QGestureRecognizer::Result QPanGestureRecognizer::recognize(QGesture *state,
 {
     QPanGesture *q = static_cast<QPanGesture *>(state);
 
+    if (!q->property("gestureInput").isValid())
+        q->setProperty("gestureInput", GESTURE_INPUT_NONE);
+
     QGestureRecognizer::Result result;
     switch (event->type()) {
     case QEvent::TouchBegin: {
+        if (q->property("gestureInput") != GESTURE_INPUT_NONE)
+            break;
+        q->setProperty("gestureInput", GESTURE_INPUT_TOUCH);
+        if (debugGestures) qDebug() << "pan: touch maybe";
         const QTouchEvent *ev = static_cast<const QTouchEvent *>(event);
-        q->setProperty("gotTouched", true);
         QTouchEvent::TouchPoint p = ev->touchPoints().at(0);
         q->setOffset(QPointF());
         q->setLastOffset(QPointF());
@@ -67,6 +79,8 @@ QGestureRecognizer::Result QPanGestureRecognizer::recognize(QGesture *state,
         break;
     }
     case QEvent::TouchEnd: {
+        if (q->property("gestureInput") != GESTURE_INPUT_TOUCH)
+            break;
         const QTouchEvent *ev = static_cast<const QTouchEvent *>(event);
         if (q->state() != Qt::NoGesture) {
             if (ev->deviceType() == QTouchEvent::TouchScreen && ev->touchPoints().size() == 1) {
@@ -81,13 +95,17 @@ QGestureRecognizer::Result QPanGestureRecognizer::recognize(QGesture *state,
                                      p1.pos().y() - p1.startPos().y() + p2.pos().y() - p2.startPos().y()) / 2);
 
             }
+            if (debugGestures) qDebug() << "pan: touch finish";
             result = QGestureRecognizer::FinishGesture;
         } else {
+            if (debugGestures) qDebug() << "pan: touch cancel";
             result = QGestureRecognizer::CancelGesture;
         }
         break;
     }
     case QEvent::TouchUpdate: {
+        if (q->property("gestureInput") != GESTURE_INPUT_TOUCH)
+            break;
         bool deviceAndTouchPointsOK = false;
         const QTouchEvent *ev = static_cast<const QTouchEvent *>(event);
         QTouchEvent::TouchPoint p1;
@@ -109,102 +127,112 @@ QGestureRecognizer::Result QPanGestureRecognizer::recognize(QGesture *state,
             (offset.x() > 10  || offset.y() > 10 ||
             offset.x() < -10 || offset.y() < -10)) {
             q->setHotSpot(p1.startScreenPos());
+            if (debugGestures) qDebug() << "pan: touch trigger";
             result = QGestureRecognizer::TriggerGesture;
         } else {
+            if (debugGestures) qDebug() << "pan: touch maybe";
             result = QGestureRecognizer::MayBeGesture;
         }
         break;
     }
 
-    case QEvent::MouseButtonPress:
-        if (!q->property("gotTouched").toBool()) {
-            QMouseEvent *ev = static_cast<QMouseEvent *>(event);
-            if (ev->buttons() == Qt::LeftButton && !(ev->modifiers() & Qt::ControlModifier)) {
-                QPoint globalPos = ev->globalPos();
-                q->setProperty("startPosition", globalPos);
-                q->setProperty("lastPos", globalPos);
-                state->setHotSpot(globalPos);
+    case QEvent::MouseButtonPress: {
+        if (q->property("gestureInput") != GESTURE_INPUT_NONE)
+            break;
+        if (debugGestures) qDebug() << "pan: mouse begin";
+        q->setProperty("gestureInput", GESTURE_INPUT_MOUSE);
+        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+        if (ev->buttons() == Qt::LeftButton && !(ev->modifiers() & Qt::ControlModifier)) {
+            QPoint globalPos = ev->globalPos();
+            q->setProperty("startPosition", globalPos);
+            q->setProperty("lastPos", globalPos);
+            state->setHotSpot(globalPos);
 
-                QElapsedTimer pressTime;
-                pressTime.start();
-                q->setProperty("pressTime",QVariant::fromValue(pressTime));
-                q->setProperty("lastPosTime",QVariant::fromValue(pressTime));
+            QElapsedTimer pressTime;
+            pressTime.start();
+            q->setProperty("pressTime",QVariant::fromValue(pressTime));
+            q->setProperty("lastPosTime",QVariant::fromValue(pressTime));
 
-                ev->accept();
-            }
+            ev->accept();
         }
         return QGestureRecognizer::MayBeGesture;
+    }
 
-    case QEvent::MouseMove:
-        if (!q->property("gotTouched").toBool()) {
-            QMouseEvent *ev = static_cast<QMouseEvent *>(event);
-            QPoint startPosition = q->property("startPosition").toPoint();
-            if (!startPosition.isNull()) {
-                QPoint delta = ev->globalPos() - startPosition;
-                if (state->state() != Qt::GestureStarted || state->state() != Qt::GestureUpdated) {
-                    if (delta.manhattanLength() > PanGestureMovementThreshold || q->property("pressTime").value<QElapsedTimer>().elapsed() > 200) {
-                        q->setLastOffset(q->offset());
-                        q->setOffset(delta);
+    case QEvent::MouseMove: {
+        if (q->property("gestureInput") != GESTURE_INPUT_MOUSE)
+            break;
+        QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+        QPoint startPosition = q->property("startPosition").toPoint();
+        if (!startPosition.isNull()) {
+            QPoint delta = ev->globalPos() - startPosition;
+            if (state->state() != Qt::GestureStarted || state->state() != Qt::GestureUpdated) {
+                if (delta.manhattanLength() > PanGestureMovementThreshold || q->property("pressTime").value<QElapsedTimer>().elapsed() > 200) {
+                    q->setLastOffset(q->offset());
+                    q->setOffset(delta);
 
-                        QPoint lastPos = q->property("lastPos").toPoint();
-                        QElapsedTimer lastPosTime = q->property("lastPosTime").value<QElapsedTimer>();
-                        qreal xVelocity = q->property("horizontalVelocity").toReal();
-                        qreal yVelocity = q->property("verticalVelocity").toReal();
+                    QPoint lastPos = q->property("lastPos").toPoint();
+                    QElapsedTimer lastPosTime = q->property("lastPosTime").value<QElapsedTimer>();
+                    qreal xVelocity = q->property("horizontalVelocity").toReal();
+                    qreal yVelocity = q->property("verticalVelocity").toReal();
 
-                        qreal elapsed = qreal(lastPosTime.restart()) / 1000.;
-                        q->setProperty("lastPosTime", QVariant::fromValue(lastPosTime));
-                        if (elapsed <= 0)
-                            elapsed = 1;
-                        int dx = ev->globalPos().x() - lastPos.x();
-                        xVelocity += dx / elapsed;
-                        xVelocity /= 2;
-                        q->setProperty("horizontalVelocity", xVelocity);
-                        int dy = ev->globalPos().y() - lastPos.y();
-                        yVelocity += dy / elapsed;
-                        yVelocity /= 2;
-                        q->setProperty("verticalVelocity", yVelocity);
+                    qreal elapsed = qreal(lastPosTime.restart()) / 1000.;
+                    q->setProperty("lastPosTime", QVariant::fromValue(lastPosTime));
+                    if (elapsed <= 0)
+                        elapsed = 1;
+                    int dx = ev->globalPos().x() - lastPos.x();
+                    xVelocity += dx / elapsed;
+                    xVelocity /= 2;
+                    q->setProperty("horizontalVelocity", xVelocity);
+                    int dy = ev->globalPos().y() - lastPos.y();
+                    yVelocity += dy / elapsed;
+                    yVelocity /= 2;
+                    q->setProperty("verticalVelocity", yVelocity);
 
-                        q->setProperty("lastPos",ev->globalPos());
-                        return QGestureRecognizer::TriggerGesture;
-                    }
+                    q->setProperty("lastPos",ev->globalPos());
+                    if (debugGestures) qDebug() << "pan: mouse trigger";
+                    return QGestureRecognizer::TriggerGesture;
                 }
             }
         }
         return QGestureRecognizer::Ignore;
+    }
 
-    case QEvent::MouseButtonRelease:
-        if (!q->property("gotTouched").toBool()) {
-            if(q->state() != Qt::NoGesture) {
-                QMouseEvent *ev = static_cast<QMouseEvent *>(event);
-                if (q->property("lastPosTime").value<QElapsedTimer>().elapsed() > 100) {
-                    // if we drag then pause before release we should not cause a flick.
-                    q->setProperty("horizontalVelocity", 0);
-                    q->setProperty("verticalVelocity", 0);
-                } else {
-                    // FlickThreshold determines how far the "mouse" must have moved
-                    // before we perform a flick.
-                    static const int FlickThreshold = 20;
+    case QEvent::MouseButtonRelease: {
+        if (q->property("gestureInput") != GESTURE_INPUT_MOUSE)
+            break;
+        if(q->state() != Qt::NoGesture) {
+            QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+            if (q->property("lastPosTime").value<QElapsedTimer>().elapsed() > 100) {
+                // if we drag then pause before release we should not cause a flick.
+                q->setProperty("horizontalVelocity", 0);
+                q->setProperty("verticalVelocity", 0);
+            } else {
+                // FlickThreshold determines how far the "mouse" must have moved
+                // before we perform a flick.
+                static const int FlickThreshold = 20;
 
-                    // Really slow flicks can be annoying.
-                    static const int minimumFlickVelocity = 200;
+                // Really slow flicks can be annoying.
+                static const int minimumFlickVelocity = 200;
 
-                    qreal xVelocity = q->property("horizontalVelocity").toReal();
-                    if (qAbs(xVelocity) > 10 && qAbs(ev->globalPos().x() - q->property("startPosition").toPoint().x()) > FlickThreshold) {
-                        if (qAbs(xVelocity) < minimumFlickVelocity)
-                            q->setProperty("horizontalVelocity", xVelocity < 0 ? -minimumFlickVelocity : minimumFlickVelocity);
-                    }
-                    qreal yVelocity = q->property("verticalVelocity").toReal();
-                    if (qAbs(yVelocity) > 10 && qAbs(ev->globalPos().y() - q->property("startPosition").toPoint().y()) > FlickThreshold) {
-                        if (qAbs(yVelocity) < minimumFlickVelocity)
-                            q->setProperty("verticalVelocity", yVelocity < 0 ? -minimumFlickVelocity : minimumFlickVelocity);
-                    }
+                qreal xVelocity = q->property("horizontalVelocity").toReal();
+                if (qAbs(xVelocity) > 10 && qAbs(ev->globalPos().x() - q->property("startPosition").toPoint().x()) > FlickThreshold) {
+                    if (qAbs(xVelocity) < minimumFlickVelocity)
+                        q->setProperty("horizontalVelocity", xVelocity < 0 ? -minimumFlickVelocity : minimumFlickVelocity);
                 }
-                if (!q->property("startPosition").toPoint().isNull() && !q->lastOffset().isNull()) {
-                    return QGestureRecognizer::FinishGesture;
+                qreal yVelocity = q->property("verticalVelocity").toReal();
+                if (qAbs(yVelocity) > 10 && qAbs(ev->globalPos().y() - q->property("startPosition").toPoint().y()) > FlickThreshold) {
+                    if (qAbs(yVelocity) < minimumFlickVelocity)
+                        q->setProperty("verticalVelocity", yVelocity < 0 ? -minimumFlickVelocity : minimumFlickVelocity);
                 }
             }
+            if (!q->property("startPosition").toPoint().isNull() && !q->lastOffset().isNull()) {
+                if (debugGestures) qDebug() << "pan: mouse finish";
+                return QGestureRecognizer::FinishGesture;
+            }
         }
+        if (debugGestures) qDebug() << "pan: mouse cancel";
         return QGestureRecognizer::CancelGesture;
+    }
 
     default:
         result = QGestureRecognizer::Ignore;
@@ -222,7 +250,7 @@ void QPanGestureRecognizer::reset(QGesture *state)
     pan->setLastOffset(QPointF());
     pan->setOffset(QPointF());
     pan->setAcceleration(0);
-    pan->setProperty("gotTouched",false);
+    pan->setProperty("gestureInput",GESTURE_INPUT_NONE);
     QElapsedTimer pressTime = pan->property("pressTime").value<QElapsedTimer>();
     pressTime.invalidate();
     pan->setProperty("pressTime",QVariant::fromValue(pressTime));
@@ -256,8 +284,9 @@ QGesture *QPinchGestureRecognizer::create(QObject *target)
     return new QPinchGesture;
 }
 
+/* We only support touch events for the pinch gesture [multi-point touch gesture] */
 QGestureRecognizer::Result QPinchGestureRecognizer::recognize(QGesture *state,
-                                                              QObject *obj,
+                                                              QObject *,
                                                               QEvent *event)
 {
     QPinchGesture *q = static_cast<QPinchGesture *>(state);
@@ -265,7 +294,6 @@ QGestureRecognizer::Result QPinchGestureRecognizer::recognize(QGesture *state,
 
     switch (event->type()) {
     case QEvent::TouchBegin: {
-        q->setProperty("gotTouched", true);
         result = QGestureRecognizer::MayBeGesture;
         break;
     }
@@ -343,61 +371,6 @@ QGestureRecognizer::Result QPinchGestureRecognizer::recognize(QGesture *state,
         break;
     }
 
-    case QEvent::Wheel: {
-        QWheelEvent *ev = static_cast<QWheelEvent *>(event);
-        const Qt::KeyboardModifiers ctrlShiftMask = Qt::ControlModifier | Qt::ShiftModifier;
-        if (ev->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
-            q->setHotSpot(ev->globalPos());
-
-            bool isNewSequence = q->state() == Qt::NoGesture;
-
-            q->setLastCenterPoint(q->centerPoint());
-            q->setCenterPoint(ev->globalPos());
-
-            q->setChangeFlags(0);
-
-            if (ev->modifiers() & Qt::ControlModifier) {
-                q->setLastScaleFactor(q->scaleFactor());
-                if (ev->delta() > 0)
-                    q->setScaleFactor(1.1 * qAbs(ev->delta()) / 8. / 15.);
-                else
-                    q->setScaleFactor(0.9 / qAbs(ev->delta() / 8. / 15.));
-                q->setChangeFlags(q->changeFlags() | QPinchGesture::ScaleFactorChanged);
-            } else if (ev->modifiers() & Qt::ShiftModifier) {
-                q->setLastRotationAngle(q->rotationAngle());
-                q->setRotationAngle(q->rotationAngle() + ev->delta() / 8. / 15.);
-                q->setChangeFlags(q->changeFlags() | QPinchGesture::RotationAngleChanged);
-            }
-
-            if (isNewSequence) {
-                q->setLastCenterPoint(q->centerPoint());
-                q->setLastScaleFactor(q->scaleFactor());
-                q->setLastRotationAngle(q->rotationAngle());
-            }
-
-            int timerId = q->property("timerid").toInt();
-            if (timerId)
-                q->killTimer(timerId);
-            q->setProperty("timerid", q->startTimer(400));
-            return QGestureRecognizer::TriggerGesture | QGestureRecognizer::ConsumeEventHint;
-        }
-        return QGestureRecognizer::Ignore;
-    }
-    case QEvent::MouseButtonPress:
-        if (q->property("timerid").toInt()) {
-            return QGestureRecognizer::FinishGesture;
-        }
-        return QGestureRecognizer::Ignore;
-
-    case QEvent::Timer: {
-        int timerId = state->property("timerid").toInt();
-        if (obj == state && timerId) {
-            state->killTimer(timerId);
-            q->setChangeFlags(0);
-            return QGestureRecognizer::FinishGesture | QGestureRecognizer::ConsumeEventHint;
-        }
-    }
-
     default:
         result = QGestureRecognizer::Ignore;
         break;
@@ -428,13 +401,6 @@ void QPinchGestureRecognizer::reset(QGesture *state)
     pinch->setProperty("startPosition0", QPointF());
     pinch->setProperty("startPosition1", QPointF());
 
-    pinch->setProperty("gotTouched", false);
-
-    int timerId = state->property("timerid").toInt();
-    if (timerId) {
-        state->killTimer(timerId);
-        state->setProperty("timerid", QVariant());
-    }
     QGestureRecognizer::reset(state);
 }
 
@@ -457,6 +423,7 @@ QGesture *QSwipeGestureRecognizer::create(QObject *target)
     return new QSwipeGesture;
 }
 
+/* We only support touch events for the swipe gesture [multi-point touch gesture] */
 QGestureRecognizer::Result QSwipeGestureRecognizer::recognize(QGesture *state,
                                                               QObject *,
                                                               QEvent *event)
@@ -558,91 +525,6 @@ QGestureRecognizer::Result QSwipeGestureRecognizer::recognize(QGesture *state,
         }
         break;
     }
-
-    case QEvent::MouseButtonPress: {
-        if(!q->property("gotTouched").toBool()) {
-            const QMouseEvent *ev = static_cast<const QMouseEvent *>(event);
-
-            q->setProperty("velocityValue", qreal(1));
-            q->setProperty("d_verticalDirection", QSwipeGesture::NoDirection);
-            q->setProperty("d_horizontalDirection", QSwipeGesture::NoDirection);
-
-            QElapsedTimer time;
-            time.start();
-            q->setProperty("time",QVariant::fromValue(time));
-            q->setProperty("started", true);
-
-            state->setHotSpot(ev->globalPos());
-            return QGestureRecognizer::MayBeGesture;
-        }
-        return QGestureRecognizer::Ignore;
-    }
-    case QEvent::MouseButtonRelease: {
-        if(!q->property("gotTouched").toBool()) {
-            if (q->state() != Qt::NoGesture) {
-                result = QGestureRecognizer::FinishGesture;
-            } else {
-                result = QGestureRecognizer::CancelGesture;
-            }
-        } else
-            result = QGestureRecognizer::Ignore;
-        break;
-    }
-
-    case QEvent::MouseMove: {
-        if(!q->property("gotTouched").toBool()) {
-            const QMouseEvent *ev = static_cast<const QMouseEvent *>(event);
-            if (!q->property("started").toBool())
-                result = QGestureRecognizer::CancelGesture;
-            else {
-                QPoint lastPositions0 = q->property("lastPositions0").toPoint();
-                if (lastPositions0.isNull()) {
-                    lastPositions0 = ev->pos();
-                    q->setProperty("lastPositions0", lastPositions0);
-                }
-
-                int xDistance = (ev->x() - lastPositions0.x());
-                int yDistance = (ev->y() - lastPositions0.y());
-                int absXDistance = qAbs(xDistance);
-                int absYDistance = qAbs(yDistance);
-
-                const int distance = absXDistance >= absYDistance ? absXDistance : absYDistance;
-                QElapsedTimer time = q->property("time").value<QElapsedTimer>();
-                int elapsedTime = time.restart();
-                q->setProperty("time", QVariant::fromValue(time));
-                if (!elapsedTime)
-                    elapsedTime = 1;
-                q->setProperty("velocityValue", 0.9 * q->property("velocityValue").toReal() + distance / elapsedTime);
-                q->setSwipeAngle(QLineF(q->property("lastPositions0").toPoint(), ev->pos()).angle());
-
-                static const int MoveThreshold = 50;
-                if (absXDistance > MoveThreshold || absYDistance > MoveThreshold) {
-                    // measure the distance to check if the direction changed
-                    q->setProperty("lastPositions0", ev->pos());
-                    QSwipeGesture::SwipeDirection horizontal =
-                            xDistance > 0 ? QSwipeGesture::Right : QSwipeGesture::Left;
-                    QSwipeGesture::SwipeDirection vertical =
-                            yDistance > 0 ? QSwipeGesture::Down : QSwipeGesture::Up;
-                    if (q->property("d_verticalDirection").toInt() == QSwipeGesture::NoDirection)
-                        q->setProperty("d_verticalDirection", vertical);
-                    if (q->property("d_horizontalDirection").toInt() == QSwipeGesture::NoDirection)
-                        q->setProperty("d_horizontalDirection", horizontal);
-                    if (q->property("d_verticalDirection").toInt() != vertical || q->property("d_horizontalDirection").toInt() != horizontal) {
-                        // the user has changed the direction!
-                        result = QGestureRecognizer::CancelGesture;
-                    }
-                    result = QGestureRecognizer::TriggerGesture;
-                } else {
-                    if (q->state() != Qt::NoGesture)
-                        result = QGestureRecognizer::TriggerGesture;
-                    else
-                        result = QGestureRecognizer::MayBeGesture;
-                }
-            }
-        } else
-            result = QGestureRecognizer::Ignore;
-        break;
-    }
     default:
         result = QGestureRecognizer::Ignore;
         break;
@@ -701,7 +583,7 @@ QGestureRecognizer::Result QTapGestureRecognizer::recognize(QGesture *state,
 
     switch (event->type()) {
     case QEvent::TouchBegin: {
-        qDebug() << "tap: touch begin";
+        if (debugGestures) qDebug() << "tap: touch begin";
         q->setProperty("gotTouched", true);
         const QTouchEvent *ev = static_cast<const QTouchEvent *>(event);
         q->setPosition(ev->touchPoints().at(0).pos());
@@ -711,7 +593,7 @@ QGestureRecognizer::Result QTapGestureRecognizer::recognize(QGesture *state,
     }
     case QEvent::TouchUpdate:
     case QEvent::TouchEnd: {
-        qDebug() << "tap: touch end";
+        if (debugGestures) qDebug() << "tap: touch end";
         const QTouchEvent *ev = static_cast<const QTouchEvent *>(event);
         if (q->state() != Qt::NoGesture && ev->touchPoints().size() == 1) {
             QTouchEvent::TouchPoint p = ev->touchPoints().at(0);
@@ -729,7 +611,7 @@ QGestureRecognizer::Result QTapGestureRecognizer::recognize(QGesture *state,
 
     case QEvent::MouseButtonPress:
         if (!q->property("gotTouched").toBool()) {
-            qDebug() << "tap: mouse press";
+            if (debugGestures) qDebug() << "tap: mouse press";
             QMouseEvent *ev = static_cast<QMouseEvent *>(event);
             if (!(ev->modifiers() & Qt::ControlModifier)) {
                 state->setProperty("position", ev->globalPos());
@@ -745,7 +627,7 @@ QGestureRecognizer::Result QTapGestureRecognizer::recognize(QGesture *state,
 
     case QEvent::MouseButtonRelease:
         if (!q->property("gotTouched").toBool()) {
-            qDebug() << "tap: mouse release";
+            if (debugGestures) qDebug() << "tap: mouse release";
             if (state->state() == Qt::GestureStarted) {
                 return QGestureRecognizer::FinishGesture;
             }

@@ -331,7 +331,7 @@ Item {
     height: { try { screenHeight;} catch (err) {  576; } }
     clip: true
 
-    onSearchExtended: {
+    onSearchRetracted: {
         searchBox.text = ""
     }
 

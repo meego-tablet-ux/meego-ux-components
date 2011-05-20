@@ -161,6 +161,8 @@ Flickable {
 
                 clip : true
 
+                opacity: container.opacity
+
                 Rectangle {
 
                     id: highlight

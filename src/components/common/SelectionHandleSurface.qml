@@ -41,6 +41,15 @@ Item {
             id: startHandle
             source: "image://themedimage/widgets/common/text-selection/text-selection-marker-start"
 
+            Rectangle {
+                anchors.fill: parent
+                color:  "red"
+                opacity: 0.5
+                anchors.leftMargin: -11
+                anchors.topMargin: -11
+                anchors.bottomMargin: height * 0.3
+            }
+
             // mh is unused here
             function setPosition (mx, my, mh) {
                 x = mx - (width / 2);
@@ -76,12 +85,66 @@ Item {
             property int yOffset: 0
             property bool ignoreRelease: false
             property bool ignorePressAndHold: true
+            property int minimumTouchSize: 40   // This value should be set by the theme and units
 
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-            function insideHandle (h, mx, my) {
-                return (mx >= h.x && mx <= h.x + h.width) && (my >= h.y && my <= h.y + h.height);
+            // we need a single function for each handle, because the areas a user can touch have to be
+            // bigger than the image and do not have the same shape for each handle
+            // *0.3 and *0.7 reduce the overlapping area
+            function insideStartHandle (mx, my) {
+
+                if( startHandle.width >= minimumTouchSize ){
+                    return (
+                                mx >= startHandle.x + startHandle.width
+                                && mx <= startHandle.x + startHandle.width
+                            ) && (
+                                my >= startHandle.y
+                                && my <= startHandle.y + startHandle.height  * 0.7
+                            );
+                }
+                else{
+                    if( ( mx >= startHandle.x + (startHandle.width - minimumTouchSize) / 2
+                          && mx <= startHandle.x + startHandle.width )
+                     && ( my >= startHandle.y  + (startHandle.width - minimumTouchSize) / 2
+                          && my <= startHandle.y + startHandle.height * 0.7 ) )
+                        return true
+
+                    // additional rect
+                    if( (mx >= startHandle.x
+                        && mx < startHandle.x + startHandle.width + ( minimumTouchSize - startHandle.width ) / 2)
+                     && (my >= startHandle.y  + (startHandle.width - minimumTouchSize) / 2
+                        && my <= startHandle.y + startHandle.width + (minimumTouchSize - startHandle.width) / 2 )
+                            )
+                        return true
+
+                    return false
+                }
+            }
+
+            function insideEndHandle (mx, my) {
+                if( endHandle.width >= minimumTouchSize ){
+                    return (mx >= endHandle.x && mx <= endHandle.x + endHandle.width)
+                            && (my >= endHandle.y + endHandle.height * 0.3 && my <= endHandle.y + endHandle.height );
+                }
+                else{
+                    if (( mx >= endHandle.x
+                          && mx <= endHandle.x + endHandle.width + ( minimumTouchSize - endHandle.width ) / 2 )
+                       && ( my >= endHandle.y + endHandle.height * 0.3
+                          && my <= endHandle.y + endHandle.height  + ( minimumTouchSize - endHandle.width ) / 2 ))
+                        return true
+
+                    // additional rect
+                    if(( mx >= endHandle.x + ( endHandle.width - minimumTouchSize ) / 2
+                            && mx <= endHandle.x)
+                         && ( my >= endHandle.y + endHandle.height - endHandle.width + ( endHandle.width - minimumTouchSize ) / 2
+                            && my <= endHandle.y + endHandle.height + ( minimumTouchSize - endHandle.width ) / 2 )
+                            )
+                        return true
+
+                    return false
+                }
             }
 
             onPressed: {
@@ -89,9 +152,9 @@ Item {
                 // We store the handle that the mouse pointer was over
                 // so we can drag the correct end of the selection
                 // on movement.
-                if (insideHandle (startHandle, mouse.x, mouse.y)) {
+                if (insideStartHandle (mouse.x, mouse.y)) {
                     selectedHandle = startHandle;
-                } else if (insideHandle (endHandle, mouse.x, mouse.y)) {
+                } else if (insideEndHandle (mouse.x, mouse.y)) {
                     selectedHandle = endHandle;
                 } else {
                     selectedHandle = null;

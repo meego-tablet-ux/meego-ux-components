@@ -31,6 +31,7 @@ MouseArea {
 
     property bool copyOnly: false
     property bool pasteOnly: false
+    property bool pasteEmpty: false
 
     // The mouse area needs to expand outside of the parent
     // so that the selection handles can be clicked when they
@@ -43,6 +44,16 @@ MouseArea {
     // Shows the context menu at cx,cy. cx & cy are in the root windows
     // coordinate space, not the CCPContextArea's.
     function showContextMenu (cx, cy) {
+
+        pasteCheck.text = ""
+        pasteCheck.paste()
+        if( pasteCheck.text == "" ){
+            pasteEmpty = true
+        }
+        else{
+            pasteEmpty = false
+        }
+
         if( selectionStart == selectionEnd ){
             box.pasteOnly = true
 
@@ -63,6 +74,8 @@ MouseArea {
 
         clipboardContextMenu.setPosition(  cx, cy )
         clipboardContextMenu.show()
+
+        ccpMenu.opacity = box.pasteOnly && box.pasteEmpty ? 0.5 : 1
 
         var map = mapFromItem (top.topItem, cx, cy)
         box.mouseX = map.x
@@ -107,6 +120,11 @@ MouseArea {
         selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
     }
 
+    TextInput {
+        id: pasteCheck
+        visible: false
+    }
+
     TopItem {
         id: top
         onGeometryChanged: {
@@ -134,10 +152,6 @@ MouseArea {
             editor.cursorPosition = pendingCursorPosition;
             editor.forceActiveFocus ();
         }
-    }
-
-    function inHandle (h, mx, my) {
-        return (mx >= h.x && mx <= h.x + h.width) && (my >= h.y && my <= h.y + h.height);
     }
 
     onPressed: {
@@ -205,12 +219,19 @@ MouseArea {
         id: clipboardContextMenu
 
         content: ActionMenu {
+            id: ccpMenu
+
             model: if(box.copyOnly){
                        [qsTr ("Copy")] }
                    else if( box.pasteOnly ){
                        [qsTr ("Paste")]
                    }else{
-                       [qsTr ("Copy"), qsTr ("Cut"), qsTr ("Paste")]
+                       if(box.pasteEmpty){
+                           [qsTr ("Copy"), qsTr ("Cut")]
+                       }
+                       else{
+                           [qsTr ("Copy"), qsTr ("Cut"), qsTr ("Paste")]
+                       }
                    }
 
             onTriggered: {
@@ -245,6 +266,12 @@ MouseArea {
                 box.selectionEnd = 0;
 
                 clipboardContextMenu.hide()
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                z: 1
+                visible: box.pasteOnly && box.pasteEmpty
             }
         }
     }

@@ -32,10 +32,10 @@
   \qmlcm sets the fog clickable
 
   \section2 Signals
-  \qmlsignal accepted
+  \qmlproperty [signal] accepted
   \qmlcm emitted on 'OK' clicked.
 
-  \qmlsignal rejected
+  \qmlproperty [signal] rejected
   \qmlcm emitted on 'Cancel' clicked.
 
   \section2 Functions

@@ -34,7 +34,7 @@
 
     \section2 Signals
 
-    \qmlsignal onVisibleChanged
+    \qmlproperty [signal] onVisibleChanged
     \qmlcm sent when the visibility of an AppPage changed
 
     \section2 Functions

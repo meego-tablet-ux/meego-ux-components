@@ -38,19 +38,19 @@
 
   \section2 Signal
 
-  \qmlsignal accepted
+  \qmlproperty [signal] accepted
   \qmlcm emitted on 'OK' clicked.
 
-  \qmlsignal rejected
+  \qmlproperty [signal] rejected
   \qmlcm emitted on 'Cancel' clicked.
 
-  \qmlsignal showCalled
+  \qmlproperty [signal] showCalled
   \qmlcm notifies the children that the ModalFog is about to show up
 
-  \qmlsignal fogHideFinished
+  \qmlproperty [signal] fogHideFinished
   \qmlcm DEPRECATED: notifies the children that the ModalFog is hidden
 
-  \qmlsignal closed
+  \qmlproperty [signal] closed
   \qmlcm notifies the children that the ModalFog is hidden
 
   \section2  Functions

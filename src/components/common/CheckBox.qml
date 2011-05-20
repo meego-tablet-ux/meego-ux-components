@@ -17,7 +17,7 @@
    \qmlcm holds the currently checked state. By default false
 
    \section2 Signals
-   \qmlsignal clicked
+   \qmlproperty [signal] clicked
    \qmlcm Emitted if the CheckBox is checked
     \param bool checked
     \qmlcm true ich CheckBox is checked currently \endparam

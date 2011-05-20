@@ -77,37 +77,37 @@
 
   \section2 Signals
 
-  \qmlsignal actionMenuTriggered
+  \qmlproperty [signal] actionMenuTriggered
   \qmlcm is emitted when the an action menu entry was selected
   and returns the corrsponding item from the payload.
 
-  \qmlsignal actionMenuIconClicked
+  \qmlproperty [signal] actionMenuIconClicked
   \qmlcm provides the context menu position for own action menus.
 
-  \qmlsignal activating
+  \qmlproperty [signal] activating
   \qmlcm Signal that fires when the page is about to be shown.
 
-  \qmlsignal activated
+  \qmlproperty [signal] activated
   \qmlcm Signal that fires when the page has been shown.
 
-  \qmlsignal deactivating
+  \qmlproperty [signal] deactivating
   \qmlcm Signal that fires when the page is being hidden.
 
-  \qmlsignal deactivated
+  \qmlproperty [signal] deactivated
   \qmlcm Signal that fires when the page has been hidden.
 
-  \qmlsignal focusChanged
+  \qmlproperty [signal] focusChanged
   \qmlcm Signal that fires if the focus was changed.
         \param bool appPageHasFocus
         \qmlpcm true if the page has focus. \endparam
 
-  \qmlsignal searchExtended
+  \qmlproperty [signal] searchExtended
   \qmlcm Signal that fires when the searchbar is extending.
 
-  \qmlsignal searchRetracted
+  \qmlproperty [signal] searchRetracted
   \qmlcm Signal that fires when the searchbar retracted.
 
-  \qmlsignal search
+  \qmlproperty [signal] search
   \qmlcm is sent when a string was typed into the searchbar
         \param string needle
         \qmlpcm The text that was typed into the searchbar. This signal is sent for every key pressed. \endparam

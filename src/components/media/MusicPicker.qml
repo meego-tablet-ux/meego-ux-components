@@ -29,7 +29,7 @@
   \qmlcm property which sets the selection of songs in the media list
 
   \section2 Signals
-  \qmlsignal albumOrPlaylistSelected
+  \qmlproperty [signal] albumOrPlaylistSelected
   \qmlcm Signal which returns the selected albums and/or playlist if
          the dialog was accepted.
          \param	string	title
@@ -41,7 +41,7 @@
          \param int	type
          \qmlpcm type of the item. \endparam
 
-  \qmlsignal multipleAlbumsOrPlaylistsSelected
+  \qmlproperty [signal] multipleAlbumsOrPlaylistsSelected
   \qmlcm Signal which returns the selected albums and/or playlists if
          the dialog was accepted.
          \param	string	titles
@@ -54,7 +54,7 @@
          \qmlpcm type of the items. \endparam
 
 
-  \qmlsignal songSelected
+  \qmlproperty [signal] songSelected
   \qmlcm Signal which returns the selected song if the dialog was accepted.
     \param string title
     \qmlpcm title of the selected item. \endparam
@@ -67,7 +67,7 @@
     \param int type
     \qmlpcm type of the item. \endparam
 
-  \qmlsignal multipleSongsSelected
+  \qmlproperty [signal] multipleSongsSelected
   \qmlcm Signal which returns the selected songs if the dialog was accepted.
     \param string titles
     \qmlpcm titles of the selected items. \endparam
@@ -80,13 +80,13 @@
     \param int types
     \qmlpcm types of the items. \endparam
 
-  \qmlsignal accepted
+  \qmlproperty [signal] accepted
   \qmlcm emitted on 'OK' clicked.
 
-  \qmlsignal rejected
+  \qmlproperty [signal] rejected
   \qmlcm emitted on 'Cancel' clicked.
 
-  \qmlsignal showCalled
+  \qmlproperty [signal] showCalled
   \qmlcm notifies the children that the ModalFog is about to show up.
 
   \section2 Functions

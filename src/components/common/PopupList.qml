@@ -34,7 +34,7 @@
            PathView's focus at
 
   \section2 Signals
-    \qmlsignal valueSelected
+    \qmlproperty [signal] valueSelected
     \qmlcm propagates that a value has been selected
     \param  int index
     \qmlpcm the index of the entry in the model \endparam

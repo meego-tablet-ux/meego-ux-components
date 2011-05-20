@@ -139,53 +139,53 @@
 
   \section1  Signals:
 
-  \qmlsignal searchExtended
+  \qmlproperty [signal] searchExtended
   \qmlcm Signal that fires when the searchbar is extending.
 
-  \qmlsignal searchRetracted
+  \qmlproperty [signal] searchRetracted
   \qmlcm Signal that fires when the searchbar retracted.
 
-  \qmlsignal search
+  \qmlproperty [signal] search
    \qmlcm indicates that a search was started
    \param string needle
     \qmlpcm The text that was typed into the searchbar. This signal is sent for every key pressed. \endparam
 
-  \qmlsignal actionMenuIconClicked
+  \qmlproperty [signal] actionMenuIconClicked
    \qmlcm provides the action menu context menu coordinate
     for custom action menus created by AppPages
 
-  \qmlsignal bookMenuTriggered
+  \qmlproperty [signal] bookMenuTriggered
    \param int index
     \qmlpcm selected index of the BookMenu. This is only sent when automaticBookSwitching
      is set to false. \endparam
 
-  \qmlsignal actionMenuTriggered( variant selectedItem )
+  \qmlproperty [signal] actionMenuTriggered( variant selectedItem )
    \param variant selectItem
     \qmlpcm selected payload item of the ActionMenu \endparam
 
-  \qmlsignal actionMenuIconClicked
+  \qmlproperty [signal] actionMenuIconClicked
    \param int mouseX
     \qmlpcm x position of the mouse \endparam
      \param int mouseY
       \qmlpcm x position of the mouse \endparam
 
-  \qmlsignal orientationChangeAboutToStart
+  \qmlproperty [signal] orientationChangeAboutToStart
    \qmlcm Signals that a orientation change will come
         \param string newOrientation
         \qmlpcm provides the new orientation \endparam
         \param string oldOrientation
         \qmlpcm provides the old orientation \endparam
-  \qmlsignal orientationChangeStarted
+  \qmlproperty [signal] orientationChangeStarted
    \qmlcm Signals the start of the orientation change
 
-  \qmlsignal orientationChangeFinished
+  \qmlproperty [signal] orientationChangeFinished
    \qmlcm Signales the end of the orientationChange
         \param string newOrientation
         \qmlpcm provides the new orientation \endparam
         \param string oldOrientation
         \qmlpcm provides the old orientation \endparam
 
-  \qmlsignal orientationChanged
+  \qmlproperty [signal] orientationChanged
    \qmlcm obsolete signal, will be triggered just as orientationChangeFinished.
 
   \section1  Functions

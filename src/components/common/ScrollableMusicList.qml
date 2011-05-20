@@ -35,7 +35,7 @@
   
   \section2 Signals
   
-  \qmlsignal listItemSelected
+  \qmlproperty [signal] listItemSelected
   \qmlcm emitted if an item was selected
     \param variant itemid
     \qmlpcm id of the mediaitem \endparam

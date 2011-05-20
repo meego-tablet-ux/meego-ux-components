@@ -25,13 +25,13 @@
 
   \section2 Signal
 
-  \qmlsignal visible
+  \qmlproperty [signal] visible
   \qmlcm emitted on fully visibility
 
-  \qmlsignal hidden
+  \qmlproperty [signal] hidden
   \qmlcm emitted on completly hidden toolbar
   
-  \qmlsignal showCalled
+  \qmlproperty [signal] showCalled
   \qmlcm notifies the children that the BottomToolBar is about to show
 
   \section2  Functions

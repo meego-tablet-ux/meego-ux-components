@@ -66,7 +66,7 @@
 
   \section2 Signals
 
-      \qmlsignal clicked
+      \qmlproperty [signal] clicked
       \qmlcm emitted if the button is enabled and clicked.
         \param MouseEvent mouse
         \qmlpcm contains mouse event data. \endparam

@@ -30,7 +30,7 @@
   \qmlcm the internal type. See the private properties for details.
 
   \section2 Signals
-  \qmlsignal clicked
+  \qmlproperty [signal] clicked
   \qmlcm emitted when an item was clicked.
        \param int mouseX
        \qmlpcm position of the click event. \endparam
@@ -39,7 +39,7 @@
        \param int payload
        \qmlpcm the clicked item. \endparam
 
-  \qmlsignal longPressAndHold
+  \qmlproperty [signal] longPressAndHold
   \qmlcm emitted when an item was long pressed.
        \param int mouseX
        \qmlpcm position of the click event. \endparam
@@ -48,7 +48,7 @@
        \param variant payload
        \qmlpcm variant, the clicked item. \endparam
 
-  \qmlsignal doubleClicked
+  \qmlproperty [signal] doubleClicked
   \qmlcm emitted when an item was double clicked. Note that a 'clicked' for the first click is emitted as well.
        \param int mouseX
        \qmlpcm position of the click event. \endparam
@@ -57,7 +57,7 @@
        \param variant payload
        \qmlpcm the clicked item. \endparam
 
-  \qmlsignal released
+  \qmlproperty [signal] released
   \qmlcm emitted when the left mouse button was released.
        \param int mouseX
        \qmlpcm position of the click event. \endparam
@@ -66,7 +66,7 @@
        \param variant payload
        \qmlpcm the clicked item. \endparam
 
-  \qmlsignal positionChanged
+  \qmlproperty [signal] positionChanged
   \qmlcm emitted when the mouse moves above the item.
        \param int mouseX
        \qmlpcm position of the click event. \endparam

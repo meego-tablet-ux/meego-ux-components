@@ -331,6 +331,10 @@ Item {
     height: { try { screenHeight;} catch (err) {  576; } }
     clip: true
 
+    onSearchRetracted: {
+        searchBox.text = ""
+    }
+
     Theme { id: theme }
 
     Translator {
@@ -829,6 +833,7 @@ Item {
 
         }
     }
+
     Connections {
         target: qApp
         onForegroundWindowChanged: {
@@ -837,8 +842,6 @@ Item {
             scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
 
             console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
-
-
         }
         onOrientationChanged: {
             scene.orientation = qApp.orientation;

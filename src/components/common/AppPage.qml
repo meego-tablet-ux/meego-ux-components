@@ -211,6 +211,10 @@ Item {
         pageActive = false
     }
 
+    onPageTitleChanged: {
+        window.toolBarTitle = pageTitle
+    }
+
     onFastPageSwitchChanged: {
         window.fastPageSwitch = fastPageSwitch
     }

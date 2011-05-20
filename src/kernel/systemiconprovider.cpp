@@ -16,6 +16,7 @@
 #include <QDebug>
 #include <QImageReader>
 #include <MGConfItem>
+#include <QDebug>
 
 #include "systemiconprovider.h"
 #include "imageprovidercache.h"
@@ -23,13 +24,12 @@
 #define THEME_KEY "/meego/ux/theme"
 
 SystemIconProvider::SystemIconProvider() :
-        QDeclarativeImageProvider(QDeclarativeImageProvider::Image),
+        QDeclarativeImageProvider(QDeclarativeImageProvider::Pixmap),
         m_cache( new ImageProviderCache( QString("SystemIconProviderCache%1").arg(THEME_KEY), 256, 8 ) )
 {
     MGConfItem* themeItem = new MGConfItem(THEME_KEY);
 
     if( themeItem ) {
-        qDebug() << themeItem->value().toString();
 
         if (themeItem->value().isNull() || themeItem->value().toString().isEmpty() ||
             !QFile::exists(QString("/usr/share/themes/") + themeItem->value().toString()))
@@ -69,7 +69,7 @@ SystemIconProvider::~SystemIconProvider()
 }
 
 QImage SystemIconProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
-{
+{    
     if ( id.startsWith('/') ) // Determine if the request is for a real file
     {
         if (QFile::exists(id)) {
@@ -115,7 +115,7 @@ QImage SystemIconProvider::requestImage(const QString &id, QSize *size, const QS
 }
 
 QPixmap SystemIconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
-{
+{    
     if ( id.startsWith('/') ) // Determine if the request is for a real file
     {
         if (QFile::exists(id)) {
@@ -152,16 +152,13 @@ QPixmap SystemIconProvider::requestPixmap(const QString &id, QSize *size, const 
                 *size = pixmap.size();
             return pixmap;
 
-        } else { // seek in theme
-
-            QPixmap pixmap = m_cache->requestPixmap( m_themePath + id, size, requestedSize );
-            if (size)
-                *size = pixmap.size();
-            return pixmap;
-
         }
     }
-    return QPixmap( requestedSize );
+
+    QPixmap pixmap = m_cache->requestPixmap( m_themePath + id, size, requestedSize );
+    if (size)
+        *size = pixmap.size();
+    return pixmap;
 }
 
 QImage SystemIconProvider::readImageFromFile(const QString &file, const QSize &requestedSize)

@@ -18,6 +18,7 @@
 #include "translator.h"
 #include "windowiconprovider.h"
 #include "borderimagedecorator.h"
+#include "saverestorestate.h"
 
 void MeeGoUxKernelPlugin::registerTypes(const char *uri)
 {
@@ -26,6 +27,7 @@ void MeeGoUxKernelPlugin::registerTypes(const char *uri)
     qmlRegisterType<QmlDebugTools>(uri, 0,1, "QmlDebugTools");
     qmlRegisterType<Scene>(uri, 0,1,"Scene");
     qmlRegisterType<Translator>(uri, 0,1,"Translator");
+    qmlRegisterType<SaveRestoreState>(uri, 0,1, "SaveRestoreState");
 }
 
 void MeeGoUxKernelPlugin::initializeEngine(QDeclarativeEngine *engine, const char *uri)

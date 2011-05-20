@@ -190,25 +190,25 @@ void Scene::setBlockOrientationWhenInActive( bool block )
 
 bool Scene::inPortrait() const
 {
-    if( m_orientation == portrait || m_orientation == invertedPortrait )
+    if( m_orientation == portrait )
         return true;
     return false;
 }
 bool Scene::inLandscape() const
 {
-    if( m_orientation == landscape || m_orientation == invertedLandscape )
-        return false;
-    return true;
+    if( m_orientation == landscape )
+        return true;
+    return false;
 }
 bool Scene::inInvertedLandscape() const
 {
-    if( m_orientation == landscape )
+    if( m_orientation == invertedLandscape )
         return true;
     return false;
 }
 bool Scene::inInvertedPortrait() const
 {
-    if( m_orientation == portrait )
+    if( m_orientation == invertedPortrait )
         return true;
     return false;
 }

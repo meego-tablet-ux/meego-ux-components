@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-SUBDIRS += components \
+SUBDIRS += gestures \
+        components \
         kernel \
         models \
         units

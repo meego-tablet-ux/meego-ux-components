@@ -83,8 +83,6 @@ Item{
         id: textBox
 
         anchors.centerIn: parent
-        anchors.leftMargin: infoBar.margins
-        anchors.rightMargin: infoBar.margins
 
         width: parent.width - horizontalMargins * 2
 
@@ -128,4 +126,6 @@ Item{
             duration: animationTime
         }
     }
+
+    Theme { id: theme }
 }

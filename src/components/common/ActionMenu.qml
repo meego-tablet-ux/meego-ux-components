@@ -139,6 +139,8 @@ Flickable {
 
             width: parent.width
 
+            opacity: container.opacity
+
             delegate: Item {
                 id: delegateThingy
 
@@ -160,8 +162,6 @@ Flickable {
                 height: textItem.paintedHeight + textMargin * 2
 
                 clip : true
-
-                opacity: container.opacity
 
                 Rectangle {
 

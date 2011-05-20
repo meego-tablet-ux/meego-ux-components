@@ -28,5 +28,6 @@ QMAKE_EXTRA_TARGETS += dist
 doc.depends += FORCE
 doc.commands += cd doc &&
 doc.commands += qdoc3 meego-ux-components.qdocconf &&
-doc.commands += echo "Documentation created in doc/html/meego-ux-components.hmtl"
+doc.commands += mv html/meego-ux-components.html html/index.html &&
+doc.commands += echo "Documentation created in doc/html/"
 QMAKE_EXTRA_TARGETS += doc

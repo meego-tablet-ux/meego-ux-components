@@ -1,5 +1,5 @@
 project = 	meego-ux-components
-version = 	0.2.5
+version = 	0.2.9.2
 
 description = 	MeeGo Ux Components Documentation
 url = 		"http://meego.com"
@@ -51,5 +51,5 @@ macro.todo.HTML         = "<br/>Todo: "
 # HTML.templatedir = $MeeGoUxComponents/doc/src/meego/template
 
 HTML.stylesheets = meego-ux-components.css
-HTML.postheader = "<div class=\"header\"><a href=\"meego-ux-components.html\">Home</a><a href=\"meego-ux-components-list.html\">Components</a><a href=\"meego-ux-components-tutorial.html\">Tutorial</a><a href=\"meego-ux-components-test.html\">Tests</a><a href=\"https://otcshare.org\">OtcShare.org</a> Intel MeeGo-UX-Components 0.2.7 - 04/21/2011 </div>"
-HTML.footer = "<div class=\"footer\"><a href=\"meego-ux-components.html#\">Top</a></div>"
+HTML.postheader = "<div class=\"header\"> | MeeGo UX Components 0.2.9.2 | <a href=\"index.html\">Home</a> | <a href=\"meego-ux-components-list.html\">Components</a> | <a href=\"meego-ux-components-tutorial.html\">Tutorial</a> | <a href=\"meego-ux-components-test.html\">Tests</a></div>"
+HTML.footer = "<div class=\"footer\"><a href=\"index.html#\">Top</a></div>"

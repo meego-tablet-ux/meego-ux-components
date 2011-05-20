@@ -188,6 +188,6 @@
     $ cd doc
     $ qdoc3  meego-ux-components.qdocconf
     \endcode
-    The documentation will be created in doc/html/ meego-ux-components.html of your project folder.
+    The documentation will be created in doc/html/ of your project folder.
 
 */

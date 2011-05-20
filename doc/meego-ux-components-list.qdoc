@@ -7,29 +7,29 @@
       \o Basic widgets:
         \list
 
+        \o  \l { AppPage }
+        \o  \l { BottomToolBar }
         \o  \l { Button }
+        \o  \l { ExpandingBox }
         \o  \l { IconButton }
         \o  \l { InfoBar }
-        \o  \l { ToggleButton }
+        \o  \l { Label }
+        \o  \l { LayoutTextItem }
+        \o  \l { PageStack }
+        \o  \l { PopupList }
+        \o  \l { ProgressBar }
         \o  \l { RadioButton }
         \o  \l { RadioGroup }
-        \o  \l { ExpandingBox }
-        \o  \l { PopupList }
         \o  \l { Slider }
-        \o  \l { VerticalSlider }
         \o  \l { TextEntry }
-        \o  \l { LayoutTextItem }
-        \o  \l { AppPage }
-        \o  \l { PageStack }
-        \o  \l { ProgressBar }
+        \o  \l { ToggleButton }
+        \o  \l { VerticalSlider }
         \o  \l { Window }
-        \o  \l { Label }
-        \o  \l { BottomToolBar }
         \endlist
       \o Modal dialogs:
         \list
-        \o  \l { DatePicker }
         \o  \l { ContextMenu }
+        \o  \l { DatePicker }
         \o  \l { ModalMessageBox }
         \o  \l { MusicPicker }
         \o  \l { PhotoPicker }
@@ -38,7 +38,6 @@
         \endlist
       \o Basic components:
         \list
-        \o  \l { MucMediaGridView }
         \o  \l { ModalDialog }
         \o  \l { ModalFog }
         \o  \l { ScrollableMusicList }

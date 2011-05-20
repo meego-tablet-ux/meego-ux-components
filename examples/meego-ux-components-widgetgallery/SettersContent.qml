@@ -633,6 +633,58 @@ Item {
 
                     Component{ id: spinnerComponent; WidgetPageSpinner{} }
                 }
+
+                Rectangle {
+                    id: infoItem
+
+                    width: parent.width
+                    height: flickContainer.itemHeight
+
+                    border.width: 1
+                    border.color: "grey"
+
+                    color: flickContainer.backColor
+                    clip:  true
+
+                    MouseArea {
+                        anchors.fill: infoItem
+                        z: 1
+
+                        onClicked: addPage( infoComponent )
+                    }
+
+                    Item{
+                        id: infoButton
+
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
+                        width:  parent.width * flickContainer.leftFactor
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        InfoBar {
+                            width: parent.width
+                            anchors.centerIn: parent
+
+                            text: "InfoBar"
+                            animationTime: 0
+                            Component.onCompleted: {
+                                show()
+                            }
+                        }
+                    }
+
+                    Text {
+                        x: parent.width / 2
+                        width: parent.width * flickContainer.rightFactor
+                        height: parent.height
+
+                        verticalAlignment: Text.AlignVCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: flickContainer.textSize
+                        text: "InfoBar, displaying info messages."
+                    }
+
+                    Component{ id: infoComponent; WidgetPageInfoBar{} }
+                }
             }
         }
 

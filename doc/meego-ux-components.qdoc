@@ -26,6 +26,7 @@
         \o  \l { DropDown }
         \o  \l { ExpandingBox }
         \o  \l { IconButton }
+        \o  \l { InfoBar }
         \o  \l { Label }
         \o  \l { LayoutTextItem }
         \o  \l { ModalSpinner }

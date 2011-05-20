@@ -9,6 +9,7 @@
 
         \o  \l { Button }
         \o  \l { IconButton }
+        \o  \l { InfoBar }
         \o  \l { ToggleButton }
         \o  \l { RadioButton }
         \o  \l { RadioGroup }

@@ -61,7 +61,7 @@
 
   \section2 Functions
 
-  \qmlmethod positionAt(int)
+  \qmlfn positionAt(int)
   \qmlcm See the corresponding QML TextInput function
 
   \section2 Example

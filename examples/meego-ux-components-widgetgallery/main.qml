@@ -37,5 +37,4 @@ Window {
     Component { id: bottomBar; WidgetPageBottomBar {} }
     Component { id: fullScreenPage; WidgetPageFullScreen {} }
     Component { id: orientationPage; WidgetPageOrientation {} }
-//    Component { id: infoPage; WidgetPageInfoBar {} }
 }

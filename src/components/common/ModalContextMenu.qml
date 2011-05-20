@@ -8,8 +8,8 @@
 
 /*!
   \qmlclass ModalContextMenu
-  \title ContextMenu
-  \section1 ContextMenu
+  \title ModalContextMenu
+  \section1 ModalContextMenu
   \qmlcm  This qml provides an empty context menu. You can setPosition() where the
          menu should show up. On show() it will appear pointing to the given
          position and display the content set via the content property.

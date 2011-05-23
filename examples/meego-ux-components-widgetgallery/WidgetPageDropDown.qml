@@ -57,14 +57,26 @@ WidgetPage {
                 ddown.height = value
             }
         },
+
         LabeledEntry {
             id: titleText
 
-            label: "titleText: "
+            label: "title: "
             defaultValue: ddown.title
 
             onTextUpdated: {
                 ddown.title = value;
+            }
+        },
+
+        LabeledEntry {
+            id: selectedIndexBox
+
+            label: "selectedIndex: "
+            defaultValue: ddown.selectedIndex
+
+            onTextUpdated: {
+                ddown.selectedIndex = value;
             }
         },
 

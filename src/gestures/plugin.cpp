@@ -17,23 +17,23 @@ QT_BEGIN_NAMESPACE
 void GestureAreaQmlPlugin::registerTypes(const char *uri)
 {
 #ifndef QT_NO_GESTURES
-    qmlRegisterType<QDeclarativeGestureArea>(uri, 2, 0, "GestureArea");
+    qmlRegisterType<QDeclarativeGestureArea>(uri, 0, 1, "GestureArea");
 
-    qmlRegisterUncreatableType<QDeclarativeGestureHandler>(uri, 2, 0, "GestureHandler", QLatin1String("Do not create objects of this type."));
+    qmlRegisterUncreatableType<QDeclarativeGestureHandler>(uri, 0, 1, "GestureHandler", QLatin1String("Do not create objects of this type."));
 
-    qmlRegisterUncreatableType<QGesture>(uri, 2, 0, "Gesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QPanGesture>(uri, 2, 0, "PanGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QTapGesture>(uri, 2, 0, "TapGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QTapAndHoldGesture>(uri, 2, 0, "TapAndHoldGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QPinchGesture>(uri, 2, 0, "PinchGesture", QLatin1String("Do not create objects of this type."));
-    qmlRegisterUncreatableType<QSwipeGesture>(uri, 2, 0, "SwipeGesture", QLatin1String("Do not create objects of this type."));
+    qmlRegisterUncreatableType<QGesture>(uri, 0, 1, "Gesture", QLatin1String("Do not create objects of this type."));
+    qmlRegisterUncreatableType<QPanGesture>(uri, 0, 1, "PanGesture", QLatin1String("Do not create objects of this type."));
+    qmlRegisterUncreatableType<QTapGesture>(uri, 0, 1, "TapGesture", QLatin1String("Do not create objects of this type."));
+    qmlRegisterUncreatableType<QTapAndHoldGesture>(uri, 0, 1, "TapAndHoldGesture", QLatin1String("Do not create objects of this type."));
+    qmlRegisterUncreatableType<QPinchGesture>(uri, 0, 1, "PinchGesture", QLatin1String("Do not create objects of this type."));
+    qmlRegisterUncreatableType<QSwipeGesture>(uri, 0, 1, "SwipeGesture", QLatin1String("Do not create objects of this type."));
 
-    qmlRegisterType<QDeclarativeDefaultGestureHandler>(uri, 2, 0, "Default");
-    qmlRegisterType<QDeclarativePanGestureHandler>(uri, 2, 0, "Pan");
-    qmlRegisterType<QDeclarativeTapGestureHandler>(uri, 2, 0, "Tap");
-    qmlRegisterType<QDeclarativeTapAndHoldGestureHandler>(uri, 2, 0, "TapAndHold");
-    qmlRegisterType<QDeclarativePinchGestureHandler>(uri, 2, 0, "Pinch");
-    qmlRegisterType<QDeclarativeSwipeGestureHandler>(uri, 2, 0, "Swipe");
+    qmlRegisterType<QDeclarativeDefaultGestureHandler>(uri, 0, 1, "Default");
+    qmlRegisterType<QDeclarativePanGestureHandler>(uri, 0, 1, "Pan");
+    qmlRegisterType<QDeclarativeTapGestureHandler>(uri, 0, 1, "Tap");
+    qmlRegisterType<QDeclarativeTapAndHoldGestureHandler>(uri, 0, 1, "TapAndHold");
+    qmlRegisterType<QDeclarativePinchGestureHandler>(uri, 0, 1, "Pinch");
+    qmlRegisterType<QDeclarativeSwipeGestureHandler>(uri, 0, 1, "Swipe");
 
     QGestureRecognizer::unregisterRecognizer(Qt::TapGesture);
     QGestureRecognizer::unregisterRecognizer(Qt::TapAndHoldGesture);

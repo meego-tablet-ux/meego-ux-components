@@ -127,7 +127,7 @@ Item {
     signal triggered( int index )
     signal expandingChanged( bool expanded )
 
-    property bool engouhSpaceLeft: mapToItem( topItem.topItem, dropDown.x + dropDown.width, dropDown.y ).x > actionMenu.width
+    property bool enoughSpaceLeft: mapToItem( topItem.topItem, dropDown.x + dropDown.width, dropDown.y ).x > actionMenu.width
 
     onSelectedIndexChanged: {
         actionMenu.selectedIndex = selectedIndex

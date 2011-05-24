@@ -189,7 +189,7 @@ Item {
     signal newActionMenuOpen( bool actionMenuOpen )
     signal newActionMenuSelectedIndex( int actionMenuSelectedIndex )
     signal newActionMenuModel( variant actionMenuModel )
-    signal newActionMenuPayload( variant actionMenuModel )
+    signal newActionMenuPayload( variant actionMenuPayload )
     signal newActionMenuTitle( string actionMenuTitle )
     signal newBackButtonLocked( bool backButtonLocked )
 

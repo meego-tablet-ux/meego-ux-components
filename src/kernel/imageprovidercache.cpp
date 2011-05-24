@@ -19,12 +19,11 @@ ImageProviderCache::ImageProviderCache( const QString ThemeName, int maxImages, 
     m_size( sizeInMb ),
     m_images( maxImages ),
     m_filename( QString("statistics") )
-{    
+{
 
     m_emptyImage.fill(Qt::red);
     m_emptyPixmap.fill(Qt::red);
 
-    //FIXME: Determine where to store the pixmaps
     m_pixmapHandling = saveToMemory;
 
     calcDataSize();
@@ -122,7 +121,7 @@ void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, i
 {
     QString path = m_path + id;
     path.remove( QString::fromLatin1("image://themedimage/") );
-    bulk();
+
     if( existImage ( path, QSize() ) ) {
 
         for( int i = 0; i < m_imageTable.size(); i++ ) {
@@ -162,111 +161,52 @@ void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, i
 
 bool ImageProviderCache::existImage( const QString & id, const QSize& size )
 {
-    if( m_bMemoryReady ){
-
-        // first read out from existing table:
+    if( m_bmemoryReady ) {
 
         if( size.isEmpty() ) {
 
             for( int i = 0; i < m_imageTable.size(); i++ ) {
-                if( m_imageTable[i].equal( id ) ) {
-                    //qDebug() << "cache hit: " << id;
+                if( m_imageTable[i].equal( id ) )
                     return true;
-                }
             }
 
         } else {
 
             for( int i = 0; i < m_imageTable.size(); i++ ) {
-                if( m_imageTable[i].equal( id, size ) ) {
-                    //qDebug() << "cache hit: " << id;
+                if( m_imageTable[i].equal( id, size ) )
                     return true;
-                }
             }
 
         }
-
-        // no hit? -> read MemoryInfo and try again!
-        // this avoids to much reading actions and locks.
-        readMemoryInfo();
-        if( size.isEmpty() ) {
-
-            for( int i = 0; i < m_imageTable.size(); i++ ) {
-                if( m_imageTable[i].equal( id ) ) {
-                    //qDebug() << "cache hit: " << id;
-                    return true;
-                }
-            }
-
-        } else {
-
-            for( int i = 0; i < m_imageTable.size(); i++ ) {
-                if( m_imageTable[i].equal( id, size ) ) {
-                    //qDebug() << "cache hit: " << id;
-                    return true;
-                }
-            }
-
-        }
-
     }
-
     return false;
 }
 
 bool ImageProviderCache::existPixmap( const QString & id, const QSize& size )
 {
+    if( m_bmemoryReady ) {
 
-    if( m_bMemoryReady ){
-
-        //ck no need to update readMemoryInfo();
-
-        if( size.isEmpty() ) {
-
-            for( int i = 0; i < m_pixmapTable.size(); i++ ) {
-                if( m_pixmapTable[i].equal( id ) ) {
-                    //qDebug() << "cache hit: " << id;
-                    return true;
-                }
-            }
-
-        } else {
-
-            for( int i = 0; i < m_pixmapTable.size(); i++ ) {
-                if( m_pixmapTable[i].equal( id, size ) ) {
-                    //qDebug() << "cache hit: " << id << size;
-                    return true;
-                }
-            }
-
-        }
-
-        // no hit? -> read MemoryInfo and try again!
-        // this avoids to much reading actions and locks.
+        m_memory.lock();
         readMemoryInfo();
+        m_memory.unlock();
+
         if( size.isEmpty() ) {
 
             for( int i = 0; i < m_pixmapTable.size(); i++ ) {
-                if( m_pixmapTable[i].equal( id ) ) {
-                    //qDebug() << "cache hit: " << id;
+                if( m_pixmapTable[i].equal( id ) )
                     return true;
-                }
             }
 
         } else {
 
             for( int i = 0; i < m_pixmapTable.size(); i++ ) {
-                if( m_pixmapTable[i].equal( id, size ) ) {
-                    //qDebug() << "cache hit: " << id;
+                if( m_pixmapTable[i].equal( id, size ) )
                     return true;
-                }
             }
 
         }
-
     }
     return false;
-
 }
 
 bool ImageProviderCache::existSciFile( const QString & id )
@@ -278,7 +218,7 @@ bool ImageProviderCache::existSciFile( const QString & id )
 }
 
 QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, QSize* size, const QSize& requestedSize )
-{  
+{
     QImage image;
 
     if( existImage ( id , requestedSize ) ) {
@@ -355,7 +295,7 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
 
                 image = reader.read();
 
-                if( isResizedImageWorthCaching( id ) ) {                    
+                if( isResizedImageWorthCaching( id ) ) {
                     if( saveToMemory )
                         addImageToMemory( id, image );
                 }
@@ -367,7 +307,7 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
             image = m_emptyImage;
             if( !requestedSize.isEmpty() )
                 image = image.scaled( requestedSize );
-        }        
+        }
     }
 
     if( size ) {
@@ -416,7 +356,6 @@ QImage ImageProviderCache::loadImageFromMemory( const QString& id, const QSize& 
         QBuffer buffer;
         QDataStream in( &buffer );
 
-        //qDebug() << "loadImageFromMemory - begin: " << tableInfo.memoryPosition << " size: " << tableInfo.memorySize;
         char* begin = (char*) m_memoryInfo.calcPos( tableInfo.memoryPosition );
 
         buffer.setData( begin,  tableInfo.memorySize );
@@ -434,14 +373,10 @@ QPixmap ImageProviderCache::loadPixmapFromMemory( const QString& id, const QSize
 {
     QPixmap pixmap;
 
-    //qDebug() << "load from memory " << id;
-
     if( m_bMemoryReady ) {
 
         PixmapReference tableInfo;
         bool found = false;
-
-        //qDebug() << "load from memory " << id;
 
         if( size.isEmpty() )
         {
@@ -616,13 +551,6 @@ ImageReference ImageProviderCache::loadSciFile( const QString& id )
         reference.borderRight = r;
         reference.setId( picturefile );
     }
-
-    //qDebug() << reference.id();
-    //qDebug() << reference.borderLeft;
-    //qDebug() << reference.borderRight;
-    //qDebug() << reference.borderBottom;
-    //qDebug() << reference.borderTop;
-
     return reference;
 }
 
@@ -638,9 +566,9 @@ void ImageProviderCache::addImageToMemory( const QString& id, const QImage& imag
 {
     if( m_bMemoryReady ) {
 
-        //qDebug() << "Add Image to shared memory: " << id;
-        readMemoryInfo();
         m_memory.lock();
+
+        readMemoryInfo();
 
         QBuffer buffer;
         buffer.open( QBuffer::ReadWrite );
@@ -673,13 +601,14 @@ void ImageProviderCache::addImageToMemory( const QString& id, const QImage& imag
 
         } else {
 
-            //qDebug() << " cache is full ";
+            qWarning() << "the imageProvider cache is full ";
 
         }
 
         buffer.close();
-        m_memory.unlock();
         saveMemoryInfo();
+
+        m_memory.unlock();
 
         //qDebug() << "done";
     }
@@ -689,9 +618,9 @@ void ImageProviderCache::addPixmapToMemory( const QString &id, const QPixmap &pi
 {
     if( m_bMemoryReady ) {
 
-        //qDebug() << "Add Pixmap to shared memory: " << id;
-        readMemoryInfo();
         m_memory.lock();
+
+        readMemoryInfo();
 
         QBuffer buffer;
         buffer.open( QBuffer::ReadWrite );
@@ -720,16 +649,16 @@ void ImageProviderCache::addPixmapToMemory( const QString &id, const QPixmap &pi
             m_memoryInfo.pixmapCount++;
             m_lastUpdate = m_memoryInfo.incUpdate();
 
-            //qDebug() << "done";
-
         } else {
 
-            //qDebug() << " cache is full ";
+           qWarning() << " ImageProviderCache is full ";
 
         }
         buffer.close();
-        m_memory.unlock();
         saveMemoryInfo();
+
+        m_memory.unlock();
+
     }
 }
 
@@ -737,9 +666,9 @@ void ImageProviderCache::addPixmapToX11Cache( const QString& id, const QPixmap& 
 {
     if( m_bMemoryReady ) {
 
-        readMemoryInfo();
-
         m_memory.lock();
+
+        readMemoryInfo();
 
         PixmapReference pixmapReference( reference );
         pixmapReference.setId( id );
@@ -750,12 +679,14 @@ void ImageProviderCache::addPixmapToX11Cache( const QString& id, const QPixmap& 
         pixmapReference.memoryPosition = 0;
         pixmapReference.memorySize = 0;
         m_pixmapTable.append( pixmapReference );
+
         m_memoryInfo.pixmapCount++;
         m_lastUpdate = m_memoryInfo.incUpdate();
 
+        saveMemoryInfo();
+
         m_memory.unlock();
 
-        saveMemoryInfo();
     }
 }
 
@@ -794,7 +725,6 @@ void ImageProviderCache::readMemoryInfo()
             imageIn.setDevice( &imageBuffer );
 
             ImageReference referenceTableInfo;
-            //qDebug() << "image count:" << m_memoryInfo.imageCount;
             for( uint i = 0; i < m_memoryInfo.imageCount; i++ )
             {
                 referenceTableInfo.loadFromStream( imageIn );
@@ -810,9 +740,6 @@ void ImageProviderCache::readMemoryInfo()
                 }
                 if( !bFound ) {
                     m_imageTable.append( referenceTableInfo );
-                    //qDebug() << "readMemoryInfo - new Image found: " << referenceTableInfo.id()
-                    //         << " height: " << referenceTableInfo.height
-                    //         << " width: " << referenceTableInfo.width;
                 }
             }
             imageBuffer.close();
@@ -824,26 +751,19 @@ void ImageProviderCache::readMemoryInfo()
             pixmapBuffer.open(QBuffer::ReadOnly);
 
             PixmapReference referenceInfo;
-            //qDebug() << "pixmap count:" << m_memoryInfo.pixmapCount;
             for( uint i = 0; i < m_memoryInfo.pixmapCount; i++ )
-            {              
+            {
                 referenceInfo.loadFromStream( pixmapIn );
-                //qDebug() << "loadFrom Stream:" << referenceInfo.id();
 
                 bool bFound = false;
                 for( int i = 0; i < m_pixmapTable.size(); i++ )
-                {                    
+                {
                     if( m_pixmapTable[i].equal( referenceInfo ) ) {
                         bFound = true;
-                        //qDebug() << "found";
                         break;
                     }
                 }
                 if( !bFound ) {
-                    //qDebug() << "add";
-                    //qDebug() << "readMemoryInfo - new pixmap found: " << referenceInfo.id()
-                    //         << " height: " << referenceInfo.height
-                    //         << " width: " << referenceInfo.width;
                     m_pixmapTable.append( referenceInfo );
                 }
             }
@@ -857,7 +777,13 @@ void ImageProviderCache::saveMemoryInfo()
 {
     if( m_bMemoryReady ) {
 
-        m_memory.lock();
+        if( m_pixmapTable.size() < m_memoryInfo.pixmapCount ) {
+            qWarning() << "Pixmap count is out of Sync. internal Count: " << m_pixmapTable.size() << " external Count: " << m_memoryInfo.pixmapCount;
+        }
+
+        if( m_imageTable.size() < m_memoryInfo.imageCount ) {
+            qWarning() << "Image count is out of Sync. internal Count: " << m_imageTable.size() << " external Count: " << m_memoryInfo.imageCount;
+        }
 
         // ~~~~~ memoryInfo
         QBuffer buffer;
@@ -876,13 +802,15 @@ void ImageProviderCache::saveMemoryInfo()
         QBuffer imageBuffer;
         imageBuffer.open(QBuffer::ReadWrite);
         QDataStream imageOut( &imageBuffer );
-        for( uint i = 0; i < m_memoryInfo.imageCount; i++ )
+
+
+        for( int i = 0; i < m_imageTable.size(); i++ )
         {
             m_imageTable[i].saveToStream( imageOut );
         }
         size = imageBuffer.size();
         char *imageTable = (char*) m_memoryInfo.calcPos( m_memoryInfo.imageTableBegin );
-        const char *fromImageTable = imageBuffer.data().data();            
+        const char *fromImageTable = imageBuffer.data().data();
         memcpy( imageTable, fromImageTable, size );
 
         imageBuffer.close();
@@ -891,7 +819,8 @@ void ImageProviderCache::saveMemoryInfo()
         QBuffer pixmapBuffer;
         pixmapBuffer.open(QBuffer::ReadWrite);
         QDataStream pixmapOut( &pixmapBuffer );
-        for( uint i = 0; i < m_memoryInfo.pixmapCount; i++ )
+
+        for( int i = 0; i < m_pixmapTable.size(); i++ )
         {
             m_pixmapTable[i].saveToStream( pixmapOut );
         }
@@ -901,7 +830,6 @@ void ImageProviderCache::saveMemoryInfo()
         memcpy( pixmapTable, fromPixmapTable, size );
         pixmapBuffer.close();
 
-        m_memory.unlock();
     }
 }
 
@@ -978,10 +906,14 @@ void ImageProviderCache::attachSharedMemory()
 
             m_bMemoryReady = true;
 
-            readMemoryInfo();
+            m_memory.lock();
 
+            readMemoryInfo();
             m_memoryInfo.clientCount++;
             saveMemoryInfo();
+
+            m_memory.unlock();
+
 
         }
 
@@ -990,11 +922,9 @@ void ImageProviderCache::attachSharedMemory()
         //qDebug() << "shared memory created: " << m_key;
         createShareMemory();
         m_bMemoryReady = true;
-        loadPreLoadFile();        
+        loadPreLoadFile();
 
     }
-
-    bulk();
 
 }
 
@@ -1005,12 +935,15 @@ void ImageProviderCache::detachSharedMemory()
         if(m_memoryInfo.clientCount == 1)
             savePreLoadFile();
 
+        m_memory.lock();
+
         readMemoryInfo();
         m_memoryInfo.clientCount--;
         saveMemoryInfo();
 
+        m_memory.unlock();
+
         m_memory.detach();
-        //qDebug() << "shared memory detached";
     }
 }
 
@@ -1027,7 +960,7 @@ void ImageProviderCache::createShareMemory()
     m_memoryInfo.incUpdate();
 
     m_memoryInfo.cacheBegin = (uint)(char*)m_memory.data();
-    m_memoryInfo.cacheSize = m_memory.size();    
+    m_memoryInfo.cacheSize = m_memory.size();
     m_memoryInfo.cacheEnd = m_memoryInfo.cacheBegin + m_memoryInfo.cacheSize;
     m_memoryInfo.clientCount = 1;
 
@@ -1059,18 +992,18 @@ void ImageProviderCache::createShareMemory()
     for( uint i = 0; i < m_memoryInfo.pixmapMaxCount ; i++ )
     {
         pixmapReference.saveToStream( out );
-    }    
+    }
 
     pos = buffer.pos();
 
-    const char *from = buffer.data().data();    
+    const char *from = buffer.data().data();
     memcpy(to, from, qMin(m_memory.size(), pos));
     m_memory.unlock();
-    bulk();
+
 }
 
 void ImageProviderCache::loadPreLoadFile()
-{    
+{
 
 }
 
@@ -1134,7 +1067,7 @@ void ImageProviderCache::bulk()
     //qDebug() << " dataBegin: " << m_memoryInfo.dataBegin;
     //qDebug() << " dataEnd: " << m_memoryInfo.dataEnd;
 
-    for( uint i = 0; i < m_memoryInfo.imageCount; i++)
+    for( int i = 0; i < m_imageTable.size(); i++)
     {
         //qDebug() << "____________________________";
         //qDebug() << i+1 << ". image: " << m_imageTable[i].id();
@@ -1144,7 +1077,7 @@ void ImageProviderCache::bulk()
         //qDebug() << " image height: " << m_imageTable[i].height;
     }
 
-    for( uint i = 0; i < m_memoryInfo.pixmapCount; i++)
+    for( int i = 0; i < m_pixmapTable.size(); i++)
     {
         //qDebug() << "____________________________";
         //qDebug() << i+1 << ". pixmap: " << m_pixmapTable[i].id();

@@ -26,8 +26,8 @@ public:
 
 private:
 
-    QPixmap readPixmapFromFile( const QString& file, const QSize& requestedSize );
     QImage readImageFromFile( const QString& file, const QSize& requestedSize );
+    QPixmap readPixmapFromFile( const QString& file, const QSize& requestedSize );
 
     ImageProviderCache* m_cache;
     QString m_themePath;

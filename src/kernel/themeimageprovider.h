@@ -23,11 +23,12 @@ public:
     QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize);
     QPixmap requestPixmap( const QString &id, QSize *size, const QSize &requestedSize);
 
+    // static for borderimage workaround @see borderimagedecorator.h
     static ImageProviderCache* getCacheInstance();
     
 private:    
 
-    // static for borderimage workaround @see borderimagedecorator
+    // static for borderimage workaround @see borderimagedecorator.h
     static ImageProviderCache* m_cache;
     QString m_themePath;
 };

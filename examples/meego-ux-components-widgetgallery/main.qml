@@ -29,6 +29,12 @@ Window {
 //        color: "green"
 //        anchors.fill: parent
 //        opacity: 0.5
+//        Rectangle {  // this is a very simple example for overlayItem use.
+//                color: "red"
+//                anchors.fill: parent
+//                opacity: 0.5
+//                anchors.margins: 10
+//            }
 //    }
 
     Component { id: gallery; MainPage { name: qsTr("Gallery") } }

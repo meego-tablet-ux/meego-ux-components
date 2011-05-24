@@ -663,17 +663,11 @@ Item {
 
         Item {
             id: overlayArea
-            z: -1
-            y: window.contentVerticalShift
+            z: 1
+            y: pageStack.y  + window.topDecorationHeight
 
             width: parent.width
-            height: parent.height
-
-            Behavior on y{
-                NumberAnimation{
-                    duration:  200
-                }
-            }
+            height: pageStack.height - window.topDecorationHeight
         }
 
 

@@ -59,12 +59,12 @@ WidgetPage {
 
             onCheckedChanged: {
                 widgetPage.lastSignal = "none"
-                pickedTitle = "-"
-                pickedAlbum = "-"
-                pickedItems = "-"
-                pickedType = "-"
-                pickedUri = "-"
-                pickedThumbUri = "-"
+                widgetPage.pickedTitle = "-"
+                widgetPage.pickedAlbum = "-"
+                widgetPage.pickedItems = "-"
+                widgetPage.pickedType = "-"
+                widgetPage.pickedUri = "-"
+                widgetPage.pickedThumbUri = "-"
             }
 
             isChecked: false
@@ -77,12 +77,12 @@ WidgetPage {
 
             onCheckedChanged: {
                 widgetPage.lastSignal = "none"
-                pickedTitle = "-"
-                pickedAlbum = "-"
-                pickedItems = "-"
-                pickedType = "-"
-                pickedUri = "-"
-                pickedThumbUri = "-"
+                widgetPage.pickedTitle = "-"
+                widgetPage.pickedAlbum = "-"
+                widgetPage.pickedItems = "-"
+                widgetPage.pickedType = "-"
+                widgetPage.pickedUri = "-"
+                widgetPage.pickedThumbUri = "-"
             }
 
             isChecked: true
@@ -95,12 +95,12 @@ WidgetPage {
 
             onCheckedChanged: {
                 widgetPage.lastSignal = "none"
-                pickedTitle = "-"
-                pickedAlbum = "-"
-                pickedItems = "-"
-                pickedType = "-"
-                pickedUri = "-"
-                pickedThumbUri = "-"
+                widgetPage.pickedTitle = "-"
+                widgetPage.pickedAlbum = "-"
+                widgetPage.pickedItems = "-"
+                widgetPage.pickedType = "-"
+                widgetPage.pickedUri = "-"
+                widgetPage.pickedThumbUri = "-"
             }
 
             isChecked: true
@@ -114,12 +114,12 @@ WidgetPage {
 
             onCheckedChanged: {
                 widgetPage.lastSignal = "none"
-                pickedTitle = "-"
-                pickedAlbum = "-"
-                pickedItems = "-"
-                pickedType = "-"
-                pickedUri = "-"
-                pickedThumbUri = "-"
+                widgetPage.pickedTitle = "-"
+                widgetPage.pickedAlbum = "-"
+                widgetPage.pickedItems = "-"
+                widgetPage.pickedType = "-"
+                widgetPage.pickedUri = "-"
+                widgetPage.pickedThumbUri = "-"
             }
         }
     ]
@@ -129,49 +129,49 @@ WidgetPage {
             id: lastSignalBox
 
             label: "Last signal sent:"
-            value: lastSignal
+            value: widgetPage.lastSignal
         },
 
         StatusEntry {
             id: albumEntry
 
             label: "Album:"
-            value: pickedAlbum
+            value: widgetPage.pickedAlbum
         },
 
         StatusEntry {
             id: titleEntry
 
             label: "Title:"
-            value: pickedTitle
+            value: widgetPage.pickedTitle
         },
 
         StatusEntry {
             id: typeEntry
 
             label: "Type:"
-            value: pickedType
+            value: widgetPage.pickedType
         },
 
         StatusEntry {
             id: uriEntry
 
             label: "Uri:"
-            value: pickedUri
+            value: widgetPage.pickedUri
         },
 
         StatusEntry {
             id: thumbUriEntry
 
             label: "ThumbUri:"
-            value: pickedThumbUri
+            value: widgetPage.pickedThumbUri
         },
 
         StatusEntry {
             id: itemsEntry
 
             label: "Selected items:"
-            value: pickedItems
+            value: widgetPage.pickedItems
             visible: false
         }
     ]

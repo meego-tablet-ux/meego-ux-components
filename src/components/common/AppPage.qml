@@ -182,19 +182,32 @@ Item {
     signal searchRetracted()
     signal search( string needle )
 
+    signal newPageTitle( string pageTitle )
+    signal newFastPageSwitch( bool fastPageSwitch )
+    signal newFullScreen( bool fullScreen )
+    signal newFullContent( bool fullContent )
+    signal newActionMenuOpen( bool actionMenuOpen )
+    signal newActionMenuSelectedIndex( int actionMenuSelectedIndex )
+    signal newActionMenuModel( variant actionMenuModel )
+    signal newActionMenuPayload( variant actionMenuModel )
+    signal newActionMenuTitle( string actionMenuTitle )
+    signal newBackButtonLocked( bool backButtonLocked )
+
     anchors.fill:  parent
     anchors.topMargin: pageUsingFullScreen? 0 : top.topDecorationHeight //window.barsHeight
 
     TopItem{ id: top }
 
     onActivating: { // from PageStack.qml
-        window.fullScreen = fullScreen
-        window.fullContent = fullContent
-        window.toolBarTitle = pageTitle
+        newFullScreen( fullScreen )
+        newFullContent( fullContent )
+        newPageTitle( pageTitle )
 
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
-        window.actionMenuSelectedIndex = actionMenuSelectedIndex
-        window.backButtonLocked = backButtonLocked
+
+        newActionMenuSelectedIndex( actionMenuSelectedIndex )
+        newBackButtonLocked( backButtonLocked )
+
         window.lockOrientationIn = lockOrientationIn
         window.showToolBarSearch = showSearch
         window.disableToolBarSearch = disableSearch
@@ -202,81 +215,39 @@ Item {
     
     onActivated: { // from PageStack.qml
         window.customActionMenu = enableCustomActionMenu
-        window.actionMenuModel = actionMenuModel
-        window.actionMenuPayload = actionMenuPayload
-        window.actionMenuTitle = actionMenuTitle
+
+        newActionMenuModel( actionMenuModel )
+        newActionMenuPayload( actionMenuPayload )
+        newActionMenuTitle( actionMenuTitle)
         pageActive = true
     }
 
-    onDeactivating: { // from PageStack.qml
-        pageActive = false
-    }
+    onDeactivating: pageActive = false // from PageStack.qml
 
-    onPageTitleChanged: {
-        window.toolBarTitle = pageTitle
-    }
+    onPageTitleChanged: newPageTitle( pageTitle )
 
-    onFastPageSwitchChanged: {
-        window.fastPageSwitch = fastPageSwitch
-    }
+    onFastPageSwitchChanged: newFastPageSwitchChanged( fastPageSwitch )
 
-    onFullScreenChanged: {
-        window.fullScreen = fullScreen
-    }    
-    onFullContentChanged: {
-        window.fullContent = fullContent
-    }
+    onFullScreenChanged: newFullScreen( fullScreen )
 
-    onActionMenuOpenChanged: {
-        window.actionMenuPresent = actionMenuOpen
-    }
+    onFullContentChanged: newFullContent( fullContent )
 
-    onActionMenuSelectedIndexChanged: {
-        window.actionMenuSelectedIndex = actionMenuSelectedIndex
-    }
+    onActionMenuOpenChanged: newActionMenuOpen( actionMenuOpen )
 
-    onActionMenuModelChanged: {
-        window.actionMenuModel = actionMenuModel
-    }
+    onActionMenuSelectedIndexChanged: newActionMenuSelectedIndex( actionMenuSelectedIndex )
 
-    onActionMenuPayloadChanged: {
-        window.actionMenuPayload = actionMenuPayload
-    }
+    onActionMenuModelChanged: newActionMenuModel( actionMenuModel )
 
-    onActionMenuTitleChanged: {
-        window.actionMenuTitle = actionMenuTitle
-    }
+    onActionMenuPayloadChanged: newActionMenuPayload( actionMenuPayload )
 
-    onBackButtonLockedChanged: {
-        window.backButtonLocked = backButtonLocked
-    }
+    onActionMenuTitleChanged: newActionMenuTitle( actionMenuTitle)
 
-    Component.onCompleted: {
-        window.toolBarTitle = pageTitle
-    }
+    onBackButtonLockedChanged: newBackButtonLocked( backButtonLocked )
+
+    Component.onCompleted: newPageTitle( pageTitle )
 
     Connections{
         target: window
-        onActionMenuTriggered: {
-            if( pageActive )
-                actionMenuTriggered( selectedItem )
-        }
-
-        onActionMenuIconClicked: {
-            if( pageActive ){
-               if( appPage.allowActionMenuSignal || appPage.enableCustomActionMenu ){
-                  actionMenuIconClicked( mouseX, mouseY )
-               }
-            }
-        }
-
-//        onWindowFocusChanged: { // from Window.qml
-
-//        }
-
-        onWindowActiveChanged: { // from Window.qml
-
-        }
 
         onSearch: if( pageActive ) appPage.search( needle )
         onSearchExtended: if( pageActive ) appPage.searchExtended()

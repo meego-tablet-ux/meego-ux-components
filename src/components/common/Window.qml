@@ -541,11 +541,11 @@ Item {
                         anchors.right: spacer2.left
                         visible: bookMenu.height > 0
 
-                        icon: "image://themedimage/icons/toolbar/view-change"
+                        icon: bookContextMenu.visible? "image://themedimage/icons/toolbar/view-change-selected" : "image://themedimage/icons/toolbar/view-change"
                         iconDown: "image://themedimage/icons/toolbar/view-change-selected"
 
                         bgSourceDn: "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active"
-                        bgSourceUp: ""
+                        bgSourceUp: bookContextMenu.visible? "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active" : ""
 
                         onClicked: {
                             bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 10 )
@@ -592,11 +592,11 @@ Item {
                         anchors.right: parent.right
                         visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
 
-                        icon: "image://themedimage/icons/toolbar/view-actions"
+                        icon: window.actionMenuPresent? "image://themedimage/icons/toolbar/view-actions-selected" : "image://themedimage/icons/toolbar/view-actions"
                         iconDown: "image://themedimage/icons/toolbar/view-actions-selected"
 
                         bgSourceDn: "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active"
-                        bgSourceUp: ""
+                        bgSourceUp: window.actionMenuPresent? "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active" : ""
 
                         onClicked: {
                             actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 10 )
@@ -615,10 +615,6 @@ Item {
 
                             onVisibleChanged: {
                                 window.actionMenuPresent = visible
-//                                if(window.contentVerticalShift == 0)
-//                                    window.contentVerticalShift = -100
-//                                else
-//                                    window.contentVerticalShift = 0
                             }
 
                             content:  ActionMenu {
@@ -652,6 +648,17 @@ Item {
                     duration:  200
                 }
             }
+
+            onNewPageTitle: window.toolBarTitle = newPageTitle
+            onNewFastPageSwitch: window.fastPageSwitch = newFastPageSwitch
+            onNewFullScreen: window.fullScreen = newFullScreen
+            onNewFullContent: window.fullContent = newFullContent
+            onNewActionMenuOpen: window.actionMenuPresent = newActionMenuOpen
+            onNewActionMenuSelectedIndex: window.actionMenuSelectedIndex = newActionMenuSelectedIndex
+            onNewActionMenuModel: window.actionMenuModel = newActionMenuModel
+            onNewActionMenuPayload: window.actionMenuPayload = newActionMenuPayload
+            onNewActionMenuTitle:  window.actionMenuTitle = newActionMenuTitle
+            onNewBackButtonLocked: window.backButtonLocked = newBackButtonLocked
         }
 
         Item {
@@ -790,6 +797,19 @@ Item {
             scene.orientationLock = 0;
         }
     }
+
+
+    onActionMenuTriggered: {
+        pageStack.emitActionMenuTriggered( selectedItem )
+    }
+
+    onActionMenuIconClicked: {
+        pageStack.emitActionMenuIconClicked( mouseX, mouseY )
+    }
+
+//    onSearch: if( pageActive ) appPage.search( needle )
+//    onSearchExtended: if( pageActive ) appPage.searchExtended()
+//    onSearchRetracted: if( pageActive ) appPage.searchRetracted()
 
     // Meego-qml-launcher handling
     Scene {

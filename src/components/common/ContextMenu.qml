@@ -139,6 +139,12 @@ ModalFog {
         container.subMenuVisible = false
     }
 
+    Behavior on x{
+        NumberAnimation{
+            duration: 100
+        }
+    }
+
     fogMaskVisible: false
     fogClickable: true
 

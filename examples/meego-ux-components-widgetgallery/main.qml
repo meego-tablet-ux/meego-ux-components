@@ -11,6 +11,7 @@
 
 import Qt 4.7
 import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
 
 Window {
     id: window
@@ -30,11 +31,11 @@ Window {
 //        opacity: 0.5
 //    }
 
-    Component { id: gallery; MainPage {} }
-    Component { id: contextMenuBook; ContextMenuBook {} }
-    Component { id: book2; Book2 {} }
-    Component { id: book3; Book3 {} }
-    Component { id: bottomBar; WidgetPageBottomBar {} }
-    Component { id: fullScreenPage; WidgetPageFullScreen {} }
-    Component { id: orientationPage; WidgetPageOrientation {} }
+    Component { id: gallery; MainPage { name: qsTr("Gallery") } }
+    Component { id: contextMenuBook; ContextMenuBook { name: qsTr("Context menu test") } }
+    Component { id: book2; Book2 { name: qsTr("Book 2") } }
+    Component { id: book3; Book3 { name: qsTr("Book 3") } }
+    Component { id: bottomBar; WidgetPageBottomBar { name: qsTr("BottomBar") } }
+    Component { id: fullScreenPage; WidgetPageFullScreen { name: qsTr("Fullscreen Test") } }
+    Component { id: orientationPage; WidgetPageOrientation { name: qsTr("Orientation Test") } }
 }

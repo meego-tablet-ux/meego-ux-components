@@ -73,7 +73,7 @@
   \qmlcm contains a listModel for the years.
 
   \section1  Signals
-  \qmlsignal dateSelected
+  \qmlproperty [signal] dateSelected
   \qmlcm emitted when ok button is clicked, propagates the selected date.
         \param variant date
         \qmlcm holds a Date object.\endparam

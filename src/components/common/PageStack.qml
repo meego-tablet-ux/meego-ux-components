@@ -34,7 +34,7 @@
 
     \section2 Signals
 
-    \qmlsignal onVisibleChanged
+    \qmlproperty [signal] onVisibleChanged
     \qmlcm sent when the visibility of an AppPage changed
 
     \section2 Functions
@@ -67,6 +67,31 @@ import "PageStack.js" as StackEngine
 
 Item {
     id: root
+
+    signal newPageTitle( string newPageTitle )
+    signal newFastPageSwitch( bool newFastPageSwitch )
+    signal newFullScreen( bool newFullScreen )
+    signal newFullContent( bool newFullContent )
+    signal newActionMenuOpen( bool newActionMenuOpen )
+    signal newActionMenuSelectedIndex( int newActionMenuSelectedIndex )
+    signal newActionMenuModel( variant newActionMenuModel )
+    signal newActionMenuPayload( variant newActionMenuPayload )
+    signal newActionMenuTitle( string newActionMenuTitle )
+    signal newBackButtonLocked( bool newBackButtonLocked )
+
+    function emitActionMenuTriggered( selectedItem ){
+        if( currentPage ){
+            if( currentPage.pageActive ){
+                currentPage.actionMenuTriggered( selectedItem )
+            }
+        }
+    }
+
+    function emitActionMenuIconClicked( mouseX, mouseY ){
+        if( currentPage.allowActionMenuSignal || currentPage.enableCustomActionMenu ){
+            currentPage.actionMenuIconClicked( mouseX, mouseY )
+        }
+    }
 
     width: parent ? parent.width : 0
     height: parent ? parent.height : 0
@@ -129,6 +154,21 @@ Item {
         if (page[signal]) {
             page[signal]();
         }
+    }
+
+    Connections {
+        target:  currentPage
+
+        onNewPageTitle: root.newPageTitle( pageTitle )
+        onNewFastPageSwitch: root.newFastPageSwitch( fastPageSwitch )
+        onNewFullScreen: root.newFullScreen( fullScreen )
+        onNewFullContent: root.newFullContent( fullContent )
+        onNewActionMenuOpen: root.newActionMenuOpen( actionMenuOpen )
+        onNewActionMenuSelectedIndex: root.newActionMenuSelectedIndex( actionMenuSelectedIndex )
+        onNewActionMenuModel: root.newActionMenuModel( actionMenuModel )
+        onNewActionMenuPayload:root.newActionMenuPayload( actionMenuPayload )
+        onNewActionMenuTitle: root.newActionMenuTitle( actionMenuTitle )
+        onNewBackButtonLocked:root.newBackButtonLocked( backButtonLocked )
     }
 
     // Component for page slots.

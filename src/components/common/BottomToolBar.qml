@@ -20,10 +20,10 @@
 
   \section2 Signal
 
-  \qmlsignal active
+  \qmlproperty [signal] active
   \qmlcm emitted on fully visibility
 
-  \qmlsignal inactive
+  \qmlproperty [signal] inactive
   \qmlcm emitted on completly hidden toolbar
   
   \section2  Functions

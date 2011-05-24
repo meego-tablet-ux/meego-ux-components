@@ -35,10 +35,10 @@
   \qmlcm See the corresponding QML TextEdit property.
 
   \section2 Signals
-  \qmlsignal textChanged
+  \qmlproperty [signal] textChanged
   \qmlcm emitted when the text has changed
 
-  \qmlsignal cursorRectangleChanged
+  \qmlproperty [signal] cursorRectangleChanged
   \qmlcm emitted when the cursor bounding box (position or size) has changed
 
   \section2 Functions

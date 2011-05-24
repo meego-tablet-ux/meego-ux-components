@@ -53,10 +53,10 @@
   \qmlcm defines the horizintal margins for the text. Default is 6 (borderimage border).
 
   \section2 Signals
-  \qmlsignal textChanged
+  \qmlproperty [signal] textChanged
   \qmlcm emitted when the text has changed
 
-  \qmlsignal accepted
+  \qmlproperty [signal] accepted
   \qmlcm emitted when an enter was pressed and the input is in an acceptable state
 
   \section2 Functions

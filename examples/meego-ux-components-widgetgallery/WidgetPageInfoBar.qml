@@ -6,7 +6,7 @@
  * http://www.gnu.org/licenses/lgpl.html
  */
 
-/* This pages shows the Button.qml and offers controls to manipulate it.
+/* This pages shows the InfoBar.qml and offers controls to manipulate it.
  */
 
 import Qt 4.7

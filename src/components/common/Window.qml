@@ -139,53 +139,53 @@
 
   \section1  Signals:
 
-  \qmlsignal searchExtended
+  \qmlproperty [signal] searchExtended
   \qmlcm Signal that fires when the searchbar is extending.
 
-  \qmlsignal searchRetracted
+  \qmlproperty [signal] searchRetracted
   \qmlcm Signal that fires when the searchbar retracted.
 
-  \qmlsignal search
+  \qmlproperty [signal] search
    \qmlcm indicates that a search was started
    \param string needle
     \qmlpcm The text that was typed into the searchbar. This signal is sent for every key pressed. \endparam
 
-  \qmlsignal actionMenuIconClicked
+  \qmlproperty [signal] actionMenuIconClicked
    \qmlcm provides the action menu context menu coordinate
     for custom action menus created by AppPages
 
-  \qmlsignal bookMenuTriggered
+  \qmlproperty [signal] bookMenuTriggered
    \param int index
     \qmlpcm selected index of the BookMenu. This is only sent when automaticBookSwitching
      is set to false. \endparam
 
-  \qmlsignal actionMenuTriggered( variant selectedItem )
+  \qmlproperty [signal] actionMenuTriggered( variant selectedItem )
    \param variant selectItem
     \qmlpcm selected payload item of the ActionMenu \endparam
 
-  \qmlsignal actionMenuIconClicked
+  \qmlproperty [signal] actionMenuIconClicked
    \param int mouseX
     \qmlpcm x position of the mouse \endparam
      \param int mouseY
       \qmlpcm x position of the mouse \endparam
 
-  \qmlsignal orientationChangeAboutToStart
+  \qmlproperty [signal] orientationChangeAboutToStart
    \qmlcm Signals that a orientation change will come
         \param string newOrientation
         \qmlpcm provides the new orientation \endparam
         \param string oldOrientation
         \qmlpcm provides the old orientation \endparam
-  \qmlsignal orientationChangeStarted
+  \qmlproperty [signal] orientationChangeStarted
    \qmlcm Signals the start of the orientation change
 
-  \qmlsignal orientationChangeFinished
+  \qmlproperty [signal] orientationChangeFinished
    \qmlcm Signales the end of the orientationChange
         \param string newOrientation
         \qmlpcm provides the new orientation \endparam
         \param string oldOrientation
         \qmlpcm provides the old orientation \endparam
 
-  \qmlsignal orientationChanged
+  \qmlproperty [signal] orientationChanged
    \qmlcm obsolete signal, will be triggered just as orientationChangeFinished.
 
   \section1  Functions
@@ -368,6 +368,8 @@ Item {
             width: window_content_topitem.width
             height: 30
 
+            active: window.isActiveWindow
+
             Behavior on y {
                 PropertyAnimation {
                     duration: theme.dialogAnimationDuration
@@ -539,11 +541,11 @@ Item {
                         anchors.right: spacer2.left
                         visible: bookMenu.height > 0
 
-                        icon: "image://themedimage/icons/toolbar/view-change"
+                        icon: bookContextMenu.visible? "image://themedimage/icons/toolbar/view-change-selected" : "image://themedimage/icons/toolbar/view-change"
                         iconDown: "image://themedimage/icons/toolbar/view-change-selected"
 
                         bgSourceDn: "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active"
-                        bgSourceUp: ""
+                        bgSourceUp: bookContextMenu.visible? "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active" : ""
 
                         onClicked: {
                             bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 10 )
@@ -590,11 +592,11 @@ Item {
                         anchors.right: parent.right
                         visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
 
-                        icon: "image://themedimage/icons/toolbar/view-actions"
+                        icon: window.actionMenuPresent? "image://themedimage/icons/toolbar/view-actions-selected" : "image://themedimage/icons/toolbar/view-actions"
                         iconDown: "image://themedimage/icons/toolbar/view-actions-selected"
 
                         bgSourceDn: "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active"
-                        bgSourceUp: ""
+                        bgSourceUp: window.actionMenuPresent? "image://themedimage/widgets/common/toolbar-item/toolbar-item-background-active" : ""
 
                         onClicked: {
                             actionMenuIconClicked( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 10 )
@@ -613,10 +615,6 @@ Item {
 
                             onVisibleChanged: {
                                 window.actionMenuPresent = visible
-//                                if(window.contentVerticalShift == 0)
-//                                    window.contentVerticalShift = -100
-//                                else
-//                                    window.contentVerticalShift = 0
                             }
 
                             content:  ActionMenu {
@@ -650,6 +648,17 @@ Item {
                     duration:  200
                 }
             }
+
+            onNewPageTitle: window.toolBarTitle = newPageTitle
+            onNewFastPageSwitch: window.fastPageSwitch = newFastPageSwitch
+            onNewFullScreen: window.fullScreen = newFullScreen
+            onNewFullContent: window.fullContent = newFullContent
+            onNewActionMenuOpen: window.actionMenuPresent = newActionMenuOpen
+            onNewActionMenuSelectedIndex: window.actionMenuSelectedIndex = newActionMenuSelectedIndex
+            onNewActionMenuModel: window.actionMenuModel = newActionMenuModel
+            onNewActionMenuPayload: window.actionMenuPayload = newActionMenuPayload
+            onNewActionMenuTitle:  window.actionMenuTitle = newActionMenuTitle
+            onNewBackButtonLocked: window.backButtonLocked = newBackButtonLocked
         }
 
         Item {
@@ -788,6 +797,19 @@ Item {
             scene.orientationLock = 0;
         }
     }
+
+
+    onActionMenuTriggered: {
+        pageStack.emitActionMenuTriggered( selectedItem )
+    }
+
+    onActionMenuIconClicked: {
+        pageStack.emitActionMenuIconClicked( mouseX, mouseY )
+    }
+
+//    onSearch: if( pageActive ) appPage.search( needle )
+//    onSearchExtended: if( pageActive ) appPage.searchExtended()
+//    onSearchRetracted: if( pageActive ) appPage.searchRetracted()
 
     // Meego-qml-launcher handling
     Scene {

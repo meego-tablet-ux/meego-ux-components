@@ -52,7 +52,7 @@
          to -1. See the example below where selectedIndex is set onCompleted.
 
   \section2 Signals
-  \qmlsignal expandingChanged
+  \qmlproperty [signal] expandingChanged
   \qmlcm emitted if the box switches between expanded and not expanded
         \param bool expanded
         \qmlpcm indicates if the box is expanded or not \endparam
@@ -127,7 +127,7 @@ Item {
     signal triggered( int index )
     signal expandingChanged( bool expanded )
 
-    property bool engouhSpaceLeft: mapToItem( topItem.topItem, dropDown.x + dropDown.width, dropDown.y ).x > actionMenu.width
+    property bool enoughSpaceLeft: mapToItem( topItem.topItem, dropDown.x + dropDown.width, dropDown.y ).x > actionMenu.width
 
     onSelectedIndexChanged: {
         actionMenu.selectedIndex = selectedIndex

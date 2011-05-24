@@ -23,7 +23,7 @@
 
   \section2 Signals
 
-  \qmlsignal photoSelected
+  \qmlproperty [signal] photoSelected
   \qmlcm propagates data for the selected photo. Triggered if multiSelection is false.
     \param variant photoid
     \qmlpcm ID of the selected photo. \endparam
@@ -34,7 +34,7 @@
     \param string thumbUri
     \qmlpcm path to the photo thumbnail. \endparam
 
-  \qmlsignal multiplePhotosSelected
+  \qmlproperty [signal] multiplePhotosSelected
   \qmlcm propagates data for the selected photos. Triggered if multiSelection is true.
     \param variant photoids
     \qmlpcm ID of the selected photos. \endparam
@@ -46,24 +46,24 @@
     \qmlpcm path to the photo thumbnails. \endparam
 
 
-  \qmlsignal  albumSelected
+  \qmlproperty [signal]  albumSelected
   \qmlcm propagates data of the selected album. Triggered if albumSelectionMode is true and multiSelection is false.
     \param variant albumid
     \qmlpcm ID of the selected photo album. \endparam
     \param string title
     \qmlpcm title of the selected photo album. \endparam
 
-  \qmlsignal  multipleAlbumsSelected
+  \qmlproperty [signal]  multipleAlbumsSelected
   \qmlcm propagates data of the selected albums. Triggered if albumSelectionMode and multiSelection is true.
     \param variant albumids
     \qmlpcm ID of the selected photo albums. \endparam
     \param string titles
     \qmlpcm title of the selected photo albums. \endparam
 
-  \qmlsignal accepted
+  \qmlproperty [signal] accepted
   \qmlcm emitted on 'OK' clicked.
 
-  \qmlsignal rejected
+  \qmlproperty [signal] rejected
   \qmlcm emitted on 'Cancel' clicked.
 
   \section2 Functions

@@ -42,7 +42,7 @@
            the image used for the marker.
   
   \section2 Signals
-    \qmlsignal sliderChanged
+    \qmlproperty [signal] sliderChanged
     \qmlcm is emitted when the value of the sliders changed
         \param int value
         \qmlpcm the new value \endparam

@@ -40,7 +40,7 @@
          \endqml
 
   \section2 Signals
-  \qmlsignal subMenuTriggered
+  \qmlproperty [signal] subMenuTriggered
   \qmlcm emitted when one of the sub menu entries was clicked
         \param int index
         \qmlpcm The index of the clicked entry \endparam

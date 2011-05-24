@@ -69,13 +69,13 @@ MouseArea {
             box.pasteOnly = false
         }
 
-        if( selectionStart == selectionEnd && copyOnly )
+        if( (selectionStart == selectionEnd && copyOnly ) || ( box.pasteOnly && box.pasteEmpty ) )
             return
 
         clipboardContextMenu.setPosition(  cx, cy )
         clipboardContextMenu.show()
 
-        ccpMenu.opacity = box.pasteOnly && box.pasteEmpty ? 0.5 : 1
+//        ccpMenu.opacity = box.pasteOnly && box.pasteEmpty ? 0.5 : 1
 
         var map = mapFromItem (top.topItem, cx, cy)
         box.mouseX = map.x

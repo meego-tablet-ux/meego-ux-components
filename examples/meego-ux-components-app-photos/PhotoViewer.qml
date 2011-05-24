@@ -390,26 +390,26 @@ Item {
                 }
             }
 
-            GestureArea {
-                anchors.fill: parent
-                onPinchGesture: {
-                    var cw = dinstance.contentWidth;
-                    var ch = dinstance.contentHeight;
-                    image.scale *= gesture.scaleFactor;
-                    dinstance.contentX =  ( dinstance.centerPoint.x + dinstance.contentX ) /cw * dinstance.contentWidth - dinstance.centerPoint.x;
-                    dinstance.contentY = ( dinstance.centerPoint.y + dinstance.contentY ) / ch * dinstance.contentHeight - dinstance.centerPoint.y;
+//            GestureArea {
+//                anchors.fill: parent
+//                onPinchGesture: {
+//                    var cw = dinstance.contentWidth;
+//                    var ch = dinstance.contentHeight;
+//                    image.scale *= gesture.scaleFactor;
+//                    dinstance.contentX =  ( dinstance.centerPoint.x + dinstance.contentX ) /cw * dinstance.contentWidth - dinstance.centerPoint.x;
+//                    dinstance.contentY = ( dinstance.centerPoint.y + dinstance.contentY ) / ch * dinstance.contentHeight - dinstance.centerPoint.y;
 
-                }
-                onGestureStarted: {
-                     dinstance.interactive = false;
-                     photoListView.interactive = false;
-                    // dinstance.centerPoint = window.mapToItem(dinstance, gesture.centerPoint.x, gesture.centerPoint.y);
-                }
-                onGestureEnded: {
-                    dinstance.interactive = true;
-                    photoListView.interactive = true;
-                }
-            }
+//                }
+//                onGestureStarted: {
+//                     dinstance.interactive = false;
+//                     photoListView.interactive = false;
+//                    // dinstance.centerPoint = window.mapToItem(dinstance, gesture.centerPoint.x, gesture.centerPoint.y);
+//                }
+//                onGestureEnded: {
+//                    dinstance.interactive = true;
+//                    photoListView.interactive = true;
+//                }
+//            }
 
             states: [
                 State {

@@ -38,7 +38,7 @@
       \qmlcm points to the color of the right label (off state)
 
   \section2  Signals
-      \qmlsignal toggled
+      \qmlproperty [signal] toggled
       \qmlcm emitted if the button is toggled.
         \param bool isOn
         \qmlpcm indicates if the button was set to the left or right option. \endparam

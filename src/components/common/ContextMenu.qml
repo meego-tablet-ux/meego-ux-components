@@ -50,7 +50,7 @@
          \endqml
 
   \section2 Signals
-  \qmlsignal subMenuTriggered
+  \qmlproperty [signal] subMenuTriggered
   \qmlcm emitted when one of the sub menu entries was clicked
         \param int index
         \qmlpcm The index of the clicked entry \endparam
@@ -137,6 +137,12 @@ ModalFog {
         fogMaskVisible = false  // reset and ensure the ContextMenu is not modal
         fogClickable = true
         container.subMenuVisible = false
+    }
+
+    Behavior on x{
+        NumberAnimation{
+            duration: 100
+        }
     }
 
     fogMaskVisible: false

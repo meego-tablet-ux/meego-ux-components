@@ -23,7 +23,7 @@
 
   \section2 Signals
 
-  \qmlsignal videoSelected
+  \qmlproperty [signal] videoSelected
   \qmlcm propagates data of the selected video. Triggered on accepted if albumSelectionMode is false
          and multiSelection is false
     \param string itemid
@@ -35,7 +35,7 @@
     \param string thumbUri
     \qmlpcm  path to the thumbnail. \endparam
 
-  \qmlsignal multipleVideosSelected
+  \qmlproperty [signal] multipleVideosSelected
   \qmlcm propagates data of the selected videos. Triggered on accepted if albumSelectionMode is false
          and multiSelection is true
     \param string itemids
@@ -47,7 +47,7 @@
     \param string thumbUris
     \qmlpcm  path to the thumbnails. \endparam
 
-  \qmlsignal albumSelected
+  \qmlproperty [signal] albumSelected
   \qmlcm propagates data of the selected album. Triggered on accpeted if albumSelectionMode is true
          and multiSelection is false.  DEPRECATED
     \param string albumid
@@ -55,7 +55,7 @@
     \param string title
     \qmlpcm title of the selected photo album. \endparam
 
-  \qmlsignal multipleAlbumsSelected
+  \qmlproperty [signal] multipleAlbumsSelected
   \qmlcm propagates data of the selected albums. Triggered on accpeted if albumSelectionMode is true
          and multiSelection is true.  DEPRECATED
     \param string albumids
@@ -63,10 +63,10 @@
     \param string titles
     \qmlpcm title of the selected photo albums. \endparam
 
-  \qmlsignal accepted
+  \qmlproperty [signal] accepted
   \qmlcm emitted on 'OK' clicked.
 
-  \qmlsignal rejected
+  \qmlproperty [signal] rejected
   \qmlcm emitted on 'Cancel' clicked.
 
   \section2 Functions

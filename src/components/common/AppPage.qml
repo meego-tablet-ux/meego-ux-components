@@ -153,6 +153,7 @@ Item {
     property variant actionMenuModel: []
     property variant actionMenuPayload: []
     property string actionMenuTitle: ""
+    property string name: ""
     property bool actionMenuHighlightSelection: false
     property int actionMenuSelectedIndex: -1
     property bool actionMenuOpen: false
@@ -231,7 +232,6 @@ Item {
     }
 
     onActionMenuSelectedIndexChanged: {
-        concole.log("muuuuuuh")
         window.actionMenuSelectedIndex = actionMenuSelectedIndex
     }
 

@@ -58,7 +58,7 @@ WidgetPage {
             label: "selectSongs"
 
             onCheckedChanged: {
-                lastSignal = "none"
+                widgetPage.lastSignal = "none"
                 pickedTitle = "-"
                 pickedAlbum = "-"
                 pickedItems = "-"
@@ -76,7 +76,7 @@ WidgetPage {
             label: "selectAlbum:"
 
             onCheckedChanged: {
-                lastSignal = "none"
+                widgetPage.lastSignal = "none"
                 pickedTitle = "-"
                 pickedAlbum = "-"
                 pickedItems = "-"
@@ -94,7 +94,7 @@ WidgetPage {
             label: "selectPlaylist:"
 
             onCheckedChanged: {
-                lastSignal = "none"
+                widgetPage.lastSignal = "none"
                 pickedTitle = "-"
                 pickedAlbum = "-"
                 pickedItems = "-"
@@ -113,7 +113,7 @@ WidgetPage {
             label: "multiSelection:"
 
             onCheckedChanged: {
-                lastSignal = "none"
+                widgetPage.lastSignal = "none"
                 pickedTitle = "-"
                 pickedAlbum = "-"
                 pickedItems = "-"

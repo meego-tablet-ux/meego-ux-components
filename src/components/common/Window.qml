@@ -368,6 +368,8 @@ Item {
             width: window_content_topitem.width
             height: 30
 
+            active: window.isActiveWindow
+
             Behavior on y {
                 PropertyAnimation {
                     duration: theme.dialogAnimationDuration

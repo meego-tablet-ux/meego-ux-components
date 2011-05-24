@@ -131,6 +131,14 @@ Item {
         }
     }
 
+    Connections {
+        target:  currentPage
+
+//        onWidthChanged:{
+//            console.log(" ---> ", currentPage.pageTitle)
+//        }
+    }
+
     // Component for page slots.
     Component {
         id: slotComponent

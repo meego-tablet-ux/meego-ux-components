@@ -97,6 +97,9 @@ SaveRestoreState::SaveRestoreState()
 
 SaveRestoreState::~SaveRestoreState()
 {
+    d->qList.removeOne(this);
+    d->alwaysValid.remove(this);
+    d->invalid.remove(this);
 }
 
 void SaveRestoreState::setValue(const QString &key, const QVariant &value)

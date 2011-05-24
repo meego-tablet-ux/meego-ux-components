@@ -161,7 +161,7 @@ void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, i
 
 bool ImageProviderCache::existImage( const QString & id, const QSize& size )
 {
-    if( m_bmemoryReady ) {
+    if( m_bMemoryReady ) {
 
         if( size.isEmpty() ) {
 
@@ -184,7 +184,7 @@ bool ImageProviderCache::existImage( const QString & id, const QSize& size )
 
 bool ImageProviderCache::existPixmap( const QString & id, const QSize& size )
 {
-    if( m_bmemoryReady ) {
+    if( m_bMemoryReady ) {
 
         m_memory.lock();
         readMemoryInfo();

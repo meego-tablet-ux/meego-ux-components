@@ -336,37 +336,35 @@ Item {
       }
 
       function popPages( pages, immediate ) {
-	
-	if ( pageStack.length > pages ) {
-	
-		var oldSlot = pageStack.pop();
-		var slot = pageStack[pageStack.length - 1];
-		if (page) {
-                    while ( slot.page != page && pageStack.length > 1 ) {
-			slot.cleanup();
-			slot.destroy();
-			pageStack.pop();
-                        slot = pageStack[ pageStack.length - 1 ];
-		    }
-		}
 
-		depth = pageStack.length;
-		currentPage = slot.page;
+          if ( pageStack.length > pages ) {
 
-		oldSlot.popExit(immediate);
-		slot.popEnter(immediate);
+              var oldSlot = pageStack.pop();
+              var slot = pageStack[pageStack.length - 1];
+              if (page) {
+                  while ( slot.page != page && pageStack.length > 1 ) {
+                      slot.cleanup();
+                      slot.destroy();
+                      pageStack.pop();
+                      slot = pageStack[ pageStack.length - 1 ];
+                  }
+              }
 
-		var tools = slot.page.tools || null;
-		if (toolBar) {
-                    toolBar.setTools( tools, immediate ? "set" : "pop" );
-		}
+              depth = pageStack.length;
+              currentPage = slot.page;
 
-		return oldSlot.page;
-	    } else {
-		return null;
-	    }
-	}
-	
+              oldSlot.popExit(immediate);
+              slot.popEnter(immediate);
+
+              var tools = slot.page.tools || null;
+              if (toolBar) {
+                  toolBar.setTools( tools, immediate ? "set" : "pop" );
+              }
+
+              return oldSlot.page;
+          } else {
+              return null;
+          }
       }
 
       function pop(page, immediate) {

@@ -685,6 +685,54 @@ Item {
 
                     Component{ id: infoComponent; WidgetPageInfoBar{} }
                 }
+
+                Rectangle {
+                    id: layoutTextItem
+
+                    width: parent.width
+                    height: flickContainer.itemHeight
+
+                    border.width: 1
+                    border.color: "grey"
+
+                    color: flickContainer.backColor
+                    clip:  true
+
+                    MouseArea {
+                        anchors.fill: layoutTextItem
+                        z: 1
+
+                        onClicked: addPage( layoutTextItemComponent )
+                    }
+
+                    Item{
+                        id: layoutTextButton
+
+                        x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
+                        width:  parent.width * flickContainer.leftFactor
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        LayoutTextItem {
+                            maxWidth: parent.width
+                            anchors.centerIn: parent
+
+                            text: "LayoutTextItem"
+                        }
+                    }
+
+                    Text {
+                        x: parent.width / 2
+                        width: parent.width * flickContainer.rightFactor
+                        height: parent.height
+
+                        verticalAlignment: Text.AlignVCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: flickContainer.textSize
+                        text: "Text item, with resize behavior."
+                    }
+
+                    Component{ id: layoutTextItemComponent; WidgetPageLayoutTextItem{} }
+                }
             }
         }
 

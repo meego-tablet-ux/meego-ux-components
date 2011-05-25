@@ -283,9 +283,16 @@ Item {
     property alias toolBar: toolBar
     property bool automaticBookSwitching: true
     property bool customActionMenu: false
+
+    // height of tool and status bar plus the searchbar. This is needed for dialogs and context menus to compute their max sizes.
     property int topDecorationHeight: toolBar.height + toolBar.y + statusBar.height  + statusBar.y
+
+    // height of tool and status bar. This is needed for the AppPages and overlayItem to compute their size
+    property int barsHeight: titleBar.height + statusBar.height + statusBar.y
+
     property bool fastPageSwitch: false
 
+    // this shifts the content if a text input would be covered by the visual keyboard
     property real contentVerticalShift: 0
 
     signal searchExtended()
@@ -638,16 +645,10 @@ Item {
         PageStack {
             id: pageStack
             z: -2
-            y: window.contentVerticalShift
+            y: window.contentVerticalShift + currentPage.pageUsingFullScreen? 0 : topDecorationHeight - barsHeight
 
             width: parent.width
             height: parent.height
-
-            Behavior on y{
-                NumberAnimation{
-                    duration:  200
-                }
-            }
 
             onNewPageTitle: window.toolBarTitle = newPageTitle
             onNewFastPageSwitch: window.fastPageSwitch = newFastPageSwitch

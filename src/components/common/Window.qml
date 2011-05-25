@@ -86,19 +86,19 @@
  4 = inverted portrait
  \endqml
 
- \qmlproperty enim lockOrientationIn
- \qmlcm string, this property can be used to lock the window in a given orientation.
+ \qmlproperty int orientationLock
+ \qmlcm int, locks the orientation in the given mode.
  Possible values are:
- \qml
- "landscape"
- "portrait"
- "invertedLandscape"
- "invertedPortrait"
- Every other value will unlock the orientation. Default is "".
- \endqml
+ 0: no lock
+ 1: lock in landscape
+ 2: lock in portrait
+ 3: lock in invertedLandscape
+ 4: lock in invertedPortrait
+ 5: lock to both landscapes
+ 6: lock to both portraits
 
  \qmlproperty bool isOrientationLocked
- \qmlcm bool, indicates if oriention was locked.
+ \qmlcm bool, indicates if oriention was locked. Read-only.
 
  \qmlproperty bool inLandscape
  \qmlcm bool, true if the current orientation is landscape
@@ -267,7 +267,7 @@ Item {
     property alias blockOrientationWhenInactive: scene .blockOrientationWhenInActive
     property alias orientationLock: scene.orientationLock
     property alias isOrientationLocked: scene.orientationLocked
-    property alias lockCurrentOrientation: scene.lockCurrentOrientation
+    property alias lockCurrentOrientation: scene.lockCurrentOrientation     // deprecated
     property alias inhibitScreenSaver: scene.inhibitScreenSaver
     property alias inLandscape: scene.inLandscape
     property alias inPortrait: scene.inPortrait

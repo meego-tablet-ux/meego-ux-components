@@ -19,7 +19,7 @@ WidgetPage {
     // This is an example
 //    Component {
 //        id: contactsPicker
-//        ContactsPicker{}
+//        Labs.ContactsPicker{}
 //    }
 
 //    Component.onCompleted : {

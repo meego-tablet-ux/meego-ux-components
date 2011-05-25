@@ -121,6 +121,10 @@
  \qmlproperty bool backButtonEnabled
  \qmlcm bool, inhibits if the backButton is enabled or not. if not enabled.
 
+ \qmlproperty Item content
+ \qmlcm the content area where the AppPages are shown. By default the PageStack and the overlayArea are
+ children of the content.
+
  \qmlproperty Item overlayItem
  \qmlcm Item, an item spanning over the content area where the AppPages are shown. Here you can add for example
  application wide extra toolbars. This overlayItem will be above the AppPage contents, but below dialogs.
@@ -277,6 +281,7 @@ Item {
 
     property bool backButtonLocked: false
 
+    property alias content: window_content_topitem
     property alias overlayItem: overlayArea.children    
     property alias pageStack: pageStack
     property alias statusBar: statusBar
@@ -670,7 +675,6 @@ Item {
             width: parent.width
             height: pageStack.height - window.topDecorationHeight
         }
-
 
         states:  [            
             State {

@@ -243,7 +243,7 @@ ModalDialog {
         limit: 0
         sort: Models.PhotoListModel.SortByDefault
 
-        type: photoPicker.albumSelectionMode ? Models.PhotoListModel.ListofAlbums : Models.PhotoListModel.ListofPhotos
+        type: photoPicker.albumSelectionMode ? Models.PhotoListModel.ListofUserAlbums : Models.PhotoListModel.ListofPhotos
     }
 }
 

@@ -664,7 +664,7 @@ Item {
 
         Item {
             id: overlayArea
-            z: 1
+            z: -1
             y: pageStack.y  + window.topDecorationHeight
 
             width: parent.width

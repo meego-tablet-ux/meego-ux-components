@@ -122,6 +122,12 @@ BorderImage {
         input.focus = focus
     }
 
+    MouseArea {     // this ensures the text gets focus when only the BorderImage is clicked
+        anchors.fill: parent
+
+        onClicked: container.focus = true
+    }
+
     TextInput {
         id: input
 

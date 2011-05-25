@@ -327,6 +327,29 @@ Item {
         if( !pageStack.busy || fastPageSwitch ){ pageStack.pop() }// pops the page
     }
 
+    //called by a TextEntry when the virtual keyboard comes up or down. Shifts the content up
+    //if the TextEntry would be covered by the VKB anymore. Shifts the content down again
+    //if the VKB vanishes.
+    function adjustForVkb( textItemBottom, vkbHeight ) {
+        //do something
+        //console.log("=========textItemBottom: " + textItemBottom )
+        //console.log("==============vkbHeight: " + vkbHeight )
+        //console.log("=======pageStack height: " + pageStack.height )
+        if( vkbHeight <= 0 ) {
+            contentVerticalShift = 0;
+            //console.log("==============contentVerticalShift has been reset to " + contentVerticalShift )
+            return
+        }
+
+        var offset = vkbHeight - ( pageStack.height - textItemBottom )
+        //console.log("=================offset: " + offset )
+
+        if( offset > 0 ) {
+            contentVerticalShift = -offset
+            //console.log("==============contentVerticalShift has been set to " + contentVerticalShift )
+        }
+    }
+
     width: { try { screenWidth; } catch (err) { 1024; } }
     height: { try { screenHeight;} catch (err) {  576; } }
     clip: true

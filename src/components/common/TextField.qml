@@ -68,6 +68,10 @@ ThemeImage {
     property alias textFormat:     edit.textFormat
     property alias contentHeight:  flick.contentHeight
     property alias color:          edit.color
+
+    //private property
+    property bool isVKBFocus: false
+
     signal textChanged
     signal cursorRectangleChanged
 
@@ -164,6 +168,21 @@ ThemeImage {
                 target: edit
                 onTextChanged: {
                     fakeText.visible = (edit.text == "")
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: mainWindow
+        onVkbHeight: {
+            if( window ) {
+                if( edit.activeFocus ) {
+                    isVKBFocus = true
+                    window.adjustForVkb( mapToItem( window, 0, container.height ).y, height )
+                }else if( isVKBFocus ) {
+                    isVKBFocus = false
+                    window.adjustForVkb( mapToItem( window, 0, container.height ).y, height )
                 }
             }
         }

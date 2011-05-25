@@ -6,7 +6,7 @@
  * http://www.gnu.org/licenses/lgpl.html
  */
 
-/* This pages shows the TextEntry.qml and offers controls to manipulate it.
+/* This pages shows the LayoutTextItem.qml and offers controls to manipulate it.
  */
 
 import Qt 4.7
@@ -67,12 +67,19 @@ WidgetPage {
             onTextUpdated: {
                 button.text = value
             }
+        },
+
+        CheckBoxEntry {
+            id: elideBox
+
+            label: qsTr("elideText:")
         }
     ]
 
     description: "This is a basic text item that resizes to its given text. " +
                  "You can control the width of the item with minWidth and maxWidth. " +
-                 "The automatic resize can be controlled via 'bool autoResize''"
+                 "The automatic resize can be controlled via 'bool autoResize'. " +
+                 "The blue rect in the background only shows the actual text items size."
 
 
     widget: Flickable {
@@ -89,6 +96,8 @@ WidgetPage {
 
             anchors.centerIn: parent
             font.pixelSize: 30
+
+            elide: elideBox.isChecked ? Text.ElideRight : Text.ElideNone
 
             Rectangle {
                 color:  "lightblue"

@@ -194,7 +194,7 @@ Item {
     signal newBackButtonLocked( bool backButtonLocked )
 
     anchors.fill:  parent
-    anchors.topMargin: pageUsingFullScreen? 0 : top.topDecorationHeight //window.barsHeight
+    anchors.topMargin: pageUsingFullScreen? 0 : top.windowBarsHeight
 
     TopItem{ id: top }
 

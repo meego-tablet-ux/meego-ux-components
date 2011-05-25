@@ -86,19 +86,19 @@
  4 = inverted portrait
  \endqml
 
- \qmlproperty enim lockOrientationIn
- \qmlcm string, this property can be used to lock the window in a given orientation.
+ \qmlproperty int orientationLock
+ \qmlcm int, locks the orientation in the given mode.
  Possible values are:
- \qml
- "landscape"
- "portrait"
- "invertedLandscape"
- "invertedPortrait"
- Every other value will unlock the orientation. Default is "".
- \endqml
+ 0: no lock
+ 1: lock in landscape
+ 2: lock in portrait
+ 3: lock in invertedLandscape
+ 4: lock in invertedPortrait
+ 5: lock to both landscapes
+ 6: lock to both portraits
 
  \qmlproperty bool isOrientationLocked
- \qmlcm bool, indicates if oriention was locked.
+ \qmlcm bool, indicates if oriention was locked. Read-only.
 
  \qmlproperty bool inLandscape
  \qmlcm bool, true if the current orientation is landscape
@@ -267,7 +267,7 @@ Item {
     property alias blockOrientationWhenInactive: scene .blockOrientationWhenInActive
     property alias orientationLock: scene.orientationLock
     property alias isOrientationLocked: scene.orientationLocked
-    property alias lockCurrentOrientation: scene.lockCurrentOrientation
+    property alias lockCurrentOrientation: scene.lockCurrentOrientation     // deprecated
     property alias inhibitScreenSaver: scene.inhibitScreenSaver
     property alias inLandscape: scene.inLandscape
     property alias inPortrait: scene.inPortrait
@@ -283,9 +283,16 @@ Item {
     property alias toolBar: toolBar
     property bool automaticBookSwitching: true
     property bool customActionMenu: false
+
+    // height of tool and status bar plus the searchbar. This is needed for dialogs and context menus to compute their max sizes.
     property int topDecorationHeight: toolBar.height + toolBar.y + statusBar.height  + statusBar.y
+
+    // height of tool and status bar. This is needed for the AppPages and overlayItem to compute their size
+    property int barsHeight: titleBar.height + statusBar.height + statusBar.y
+
     property bool fastPageSwitch: false
 
+    // this shifts the content if a text input would be covered by the visual keyboard
     property real contentVerticalShift: 0
 
     signal searchExtended()
@@ -638,16 +645,10 @@ Item {
         PageStack {
             id: pageStack
             z: -2
-            y: window.contentVerticalShift
+            y: window.contentVerticalShift + currentPage.pageUsingFullScreen? 0 : topDecorationHeight - barsHeight
 
             width: parent.width
             height: parent.height
-
-            Behavior on y{
-                NumberAnimation{
-                    duration:  200
-                }
-            }
 
             onNewPageTitle: window.toolBarTitle = newPageTitle
             onNewFastPageSwitch: window.fastPageSwitch = newFastPageSwitch
@@ -663,7 +664,7 @@ Item {
 
         Item {
             id: overlayArea
-            z: 1
+            z: -1
             y: pageStack.y  + window.topDecorationHeight
 
             width: parent.width

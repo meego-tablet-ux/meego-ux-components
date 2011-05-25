@@ -10,7 +10,7 @@
   \qmlclass BottomToolBar
   \title BottomToolbar
   \section1 BottomToolbar
-  \qmlcm This is a base qml for bottomToolBard widgets. 
+  \qmlcm This is a base qml for bottomToolBard widgets.
 
   \section2  API Properties
 
@@ -30,7 +30,7 @@
 
   \qmlproperty [signal] hidden
   \qmlcm emitted on completly hidden toolbar
-  
+
   \qmlproperty [signal] showCalled
   \qmlcm notifies the children that the BottomToolBar is about to show
 
@@ -44,7 +44,7 @@
 
   \section2 Example
   \qml
-  
+
   \endqml
 */
 
@@ -85,7 +85,10 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.margins: 5
+        anchors {
+            leftMargin: contentHorizontalMargins; rightMargin: contentHorizontalMargins;
+            topMargin: contentVerticalMargins; bottomMargin: contentVerticalMargins
+        }
         spacing: spacing
 
         visible: parent.visible
@@ -97,7 +100,10 @@ Item {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.margins: 5
+        anchors {
+            leftMargin: contentHorizontalMargins; rightMargin: contentHorizontalMargins;
+            topMargin: contentVerticalMargins; bottomMargin: contentVerticalMargins
+        }
         spacing: spacing
 
         visible: parent.visible

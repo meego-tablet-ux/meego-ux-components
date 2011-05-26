@@ -327,26 +327,13 @@ Item {
         if( !pageStack.busy || fastPageSwitch ){ pageStack.pop() }// pops the page
     }
 
-    //called by a TextEntry when the virtual keyboard comes up or down. Shifts the content up
-    //if the TextEntry would be covered by the VKB anymore. Shifts the content down again
-    //if the VKB vanishes.
+    //called by a TextEntry when the virtual keyboard comes up. Shifts the content up
+    //if the TextEntry would be covered by the VKB.
     function adjustForVkb( textItemBottom, vkbHeight ) {
-        //do something
-        //console.log("=========textItemBottom: " + textItemBottom )
-        //console.log("==============vkbHeight: " + vkbHeight )
-        //console.log("=======pageStack height: " + pageStack.height )
-        if( vkbHeight <= 0 ) {
-            contentVerticalShift = 0;
-            //console.log("==============contentVerticalShift has been reset to " + contentVerticalShift )
-            return
-        }
-
-        var offset = vkbHeight - ( pageStack.height - textItemBottom )
-        //console.log("=================offset: " + offset )
+        var offset = vkbHeight - ( window_content_topitem.height - textItemBottom )
 
         if( offset > 0 ) {
             contentVerticalShift = -offset
-            //console.log("==============contentVerticalShift has been set to " + contentVerticalShift )
         }
     }
 
@@ -686,7 +673,7 @@ Item {
 
         Item {
             id: overlayArea
-            z: 1
+            z: -1
             y: pageStack.y  + window.topDecorationHeight
 
             width: parent.width
@@ -890,6 +877,11 @@ Item {
         target: mainWindow
         onWinIdChanged: { //FIXME not catched yet
             scene.winId = mainWindow.winId;
+        }
+        onVkbHeight: {
+            if( height == 0 ) {
+                contentVerticalShift = 0;
+            }
         }
     }
 }

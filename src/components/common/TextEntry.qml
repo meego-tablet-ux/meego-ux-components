@@ -95,9 +95,6 @@ BorderImage {
     property alias textFocus: input.focus
     property int horizontalMargins: 6
 
-    //private property
-    property bool isVKBFocus: false
-
     //TODO: remove this, it breaks encapsulation
     property alias textInput: input
 
@@ -173,16 +170,14 @@ BorderImage {
         }
     }
 
+    TopItem { id: topItem }
+
     Connections {
         target: mainWindow
         onVkbHeight: {
             if( window ) {
-                if( input.activeFocus ) {
-                    isVKBFocus = true
-                    window.adjustForVkb( mapToItem( window, 0, container.height ).y, height )
-                }else if( isVKBFocus ) {
-                    isVKBFocus = false
-                    window.adjustForVkb( mapToItem( window, 0, container.height ).y, height )
+                if( input.activeFocus && height > 0 ) {
+                    window.adjustForVkb( mapToItem( topItem.topItem, 0, container.height ).y, height )
                 }
             }
         }

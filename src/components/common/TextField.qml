@@ -173,16 +173,14 @@ ThemeImage {
         }
     }
 
+    TopItem{ id: topItem }
+
     Connections {
         target: mainWindow
         onVkbHeight: {
             if( window ) {
-                if( edit.activeFocus ) {
-                    isVKBFocus = true
-                    window.adjustForVkb( mapToItem( window, 0, container.height ).y, height )
-                }else if( isVKBFocus ) {
-                    isVKBFocus = false
-                    window.adjustForVkb( mapToItem( window, 0, container.height ).y, height )
+                if( edit.activeFocus && height > 0 ) {
+                    window.adjustForVkb( mapToItem( topItem.topItem, 0, container.height ).y, height )
                 }
             }
         }

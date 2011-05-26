@@ -175,4 +175,17 @@ BorderImage {
             }
         }
     }
+
+    TopItem { id: topItem }
+
+    Connections {
+        target: mainWindow
+        onVkbHeight: {
+            if( window ) {
+                if( input.activeFocus && height > 0 ) {
+                    window.adjustForVkb( mapToItem( topItem.topItem, 0, container.height ).y, width, height )
+                }
+            }
+        }
+    }
 }

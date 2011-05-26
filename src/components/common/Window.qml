@@ -300,6 +300,10 @@ Item {
     // this shifts the content if a text input would be covered by the visual keyboard
     property real contentVerticalShift: 0
 
+    //private property
+    property int currentVkbHeight: 0
+    property int currentVkbWidth:  0
+
     signal searchExtended()
     signal searchRetracted()
     signal search( string needle )
@@ -337,6 +341,36 @@ Item {
     // pop the current Page from the stack
     function popPage() {
         if( !pageStack.busy || fastPageSwitch ){ pageStack.pop() }// pops the page
+    }
+
+    //called by a TextEntry or TextField when the virtual keyboard comes up. Shifts the content up
+    //if the TextEntry/TextField would be covered by the VKB.
+    function adjustForVkb( textItemBottom, vkbWidth, vkbHeight ) {
+        var offset
+        if( inLandscape || inInvertedLandscape ) {
+            offset = vkbHeight - ( window_content_topitem.height - textItemBottom )
+        }else {
+            offset = vkbWidth - ( window_content_topitem.height - textItemBottom )
+        }
+
+        if( offset > 0 ) {
+            contentVerticalShift = -offset
+        }
+    }
+
+    function updateVkbShift( textItemBottom ) {
+        if( currentVkbHeight > 0 ) {
+            var offset
+            if( inLandscape || inInvertedLandscape ) {
+                offset = currentVkbHeight - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
+            }else {
+                offset = currentVkbWidth - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
+            }
+
+            if( offset > 0 ) {
+                contentVerticalShift = -offset
+            }
+        }
     }
 
     width: { try { screenWidth; } catch (err) { 1024; } }
@@ -872,6 +906,13 @@ Item {
         target: mainWindow
         onWinIdChanged: { //FIXME not catched yet
             scene.winId = mainWindow.winId;
+        }
+        onVkbHeight: {
+            currentVkbHeight = height;
+            currentVkbWidth = width;
+            if( height == 0 ) {
+                contentVerticalShift = 0;
+            }
         }
     }
 }

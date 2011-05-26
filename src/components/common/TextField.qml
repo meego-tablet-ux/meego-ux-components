@@ -68,6 +68,7 @@ ThemeImage {
     property alias textFormat:     edit.textFormat
     property alias contentHeight:  flick.contentHeight
     property alias color:          edit.color
+
     signal textChanged
     signal cursorRectangleChanged
 
@@ -142,6 +143,14 @@ ThemeImage {
                 container.textChanged()
             }
 
+            onPaintedSizeChanged: {
+                if( window ) {
+                    if( edit.activeFocus && window.currentVkbHeight > 0 ) {
+                        window.updateVkbShift( mapToItem( topItem.topItem, 0, edit.cursorRectangle.y + edit.cursorRectangle.height * 3 ).y )
+                    }
+                }
+            }
+
             CCPContextArea {
                 editor: edit
                 visible: !edit.readOnly
@@ -164,6 +173,19 @@ ThemeImage {
                 target: edit
                 onTextChanged: {
                     fakeText.visible = (edit.text == "")
+                }
+            }
+        }
+    }
+
+    TopItem{ id: topItem }
+
+    Connections {
+        target: mainWindow
+        onVkbHeight: {
+            if( window ) {
+                if( edit.activeFocus && height > 0 ) {
+                    window.adjustForVkb( mapToItem( topItem.topItem, 0, edit.cursorRectangle.y + edit.cursorRectangle.height * 3 ).y, width, height )
                 }
             }
         }

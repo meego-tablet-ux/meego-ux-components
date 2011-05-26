@@ -143,11 +143,13 @@ ThemeImage {
                 container.textChanged()
             }
 
-//            onPaintedSizeChanged: {
-//                if( edit.activeFocus && window.currentVkbHeight > 0 ) {
-//                    window.updateVkbShift( mapToItem( topItem.topItem, 0, edit.cursorRectangle.y + edit.cursorRectangle.height * 3 ).y )
-//                }
-//            }
+            onPaintedSizeChanged: {
+                if( window ) {
+                    if( edit.activeFocus && window.currentVkbHeight > 0 ) {
+                        window.updateVkbShift( mapToItem( topItem.topItem, 0, edit.cursorRectangle.y + edit.cursorRectangle.height * 3 ).y )
+                    }
+                }
+            }
 
             CCPContextArea {
                 editor: edit

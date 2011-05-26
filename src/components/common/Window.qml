@@ -350,9 +350,9 @@ Item {
         if( currentVkbHeight > 0 ) {
             var offset
             if( inLandscape || inInvertedLandscape ) {
-                offset = currentVkbHeight - ( window_content_topitem.height - textItemBottom )
+                offset = currentVkbHeight - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
             }else {
-                offset = currentVkbWidth - ( window_content_topitem.height - textItemBottom )
+                offset = currentVkbWidth - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
             }
 
             if( offset > 0 ) {

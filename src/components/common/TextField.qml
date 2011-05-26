@@ -69,9 +69,6 @@ ThemeImage {
     property alias contentHeight:  flick.contentHeight
     property alias color:          edit.color
 
-    //private property
-    property bool isVKBFocus: false
-
     signal textChanged
     signal cursorRectangleChanged
 
@@ -146,6 +143,12 @@ ThemeImage {
                 container.textChanged()
             }
 
+//            onPaintedSizeChanged: {
+//                if( edit.activeFocus && window.currentVkbHeight > 0 ) {
+//                    window.updateVkbShift( mapToItem( topItem.topItem, 0, edit.cursorRectangle.y + edit.cursorRectangle.height * 3 ).y )
+//                }
+//            }
+
             CCPContextArea {
                 editor: edit
                 visible: !edit.readOnly
@@ -180,7 +183,7 @@ ThemeImage {
         onVkbHeight: {
             if( window ) {
                 if( edit.activeFocus && height > 0 ) {
-                    window.adjustForVkb( mapToItem( topItem.topItem, 0, container.height ).y, height )
+                    window.adjustForVkb( mapToItem( topItem.topItem, 0, edit.cursorRectangle.y + edit.cursorRectangle.height * 3 ).y, width, height )
                 }
             }
         }

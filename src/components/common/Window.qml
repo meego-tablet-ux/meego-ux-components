@@ -288,6 +288,10 @@ Item {
 
     property real contentVerticalShift: 0
 
+    //private property
+    property int currentVkbHeight: 0
+    property int currentVkbWidth:  0
+
     signal searchExtended()
     signal searchRetracted()
     signal search( string needle )
@@ -327,13 +331,33 @@ Item {
         if( !pageStack.busy || fastPageSwitch ){ pageStack.pop() }// pops the page
     }
 
-    //called by a TextEntry when the virtual keyboard comes up. Shifts the content up
-    //if the TextEntry would be covered by the VKB.
-    function adjustForVkb( textItemBottom, vkbHeight ) {
-        var offset = vkbHeight - ( window_content_topitem.height - textItemBottom )
+    //called by a TextEntry or TextField when the virtual keyboard comes up. Shifts the content up
+    //if the TextEntry/TextField would be covered by the VKB.
+    function adjustForVkb( textItemBottom, vkbWidth, vkbHeight ) {
+        var offset
+        if( inLandscape || inInvertedLandscape ) {
+            offset = vkbHeight - ( window_content_topitem.height - textItemBottom )
+        }else {
+            offset = vkbWidth - ( window_content_topitem.height - textItemBottom )
+        }
 
         if( offset > 0 ) {
             contentVerticalShift = -offset
+        }
+    }
+
+    function updateVkbShift( textItemBottom ) {
+        if( currentVkbHeight > 0 ) {
+            var offset
+            if( inLandscape || inInvertedLandscape ) {
+                offset = currentVkbHeight - ( window_content_topitem.height - textItemBottom )
+            }else {
+                offset = currentVkbWidth - ( window_content_topitem.height - textItemBottom )
+            }
+
+            if( offset > 0 ) {
+                contentVerticalShift = -offset
+            }
         }
     }
 
@@ -879,6 +903,8 @@ Item {
             scene.winId = mainWindow.winId;
         }
         onVkbHeight: {
+            currentVkbHeight = height;
+            currentVkbWidth = width;
             if( height == 0 ) {
                 contentVerticalShift = 0;
             }

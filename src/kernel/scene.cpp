@@ -13,6 +13,7 @@
 Scene::Scene(QObject *parent) :
     QObject(parent),
     m_orientation( landscape ),
+    m_realOrientation( landscape ),
     m_orientationLock( noLock ),
     m_lockCurrentOrientation( false ),
     m_bSceneActive( true ),

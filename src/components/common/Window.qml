@@ -347,21 +347,23 @@ Item {
     //if the TextEntry/TextField would be covered by the VKB.
     function adjustForVkb( textItemBottom, vkbWidth, vkbHeight ) {
         var offset
-        if( inLandscape || inInvertedLandscape ) {
-            offset = vkbHeight - ( window_content_topitem.height - textItemBottom )
+        if( vkbHeight < vkbWidth ) {
+            offset = vkbHeight - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
         }else {
-            offset = vkbWidth - ( window_content_topitem.height - textItemBottom )
+            offset = vkbWidth - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
         }
 
         if( offset > 0 ) {
             contentVerticalShift = -offset
+        }else {
+            contentVerticalShift = 0
         }
     }
 
     function updateVkbShift( textItemBottom ) {
         if( currentVkbHeight > 0 ) {
             var offset
-            if( inLandscape || inInvertedLandscape ) {
+            if( currentVkbHeight < currentVkbWidth ) {
                 offset = currentVkbHeight - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
             }else {
                 offset = currentVkbWidth - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
@@ -369,6 +371,8 @@ Item {
 
             if( offset > 0 ) {
                 contentVerticalShift = -offset
+            }else {
+                contentVerticalShift = 0
             }
         }
     }
@@ -684,7 +688,7 @@ Item {
         PageStack {
             id: pageStack
             z: -2
-            y: window.contentVerticalShift + currentPage.pageUsingFullScreen? 0 : topDecorationHeight - barsHeight
+            y: currentPage.pageUsingFullScreen ? window.contentVerticalShift : window.contentVerticalShift + topDecorationHeight - barsHeight
 
             width: parent.width
             height: parent.height

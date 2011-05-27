@@ -527,9 +527,7 @@ ModalDialog {
         Item {
             id: popupRow
 
-            /*: Controls the order in which the three spinners for days, months and years are displayed in the DatePicker
-                Don't translate this into your language. Instead order the three keywords to match the standards of
-                your language. For example "year-month-day". */
+            //: Controls the order in which the three spinners for days, months and years are displayed in the DatePicker. Don't translate this into your language. Instead order the three keywords to match the standards of your language. For example "year-month-day".
             property string dateOrder: qsTr("day-month-year")
             property int unitWidth: ( parent.width - 2 * anchors.margins ) / 13 // 3 * 3 units for the popuplists and 4 * 1 units for the dateunits
 
@@ -545,9 +543,7 @@ ModalDialog {
                 height: parent.height
                 verticalAlignment: "AlignVCenter"
                 horizontalAlignment: "AlignHCenter"
-                /*: This string is shown left of the left spinner. If the string doesn't fit into the
-                    given space, it won't be displayed. Depending on design decisions to make, only one
-                    or to characters may be in the string. */
+                //: Optional! Won't be displayed if left untranslated or if set to more than one or two characters. Positioned left of the left spinner. Meant for displaying units, separators or whatever seems appropiate for a language specific display of the date given by the three spinners.
                 text: qsTr("dateUnitOne")
                 visible: ( paintedWidth < width * 0.9 ) ? true : false
             }
@@ -568,9 +564,7 @@ ModalDialog {
                 height: parent.height
                 verticalAlignment: "AlignVCenter"
                 horizontalAlignment: "AlignHCenter"
-                /*: This string is shown between the left and the middle spinner. If the string doesn't fit into the
-                given space, it won't be displayed. Depending on design decisions to make, only one
-                or to characters may be in the string. */
+                //: Optional! Won't be displayed if left untranslated or if set to more than one or two characters. Positioned between left and middle spinner. Meant for displaying units, separators or whatever seems appropiate for a language specific display of the date given by the three spinners.
                 text: qsTr("dateUnitTwo")
                 visible: ( paintedWidth < width * 0.9 ) ? true : false
             }
@@ -591,9 +585,7 @@ ModalDialog {
                 height: parent.height
                 verticalAlignment: "AlignVCenter"
                 horizontalAlignment: "AlignHCenter"
-                /*: This string is shown between the middle and the right spinner. If the string doesn't fit into the
-                given space, it won't be displayed. Depending on design decisions to make, only one
-                or to characters may be in the string. */
+                //: Optional! Won't be displayed if left untranslated or if set to more than one or two characters. Positioned between middle and right spinner. Meant for displaying units, separators or whatever seems appropiate for a language specific display of the date given by the three spinners.
                 text: qsTr("dateUnitThree")
                 visible: ( paintedWidth < width * 0.9 ) ? true : false
             }
@@ -614,9 +606,7 @@ ModalDialog {
                 height: parent.height
                 verticalAlignment: "AlignVCenter"
                 horizontalAlignment: "AlignHCenter"
-                /*: This string is shown right of the right spinner. If the string doesn't fit into the
-                given space, it won't be displayed. Depending on design decisions to make, only one
-                or to characters may be in the string. */
+                //: Optional! Won't be displayed if left untranslated or if set to more than one or two characters. Positioned right of the right spinner. Meant for displaying units, separators or whatever seems appropiate for a language specific display of the date given by the three spinners.
                 text: qsTr("dateUnitFour")
                 visible: ( paintedWidth < width * 0.9 ) ? true : false
             }

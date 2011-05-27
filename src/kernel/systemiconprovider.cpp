@@ -66,6 +66,8 @@ SystemIconProvider::SystemIconProvider() :
 
 SystemIconProvider::~SystemIconProvider()
 {
+    delete m_cache;
+    m_cache = 0;
 }
 
 QImage SystemIconProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)

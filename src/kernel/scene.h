@@ -21,6 +21,7 @@ class Scene : public QObject
 
     Q_PROPERTY( QString orientationString READ orientationString NOTIFY orientationChanged )
     Q_PROPERTY( Scene::Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged )
+    Q_PROPERTY( Scene::Orientation sensorOrientation READ sensorOrientation NOTIFY sensorOrientationChanged )
     Q_PROPERTY( Scene::OrientationLock orientationLock READ orientationLock WRITE setOrientationLock NOTIFY orientationLockChanged )
     Q_PROPERTY( bool orientationLocked READ orientationLocked )
     Q_PROPERTY( bool lockCurrentOrientation READ orientationLocked WRITE lockCurrentOrientation )
@@ -61,6 +62,8 @@ public:
     Scene::Orientation orientation() const;
     void setOrientation( Orientation orientation );
 
+    Scene::Orientation sensorOrientation() const;
+
     Scene::OrientationLock orientationLock() const;
     void setOrientationLock( OrientationLock orientationLock );
     bool orientationLocked() const;
@@ -88,6 +91,7 @@ public:
 
 signals:
     void orientationChanged();
+    void sensorOrientationChanged();
     void orientationLockChanged();
     void activeSceneChanged();
     void inhibitScreenSaverChanged();

@@ -39,6 +39,9 @@
  Otherwise the AppPages cannot link correctly.
 
  \section1  API Properties:
+ \qmlproperty bool disableToolBarSearch
+ \qmlcm bool, set to false it the toolbar search modus should be functionable
+
  \qmlproperty string toolBarTitle
  \qmlcm sets a label for the toolbar.
 
@@ -79,6 +82,15 @@
 
  \qmlproperty int orientation
  \qmlcm int, the orientation the window is in. This property can be set manualy.
+ \qml
+ 1 = landscape
+ 2 = portrait
+ 3 = inverted landscape
+ 4 = inverted portrait
+ \endqml
+
+ \qmlproperty int sensorOrientation
+ \qmlcm int, the orientation of the sensor. This property can not be set manualy.
  \qml
  1 = landscape
  2 = portrait
@@ -268,6 +280,7 @@ Item {
 
     property alias isActiveWindow: scene.isActiveScene
     property alias orientation: scene.orientation
+    property alias sensorOrientation: scene.sensorOrientation
     property alias blockOrientationWhenInactive: scene .blockOrientationWhenInActive
     property alias orientationLock: scene.orientationLock
     property alias isOrientationLocked: scene.orientationLocked
@@ -445,7 +458,7 @@ Item {
 
                 property string title: ""   //title shown in the toolBar
                 property bool showSearch: false //search bar visible?
-                property bool disableSearch: false  //search bar interactive?
+                property bool disableSearch: true  //search bar interactive?
                 property bool appFilterMenuActive: true  //ActionMenu visible
                 property bool showBackButton: pageStack.depth > 1    //show back button if more than one page is on the stack
                 property int offset: toolBar.showSearch ? 0 : -searchTitleBar.height

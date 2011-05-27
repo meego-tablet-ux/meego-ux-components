@@ -21,6 +21,7 @@ ImageProviderCache::ImageProviderCache( const QString ThemeName, int maxImages, 
     m_filename( QString("statistics") )
 {
 
+    m_lastUpdate = 0;
     m_emptyImage.fill(Qt::red);
     m_emptyPixmap.fill(Qt::red);
 
@@ -777,11 +778,11 @@ void ImageProviderCache::saveMemoryInfo()
 {
     if( m_bMemoryReady ) {
 
-        if( m_pixmapTable.size() < m_memoryInfo.pixmapCount ) {
+        if( (uint)m_pixmapTable.size() < m_memoryInfo.pixmapCount ) {
             qWarning() << "Pixmap count is out of Sync. internal Count: " << m_pixmapTable.size() << " external Count: " << m_memoryInfo.pixmapCount;
         }
 
-        if( m_imageTable.size() < m_memoryInfo.imageCount ) {
+        if( (uint)m_imageTable.size() < m_memoryInfo.imageCount ) {
             qWarning() << "Image count is out of Sync. internal Count: " << m_imageTable.size() << " external Count: " << m_memoryInfo.imageCount;
         }
 

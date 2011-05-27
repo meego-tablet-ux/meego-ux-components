@@ -29,6 +29,10 @@ Scene::Orientation Scene::orientation() const
 {
     return m_orientation;
 }
+Scene::Orientation Scene::sensorOrientation() const
+{
+    return m_realOrientation;
+}
 
 QString Scene::orientationString() const
 {
@@ -51,9 +55,9 @@ QString Scene::orientationString() const
 
 void Scene::setOrientation( Orientation orientation )
 {
-
     m_realOrientation = orientation;
-  
+    emit sensorOrientationChanged();
+
     if( m_bSceneActive || !m_bBlockOrientationWhenInactive ) {
 
         if( noLock == m_orientationLock ) {

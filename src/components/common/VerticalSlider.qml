@@ -61,7 +61,8 @@
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Item {
     id: container
@@ -74,6 +75,7 @@ Item {
     property bool textOverlayVisible: true
     property bool textOverlayAlwaysVisible: false
     property alias markerSize: marker.width
+    property bool pressed: false
 
     signal sliderChanged(int sliderValue)
 
@@ -96,33 +98,34 @@ Item {
         centerItem.x = ((value - min) / (max - min)) * (fillArea.width - container.height / 4)
     }
 
-    BorderImage {
+    ThemeImage {
         id: fillArea
 
-        function setPosition(val) {
-            var clamped = val - container.height / 4
-            if(clamped < 0) {
-                clamped = 0
+        function setPosition( delta ) {
+
+            var newCenterItem = centerItem.x + delta
+
+            if( newCenterItem < 0)
+                newCenterItem = 0
+
+            if(newCenterItem > fillArea.width - container.height / 4) {
+                newCenterItem = fillArea.width - container.height / 4
             }
-            if(clamped > fillArea.width - container.height / 4) {
-                clamped = fillArea.width - container.height / 4
-            }
-            centerItem.x = clamped
-            value = min + (clamped / (fillArea.width - container.height / 4)) * (max - min)
+            centerItem.x = newCenterItem
+            value = min + (centerItem.x / (fillArea.width - container.height / 4)) * (max - min)
             container.sliderChanged( value )
         }
 
         rotation: -90
         source: "image://themedimage/widgets/common/slider/slider-background"
-        border.left:  6
-        border.right: 6
+
         anchors.left: parent.left
         anchors.leftMargin: marker.width / 4
         anchors.right: parent.right
         anchors.rightMargin: marker.width / 4
         anchors.verticalCenter: parent.verticalCenter
 
-        BorderImage {
+        ThemeImage {
             id: progressBar
 
             anchors.left: parent.left
@@ -136,18 +139,15 @@ Item {
                        return parent.width * percentage / 100
                    }
 
-            border.left: 6
-            border.right: 6
+
             source: "image://themedimage/widgets/common/slider/slider-bar"
             opacity: 0.5
         }
 
         //bar growing/shrinking with the marker to hightlight the range selected by the slider
-        BorderImage {
+        ThemeImage {
             id: sliderFill
 
-            border.left: 6
-            border.right: 6
             source: "image://themedimage/widgets/common/slider/slider-bar"
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
@@ -171,6 +171,29 @@ Item {
             width: sourceSize.width
             height: width
             smooth: true
+
+            GestureArea {
+                id: gestureArea
+
+                anchors.fill: parent
+
+                Pan {
+                    onStarted: {
+                        container.pressed = true
+                    }
+                    onUpdated: {
+                        fillArea.setPosition( gesture.delta * -1 )
+                    }
+                    onFinished: {
+                        fillArea.setPosition( gesture.delta * -1 )
+                        container.pressed = false
+                    }
+                    onCanceled: {
+                        fillArea.setPosition( gesture.delta * -1 )
+                        container.pressed = false
+                    }
+                }
+            }
         }
 
         //shows the selected value while the slider is dragged or clicked
@@ -209,37 +232,6 @@ Item {
         }
     }
 
-    MouseArea {
-        id: mouseAreaFTW
-
-        property int handleOffset: 0
-
-        anchors.fill: parent
-        rotation: fillArea.rotation
-
-        onPressed: {
-            if( mouseX >= centerItem.x && mouseX <= ( centerItem.x + container.height ) )
-            {
-                handleOffset = centerItem.x + container.height/4 - mouseX
-            }
-            fillArea.setPosition(mouseX + handleOffset)
-        }
-        onPositionChanged: {
-            fillArea.setPosition(mouseX + handleOffset)
-        }
-
-//        onPressed: {
-//            if(mouseY <= centerItem.x && mouseY >= (centerItem.x + container.height))
-//            {
-//                handleOffset = centerItem.x + container.width/2 - mouseY
-//            }
-//            fillArea.setPosition(mouseY)
-//        }
-//        onPositionChanged: {
-//            fillArea.setPosition(mouseY)
-//        }
-        onReleased: handleOffset = 0
-    }
 
     states: [
         State {
@@ -248,7 +240,7 @@ Item {
                 target: textoverlay
                 visible: true
             }
-            when: mouseAreaFTW.pressed
+            when: container.pressed
         }
     ]
 }

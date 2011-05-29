@@ -65,7 +65,8 @@
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Item {
     id: container
@@ -82,7 +83,7 @@ Item {
     property bool active: true
     property bool pressed: false
 
-    signal clicked( variant mouse )
+    signal clicked()
 
     // lower the button's opacity to mark it inactive
     opacity: active ? 1.0 : 0.5
@@ -145,17 +146,36 @@ Item {
         ]
     }
 
-    MouseArea {
-        id: mouseArea
+    GestureArea {
+        id: gestureArea
 
         anchors.fill: hasBackground ? bgImage : image
 
-        onClicked: {
-            if (container.active) {
-                container.clicked(mouse)
+        Tap {
+	    when: container.enabled
+	    onStarted: {
+                 container.pressed = true
+	    }
+            onCanceled: {
+                container.pressed = false
+	    }
+	    onFinished: {
+                container.clicked()
+                container.pressed = false
+	    }
+        }
+        TapAndHold {
+            when: container.enabled
+            onStarted: {
+                container.pressed = true
+            }
+            onCanceled: {
+                container.pressed = false
+            }
+            onFinished: {
+                container.clicked()
+                container.pressed = false
             }
         }
-        onPressed: if (container.active) parent.pressed = true
-        onReleased: if (container.active) parent.pressed = false
     }
 }

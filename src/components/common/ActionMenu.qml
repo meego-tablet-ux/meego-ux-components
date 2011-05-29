@@ -60,6 +60,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Ux.Gestures 0.1
 
 Flickable {
     id: container
@@ -223,26 +224,27 @@ Flickable {
                     source: "image://themedimage/widgets/common/menu/menu-item-separator"
                 }
 
-                MouseArea {
+                GestureArea {
                     anchors.fill: parent
 
-                    // pressed state for the text entry:
-                    onClicked: {
-                        container.triggered( index )
-                        container.selectedIndex = index
+                    Tap {
+                        // pressed state for the text entry:
+                        onFinished: {
+                            container.triggered( index )
+                            container.selectedIndex = index
 
+                            if( !highlightSelectedItem ) {
+                                container.currentItem = null
+                            }
+                        }
 
-                        if( !highlightSelectedItem ) {
+                        onStarted: {
+                            container.currentItem = highlight
+                        }
+
+                        onCanceled: {
                             container.currentItem = null
                         }
-                    }
-
-                    onPressed: {
-                        container.currentItem = highlight
-                    }
-
-                    onExited: {
-                        container.currentItem = null
                     }
                 }             
             }

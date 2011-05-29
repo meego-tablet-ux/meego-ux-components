@@ -79,6 +79,7 @@
   \endqml
 */
 import Qt 4.7
+import MeeGo.Ux.Gestures 0.1
 
 Item {
     id: outer
@@ -141,18 +142,20 @@ Item {
            font.bold: isSelected
            verticalAlignment: "AlignVCenter"
 
-           MouseArea {
+           GestureArea {
                id: delegateArea
 
                height:  parent.height
                width: spinnerRect.width
                anchors.centerIn: parent
 
-               onClicked: {
-                   view.currentIndex = index
-                   if( outer.allowSignal ) {
-                       outer.valueSelected( view.currentIndex, tag )
-                   }
+               Tap {
+                 onFinished: {
+                     view.currentIndex = index
+                     if( outer.allowSignal ) {
+                         outer.valueSelected( view.currentIndex, tag )
+                     }
+                 }
                }
            }
 

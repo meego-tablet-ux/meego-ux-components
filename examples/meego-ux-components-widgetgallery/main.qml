@@ -16,8 +16,23 @@ import MeeGo.Ux.Gestures 0.1
 Window {
     id: window
 
-    bookMenuModel: [ qsTr("Gallery"), qsTr("Context menu test"), qsTr("Book 2"), qsTr("Book 3"), qsTr("BottomBar"), qsTr("Fullscreen Test"), qsTr("Orientation Test") ]
-    bookMenuPayload: [ gallery, contextMenuBook, book2, book3, bottomBar, fullScreenPage, orientationPage ]
+    bookMenuModel: [    qsTr("Gallery"),
+                        qsTr("Context menu test"),
+                        qsTr("Book 2"),
+                        qsTr("Book 3"),
+                        qsTr("BottomBar"),
+                        qsTr("Fullscreen Test"),
+                        qsTr("Orientation Test"),
+                        qsTr("Gesture Test Page") ]
+    bookMenuPayload: [  gallery,
+                        contextMenuBook,
+                        book2,
+                        book3,
+                        bottomBar,
+                        fullScreenPage,
+                        orientationPage,
+                        gestureTestPage ]
+
     bookMenuTitle: qsTr("Book Menu")
 
     Component.onCompleted: {
@@ -44,4 +59,5 @@ Window {
     Component { id: bottomBar; WidgetPageBottomBar { name: qsTr("BottomBar") } }
     Component { id: fullScreenPage; WidgetPageFullScreen { name: qsTr("Fullscreen Test") } }
     Component { id: orientationPage; WidgetPageOrientation { name: qsTr("Orientation Test") } }
+    Component { id: gestureTestPage; GestureTestPage { onClicked: { switchBook( gallery ) }  } }
 }

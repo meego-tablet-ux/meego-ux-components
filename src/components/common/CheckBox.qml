@@ -27,12 +27,13 @@
 */
 
 import Qt 4.7
+import MeeGo.Ux.Components.Common 0.1
+import MeeGo.Ux.Gestures 0.1
 
 Item {
     id: checkBox
 
     property bool isChecked:false
-
     signal clicked( bool checked )
 
     // default size
@@ -40,7 +41,7 @@ Item {
     width: 25
 
     // checkbox' image
-    Image {
+    ThemeImage {
 
         property string checkbox_background: "image://themedimage/widgets/common/checkbox/checkbox-background" // "image://themedimage/widgets/common/btn_tickbox_dn"
         property string checkbox_background_active: "image://themedimage/widgets/common/checkbox/checkbox-background-active"// "image://themedimage/widgets/common/btn_tickbox_up"
@@ -51,11 +52,32 @@ Item {
 
         smooth: true
 
-        MouseArea {
+        GestureArea {
             anchors.fill: parent
-            onClicked: {
-                checkBox.isChecked = !checkBox.isChecked;
-                checkBox.clicked( checkBox.isChecked )
+
+            Tap {
+                onStarted: {
+                    checkBox.isChecked = !checkBox.isChecked;
+                }
+                onCanceled: {
+                    //put back the old state
+                    checkBox.isChecked = !checkBox.isChecked;
+                }
+                onFinished: {
+                    checkBox.clicked( checkBox.isChecked )
+                }
+            }
+            TapAndHold {
+                onStarted: {
+                    checkBox.isChecked = !checkBox.isChecked;
+                }
+                onCanceled: {
+                    //put back the old state
+                    checkBox.isChecked = !checkBox.isChecked;
+                }
+                onFinished: {
+                    checkBox.clicked( checkBox.isChecked )
+                }
             }
         }
     }

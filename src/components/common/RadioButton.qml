@@ -40,10 +40,7 @@
   \qmlnone
 
   \section2 Functions
-  \qmlfn click
-  \qmlcm Initiates the clicked signal of the mouseArea. Can be used to chain
-         a larger MouseArea from outside to the local MouseArea
-  \param MousEvent  mouse, the mouse event needed as a parameter to call the clicked signal  \endparam
+  \qmlnone
 
   \section2 Example
   \qml
@@ -61,6 +58,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Ux.Gestures 0.1
 
 Item {
     id: root
@@ -71,12 +69,10 @@ Item {
     property alias text: radioText.text
     property alias font: radioText.font
 
-    function click(mouse) { mouseArea.clicked(mouse); }
-
     width: image.sourceSize.width + radioText.width + 10
     height: image.sourceSize.height
 
-    Image {
+    ThemeImage {
         id: image
 
         width: height
@@ -86,12 +82,23 @@ Item {
         smooth:  true
     }
 
-    MouseArea {
-        id: mouseArea
+    GestureArea {
+        id: gestureArea
         anchors.fill: parent
-        onClicked: {
-            if (!checked && group) { group.check(root); }
-        }
+        
+        Tap {
+	   onStarted: {	      
+	      icon.source = bgSourceDn
+	      container.pressed = true
+	   }
+	   onCanceled: {
+              icon.source = bgSourceUp
+              container.pressed = false
+	   }
+	   onFinished: {
+             if (!checked && group) { group.check(root); }
+	   }
+	}
     }
 
     Text {

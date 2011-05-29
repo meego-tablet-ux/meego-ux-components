@@ -39,6 +39,7 @@
  Otherwise the AppPages cannot link correctly.
 
  \section1  API Properties:
+
  \qmlproperty bool disableToolBarSearch
  \qmlcm bool, set to false it the toolbar search modus should be functionable
 
@@ -249,6 +250,9 @@
 */
 
 import Qt 4.7
+import MeeGo.Ux.Kernel 0.1
+import MeeGo.Ux.Components.Common 0.1
+import MeeGo.Ux.Components.Indicators 0.1
 import MeeGo.Components 0.1
 
 Item {

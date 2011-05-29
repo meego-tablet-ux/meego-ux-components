@@ -24,6 +24,9 @@
     \qmlproperty int value
     \qmlcm current value of the slider
 
+    \qmlproperty bool pressed
+    \qmlcm signals if the slider is pressed or tapped
+
     \qmlproperty real percentage
     \qmlcm used to calculate the width of the progress bar
     
@@ -40,16 +43,16 @@
     \qmlproperty alias markerSize
     \qmlcm sets the width and height of the position marker. Default value is the size of
            the image used for the marker.
-  
+
   \section2 Signals
     \qmlproperty [signal] sliderChanged
     \qmlcm is emitted when the value of the sliders changed
         \param int value
         \qmlpcm the new value \endparam
-      
+
   \section2 Functions
   \qmlnone
-      
+
   \section2 Example
   \qml
     Slider {
@@ -58,14 +61,15 @@
 	min: 0
 	max: 100
 	value: 50
-      
+
     }
   \endqml    
 
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Item {
     id: container
@@ -78,6 +82,8 @@ Item {
     property bool textOverlayVisible: true
     property bool textOverlayAlwaysVisible: false
     property alias markerSize: marker.width
+
+    property bool pressed: false
 
     signal sliderChanged(int sliderValue)
 
@@ -109,19 +115,21 @@ Item {
         centerItem.x = ((value - min) / (max - min)) * (fillArea.width - container.height / 4)
     }
 
-    BorderImage {
+    ThemeImage {
         id: fillArea
 
-        function setPosition(val) {
-            var clamped = val - container.height/2
-            if(clamped < 0) {
-                clamped = 0
+        function setPosition( delta ) {
+
+            var newCenterItem = centerItem.x + delta
+
+            if( newCenterItem < 0)
+                newCenterItem = 0
+
+            if(newCenterItem > fillArea.width - container.height / 4) {
+                newCenterItem = fillArea.width - container.height / 4
             }
-            if(clamped > fillArea.width - container.height / 4) {
-                clamped = fillArea.width - container.height / 4
-            }
-            centerItem.x = clamped
-            value = min + (clamped / (fillArea.width - container.height/4)) * (max - min)
+            centerItem.x = newCenterItem
+            value = min + (centerItem.x / (fillArea.width - container.height/4)) * (max - min)
             container.sliderChanged( value )
         }
 
@@ -134,7 +142,7 @@ Item {
         anchors.rightMargin: marker.width / 4
         anchors.verticalCenter: parent.verticalCenter
 
-        BorderImage {
+        ThemeImage {
             id: progressBar
 
             anchors.left: parent.left
@@ -156,7 +164,7 @@ Item {
         }
 
         //bar growing/shrinking with the marker to hightlight the range selected by the slider
-        BorderImage {
+        ThemeImage {
             id: sliderFill
 
             border.left: 6
@@ -184,6 +192,30 @@ Item {
             width: sourceSize.width
             height: width
             smooth: true
+
+            GestureArea {
+                id: gestureArea
+
+                anchors.fill: parent
+
+                Pan {
+                    onStarted: {
+                        container.pressed = true
+                    }
+                    onUpdated: {
+                        fillArea.setPosition( gesture.delta )
+                    }
+                    onFinished: {
+                        fillArea.setPosition(  gesture.delta )
+                        container.pressed = false
+                    }
+                    onCanceled: {
+                        fillArea.setPosition( gesture.delta )
+                        container.pressed = false
+                    }
+                }
+            }
+
         }
 
         //shows the selected value while the slider is dragged or clicked
@@ -221,26 +253,6 @@ Item {
         }
     }
 
-    MouseArea {
-        id: mouseAreaFTW
-
-        property int handleOffset: 0
-
-        anchors.fill: parent
-
-        onPressed: {
-            if(mouseX >= centerItem.x && mouseX <= (centerItem.x + container.height))
-            {
-                handleOffset = centerItem.x + container.height/2 - mouseX
-            }
-            fillArea.setPosition(mouseX + handleOffset)
-        }
-        onPositionChanged: {
-            fillArea.setPosition(mouseX + handleOffset)
-        }
-        onReleased: handleOffset = 0
-    }
-
     states: [
         State {
             name: "marker"
@@ -248,7 +260,7 @@ Item {
                 target: textoverlay
                 visible: true
             }
-            when: mouseAreaFTW.pressed
+            when: container.pressed
         }
     ]
 }

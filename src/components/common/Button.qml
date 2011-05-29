@@ -85,7 +85,8 @@
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Components.Common 0.1
+import MeeGo.Ux.Gestures 0.1
 
 Item {
     id: container
@@ -101,7 +102,7 @@ Item {
     property bool enabled: true
     property bool pressed: false
     property string textColor: theme.buttonFontColor
-    signal clicked( variant mouse )
+    signal clicked()
 
     property int maxWidth: 10000
     property int minWidth: 0
@@ -168,40 +169,59 @@ Item {
     }
 
     // mouse area of the button surface
-    MouseArea {
-        id: mouseArea
+    GestureArea {
+        id: gestureArea
 
         anchors.fill: parent
 
-        onClicked: {
-            if(container.enabled){
-                container.pressed = false
-                container.clicked(mouse)
-                if(active){
-                    icon.source = bgSourceActive
-                }
-                else{
-                    icon.source = bgSourceUp
-                }
-            }
-        }
-
-        onPressed: {
-            if(container.enabled){
-                icon.source = bgSourceDn
+        Tap {
+            when: container.enabled
+            onStarted: {
                 container.pressed = true
+                icon.source = bgSourceDn
             }
-        }
-
-        onReleased: {
-            if(container.enabled){
-                container.pressed = false
-                if(active){
+            onCanceled: {
+                if( container.active ){
                     icon.source = bgSourceActive
-                }
-                else{
+                } else{
                     icon.source = bgSourceUp
                 }
+                container.pressed = false
+            }
+            onFinished: {
+                container.clicked()
+                container.pressed = false
+                if( container.active ){
+                    icon.source = bgSourceActive
+                } else{
+                    icon.source = bgSourceUp
+                }
+            }
+        }
+        TapAndHold {
+            when: container.enabled
+            onStarted: {
+                container.pressed = true
+                icon.source = bgSourceDn
+            }
+            onCanceled: {
+                container.pressed = false
+                if( container.active ){
+                    icon.source = bgSourceActive
+                } else{
+                    icon.source = bgSourceUp
+                }
+            }
+            onFinished: {
+                container.clicked()
+
+                container.pressed = false
+                if( container.active ){
+                    icon.source = bgSourceActive
+                } else{
+                    icon.source = bgSourceUp
+                }
+
             }
         }
     }

@@ -64,8 +64,8 @@
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
-
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 Image {
     id: toggleButton
 
@@ -87,51 +87,6 @@ Image {
     height: sourceSize.height
 
     source: ( enabled ) ? "image://themedimage/widgets/common/lightswitch/lightswitch-background" : "image://themedimage/widgets/common/lightswitch/lightswitch-background-disabled"
-
-    MouseArea {
-        id: toggleElementArea
-
-        //used to allow only one toggle for each swipe
-        property bool active: true
-        property int tempx: 0
-        property int tempy: 0
-
-        z: 5
-        anchors.fill: parent
-
-        onClicked: {
-        }
-
-        onPressed: {
-            tempx = mouseX
-            tempy = mouseY
-        }
-
-        onReleased: {
-            if( active && Math.abs( tempx - mouseX ) < 10 && Math.abs( tempy - mouseY ) < 10 && toggleButton.enabled){
-                toggleButton.toggle()
-            }
-            active = true
-        }
-
-        onMousePositionChanged: {
-            if( pressed && active && toggleButton.enabled ) {
-                if( Math.abs( mouseY - tempy ) < Math.abs( mouseX - tempx ) ){
-                    if( toggleButton.on ) {
-                        if( tempx - mouseX > 20 ) {
-                            active = false
-                            toggleButton.toggle()
-                        }
-                    }else {
-                        if( mouseX - tempx > 20 ) {
-                            active = false
-                            toggleButton.toggle()
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     Item {
         id: itemOn
@@ -199,6 +154,39 @@ Image {
         height: parent.height
         fillMode: Image.PreserveAspectCrop
         smooth:  true
+
+        property bool gestureStarted: false
+
+        GestureArea {
+            id: toggleElementArea
+            anchors.fill: parent
+
+            Pan {
+              when: toggleButton.enabled
+              onStarted: {
+                  toggleElement.gestureStarted = true
+              }
+              onUpdated: {
+                 if( toggleElement.gestureStarted ) {
+                     if( toggleButton.on ) {
+                          if( gesture.offset.x < 30 ) {
+                              toggleButton.on = false
+                              toggleElement.gestureStarted = false
+                          }
+                      } else {
+                          if( gesture.offset.x > 30 ) {
+                              toggleButton.on = true
+                              toggleElement.gestureStarted = false
+                          }
+
+                      }
+                 }
+              }
+              onFinished: {
+                 toggleElement.gestureStarted = false
+              }
+            }
+        }
     }
 
     Theme { id: theme }

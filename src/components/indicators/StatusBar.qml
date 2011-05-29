@@ -1,5 +1,6 @@
 import Qt 4.7
 import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
 
 Item {
     id: container
@@ -9,6 +10,8 @@ Item {
     property bool active: true
     property alias backgroundOpacity: background.opacity
     property bool showClock: true
+
+    property bool triggered: false
 
     Item {
         id: privateData
@@ -188,24 +191,28 @@ Item {
         active: container.active
     }
 
-    MouseArea {
-        id: mouseArea
+    GestureArea {
+        id: gestureArea
         anchors.fill: parent
 
-        property int firstY: 0
-        property int firstX: 0
+        Pan {
+            onStarted: {
 
-        onPressed: {
-            firstY = mouseY;
-            firstX = mouseX;
-        }
-
-        onReleased: {
-            if( mouseArea.mouseY - mouseArea.firstY > 10)
-            {
-                mainWindow.triggerSystemUIMenu()
-                triggered = true
             }
+            onUpdated: {
+                if( gesture.offset.y  > 10 && !container.triggered ) {
+                    mainWindow.triggerSystemUIMenu();
+                    container.triggered = true;
+                }
+            }
+            onCanceled: {
+                container.triggered = false
+            }
+            onFinished: {
+                container.triggered = false
+            }
+
         }
     }
+
 }

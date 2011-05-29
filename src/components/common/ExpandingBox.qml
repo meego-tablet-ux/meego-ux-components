@@ -72,7 +72,8 @@
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Item {
     id: expandingBox
@@ -116,20 +117,15 @@ Item {
     Theme { id: theme }
 
     // the border image is the background graphic for the header and the content
-    BorderImage {
+    ThemeImage {
         id: pulldownImage
 
-        property int borderSize: 5
+        border.right: 75
 
         height: header.height
         width: parent.width
-        border.top: borderSize
-        border.bottom: borderSize
-        border.right: 0
-        border.left: 0
-        horizontalTileMode: BorderImage.Stretch
-        verticalTileMode: BorderImage.Stretch
-        source: "image://themedimage/images/pulldown_box"
+
+        source: "image://themedimage/widgets/common/combobox/combobox-background"
 
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a MouseArea to change the expanded state on click
@@ -160,7 +156,7 @@ Item {
                 anchors.verticalCenter: expandButton.verticalCenter
             }
 
-            Image {
+            ThemeImage {
                 id: expandButton
 
                 anchors.right: parent.right
@@ -169,9 +165,12 @@ Item {
                 source:expandingBox.expanded ? "image://themedimage/images/settings/pulldown_arrow_up" : "image://themedimage/images/settings/pulldown_arrow_dn"
             }
 
-            MouseArea {
+            GestureArea {
                 anchors.fill: parent
-                onClicked: expanded = !expanded;
+                
+                Tap{
+                    onFinished: { expanded = !expanded }
+		}
             }
         }
 
@@ -227,8 +226,6 @@ Item {
     ]
 
     property bool toast: true
-
-
 
     transitions: [
         Transition {

@@ -70,6 +70,7 @@
 */
 
 import Qt 4.7
+import MeeGo.Ux.Gestures 0.1
 
 Rectangle {
     id: outer
@@ -111,15 +112,17 @@ Rectangle {
             color: "#A0A0A0"
             verticalAlignment: "AlignVCenter"
 
-            MouseArea {
+            GestureArea {
                 id: delegateArea
 
                 height:  parent.height
                 width:  timeSpinner.width
                 anchors.centerIn: parent
 
-                onClicked:  {
-                    tsview.currentIndex = index
+                Tap {
+                    onStarted:  {
+                        tsview.currentIndex = index
+                    }
                 }
             }
 

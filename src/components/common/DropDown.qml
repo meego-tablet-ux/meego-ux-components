@@ -103,7 +103,8 @@
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Item {  
     id: dropDown
@@ -150,14 +151,11 @@ Item {
 
         height: header.height
         width: parent.width
-        border.top: borderSize
-        border.bottom: borderSize
-        border.right: 0
-        border.left: 0
+
         horizontalTileMode: BorderImage.Stretch
         verticalTileMode: BorderImage.Stretch
-        source: dropDown.opened ? "image://themedimage/images/pulldown_box" :
-                                  "image://themedimage/images/pulldown_box"
+        source: dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-background-active" :
+                                  "image://themedimage/widgets/common/combobox/combobox-background"
 
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a MouseArea to change the expanded state on click
@@ -190,29 +188,46 @@ Item {
                 text: replaceDropDownTitle ? model[selectedIndex] : title
             }
 
-            Image {
+            ThemeImage {
                 id: expandButton
 
                 anchors.right: parent.right
                 anchors.rightMargin: 6
                 anchors.verticalCenter: parent.verticalCenter
-                source:dropDown.opened ? "image://themedimage/images/settings/pulldown_arrow_up" :
-                                         "image://themedimage/images/settings/pulldown_arrow_dn"
+                source:dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-background" :
+                                         "image://themedimage/widgets/common/combobox/combobox-background-active"
             }
 
-            MouseArea {
+            GestureArea {
                 anchors.fill: parent
-                onClicked: {
-                    opened = !opened;
-                    if( opened ) {
-                        contextMenu.setPosition(
-                            mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-                            mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
-                        contextMenu.show()
-                    } else {
-                        contextMenu.hide()
-                    }
-                    expandingChanged( opened )
+                
+                Tap {
+		    onFinished: {
+                      opened = !opened;
+                        if( opened ) {
+                            contextMenu.setPosition(
+                                mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+                                mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+                            contextMenu.show()
+                        } else {
+                            contextMenu.hide()
+                        }
+		      expandingChanged( opened )
+		  }
+		}
+                Tap {
+                    onFinished: {
+                      opened = !opened;
+                        if( opened ) {
+                            contextMenu.setPosition(
+                                mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+                                mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+                            contextMenu.show()
+                        } else {
+                            contextMenu.hide()
+                        }
+                      expandingChanged( opened )
+                  }
                 }
             }
         }

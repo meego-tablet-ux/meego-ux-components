@@ -120,17 +120,11 @@ Item {
 
         function setPosition( delta ) {
 
-            var newCenterItem = centerItem.x + delta
-
-            if( newCenterItem < 0)
-                newCenterItem = 0
-
-            if(newCenterItem > fillArea.width - container.height / 4) {
-                newCenterItem = fillArea.width - container.height / 4
-            }
-            centerItem.x = newCenterItem
+            var maxX = fillArea.width - container.height / 4
+            centerItem.x = Math.min( maxX, Math.max( 0, (centerItem.x + delta) ) )
             value = min + (centerItem.x / (fillArea.width - container.height/4)) * (max - min)
             container.sliderChanged( value )
+
         }
 
         source: "image://themedimage/widgets/common/slider/slider-background"
@@ -203,14 +197,14 @@ Item {
                         container.pressed = true
                     }
                     onUpdated: {
-                        fillArea.setPosition( gesture.delta )
+                        fillArea.setPosition( gesture.delta.x )
                     }
                     onFinished: {
-                        fillArea.setPosition(  gesture.delta )
+                        fillArea.setPosition( gesture.delta.x )
                         container.pressed = false
                     }
                     onCanceled: {
-                        fillArea.setPosition( gesture.delta )
+                        fillArea.setPosition( gesture.delta.x )
                         container.pressed = false
                     }
                 }

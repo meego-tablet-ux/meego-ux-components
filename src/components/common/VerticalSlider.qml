@@ -182,14 +182,14 @@ Item {
                         container.pressed = true
                     }
                     onUpdated: {
-                        fillArea.setPosition( gesture.delta * -1 )
+                        fillArea.setPosition( gesture.delta.y * -1 )
                     }
                     onFinished: {
-                        fillArea.setPosition( gesture.delta * -1 )
+                        fillArea.setPosition( gesture.delta.y * -1 )
                         container.pressed = false
                     }
                     onCanceled: {
-                        fillArea.setPosition( gesture.delta * -1 )
+                        fillArea.setPosition( gesture.delta.y * -1 )
                         container.pressed = false
                     }
                 }

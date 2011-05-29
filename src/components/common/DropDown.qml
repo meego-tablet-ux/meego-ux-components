@@ -191,6 +191,8 @@ Item {
             ThemeImage {
                 id: expandButton
 
+                visible: false //FIXME when Design is uptodate
+                width: 30  //FIXME when Design is uptodate
                 anchors.right: parent.right
                 anchors.rightMargin: 6
                 anchors.verticalCenter: parent.verticalCenter

@@ -78,6 +78,18 @@
        \param QVariant defaultValue (optional)
        \qmlcm if not given, defaultValue defaults to QVariant().\endparam
 
+    \qmlfn restoreOnce
+    \qmlcm returns either value stored with the key or defaultValue.
+               Stored value is returned if and only if 1) restoring is
+               required, and 2) restoreOnce is called with the key for
+               the first time. This is a convenience function for
+               restoring values only at application
+               start up. Subsequent calls with the same key will
+               return the default value instead of the stored one.
+       \param QString key
+       \param QVariant defaultValue
+       \endparam
+
     \qmlfn sync
     \qmlcm confirms that saving values has been finished.
 
@@ -154,6 +166,8 @@ public:
     Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
     Q_INVOKABLE QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
     Q_INVOKABLE void sync();
+
+    Q_INVOKABLE QVariant restoreOnce(const QString &key, const QVariant &defaultValue);
 
     Q_INVOKABLE void setAlwaysValid(bool);
     Q_INVOKABLE bool alwaysValid();

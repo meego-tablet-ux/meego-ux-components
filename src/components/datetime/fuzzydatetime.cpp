@@ -62,13 +62,13 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
                     dtDate.toString("M"),
                     dtDate.toString("d"),
                     dtDate.toString("yy"));
-        } else if (dtDate.month() == nowMonth) {
+        } else if ( ( dtDate.month() == nowMonth ) && ( dtDate.year() == nowDate.year() ) ) {
             return tr("%1/%2/%3 - %4 weeks ago", "1 is month, 2 is day, 3 is year, 4 is number of weeks").arg(
                     dtDate.toString("M"),
                     dtDate.toString("d"),
                     dtDate.toString("yy"),
                     QString::number(int(dtDate.daysTo(nowDate)/7)));
-        } else if (dtDate.addMonths(1).month() == nowMonth) {
+        } else if ( dtDate.addMonths(1) >= nowDate ) {
             return tr("%1/%2/%3 - Last month", "1 is month, 2 is day, 3 is year").arg(
                     dtDate.toString("M"),
                     dtDate.toString("d"),
@@ -88,7 +88,7 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
                     dtDate.toString("d"),
                     dtDate.toString("yy"),
                     QString::number(nowMonth2-dtDate.month()));
-        } else if (dtDate.addMonths(23) >= nowDate) {
+        } else if (dtDate.addMonths(11 + nowDate.month()) >= nowDate) { //23
             return tr("%1/%2/%3 - Last year", "1 is month, 2 is day, 3 is year").arg(
                     dtDate.toString("M"),
                     dtDate.toString("d"),

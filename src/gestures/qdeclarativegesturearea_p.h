@@ -28,6 +28,7 @@ QT_MODULE(Declarative)
 
 class QDeclarativeBoundSignal;
 class QDeclarativeContext;
+class QGestureEvent;
 class QDeclarativeGestureAreaPrivate;
 class QDeclarativeGestureArea : public QDeclarativeItem
 {

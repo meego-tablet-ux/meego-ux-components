@@ -201,6 +201,8 @@ Item {
         PathView {
             id: view
 
+            //highlightMoveDuration: 150
+
             anchors.fill: spinnerRect
             model: popupListModel
 
@@ -240,5 +242,35 @@ Item {
             }
         }
     }//end spinnerRect
+
+    MouseArea {
+        id: flickableArea
+
+        property int firstY: 0
+
+        anchors.fill: parent
+
+        onPressed: {
+            firstY = mouseY;
+        }
+
+        //react on vertical mouse movement to flick the path view
+        onMousePositionChanged: {
+            if( flickableArea.pressed && outer.allowSignal ) {
+                if( mouseY - firstY > 15 ) {
+                    firstY = mouseY;
+                    view.decrementCurrentIndex();
+                }else if( mouseY - firstY < -15 ) {
+                    firstY = mouseY;
+                    view.incrementCurrentIndex();
+                }
+            }
+        }
+        onReleased:  {
+            if( outer.allowSignal ) {
+                outer.valueSelected( view.currentIndex, view.model.get( view.currentIndex ).tag )
+            }
+        }
+    }
 }//end Item
 

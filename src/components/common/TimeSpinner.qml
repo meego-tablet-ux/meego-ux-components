@@ -184,5 +184,30 @@ Rectangle {
             }
         }
     }
+
+    MouseArea {
+        id: flickableArea
+
+        property int firstY: 0
+
+        anchors.fill: parent
+
+        onPressed: {
+            firstY = mouseY;
+        }
+
+        //react on vertical mouse movement to flick the path view
+        onMousePositionChanged: {
+            if( flickableArea.pressed ) {
+                if( mouseY - firstY > 20 ) {
+                    firstY = mouseY;
+                    tsview.decrementCurrentIndex();
+                }else if( mouseY - firstY < -20 ) {
+                    firstY = mouseY;
+                    tsview.incrementCurrentIndex();
+                }
+            }
+        }
+    }
 }
 

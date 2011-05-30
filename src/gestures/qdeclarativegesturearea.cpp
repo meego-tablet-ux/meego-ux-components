@@ -18,6 +18,13 @@
 #include <QtGui/qevent.h>
 #include <QtGui/qgesture.h>
 
+#include <QTapGesture>
+#include <QTapAndHoldGesture>
+#include <QSwipeGesture>
+#include <QPanGesture>
+#include <QPinchGesture>
+
+
 #include "qdeclarativegesturehandler_p.h"
 #include "gestureareaplugin_p.h"
 
@@ -32,7 +39,10 @@ QT_BEGIN_NAMESPACE
 class QDeclarativeGestureAreaPrivate
 {
 public:
-    QDeclarativeGestureAreaPrivate(QDeclarativeGestureArea *q) : q_ptr(q), defaultHandler(0) { }
+    QDeclarativeGestureAreaPrivate(QDeclarativeGestureArea *q) : q_ptr(q), defaultHandler(0) {
+        absolute = false;
+        blockMouseEvents = true;
+    }
 
     QDeclarativeGestureArea *q_ptr;
 
@@ -92,6 +102,11 @@ public:
 
     void evaluate(QGestureEvent *event, QGesture *gesture, QObject *handler);
     bool gestureEvent(QGestureEvent *event);
+
+    QGesture* mapGesture( QGesture* gesture);
+
+    bool absolute;
+    bool blockMouseEvents;
 };
 
 /*!
@@ -166,6 +181,7 @@ QDeclarativeGestureArea::QDeclarativeGestureArea(QDeclarativeItem *parent) :
     d_ptr = new QDeclarativeGestureAreaPrivate(this);
     setAcceptedMouseButtons(Qt::LeftButton);
     setAcceptTouchEvents(true);
+
 }
 
 QDeclarativeGestureArea::~QDeclarativeGestureArea()
@@ -192,6 +208,11 @@ bool QDeclarativeGestureArea::sceneEvent(QEvent *event)
         return true;
     case QEvent::Gesture:
         return d->gestureEvent(static_cast<QGestureEvent *>(event));
+    case QEvent::MouseMove:
+        if( d->blockMouseEvents ) {
+            event->accept();
+            return true;
+        }
     default:
         break;
     }
@@ -200,7 +221,12 @@ bool QDeclarativeGestureArea::sceneEvent(QEvent *event)
 
 void QDeclarativeGestureAreaPrivate::evaluate(QGestureEvent *event, QGesture *gesture, QObject *handler)
 {
-    handler->setProperty("gesture", QVariant::fromValue<QObject *>(gesture));
+    QGesture* tempGesture = gesture;
+    if( !absolute ) {
+        tempGesture = mapGesture( gesture );
+    }
+
+    handler->setProperty("gesture", QVariant::fromValue<QObject *>(tempGesture));
     QDeclarativeScriptString when = handler->property("when").value<QDeclarativeScriptString>();
     if (!when.script().isEmpty()) {
         QDeclarativeExpression expr(when.context(), when.scopeObject(), when.script());
@@ -224,6 +250,58 @@ void QDeclarativeGestureAreaPrivate::evaluate(QGestureEvent *event, QGesture *ge
     }
     event->accept(gesture);
     handler->setProperty("gesture", QVariant());
+
+    if( !absolute ) {
+        delete tempGesture;
+    }
+
+}
+
+QGesture* QDeclarativeGestureAreaPrivate::mapGesture( QGesture* gesture)
+{
+    if( gesture ) {
+
+        if(dynamic_cast<QTapGesture*>( gesture ) ) {
+            QTapGesture* tapGesture = dynamic_cast<QTapGesture*>( gesture );
+            QTapGesture* tempGesture = new QTapGesture();
+            tempGesture->setPosition( q_ptr->mapFromScene( tapGesture->position() ) );
+            return (QGesture*)tempGesture;
+        } else if(dynamic_cast<QTapAndHoldGesture*>( gesture ) ) {
+            QTapAndHoldGesture* tapGesture = dynamic_cast<QTapAndHoldGesture*>( gesture );
+            QTapAndHoldGesture* tempGesture = new QTapAndHoldGesture();
+            tempGesture->setPosition( q_ptr->mapFromScene( tapGesture->position() ) );
+            return (QGesture*)tempGesture;
+        } else if(dynamic_cast<QPanGesture*>( gesture ) ) {
+            QPanGesture* panGesture = dynamic_cast<QPanGesture*>( gesture );
+            QPanGesture* tempGesture = new QPanGesture();
+            tempGesture->setLastOffset( panGesture->lastOffset() );  //FIXME orientation
+            tempGesture->setAcceleration( panGesture->acceleration() );
+            tempGesture->setOffset( panGesture->offset() );  //FIXME orientation
+            return (QGesture*)tempGesture;
+        } else if(dynamic_cast<QPinchGesture*>( gesture ) ) {
+            QPinchGesture* pinchGesture = dynamic_cast<QPinchGesture*>( gesture );
+            QPinchGesture* tempGesture = new QPinchGesture();
+
+            tempGesture->setCenterPoint( q_ptr->mapFromScene( pinchGesture->centerPoint() ) );
+            tempGesture->setChangeFlags( pinchGesture->changeFlags() );
+            tempGesture->setLastCenterPoint( pinchGesture->lastCenterPoint() );
+            tempGesture->setLastRotationAngle( pinchGesture->lastRotationAngle() );  //FIXME orientation
+            tempGesture->setLastScaleFactor( pinchGesture->lastScaleFactor() );
+            tempGesture->setStartCenterPoint( pinchGesture->lastCenterPoint() );
+            tempGesture->setTotalChangeFlags( pinchGesture->totalChangeFlags() );
+            tempGesture->setTotalRotationAngle( pinchGesture->totalRotationAngle() );  //FIXME orientation
+            tempGesture->setTotalScaleFactor( pinchGesture->totalScaleFactor() );
+            tempGesture->setRotationAngle( pinchGesture->rotationAngle() );   //FIXME orientation
+
+            return (QGesture*)tempGesture;
+        } else if(dynamic_cast<QSwipeGesture*>( gesture ) ) {
+            QSwipeGesture* tapGesture = dynamic_cast<QSwipeGesture*>( gesture );
+            QSwipeGesture* tempGesture = new QSwipeGesture();
+            tempGesture->setSwipeAngle( tapGesture->swipeAngle() ); //FIXME orientation
+            return (QGesture*)tempGesture;
+        }
+    }
+    return new QGesture();
 }
 
 bool QDeclarativeGestureAreaPrivate::gestureEvent(QGestureEvent *event)
@@ -260,6 +338,28 @@ bool QDeclarativeGestureAreaPrivate::gestureEvent(QGestureEvent *event)
         }
     }
     return false;
+}
+
+bool QDeclarativeGestureArea::absolute() const
+{
+    Q_D(const QDeclarativeGestureArea);
+    return d->absolute;
+}
+void QDeclarativeGestureArea::setAbsolute( bool absolute )
+{
+    Q_D(QDeclarativeGestureArea);
+    d->absolute = absolute;
+}
+
+bool QDeclarativeGestureArea::blockMouseEvents() const
+{
+    Q_D(const QDeclarativeGestureArea);
+    return d->blockMouseEvents;
+}
+void QDeclarativeGestureArea::setBlockMouseEvents( bool blockMouseEvents )
+{
+    Q_D(QDeclarativeGestureArea);
+    d->blockMouseEvents = blockMouseEvents;
 }
 
 QT_END_NAMESPACE

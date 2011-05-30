@@ -38,29 +38,42 @@ AppPage {
                 top: parent.top
                 bottom: parent.bottom
                 right: colcol.left
-                margins: 10
+                margins: 15
             }
+
 
             GestureArea {
                 id: gestureArea
 
                 anchors.fill: parent
 
+                absolute: false
+                blockMouseEvents: false
+
                 Tap {
                     onStarted: {
                         tabDot.centerX = gesture.position.x
                         tabDot.centerY = gesture.position.y
+                        tapSignal.text = "started"
+                        tapX.text = "X: " + gesture.position.x
+                        tapY.text = "Y: " + gesture.position.y
                         pageGesture.tapped = true
+
                     }
                     onUpdated: {
                         tabDot.centerX = gesture.position.x
                         tabDot.centerY = gesture.position.y
+                        tapSignal.text = "updated"
+                        tapX.text = "X: " + gesture.position.x
+                        tapY.text = "Y: " + gesture.position.y
                     }
                     onCanceled: {
                         pageGesture.tapped  = false
+                        tapSignal.text = "canceled"
                     }
-                    onFinished: {
+                    onFinished: {                        
                         pageGesture.tapped = false
+                        tapSignal.text = "finished"
                     }
                 }
 
@@ -68,81 +81,112 @@ AppPage {
                     onStarted: {
                         tabAndHoldDot.centerX = gesture.position.x
                         tabAndHoldDot.centerY = gesture.position.y
+                        holdX.text = "X: " + gesture.position.x;
+                        holdY.text = "Y: " + gesture.position.y
                         pageGesture.holded = true
+                        holdSignal.text = "s"
                     }
                     onUpdated: {
                         tabAndHoldDot.centerX = gesture.position.x
                         tabAndHoldDot.centerY = gesture.position.y
+                        holdX.text = "X: " + gesture.position.x;
+                        holdY.text = "Y: " + gesture.position.y
+                        holdSignal.text = "updated"
                     }
                     onCanceled: {
                         pageGesture.holded = false
+                        holdSignal.text = "canceled"
                     }
                     onFinished: {
                         pageGesture.holded = false
+                        tabAndHoldDot.centerX = gesture.position.x
+                        tabAndHoldDot.centerY = gesture.position.y
+                        holdX.text = "X: " + gesture.position.x;
+                        holdY.text = "Y: " + gesture.position.y
+                        holdSignal.text = "finished"
                     }
                 }
 
                 Pan {
                     onStarted: {
-                       pageGesture.panned = true
-                       panStartDot.centerX = tabDot.centerX
-                       panStartDot.centerY = tabDot.centerY
-                       panCurrentDot.centerX = tabDot.centerX
-                       panCurrentDot.centerY = tabDot.centerX
+                        pageGesture.panned = true
+                        panStartDot.centerX = tabDot.centerX
+                        panStartDot.centerY = tabDot.centerY
+                        panCurrentDot.centerX = tabDot.centerX
+                        panCurrentDot.centerY = tabDot.centerX
+                        panSignal.text = "started"
                     }
                     onUpdated: {
                         panCurrentDot.centerX = panStartDot.centerX + gesture.offset.x
                         panCurrentDot.centerY =  panStartDot.centerY + gesture.offset.y
+                        panX.text = "X: " + panCurrentDot.centerX
+                        panY.text = "Y: " + panCurrentDot.centerX
+                        panSignal.text = "updated"
                     }
                     onCanceled: {
                         pageGesture.panned = false
+                        panSignal.text = "canceled"
                     }
                     onFinished: {
                         pageGesture.panned = false
+                        panSignal.text = "finished"
                     }
                 }
 
                 Swipe {
                     onStarted: {
-                       pageGesture.swiped = true
-                       swipeDot.centerX = tabDot.centerX
-                       swipeDot.centerY = tabDot.centerX
-                       console.log( gesture.swipeAngle)
+                        pageGesture.swiped = true
+                        swipeDot.centerX = tabDot.centerX
+                        swipeDot.centerY = tabDot.centerX
+                        swipeSignal.text = "started"
                     }
                     onUpdated: {
-                       console.log( gesture.swipeAngle)
-                       swipeArrow.rotation = gesture.swipeAngle * -1
+                        swipeArrow.rotation = gesture.swipeAngle * -1
+                        swipeSignal.text = "updated"
                     }
                     onCanceled: {
                         pageGesture.swiped = false
+                        swipeSignal.text = "canceled"
                     }
                     onFinished: {
                         pageGesture.swiped = false
+                        swipeSignal.text = "started"
                     }
                 }
 
                 Pinch {
                     onStarted: {
-                       pageGesture.pinched = true
-                       pinchStartCenter.centerX = gesture.startCenterPoint.x
-                       pinchStartCenter.centerY = gesture.startCenterPoint.y
-                       pinchCenter.centerX = gesture.centerPoint.x
-                       pinchCenter.centerY = gesture.centerPoint.y
-
+                        pageGesture.pinched = true
+                        pinchStartCenter.centerX = gesture.startCenterPoint.x
+                        pinchStartCenter.centerY = gesture.startCenterPoint.y
+                        pinchCenter.centerX = gesture.centerPoint.x
+                        pinchCenter.centerY = gesture.centerPoint.y
+                        pinchSignal.text = "started"
                     }
                     onUpdated: {
                         pinchCenter.centerX = gesture.centerPoint.x
                         pinchCenter.centerY = gesture.centerPoint.y
+                        pinchSignal.text = "updated"
                     }
                     onCanceled: {
                         pageGesture.pinched = false
+                        pinchSignal.text = "canceled"
                     }
                     onFinished: {
                         pageGesture.pinched = false
+                        pinchSignal.text = "finished"
                     }
                 }
             }
 
+            MouseArea {
+
+                id: mouseArea
+                anchors.fill: parent
+
+
+
+            }
         }
 
         Column {
@@ -156,73 +200,120 @@ AppPage {
             spacing: 10
 
             Rectangle {
-                width: 250
+                width: 150
+                height: 75
+                color: "white"
+
+                border.color: "black"
+
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    spacing: 2
+                    Text { text: "Tap"; font.pixelSize: 12 }
+                    Text { id: tapSignal; text: ""; font.pixelSize: 12 }
+                    Text { id: tapX; text: ""; font.pixelSize: 12 }
+                    Text { id: tapY; text: ""; font.pixelSize: 12 }
+                }
+
+            }
+            Rectangle {
+                width: 150
+                height: 75
+                color: "white"
+                border.color: "black"
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    spacing: 2
+                    Text { text: "TapAndHold"; font.pixelSize: 12 }
+                    Text { id: holdSignal; text: ""; font.pixelSize: 12 }
+                    Text { id: holdX; text: ""; font.pixelSize: 12 }
+                    Text { id: holdY; text: ""; font.pixelSize: 12 }
+                }
+            }
+            Rectangle {
+
+                width: 150
+                height: 75
+                color: "white"
+                border.color: "black"
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    spacing: 2
+                    Text { text: "Swipe"; font.pixelSize: 12 }
+                    Text { id: swipeSignal; text: ""; font.pixelSize: 12 }
+                    Text { id: swipeAngle; text: ""; font.pixelSize: 12 }
+                }
+
+            }
+            Rectangle {
+                width: 150
                 height: 100
                 color: "white"
                 border.color: "black"
 
-                Label {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    id: tappedLabel
-                    text: qsTr("Tapped")
-                    visible: pageGesture.tapped
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    spacing: 2
+                    Text { text: "Pan"; font.pixelSize: 12 }
+                    Text { id: panSignal; text: ""; font.pixelSize: 12 }
+                    Text { id: panX; text: ""; font.pixelSize: 12 }
+                    Text { id: panY; text: ""; font.pixelSize: 12 }
+                    Text { id: panDelta; text: ""; font.pixelSize: 12 }
+                    Text { id: panOffset; text: ""; font.pixelSize: 12 }
                 }
-            }
-            Rectangle {
-                width: 250
-                height: 100
-                color: "white"
-                border.color: "black"
 
-                Label {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    id: holdLabel
-                    text: qsTr("Holded")
-                    visible: pageGesture.holded
-                }
             }
             Rectangle {
+                width: 150
+                height: 100
+                color: "white"
+                border.color: "black"
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    spacing: 2
+                    Text { text: "Pinch"; font.pixelSize: 12 }
+                    Text { id: pinchSignal; text: ""; font.pixelSize: 12 }
+                    Text { id: pinchDelta; text: ""; font.pixelSize: 12 }
+                    Text { id: pinchOffset; text: ""; font.pixelSize: 12 }
+                }
 
-                width: 250
-                height: 100
-                color: "white"
-                border.color: "black"
+            }
 
-                Label {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    id: swipeLabel
-                    text: qsTr("Swipped")
-                    visible: pageGesture.swiped
-                }
-            }
             Rectangle {
-                width: 250
-                height: 100
+                width: 150
+                height: 220
                 color: "white"
                 border.color: "black"
-                Label {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    id: panLabel
-                    text: qsTr("Panned")
-                    visible: pageGesture.panned
+                anchors.margins: 2
+
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    spacing: 2
+                    Text { text: "Mouse"; font.pixelSize: 12 }
+                    Text { id: tmouseX; text: "X: " + mouseArea.mouseX; font.pixelSize: 12 }
+                    Text { id: tmouseY; text: "Y: " + mouseArea.mouseY; font.pixelSize: 12 }
+                    Text { id: deltaTapX; text: "tap delta X: " + ( mouseArea.mouseX - tabDot.centerX ); font.pixelSize: 12 }
+                    Text { id: deltaTapY; text: "tap delta Y: " + ( mouseArea.mouseY - tabDot.centerY ); font.pixelSize: 12 }
+                    Text { id: deltaholdX; text: "hold delta X: " + ( mouseArea.mouseX - tabAndHoldDot.centerX ); font.pixelSize: 12 }
+                    Text { id: deltaholdY; text: "hold delta Y: " + ( mouseArea.mouseY - tabAndHoldDot.centerY ) ; font.pixelSize: 12 }
+                    Text { id: deltapinchX; text: "pinch delta X: " + ( mouseArea.mouseX - pinchStartCenter.centerX ) ; font.pixelSize: 12 }
+                    Text { id: deltapinchY; text: "pinch delta Y: " + ( mouseArea.mouseY - pinchStartCenter.centerY ) ; font.pixelSize: 12 }
+                    Text { id: deltaPanX; text: "pan delta X: "+ ( mouseArea.mouseX - panStartDot.centerX ) ;font.pixelSize: 12 }
+                    Text { id: deltaPanY; text: "pan delta Y: "+ ( mouseArea.mouseY - panStartDot.centerX ) ;font.pixelSize: 12 }
                 }
+
             }
-            Rectangle {
-                width: 250
-                height: 100
-                color: "white"
-                border.color: "black"
-                Label {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    id: pinchLabel
-                    text: qsTr("Pinched")
-                    visible: pageGesture.pinched
-                }
-            }
+
             Button {
                 id: back
-                width: 250
-                height: 80
+                width: 150
+                height: 75
                 text: qsTr("back")
                 onClicked: {
                     pageGesture.clicked();
@@ -233,7 +324,7 @@ AppPage {
         Dot {
             id: swipeDot
             color: "green"
-            radius: 15
+            radius: 25
             visible: swiped
         }
         Arrow {
@@ -247,45 +338,51 @@ AppPage {
         Dot {
             id: tabDot
             color: "white"
-            radius: 10
+            radius: 25
             visible: tapped
         }
 
         Dot {
             id: tabAndHoldDot
             color: "blue"
-            radius: 15
+            radius: 25
             visible: holded
         }
-
-
-
         Dot {
             id: panStartDot
             color: "yellow"
-            radius: 10
+            radius: 25
             visible: panned
         }
 
         Dot {
             id: panCurrentDot
             color: "yellow"
-            radius: 10
+            radius: 25
             visible: panned
         }
 
         Dot {
             id: pinchCenter
             color: "red"
-            radius: 10
+            radius: 25
             visible: pinched
         }
 
         Dot {
             id: pinchStartCenter
             color: "red"
+            radius: 25
+            opacity: 0.5
+            visible: pinched
+        }
+        Dot {
+            id: mouseDot
+            color: "black"
             radius: 10
             opacity: 0.5
+            centerX: mouseArea.mouseX
+            centerY: mouseArea.mouseY
             visible: pinched
         }
 

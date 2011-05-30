@@ -10,8 +10,8 @@ Item {
 
     property alias color: dot.color
 
-    x: centerX - radius
-    y: centerY - radius
+    x: centerX
+    y: centerY
 
     Rectangle {
         id: dot

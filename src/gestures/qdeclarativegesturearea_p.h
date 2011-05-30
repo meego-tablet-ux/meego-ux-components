@@ -35,6 +35,8 @@ class QDeclarativeGestureArea : public QDeclarativeItem
     Q_OBJECT
 
     Q_PROPERTY(QDeclarativeListProperty<QObject> handlers READ handlers)
+    Q_PROPERTY( bool blockMouseEvents READ blockMouseEvents WRITE setBlockMouseEvents NOTIFY blockMouseEventsChanged )
+    Q_PROPERTY( bool absolute READ absolute WRITE setAbsolute NOTIFY absoluteChanged )
     Q_CLASSINFO("DefaultProperty", "handlers")
 
 public:
@@ -46,8 +48,18 @@ public:
 protected:
     bool sceneEvent(QEvent *event);
 
+signals:
+    void blockMouseEventsChanged();
+    void absoluteChanged();
+
 private:
     QDeclarativeGestureAreaPrivate *d_ptr;
+
+    bool absolute() const;
+    void setAbsolute( bool absolute );
+
+    bool blockMouseEvents() const;
+    void setBlockMouseEvents( bool blockMouseEvent );
 
     Q_DISABLE_COPY(QDeclarativeGestureArea)
     Q_DECLARE_PRIVATE_D(QGraphicsItem::d_ptr.data(), QDeclarativeGestureArea)

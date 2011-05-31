@@ -100,6 +100,7 @@
 
 import Qt 4.7
 import MeeGo.Ux.Components.Common 0.1
+import MeeGo.Ux.Gestures 0.1
 
 ModalFog {
     id: container
@@ -150,6 +151,19 @@ ModalFog {
 
     modalSurface: Item {
         id: menuContainer
+
+        GestureArea {
+            id: blocker
+            blockMouseEvents: true
+            anchors.fill: parent
+            z: -1
+
+            Tap {}
+            TapAndHold {}
+            Pan {}
+            Pinch {}
+            Swipe {}
+        }
 
         /* Menu Container
          * This is the actual contextmenu.

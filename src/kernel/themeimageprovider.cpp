@@ -25,8 +25,10 @@ ImageProviderCache* ThemeImageProvider::m_cache = 0;
 
 ImageProviderCache* ThemeImageProvider::getCacheInstance()
 {
-    if( m_cache == 0 )
+    if( m_cache == 0 ) {
+        qDebug() << "create ImageProviderInstance";
         m_cache = new ImageProviderCache( QString("ImageProviderCache%1").arg(THEME_KEY), 512, 16 );
+    }
     return m_cache;
 }
 

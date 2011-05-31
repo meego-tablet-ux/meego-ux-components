@@ -349,12 +349,16 @@ Item {
         if( !pageStack.busy ){
             pageStack.clear();  //first remove all pages from the stack
             pageStack.push( pageComponent ) //then add the new page
+            bookMenu.selectedIndex = pageStack.depth
         }
     }
 
     //adds a new page of a "book"
     function addPage( pageComponent ) {
-        if( !pageStack.busy || fastPageSwitch ){ pageStack.push( pageComponent ) }//add the new page
+        if( !pageStack.busy || fastPageSwitch ){
+            pageStack.push( pageComponent )
+            bookMenu.selectedIndex = pageStack.depth
+        }//add the new page
     }
 
     // pop the current Page from the stack

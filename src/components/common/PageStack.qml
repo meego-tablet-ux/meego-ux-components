@@ -68,6 +68,8 @@ import "PageStack.js" as StackEngine
 Item {
     id: root
 
+    property string pageSwitchDirection: ""
+
     signal newPageTitle( string newPageTitle )
     signal newFastPageSwitch( bool newFastPageSwitch )
     signal newFullScreen( bool newFullScreen )
@@ -266,12 +268,12 @@ Item {
                 // Start state for pop entry, end state for push exit.
                 State {
                     name: "left"
-                    PropertyChanges { target: slot; x: -width }
+                    PropertyChanges { target: slot; x: ( pageSwitchDirection == "right-to-left" ) ? width : -width }
                 },
                 // Start state for push entry, end state for pop exit.
                 State {
                     name: "right"
-                    PropertyChanges { target: slot; x: width }
+                    PropertyChanges { target: slot; x: ( pageSwitchDirection == "right-to-left" ) ? -width : width }
                 },
                 // Start state for replace entry.
                 State {

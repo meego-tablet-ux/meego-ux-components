@@ -319,9 +319,12 @@ Item {
     // this shifts the content if a text input would be covered by the visual keyboard
     property real contentVerticalShift: 0
 
-    //private property
+    //private properties for virtual keyboard shifting
     property int currentVkbHeight: 0
     property int currentVkbWidth:  0
+
+    //: page switch direction. Don't translate to other languages, instead change the string to "right-to-left" for languages where right to left reading directions are desired
+    property string pageSwitchDirection: qsTr("left-to-right")
 
     signal searchExtended()
     signal searchRetracted()
@@ -685,6 +688,46 @@ Item {
 
                     } //end windowMenuButton
 
+                    states: [
+                        State {
+                            name: "rightToLeft"
+                            PropertyChanges {
+                                target: backButton
+                                rotation: 180
+                            }
+                            AnchorChanges {
+                                target: backButton
+                                anchors.left: undefined
+                                anchors.right: parent.right
+                            }
+                            AnchorChanges {
+                                target: spacer
+                                anchors.left: undefined
+                                anchors.right: backButton.left
+                            }
+                            AnchorChanges {
+                                target: menuSpacer
+                                anchors.right: undefined
+                                anchors.left: applicationMenuButton.right
+                            }
+                            AnchorChanges {
+                                target: applicationMenuButton
+                                anchors.right: undefined
+                                anchors.left: spacer2.right
+                            }
+                            AnchorChanges {
+                                target: spacer2
+                                anchors.right: undefined
+                                anchors.left: windowMenuButton.right
+                            }
+                            AnchorChanges {
+                                target: windowMenuButton
+                                anchors.right: undefined
+                                anchors.left: parent.left
+                            }
+                            when: window.pageSwitchDirection == "right-to-left"
+                        }
+                    ]
 
                 } //end titleBar
             } //end toolBar
@@ -693,6 +736,8 @@ Item {
         //add a page stack to manage pages
         PageStack {
             id: pageStack
+
+            pageSwitchDirection: window.pageSwitchDirection
             z: -2
             y: currentPage.pageUsingFullScreen ? window.contentVerticalShift : window.contentVerticalShift + topDecorationHeight - barsHeight
 

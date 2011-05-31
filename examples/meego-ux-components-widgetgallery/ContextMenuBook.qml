@@ -17,8 +17,6 @@ AppPage {
 
     pageTitle: qsTr("Context Menu Test")
 
-
-
     property variant model1: [  qsTr("Short list"),
         qsTr("Long list"),
         qsTr("Thin list"),
@@ -134,6 +132,18 @@ AppPage {
         }
     }
 
+    Button {
+        id: modalButton
+        text: qsTr( "show modal context menu" )
+        x: parent.width * 0.05
+        y: parent.height * 0.6
+
+        onClicked: {
+            contextMenu.setPosition( modalButton.x + modalButton.width, modalButton.y + modalButton.height )
+            contextMenu.show()
+        }
+    }
+
     TopItem{ id: topItem }
 
     ContextMenu {
@@ -159,7 +169,7 @@ AppPage {
         }
 
         content: ActionMenu {
-            id: bookMenu
+            id: modalBookMenu
 
             maxWidth: 200
             minWidth: 100
@@ -180,16 +190,6 @@ AppPage {
                 if( index == 3 ){
                     contextMenu.subMenuVisible = true
                 }
-
-                // This tests the resizing behaviour.
-                //                if( activeModel == 0 )
-                //                    bookMenu.model = model0
-                //                else if( activeModel == 1 )
-                //                    bookMenu.model = model1
-                //                else if( activeModel == 2 )
-                //                    bookMenu.model = model2
-                //                else
-                // end of test for the resizing behaviour.
 
                 if( index != 3 )
                     contextMenu.hide()
@@ -253,6 +253,68 @@ AppPage {
                 }
             }
         }
+    }
+
+    ModalContextMenu {
+        id: modalContextMenu
+
+        forceFingerMode: -1
+
+        //title: "Context"
+
+        subMenuModel: [ qsTr("Very long first entry"),
+            qsTr("Second entry"),
+            qsTr("Third entry"),
+            qsTr("Fourth entry"),
+            qsTr("Back") ]
+
+        onSubMenuTriggered: {
+            if( index == 4 ){
+                contextMenu.subMenuVisible = false
+            }
+            else{
+                contextMenu.hide()
+            }
+        }
+
+        content: ActionMenu {
+            id: bookMenu
+
+            maxWidth: 200
+            minWidth: 100
+            maxHeight: contextMenu.sizeHintMaxHeight
+
+            model: model2
+
+            onTriggered: {
+                if( index == 0 ){
+                    activeModel = 0
+                }
+                if( index == 1 ){
+                    activeModel = 1
+                }
+                if( index == 2 ){
+                    activeModel = 2
+                }
+                if( index == 3 ){
+                    contextMenu.subMenuVisible = true
+                }
+
+                // This tests the resizing behaviour.
+                //                if( activeModel == 0 )
+                //                    bookMenu.model = model0
+                //                else if( activeModel == 1 )
+                //                    bookMenu.model = model1
+                //                else if( activeModel == 2 )
+                //                    bookMenu.model = model2
+                //                else
+                // end of test for the resizing behaviour.
+
+                if( index != 3 )
+                    contextMenu.hide()
+            }
+        }
+
     }
 }
 

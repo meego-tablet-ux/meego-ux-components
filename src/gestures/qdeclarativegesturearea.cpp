@@ -436,13 +436,13 @@ QPointF QDeclarativeGestureAreaPrivate::correctPoint( const QPointF point, const
         correctionPoint.setY( tempPoint.y() );
         return correctionPoint;
 
-    } else if ( orientation == 4 ) {
+    } else if ( orientation == 4 || orientation == 0 ) {
 
         QPointF mapFromGlobalToScene = event->mapToGraphicsScene( point );
         QPointF tempPoint = q_ptr->mapFromScene( mapFromGlobalToScene );
         QPointF correctionPoint;
-        correctionPoint.setY( tempPoint.x() );
-        correctionPoint.setX( tempPoint.y() );
+        correctionPoint.setX( tempPoint.x() );
+        correctionPoint.setY( tempPoint.y() );
         return correctionPoint;
 
     }
@@ -467,7 +467,7 @@ qreal QDeclarativeGestureAreaPrivate::correctAngle( qreal angle )
     } else if( orientation == 3 ) {
         qreal realAngle = ( angle - 180.0 );
         return realAngle;
-    } else if( orientation == 4 ) {
+    } else if( orientation == 4 || orientation == 0 ) {
         qreal realAngle = ( angle + 90.0 );
         return realAngle;
     }
@@ -501,10 +501,10 @@ QPointF QDeclarativeGestureAreaPrivate::correctOffset( QPointF offset )
         tempPoint.setY( 0 - offset.y() );
         return tempPoint;
 
-    } else if( orientation == 4 ) {
+    } else if( orientation == 4 || orientation == 0) {
 
         QPointF tempPoint;
-        tempPoint.setX( 0 - offset.y() );
+        tempPoint.setX( offset.y() );
         tempPoint.setY( 0 - offset.x() );
         return tempPoint;
 

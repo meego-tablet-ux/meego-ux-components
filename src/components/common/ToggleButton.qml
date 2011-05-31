@@ -159,8 +159,11 @@ Image {
 
         GestureArea {
             id: toggleElementArea
+            blockMouseEvents: true
             anchors.fill: parent
 
+            Tap {}
+            TapAndHold{}
             Pan {
               when: toggleButton.enabled
               onStarted: {

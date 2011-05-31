@@ -171,7 +171,7 @@ Item {
     // mouse area of the button surface
     GestureArea {
         id: gestureArea
-
+        blockMouseEvents: true
         anchors.fill: parent
 
         Tap {

@@ -352,7 +352,7 @@ Item {
         if( !pageStack.busy ){
             pageStack.clear();  //first remove all pages from the stack
             pageStack.push( pageComponent ) //then add the new page
-            bookMenu.selectedIndex = pageStack.depth
+            bookMenu.selectedIndex = (pageStack.depth - 1)
         }
     }
 
@@ -360,7 +360,7 @@ Item {
     function addPage( pageComponent ) {
         if( !pageStack.busy || fastPageSwitch ){
             pageStack.push( pageComponent )
-            bookMenu.selectedIndex = pageStack.depth
+            bookMenu.selectedIndex = (pageStack.depth - 1)
         }//add the new page
     }
 

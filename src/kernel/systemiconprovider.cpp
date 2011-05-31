@@ -24,8 +24,7 @@
 #define THEME_KEY "/meego/ux/theme"
 
 SystemIconProvider::SystemIconProvider() :
-        QDeclarativeImageProvider(QDeclarativeImageProvider::Pixmap),
-        m_cache( new ImageProviderCache( QString("SystemIconProviderCache%1").arg(THEME_KEY), 256, 8 ) )
+        QDeclarativeImageProvider(QDeclarativeImageProvider::Pixmap)
 {
     MGConfItem* themeItem = new MGConfItem(THEME_KEY);
 
@@ -61,13 +60,11 @@ SystemIconProvider::SystemIconProvider() :
         delete themeItem;
         themeItem = 0;
     }
-    m_cache->setPath( m_themePath );
 }
 
 SystemIconProvider::~SystemIconProvider()
 {
-    delete m_cache;
-    m_cache = 0;
+
 }
 
 QImage SystemIconProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
@@ -111,8 +108,7 @@ QImage SystemIconProvider::requestImage(const QString &id, QSize *size, const QS
         }
     }
 
-    QImage image = m_cache->requestImage( m_themePath + id, size, requestedSize );
-    return image;
+    return QImage();
 
 }
 
@@ -157,10 +153,8 @@ QPixmap SystemIconProvider::requestPixmap(const QString &id, QSize *size, const 
         }
     }
 
-    QPixmap pixmap = m_cache->requestPixmap( m_themePath + id, size, requestedSize );
-    if (size)
-        *size = pixmap.size();
-    return pixmap;
+    return QPixmap();
+
 }
 
 QImage SystemIconProvider::readImageFromFile(const QString &file, const QSize &requestedSize)
@@ -181,5 +175,6 @@ QPixmap SystemIconProvider::readPixmapFromFile(const QString &file, const QSize 
     {
         imageReader.setScaledSize( requestedSize );
     }
-    return QPixmap::fromImageReader( &imageReader );
+    QPixmap pixmap = QPixmap::fromImageReader( &imageReader );
+    return pixmap;
 }

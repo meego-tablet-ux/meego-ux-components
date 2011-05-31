@@ -10,7 +10,8 @@
    the icons open further pages with detailed information. */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Item {
     id: pickerContent
@@ -112,11 +113,14 @@ Item {
                             color: flickContainer.backColor
                             clip:  true
 
-                            MouseArea {
+                            GestureArea {
                                 anchors.fill: buttonItem
+                                blockMouseEvents: true
                                 z: 1
 
-                                onClicked: outerRect.showPage( pickerType )
+                                Tap {
+                                    onStarted: outerRect.showPage( pickerType )
+                                }
                             }
 
                             Item {

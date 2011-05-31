@@ -10,8 +10,8 @@
    contains the book menu and controls the book/page switch. */
 
 import Qt 4.7
-import MeeGo.Components 0.1
 import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Window {
     id: window
@@ -39,18 +39,6 @@ Window {
         switchBook( gallery )
         bookMenuSelectedIndex = 0
     }
-
-//    overlayItem: Rectangle {  // this is a very simple example for overlayItem use.
-//        color: "green"
-//        anchors.fill: parent
-//        opacity: 0.5
-//        Rectangle {  // this is a very simple example for overlayItem use.
-//                color: "red"
-//                anchors.fill: parent
-//                opacity: 0.5
-//                anchors.margins: 10
-//            }
-//    }
 
     Component { id: gallery; MainPage { name: qsTr("Gallery") } }
     Component { id: contextMenuBook; ContextMenuBook { name: qsTr("Context menu test") } }

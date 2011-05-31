@@ -10,6 +10,7 @@
    On clicked most buttons open another page where a detailed view is given. */
 
 import Qt 4.7
+import MeeGo.Ux.Gestures 0.1
 import MeeGo.Components 0.1
 
 Item {
@@ -69,11 +70,14 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: buttonItem
                         z: 1
+                        blockMouseEvents: true
 
-                        onClicked: addPage( buttonComponent )
+                        Tap {
+                            onFinished: addPage( buttonComponent )
+                        }
                     }
 
                     Item {
@@ -102,6 +106,7 @@ Item {
                     }
 
                     Component { id: buttonComponent; WidgetPageButton{} }
+
                 }
 
                 Rectangle {
@@ -119,13 +124,15 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: iconButtonItem
+                        blockMouseEvents: true
                         z: 1
 
-                        onClicked: addPage( iconButtonComponent )
+                        Tap {
+                            onFinished: addPage( iconButtonComponent )
+                        }
                     }
-
                     Item {
                         id: iconButton
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
@@ -169,11 +176,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: radioItem
+                        blockMouseEvents: true
                         z: 1
-
-                        onClicked: addPage( radioComponent )
+                        Tap {
+                            onFinished: addPage( radioComponent )
+                        }
                     }
 
                     Item {
@@ -220,11 +229,14 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: toggleButtonItem
+                        blockMouseEvents: true
                         z: 1
 
-                        onClicked: addPage( toggleButtonComponent )
+                        Tap {
+                            onFinished: addPage( toggleButtonComponent )
+                        }
                     }
 
                     Item{
@@ -296,3 +308,4 @@ Item {
         }
     } //end outerRect
 }
+

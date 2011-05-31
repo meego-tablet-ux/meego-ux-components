@@ -10,6 +10,7 @@
    On clicked most widgets open another page where a detailed view is given. */
 
 import Qt 4.7
+import MeeGo.Ux.Gestures 0.1
 import MeeGo.Components 0.1
 
 Item {
@@ -70,11 +71,14 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: sliderItem
+                        blockMouseEvents: true
                         z: 1
 
-                        onClicked: addPage( sliderComponent )
+                        Tap {
+                            onFinished: { addPage( sliderComponent ) }
+                        }
                     }
 
                     Item{
@@ -116,11 +120,14 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: vsliderItem
+                        blockMouseEvents: true
                         z: 1
 
-                        onClicked: addPage( vsliderComponent )
+                        Tap {
+                            onFinished: { addPage( vsliderComponent ) }
+                        }
                     }
 
                     Item{
@@ -161,11 +168,14 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: textEntryItem
+                        blockMouseEvents: true
                         z: 1
 
-                        onClicked: addPage( textEntryComponent )
+                        Tap {
+                            onFinished: addPage( textEntryComponent )
+                        }
                     }
 
                     Item{
@@ -210,13 +220,15 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: textFieldItem
+                        blockMouseEvents: true
                         z: 1
 
-                        onClicked: addPage( textFieldComponent )
+                        Tap {
+                            onFinished: addPage( textFieldComponent )
+                        }
                     }
-
                     Item{
                         id: textField
 
@@ -258,11 +270,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: progressBarItem
+                        blockMouseEvents: true
                         z: 1
-
-                        onClicked: addPage( progressBarComponent )
+                        Tap {
+                            onFinished: addPage( progressBarComponent )
+                        }
                     }
 
                     Item{
@@ -304,11 +318,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: expandingBoxItem
+                        blockMouseEvents: true
                         z: 1
-
-                        onClicked: addPage( expandingComponent )
+                        Tap {
+                            onFinished: addPage( expandingComponent )
+                        }
                     }
 
                     Item{
@@ -370,11 +386,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: dropDownBoxItem
                         z: 1
-
-                        onClicked: addPage( dropDownComponent )
+                        blockMouseEvents: true
+                        Tap {
+                            onFinished: {  addPage( dropDownComponent ) }
+                        }
                     }
 
                     Item{
@@ -423,11 +441,11 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: labelItem
+                        blockMouseEvents: true
                         z: 1
-
-                        onClicked: addPage( labelComponent )
+                        Tap { onFinished: addPage( labelComponent ) }
                     }
 
                     Item{
@@ -471,11 +489,11 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: popupListItem
+                        blockMouseEvents: true
                         z: 1
-
-                        onClicked: addPage( popupComponent )
+                        Tap { onFinished: addPage( popupComponent ) }
                     }
 
                     Item{
@@ -520,11 +538,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: modalSpinnerItem
+                        blockMouseEvents: true
                         z: 1
-
-                        onClicked: addPage( modalSpinnerComponent )
+                        Tap {
+                            onFinished: addPage( modalSpinnerComponent )
+                        }
                     }
 
                     Item{
@@ -583,11 +603,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: spinnerItem
                         z: 1
 
-                        onClicked: addPage( spinnerComponent )
+                        Tap {
+                            onFinished: addPage( spinnerComponent )
+                        }
                     }
 
                     Item{
@@ -646,12 +668,16 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: infoItem
+                        blockMouseEvents: true
                         z: 1
 
-                        onClicked: addPage( infoComponent )
+                        Tap {
+                            onFinished: addPage( infoComponent )
+                        }
                     }
+
 
                     Item{
                         id: infoButton
@@ -698,11 +724,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
+                    GestureArea {
                         anchors.fill: layoutTextItem
+                        blockMouseEvents: true
                         z: 1
-
-                        onClicked: addPage( layoutTextItemComponent )
+                        Tap {
+                            onFinished: { addPage( layoutTextItemComponent ) }
+                        }
                     }
 
                     Item{

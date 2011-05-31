@@ -160,7 +160,6 @@ Image {
         GestureArea {
             id: toggleElementArea
             blockMouseEvents: true
-            blockGestureEvents: true
 
             anchors.fill: parent
 

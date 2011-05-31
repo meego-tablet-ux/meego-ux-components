@@ -68,7 +68,7 @@ import "PageStack.js" as StackEngine
 Item {
     id: root
 
-    property string pageSwitchDirection
+    property string pageSwitchDirection: ""
 
     signal newPageTitle( string newPageTitle )
     signal newFastPageSwitch( bool newFastPageSwitch )

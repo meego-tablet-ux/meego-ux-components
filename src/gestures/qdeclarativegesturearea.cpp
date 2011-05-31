@@ -269,6 +269,7 @@ void QDeclarativeGestureAreaPrivate::evaluate(QGestureEvent *event, QGesture *ge
 
 QGesture* QDeclarativeGestureAreaPrivate::mapGesture( QGesture* gesture, const QGestureEvent *event)
 {
+    //FIXME: orientation must be passed in a more generic way
     if( gesture ) {
 
         if(dynamic_cast<QTapGesture*>( gesture ) ) {
@@ -404,6 +405,8 @@ void QDeclarativeGestureArea::setBlockMouseEvents( bool blockMouseEvents )
 
 QPointF QDeclarativeGestureAreaPrivate::correctPoint( const QPointF point, const QGestureEvent *event )
 {
+    //FIXME: orientation must be passed in a more generic way
+
     /*
     1 = landscape
     2 = portrait
@@ -420,8 +423,8 @@ QPointF QDeclarativeGestureAreaPrivate::correctPoint( const QPointF point, const
         QPointF mapFromGlobalToScene = event->mapToGraphicsScene( point );
         QPointF tempPoint = q_ptr->mapFromScene( mapFromGlobalToScene );
         QPointF correctionPoint;
-        correctionPoint.setY( q_ptr->width() - tempPoint.x() );
-        correctionPoint.setX( q_ptr->height() - tempPoint.y() );
+        correctionPoint.setX( tempPoint.x() );
+        correctionPoint.setY( tempPoint.y() );
         return correctionPoint;
 
     } else if ( orientation == 3 ) {
@@ -429,8 +432,8 @@ QPointF QDeclarativeGestureAreaPrivate::correctPoint( const QPointF point, const
         QPointF mapFromGlobalToScene = event->mapToGraphicsScene( point );
         QPointF tempPoint = q_ptr->mapFromScene( mapFromGlobalToScene );
         QPointF correctionPoint;
-        correctionPoint.setX( q_ptr->width() - tempPoint.x() );
-        correctionPoint.setY( q_ptr->height() - tempPoint.y() );
+        correctionPoint.setX( tempPoint.x() );
+        correctionPoint.setY( tempPoint.y() );
         return correctionPoint;
 
     } else if ( orientation == 4 ) {
@@ -438,8 +441,8 @@ QPointF QDeclarativeGestureAreaPrivate::correctPoint( const QPointF point, const
         QPointF mapFromGlobalToScene = event->mapToGraphicsScene( point );
         QPointF tempPoint = q_ptr->mapFromScene( mapFromGlobalToScene );
         QPointF correctionPoint;
-        correctionPoint.setY( q_ptr->width()  - tempPoint.x() );
-        correctionPoint.setX( q_ptr->height() - tempPoint.y() );
+        correctionPoint.setY( tempPoint.x() );
+        correctionPoint.setX( tempPoint.y() );
         return correctionPoint;
 
     }
@@ -448,6 +451,8 @@ QPointF QDeclarativeGestureAreaPrivate::correctPoint( const QPointF point, const
 
 qreal QDeclarativeGestureAreaPrivate::correctAngle( qreal angle )
 {
+    //FIXME: orientation must be passed in a more generic way
+
     /*
     1 = landscape
     2 = portrait
@@ -471,6 +476,7 @@ qreal QDeclarativeGestureAreaPrivate::correctAngle( qreal angle )
 
 QPointF QDeclarativeGestureAreaPrivate::correctOffset( QPointF offset )
 {
+    //FIXME: orientation must be passed in a more generic way
     /*
     1 = landscape
     2 = portrait
@@ -484,7 +490,7 @@ QPointF QDeclarativeGestureAreaPrivate::correctOffset( QPointF offset )
     } else if( orientation == 2 ) {
 
         QPointF tempPoint;
-        tempPoint.setX( offset.y() );
+        tempPoint.setX( 0 - offset.y() );
         tempPoint.setY( offset.x() );
         return tempPoint;
 
@@ -507,7 +513,9 @@ QPointF QDeclarativeGestureAreaPrivate::correctOffset( QPointF offset )
 
 }
 
-void QDeclarativeGestureAreaPrivate::getOrientation() {
+void QDeclarativeGestureAreaPrivate::getOrientation()
+{
+    //FIXME: orientation must be passed in a more generic way
 
     QDeclarativeItem *item = q_ptr->parentItem();
     while( 0 != item )

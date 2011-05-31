@@ -320,7 +320,15 @@ AppPage {
                 }
             }
         }
-
+        Dot {
+            id: mouseDot
+            color: "black"
+            radius: 10
+            opacity: 0.5
+            centerX: mouseArea.mouseX
+            centerY: mouseArea.mouseY
+            visible: true
+        }
         Dot {
             id: swipeDot
             color: "green"
@@ -376,17 +384,7 @@ AppPage {
             opacity: 0.5
             visible: pinched
         }
-        Dot {
-            id: mouseDot
-            color: "black"
-            radius: 10
-            opacity: 0.5
-            centerX: mouseArea.mouseX
-            centerY: mouseArea.mouseY
-        }
-
     }
-
 }
 
 

@@ -191,6 +191,73 @@ AppPage {
 
 
             }
+
+            Dot {
+                id: swipeDot
+                color: "green"
+                radius: 25
+                visible: swiped
+            }
+            Arrow {
+                id: swipeArrow
+                color: "green"
+                rotation: 0
+                visible: swiped
+                x: swipeDot.centerX
+                y: swipeDot.centerY
+            }
+            Dot {
+                id: tabDot
+                color: "white"
+                radius: 25
+                visible: tapped
+            }
+
+            Dot {
+                id: tabAndHoldDot
+                color: "blue"
+                radius: 25
+                visible: holded
+            }
+            Dot {
+                id: panStartDot
+                color: "yellow"
+                radius: 25
+                visible: panned
+            }
+
+            Dot {
+                id: panCurrentDot
+                color: "yellow"
+                radius: 25
+                visible: panned
+            }
+
+            Dot {
+                id: pinchStartCenter
+                color: "red"
+                radius: 40
+                opacity: 0.2
+                visible: pinched
+            }
+
+            Dot {
+                id: pinchCenter
+                color: "red"
+                radius: 25
+                visible: pinched
+            }
+
+            Dot {
+                id: mouseDot
+                color: "black"
+                radius: 5
+                opacity: 0.5
+                centerX: mouseArea.mouseX
+                centerY: mouseArea.mouseY
+                visible: true
+            }
+
         }
 
         Column {
@@ -325,72 +392,7 @@ AppPage {
             }
         }
 
-        Dot {
-            id: swipeDot
-            color: "green"
-            radius: 25
-            visible: swiped
-        }
-        Arrow {
-            id: swipeArrow
-            color: "green"
-            rotation: 0
-            visible: swiped
-            x: swipeDot.centerX
-            y: swipeDot.centerY
-        }
-        Dot {
-            id: tabDot
-            color: "white"
-            radius: 25
-            visible: tapped
-        }
 
-        Dot {
-            id: tabAndHoldDot
-            color: "blue"
-            radius: 25
-            visible: holded
-        }
-        Dot {
-            id: panStartDot
-            color: "yellow"
-            radius: 25
-            visible: panned
-        }
-
-        Dot {
-            id: panCurrentDot
-            color: "yellow"
-            radius: 25
-            visible: panned
-        }
-
-        Dot {
-            id: pinchStartCenter
-            color: "red"
-            radius: 40
-            opacity: 0.2
-            visible: pinched
-        }
-
-        Dot {
-            id: pinchCenter
-            color: "red"
-            radius: 25
-            visible: pinched
-        }
-
-
-        Dot {
-            id: mouseDot
-            color: "black"
-            radius: 5
-            opacity: 0.5
-            centerX: mouseArea.mouseX
-            centerY: mouseArea.mouseY
-            visible: true
-        }
     }
 }
 

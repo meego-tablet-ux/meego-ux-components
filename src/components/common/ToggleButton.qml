@@ -92,7 +92,7 @@ Image {
         id: itemOn
 
         property bool showIcons: ( elementLabelOn.paintedWidth > width * 0.8 || elementLabelOn.paintedWidth < 1
-                                || elementLabelOff.paintedWidth > width * 0.8 || elementLabelOff.paintedWidth < 1 ) ? true : false
+                                  || elementLabelOff.paintedWidth > width * 0.8 || elementLabelOff.paintedWidth < 1 ) ? true : false
 
         anchors.left: parent.left
         anchors.right: parent.horizontalCenter
@@ -160,34 +160,40 @@ Image {
         GestureArea {
             id: toggleElementArea
             blockMouseEvents: true
+            blockGestureEvents: true
+
             anchors.fill: parent
 
-            Tap {}
-            TapAndHold{}
+            Tap {
+                onFinished: {
+                    toggleButton.on = !toggleButton.on
+                    toggleButton.toggled( toggleButton.on )
+                }
+            }
             Pan {
-              when: toggleButton.enabled
-              onStarted: {
-                  toggleElement.gestureStarted = true
-              }
-              onUpdated: {
-                 if( toggleElement.gestureStarted ) {
-                     if( toggleButton.on ) {
-                          if( gesture.offset.x < 30 ) {
-                              toggleButton.on = false
-                              toggleElement.gestureStarted = false
-                          }
-                      } else {
-                          if( gesture.offset.x > 30 ) {
-                              toggleButton.on = true
-                              toggleElement.gestureStarted = false
-                          }
-
-                      }
-                 }
-              }
-              onFinished: {
-                 toggleElement.gestureStarted = false
-              }
+                when: toggleButton.enabled
+                onStarted: {
+                    toggleElement.gestureStarted = true
+                }
+                onUpdated: {
+                    if( toggleElement.gestureStarted ) {
+                        if( toggleButton.on ) {
+                            if( gesture.offset.x < -25 ) {
+                                toggleButton.on = false
+                                toggleElement.gestureStarted = false
+                            }
+                        } else {
+                            if( gesture.offset.x > 25 ) {
+                                toggleButton.on = true
+                                toggleElement.gestureStarted = false
+                            }
+                        }
+                    }
+                }
+                onFinished: {
+                    toggleElement.gestureStarted = false
+                    toggleButton.toggled( toggleButton.on )
+                }
             }
         }
     }

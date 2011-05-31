@@ -90,6 +90,7 @@
 
 import Qt 4.7
 import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
 
 ModalFog {
     id: container
@@ -299,6 +300,8 @@ ModalFog {
             GestureArea {
                 anchors.fill: realMenu
                 blockMouseEvents: true
+                Tap{}
+                TapAndHold{}
                 z:-1
             }
 

@@ -257,6 +257,7 @@ import MeeGo.Components 0.1
 
 Item {
     id: window
+    objectName: "window"
 
     property alias toolBarTitle: toolBar.title
     property alias showToolBarSearch: toolBar.showSearch

@@ -24,6 +24,7 @@
 #include <QPanGesture>
 #include <QPinchGesture>
 
+#include <QDebug>
 
 #include "qdeclarativegesturehandler_p.h"
 #include "gestureareaplugin_p.h"
@@ -42,6 +43,7 @@ public:
     QDeclarativeGestureAreaPrivate(QDeclarativeGestureArea *q) : q_ptr(q), defaultHandler(0) {
         absolute = false;
         blockMouseEvents = true;
+        orientation = 3;
     }
 
     QDeclarativeGestureArea *q_ptr;
@@ -103,10 +105,15 @@ public:
     void evaluate(QGestureEvent *event, QGesture *gesture, QObject *handler);
     bool gestureEvent(QGestureEvent *event);
 
-    QGesture* mapGesture( QGesture* gesture);
-
+    QGesture* mapGesture( QGesture* gesture, const QGestureEvent *event);
+    QPointF correctPoint( QPointF point, const QGestureEvent *event );
+    qreal correctAngle( qreal angle );
+    QPointF correctOffset( QPointF offset );
+    void getOrientation();
     bool absolute;
     bool blockMouseEvents;
+    int orientation;
+
 };
 
 /*!
@@ -199,6 +206,7 @@ QDeclarativeListProperty<QObject> QDeclarativeGestureArea::handlers()
 
 bool QDeclarativeGestureArea::sceneEvent(QEvent *event)
 {
+    bool rv = QDeclarativeItem::sceneEvent(event);
     GESTUREHANDLER_D(QDeclarativeGestureArea);
     switch (event->type()) {
     case QEvent::GraphicsSceneMousePress:
@@ -209,6 +217,7 @@ bool QDeclarativeGestureArea::sceneEvent(QEvent *event)
     case QEvent::Gesture:
         return d->gestureEvent(static_cast<QGestureEvent *>(event));
     case QEvent::MouseMove:
+    case QEvent::MouseTrackingChange:
         if( d->blockMouseEvents ) {
             event->accept();
             return true;
@@ -216,14 +225,15 @@ bool QDeclarativeGestureArea::sceneEvent(QEvent *event)
     default:
         break;
     }
-    return QDeclarativeItem::sceneEvent(event);
+    return rv;
 }
 
 void QDeclarativeGestureAreaPrivate::evaluate(QGestureEvent *event, QGesture *gesture, QObject *handler)
 {
     QGesture* tempGesture = gesture;
     if( !absolute ) {
-        tempGesture = mapGesture( gesture );
+        getOrientation();
+        tempGesture = mapGesture( gesture, event );
     }
 
     handler->setProperty("gesture", QVariant::fromValue<QObject *>(tempGesture));
@@ -257,47 +267,69 @@ void QDeclarativeGestureAreaPrivate::evaluate(QGestureEvent *event, QGesture *ge
 
 }
 
-QGesture* QDeclarativeGestureAreaPrivate::mapGesture( QGesture* gesture)
+QGesture* QDeclarativeGestureAreaPrivate::mapGesture( QGesture* gesture, const QGestureEvent *event)
 {
     if( gesture ) {
 
         if(dynamic_cast<QTapGesture*>( gesture ) ) {
+
             QTapGesture* tapGesture = dynamic_cast<QTapGesture*>( gesture );
             QTapGesture* tempGesture = new QTapGesture();
-            tempGesture->setPosition( q_ptr->mapFromScene( tapGesture->position() ) );
+
+            QPointF point = correctPoint( tapGesture->position(), event );
+            tempGesture->setPosition( point );
+
             return (QGesture*)tempGesture;
+
         } else if(dynamic_cast<QTapAndHoldGesture*>( gesture ) ) {
+
             QTapAndHoldGesture* tapGesture = dynamic_cast<QTapAndHoldGesture*>( gesture );
             QTapAndHoldGesture* tempGesture = new QTapAndHoldGesture();
-            tempGesture->setPosition( q_ptr->mapFromScene( tapGesture->position() ) );
+
+            QPointF point = correctPoint( tapGesture->position(), event );
+            tempGesture->setPosition( point );
+
             return (QGesture*)tempGesture;
+
         } else if(dynamic_cast<QPanGesture*>( gesture ) ) {
+
             QPanGesture* panGesture = dynamic_cast<QPanGesture*>( gesture );
             QPanGesture* tempGesture = new QPanGesture();
-            tempGesture->setLastOffset( panGesture->lastOffset() );  //FIXME orientation
+
+            tempGesture->setLastOffset( correctOffset( panGesture->lastOffset() ) );
             tempGesture->setAcceleration( panGesture->acceleration() );
-            tempGesture->setOffset( panGesture->offset() );  //FIXME orientation
+            tempGesture->setOffset( correctOffset( panGesture->offset() ) );
+
             return (QGesture*)tempGesture;
+
         } else if(dynamic_cast<QPinchGesture*>( gesture ) ) {
+
             QPinchGesture* pinchGesture = dynamic_cast<QPinchGesture*>( gesture );
             QPinchGesture* tempGesture = new QPinchGesture();
 
-            tempGesture->setCenterPoint( q_ptr->mapFromScene( pinchGesture->centerPoint() ) );
+            QPointF centerPoint = correctPoint( pinchGesture->centerPoint() , event );
+            tempGesture->setCenterPoint( centerPoint );
+
+            QPointF lastCenterPoint = correctPoint( pinchGesture->lastCenterPoint() , event );
+            tempGesture->setLastCenterPoint( lastCenterPoint );
+
+            QPointF startCenterPoint = correctPoint( pinchGesture->startCenterPoint(), event);
+            tempGesture->setStartCenterPoint( startCenterPoint );
+
+            tempGesture->setRotationAngle( correctAngle( pinchGesture->rotationAngle() ) );
+            tempGesture->setLastRotationAngle( correctAngle( pinchGesture->lastRotationAngle() ) );
+            tempGesture->setTotalRotationAngle( correctAngle( pinchGesture->totalRotationAngle() ) );
+
             tempGesture->setChangeFlags( pinchGesture->changeFlags() );
-            tempGesture->setLastCenterPoint( pinchGesture->lastCenterPoint() );
-            tempGesture->setLastRotationAngle( pinchGesture->lastRotationAngle() );  //FIXME orientation
             tempGesture->setLastScaleFactor( pinchGesture->lastScaleFactor() );
-            tempGesture->setStartCenterPoint( pinchGesture->lastCenterPoint() );
             tempGesture->setTotalChangeFlags( pinchGesture->totalChangeFlags() );
-            tempGesture->setTotalRotationAngle( pinchGesture->totalRotationAngle() );  //FIXME orientation
             tempGesture->setTotalScaleFactor( pinchGesture->totalScaleFactor() );
-            tempGesture->setRotationAngle( pinchGesture->rotationAngle() );   //FIXME orientation
 
             return (QGesture*)tempGesture;
         } else if(dynamic_cast<QSwipeGesture*>( gesture ) ) {
-            QSwipeGesture* tapGesture = dynamic_cast<QSwipeGesture*>( gesture );
+            QSwipeGesture* swipeGesture = dynamic_cast<QSwipeGesture*>( gesture );
             QSwipeGesture* tempGesture = new QSwipeGesture();
-            tempGesture->setSwipeAngle( tapGesture->swipeAngle() ); //FIXME orientation
+            tempGesture->setSwipeAngle( correctAngle( swipeGesture->swipeAngle() ) );
             return (QGesture*)tempGesture;
         }
     }
@@ -340,6 +372,14 @@ bool QDeclarativeGestureAreaPrivate::gestureEvent(QGestureEvent *event)
     return false;
 }
 
+void QDeclarativeGestureArea::geometryChanged(const QRectF &newGeometry,
+                                              const QRectF &oldGeometry)
+{
+    QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
+
+
+}
+
 bool QDeclarativeGestureArea::absolute() const
 {
     Q_D(const QDeclarativeGestureArea);
@@ -360,6 +400,125 @@ void QDeclarativeGestureArea::setBlockMouseEvents( bool blockMouseEvents )
 {
     Q_D(QDeclarativeGestureArea);
     d->blockMouseEvents = blockMouseEvents;
+}
+
+QPointF QDeclarativeGestureAreaPrivate::correctPoint( const QPointF point, const QGestureEvent *event )
+{
+    /*
+    1 = landscape
+    2 = portrait
+    3 = inverted landscape
+    4 = inverted portrait
+    */
+    if( orientation == 1 ) {
+
+        QPointF mapFromGlobalToScene = event->mapToGraphicsScene( point );
+        return q_ptr->mapFromScene( mapFromGlobalToScene );
+
+    } else if ( orientation == 2 ) {
+
+        QPointF mapFromGlobalToScene = event->mapToGraphicsScene( point );
+        QPointF tempPoint = q_ptr->mapFromScene( mapFromGlobalToScene );
+        QPointF correctionPoint;
+        correctionPoint.setY( q_ptr->width() - tempPoint.x() );
+        correctionPoint.setX( q_ptr->height() - tempPoint.y() );
+        return correctionPoint;
+
+    } else if ( orientation == 3 ) {
+
+        QPointF mapFromGlobalToScene = event->mapToGraphicsScene( point );
+        QPointF tempPoint = q_ptr->mapFromScene( mapFromGlobalToScene );
+        QPointF correctionPoint;
+        correctionPoint.setX( q_ptr->width() - tempPoint.x() );
+        correctionPoint.setY( q_ptr->height() - tempPoint.y() );
+        return correctionPoint;
+
+    } else if ( orientation == 4 ) {
+
+        QPointF mapFromGlobalToScene = event->mapToGraphicsScene( point );
+        QPointF tempPoint = q_ptr->mapFromScene( mapFromGlobalToScene );
+        QPointF correctionPoint;
+        correctionPoint.setY( q_ptr->width()  - tempPoint.x() );
+        correctionPoint.setX( q_ptr->height() - tempPoint.y() );
+        return correctionPoint;
+
+    }
+    return QPointF( point );
+}
+
+qreal QDeclarativeGestureAreaPrivate::correctAngle( qreal angle )
+{
+    /*
+    1 = landscape
+    2 = portrait
+    3 = inverted landscape
+    4 = inverted portrait
+    */
+    if( orientation == 1 ) {
+        return angle;
+    } else if( orientation == 2 ) {
+        qreal realAngle = ( angle - 90.0 );
+        return realAngle;
+    } else if( orientation == 3 ) {
+        qreal realAngle = ( angle - 180.0 );
+        return realAngle;
+    } else if( orientation == 4 ) {
+        qreal realAngle = ( angle + 90.0 );
+        return realAngle;
+    }
+    return angle;
+}
+
+QPointF QDeclarativeGestureAreaPrivate::correctOffset( QPointF offset )
+{
+    /*
+    1 = landscape
+    2 = portrait
+    3 = inverted landscape
+    4 = inverted portrait
+    */
+    if( orientation == 1 ) {
+
+        return offset;
+
+    } else if( orientation == 2 ) {
+
+        QPointF tempPoint;
+        tempPoint.setX( offset.y() );
+        tempPoint.setY( offset.x() );
+        return tempPoint;
+
+    } else if( orientation == 3 ) {
+
+        QPointF tempPoint;
+        tempPoint.setX( 0 - offset.x() );
+        tempPoint.setY( 0 - offset.y() );
+        return tempPoint;
+
+    } else if( orientation == 4 ) {
+
+        QPointF tempPoint;
+        tempPoint.setX( 0 - offset.y() );
+        tempPoint.setY( 0 - offset.x() );
+        return tempPoint;
+
+    }
+    return offset;
+
+}
+
+void QDeclarativeGestureAreaPrivate::getOrientation() {
+
+    QDeclarativeItem *item = q_ptr->parentItem();
+    while( 0 != item )
+    {
+        if( item->objectName() == "window") {
+            orientation = item->property("orientation").toInt();
+            return;
+        } else {
+            item = item->parentItem();
+        }
+    }
 }
 
 QT_END_NAMESPACE

@@ -383,7 +383,6 @@ AppPage {
             opacity: 0.5
             centerX: mouseArea.mouseX
             centerY: mouseArea.mouseY
-            visible: pinched
         }
 
     }

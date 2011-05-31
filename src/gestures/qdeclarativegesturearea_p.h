@@ -45,6 +45,8 @@ public:
 
     QDeclarativeListProperty<QObject> handlers();
 
+    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
+
 protected:
     bool sceneEvent(QEvent *event);
 

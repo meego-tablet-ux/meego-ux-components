@@ -130,6 +130,7 @@
 
 import Qt 4.7
 import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
 
 ModalFog {
     id: modalDialogBox
@@ -214,10 +215,17 @@ ModalFog {
 
         clip: true
 
-        MouseArea {
+        GestureArea {
             id: blocker
+            blockMouseEvents: true
             anchors.fill: parent
             z: -1
+
+            Tap {}
+            TapAndHold {}
+            Pan {}
+            Pinch {}
+            Swipe {}
         }
 
         Text {

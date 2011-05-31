@@ -251,6 +251,7 @@
 
 import Qt 4.7
 import MeeGo.Ux.Kernel 0.1
+import MeeGo.Ux.Gestures 0.1
 import MeeGo.Ux.Components.Common 0.1
 import MeeGo.Ux.Components.Indicators 0.1
 import MeeGo.Components 0.1
@@ -519,31 +520,18 @@ Item {
                     height: backButton.height
                     source: "image://themedimage/widgets/common/toolbar/toolbar-background"
 
-                    MouseArea {
+                    GestureArea {
                         id: titleBarArea
-
-                        property int firstY: 0
-                        property int firstX: 0
-
                         anchors.fill: parent
 
-                        onPressed: {
-                            firstY = mouseY;
-                            firstX = mouseX;
-                        }
-
-                        //react on vertical mouse gestures on the titleBar to show or hide the searchTitleBar
-                        onMousePositionChanged: {
-                            if( titleBarArea.pressed ) {
-                                if( Math.abs( titleBarArea.mouseX - titleBarArea.firstX ) < Math.abs( titleBarArea.mouseY - titleBarArea.firstY ) ) {
-                                    if( titleBarArea.mouseY - titleBarArea.firstY > 20 ) {
-                                        if( !toolBar.disableSearch ) {
-                                            toolBar.showSearch = true
-                                        }
+                        Pan {
+                            onUpdated: {
+                                if( gesture.offset.y > 20 ) {
+                                    if( !toolBar.disableSearch ) {
+                                        toolBar.showSearch = true
                                     }
-                                    else if( titleBarArea.mouseY - titleBarArea.firstY < -20 ) {
-                                        toolBar.showSearch = false
-                                    }
+                                } else if ( gesture.offset.y < 20 ) {
+                                     toolBar.showSearch = false
                                 }
                             }
                         }

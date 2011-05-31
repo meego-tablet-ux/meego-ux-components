@@ -76,7 +76,9 @@
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
+
 
 BorderImage {
     id: container
@@ -122,10 +124,15 @@ BorderImage {
         input.focus = focus
     }
 
-    MouseArea {     // this ensures the text gets focus when only the BorderImage is clicked
+    GestureArea {     // this ensures the text gets focus when only the BorderImage is clicked
         anchors.fill: parent
+        blockMouseEvents: true
 
-        onClicked: container.focus = true
+        Tap {
+            onStarted: {
+                 container.focus = true
+            }
+        }
     }
 
     TextInput {

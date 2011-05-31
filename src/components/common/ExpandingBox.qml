@@ -128,7 +128,7 @@ Item {
         source: "image://themedimage/widgets/common/combobox/combobox-background"
 
         // the header item contains the title, the image for the button which indicates
-        // the expanded state and a MouseArea to change the expanded state on click
+        // the expanded state and a GestreuArea to change the expanded state on click
         Item {
             id: header
 

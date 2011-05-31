@@ -88,11 +88,11 @@ Item {
         
         Tap {
 	   onStarted: {	      
-	      icon.source = bgSourceDn
+              image.source = bgSourceDn
 	      container.pressed = true
 	   }
 	   onCanceled: {
-              icon.source = bgSourceUp
+              image.source = bgSourceUp
               container.pressed = false
 	   }
 	   onFinished: {

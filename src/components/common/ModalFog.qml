@@ -66,7 +66,8 @@
 */
 
 import Qt 4.7
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Item {
     id: fogContainer
@@ -110,8 +111,6 @@ Item {
             // order is extremely important! 1.fog 2.container!
             fog.parent = topItem.topItem;
             fogContainer.parent = topItem.topItem;
-
-//            mouseArea.parent = topItem.topItem;
         }
         // Note: We want to enable setting the size of dialogs with width and height,
         // but that will change the fogContainers size as well. So fog had to be
@@ -129,9 +128,9 @@ Item {
     Theme { id: theme }
 
     Item {
-           id: fog
-           anchors.fill: parent
-           visible: fogContainer.visible
+        id: fog
+        anchors.fill: parent
+        visible: fogContainer.visible
 
         Rectangle {
             id: grey
@@ -145,17 +144,18 @@ Item {
             visible: fogMaskVisible
         }
 
-        MouseArea {
-            id: mouseArea
-
-            onClicked: {
-                if(fogContainer.fogClickable){
-                    fogContainer.hide()
-                    fogContainer.rejected()
+        GestureArea {
+            id: gestureArea
+            anchors.fill: parent
+            blockMouseEvents: true
+            Tap {
+                onStarted: {
+                    if(fogContainer.fogClickable){
+                        fogContainer.hide()
+                        fogContainer.rejected()
+                    }
                 }
             }
-
-            anchors.fill: parent
         }
     }
 

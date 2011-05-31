@@ -296,8 +296,9 @@ ModalFog {
                 }
             }
 
-            MouseArea {
+            GestureArea {
                 anchors.fill: realMenu
+                blockMouseEvents: true
                 z:-1
             }
 

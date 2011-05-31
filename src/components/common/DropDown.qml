@@ -155,10 +155,10 @@ Item {
         horizontalTileMode: BorderImage.Stretch
         verticalTileMode: BorderImage.Stretch
         source: dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-background-active" :
-                                  "image://themedimage/widgets/common/combobox/combobox-background"
+        "image://themedimage/widgets/common/combobox/combobox-background"
 
         // the header item contains the title, the image for the button which indicates
-        // the expanded state and a MouseArea to change the expanded state on click
+        // the expanded state and a GestureArea to change the expanded state on click
         Item {
 
             id: header
@@ -197,39 +197,40 @@ Item {
                 anchors.rightMargin: 6
                 anchors.verticalCenter: parent.verticalCenter
                 source:dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-background" :
-                                         "image://themedimage/widgets/common/combobox/combobox-background-active"
+                "image://themedimage/widgets/common/combobox/combobox-background-active"
             }
 
             GestureArea {
                 anchors.fill: parent
-                
+                blockMouseEvents: true
+
                 Tap {
 		    onFinished: {
-                      opened = !opened;
+                        opened = !opened;
                         if( opened ) {
                             contextMenu.setPosition(
-                                mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-                                mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+                                        mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+                                        mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
                             contextMenu.show()
                         } else {
                             contextMenu.hide()
                         }
-		      expandingChanged( opened )
-		  }
+                        expandingChanged( opened )
+                    }
 		}
-                Tap {
+                TapAndHold {
                     onFinished: {
-                      opened = !opened;
+                        opened = !opened;
                         if( opened ) {
                             contextMenu.setPosition(
-                                mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-                                mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+                                        mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+                                        mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
                             contextMenu.show()
                         } else {
                             contextMenu.hide()
                         }
-                      expandingChanged( opened )
-                  }
+                        expandingChanged( opened )
+                    }
                 }
             }
         }
@@ -268,8 +269,8 @@ Item {
 
         onGeometryChanged: {
             contextMenu.setPosition(
-            mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-            mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+                        mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+                        mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
         }
     }
 

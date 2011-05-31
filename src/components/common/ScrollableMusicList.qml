@@ -68,7 +68,8 @@
 
 import Qt 4.7
 import MeeGo.Media 0.1
-import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
+import MeeGo.Ux.Components.Common 0.1
 
 Item {
     id: grid
@@ -223,28 +224,29 @@ Item {
                 font.pixelSize: textPixelSize
             }
 
-            MouseArea {
+            GestureArea {
                 anchors.fill: parent
+                Tap {
+                    onStarted: {
+                        if( !grid.highlightVisible ) {
+                            // this code lets the highlight appear on the initial clicked position
+                            grid.highlightDuration = 0
+                            grid.highlightSpeed = -1
 
-                onClicked: {
-                    if( !grid.highlightVisible ) {
-                        // this code lets the highlight appear on the initial clicked position
-                        grid.highlightDuration = 0
-                        grid.highlightSpeed = -1
+                            listView.currentIndex = index;
 
-                        listView.currentIndex = index;
+                            // reactivate the highlight animation
+                            grid.highlightVisible = true
+                            grid.highlightDuration = 300
+                            grid.highlightSpeed = 400
+                        }
+                        else {
+                            listView.currentIndex = index;
+                        }
 
-                        // reactivate the highlight animation
-                        grid.highlightVisible = true
-                        grid.highlightDuration = 300
-                        grid.highlightSpeed = 400
+                        selectedSong = title;
+                        listItemSelected(mitemid, mtitle, muri, mitemtype)
                     }
-                    else {
-                        listView.currentIndex = index;
-                    }
-
-                    selectedSong = title;
-                    listItemSelected(mitemid, mtitle, muri, mitemtype)
                 }
             }
         }

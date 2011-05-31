@@ -354,6 +354,10 @@ GridView {
 
             anchors.fill:parent
 
+            onPressed: {
+                gridView.positionViewAtIndex( index, GridView.Contain );
+                gridView.clicked(mouseX,mouseY, dinstance);
+            }
             onClicked:{
                 gridView.positionViewAtIndex( index, GridView.Contain );
                 gridView.clicked(mouseX,mouseY, dinstance);

@@ -139,18 +139,22 @@ AppPage {
                         swipeDot.centerX = tabDot.centerX
                         swipeDot.centerY = tabDot.centerX
                         swipeSignal.text = "started"
+                        swipeAngle.text = "angle: " + gesture.swipeAngle
                     }
                     onUpdated: {
-                        swipeArrow.rotation = gesture.swipeAngle * -1
+                        swipeArrow.rotation = gesture.swipeAngle
                         swipeSignal.text = "updated"
+                        swipeAngle.text = "angle: " + gesture.swipeAngle
                     }
                     onCanceled: {
                         pageGesture.swiped = false
                         swipeSignal.text = "canceled"
+                        swipeAngle.text = "angle: "
                     }
                     onFinished: {
                         pageGesture.swiped = false
                         swipeSignal.text = "started"
+                        swipeAngle.text = "angle: "
                     }
                 }
 

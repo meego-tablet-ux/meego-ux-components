@@ -47,8 +47,8 @@ AppPage {
 
                 anchors.fill: parent
 
-                absolute: false
-                blockMouseEvents: false
+                absolutePosition: true
+                acceptUnhandledEvents: false
 
                 Tap {
                     onStarted: {

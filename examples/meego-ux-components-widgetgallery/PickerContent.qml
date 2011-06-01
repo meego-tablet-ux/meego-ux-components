@@ -115,7 +115,7 @@ Item {
 
                             GestureArea {
                                 anchors.fill: buttonItem
-                                blockMouseEvents: true
+                                acceptUnhandledEvents: true
                                 z: 1
 
                                 Tap {

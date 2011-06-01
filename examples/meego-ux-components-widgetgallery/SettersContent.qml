@@ -73,7 +73,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: sliderItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
 
                         Tap {
@@ -122,7 +122,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: vsliderItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
 
                         Tap {
@@ -170,7 +170,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: textEntryItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
 
                         Tap {
@@ -222,7 +222,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: textFieldItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
 
                         Tap {
@@ -272,7 +272,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: progressBarItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
                         Tap {
                             onFinished: addPage( progressBarComponent )
@@ -320,7 +320,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: expandingBoxItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
                         Tap {
                             onFinished: addPage( expandingComponent )
@@ -389,7 +389,7 @@ Item {
                     GestureArea {
                         anchors.fill: dropDownBoxItem
                         z: 1
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         Tap {
                             onFinished: {  addPage( dropDownComponent ) }
                         }
@@ -443,7 +443,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: labelItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
                         Tap { onFinished: addPage( labelComponent ) }
                     }
@@ -491,7 +491,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: popupListItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
                         Tap { onFinished: addPage( popupComponent ) }
                     }
@@ -540,7 +540,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: modalSpinnerItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
                         Tap {
                             onFinished: addPage( modalSpinnerComponent )
@@ -670,7 +670,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: infoItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
 
                         Tap {
@@ -726,7 +726,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: layoutTextItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
                         Tap {
                             onFinished: { addPage( layoutTextItemComponent ) }

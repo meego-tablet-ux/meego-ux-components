@@ -73,7 +73,7 @@ Item {
                     GestureArea {
                         anchors.fill: buttonItem
                         z: 1
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
 
                         Tap {
                             onFinished: addPage( buttonComponent )
@@ -126,7 +126,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: iconButtonItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
 
                         Tap {
@@ -178,7 +178,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: radioItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
                         Tap {
                             onFinished: addPage( radioComponent )
@@ -231,7 +231,7 @@ Item {
 
                     GestureArea {
                         anchors.fill: toggleButtonItem
-                        blockMouseEvents: true
+                        acceptUnhandledEvents: true
                         z: 1
 
                         Tap {

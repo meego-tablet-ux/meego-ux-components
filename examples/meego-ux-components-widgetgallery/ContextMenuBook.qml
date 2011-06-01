@@ -249,7 +249,7 @@ AppPage {
                     width: parent.width
                     font.pixelSize: 20
                     wrapMode: Text.WordWrap
-                    text:  qsTr("This is an example of a completely own customizable context menu each page can set.")
+                    text:  qsTr("This is an example of a completely own customizable action menu each page can set.")
                 }
             }
         }

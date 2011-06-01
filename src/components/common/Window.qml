@@ -627,6 +627,7 @@ Item {
                                 highlightSelectedItem: true
 
                                 onTriggered: {
+                                    console.log( index )
                                     if(automaticBookSwitching ) {
                                         switchBook( payload[index] )
                                     }
@@ -644,7 +645,7 @@ Item {
                         id: spacer2
 
                         anchors.right: windowMenuButton.left
-                        //visible: windowMenuButton.visible // To be discussed: This should be always visible to clearly show the buttons size
+                        visible: windowMenuButton.visible || applicationMenuButton.visible
                         source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
                     }
 

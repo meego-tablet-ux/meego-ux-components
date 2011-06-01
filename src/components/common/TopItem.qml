@@ -71,7 +71,6 @@ Item {
     property int topDecorationHeight
     property int windowBarsHeight
 
-    signal orientationChangeFinished()
     signal geometryChanged( real newWidth, real newHeight )
 
     topDecorationHeight: {

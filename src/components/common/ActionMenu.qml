@@ -146,11 +146,11 @@ Flickable {
                 id: delegateThingy
 
                 property int selectedIndex: container.selectedIndex
+                property int myIndex: index
 
                 onSelectedIndexChanged: {
                     if( index == selectedIndex ) {
                         container.oldItem = highlight
-                        container.currentItem = null;
                     }
                 }
 
@@ -231,8 +231,8 @@ Flickable {
                     Tap {
                         // pressed state for the text entry:
                         onFinished: {
-                            container.triggered( index )
-                            container.selectedIndex = index
+                            container.triggered( delegateThingy.myIndex )
+                            container.selectedIndex = delegateThingy.myIndex
 
                             if( !highlightSelectedItem ) {
                                 container.currentItem = null

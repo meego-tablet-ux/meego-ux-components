@@ -16,19 +16,15 @@ import MeeGo.Ux.Components.Common 0.1
 Window {
     id: window
 
-    bookMenuModel: [    qsTr("Gallery"),
-                        qsTr("Context menu test"),
+    bookMenuModel: [    qsTr("Gallery"),                     
                         qsTr("Book 2"),
-                        qsTr("Book 3"),
-                        qsTr("BottomBar"),
+                        qsTr("Book 3"),                       
                         qsTr("Fullscreen Test"),
                         qsTr("Orientation Test"),
                         qsTr("Gesture Test Page") ]
-    bookMenuPayload: [  gallery,
-                        contextMenuBook,
+    bookMenuPayload: [  gallery,                       
                         book2,
-                        book3,
-                        bottomBar,
+                        book3,                        
                         fullScreenPage,
                         orientationPage,
                         gestureTestPage ]
@@ -41,10 +37,8 @@ Window {
     }
 
     Component { id: gallery; MainPage { name: qsTr("Gallery") } }
-    Component { id: contextMenuBook; ContextMenuBook { name: qsTr("Context menu test") } }
     Component { id: book2; Book2 { name: qsTr("Book 2") } }
     Component { id: book3; Book3 { name: qsTr("Book 3") } }
-    Component { id: bottomBar; WidgetPageBottomBar { name: qsTr("BottomBar") } }
     Component { id: fullScreenPage; WidgetPageFullScreen { name: qsTr("Fullscreen Test") } }
     Component { id: orientationPage; WidgetPageOrientation { name: qsTr("Orientation Test") } }
     Component { id: gestureTestPage; GestureTestPage { onClicked: { switchBook( gallery ) }  } }

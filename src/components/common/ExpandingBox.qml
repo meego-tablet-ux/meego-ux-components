@@ -21,13 +21,13 @@
   \qmlproperty bool expanded
   \qmlcm true if the box is currently expanded
 
-  \qmlproperty alias iconRow
+  \qmlproperty Row iconRow
   \qmlcm area that can hold a set of icons
 
-  \qmlproperty alias titleText
+  \qmlproperty string titleText
   \qmlcm sets the text shown on the header
 
-  \qmlproperty alias titleTextColor
+  \qmlproperty color titleTextColor
   \qmlcm sets the color of the text shown on the header
 
   \qmlproperty Component detailsComponent
@@ -35,6 +35,19 @@
 
   \qmlproperty Item detailsItem
   \qmlcm stores the contents when created
+
+  \qmlproperty int buttonHeight
+  \qmlcm this defines how big the Expanding box is when it's not extended. If you change the orientation and the size, you have to set these too.
+
+  \qmlproperty int buttonWidth
+  \qmlcm this defines how big the Expanding box is when it's not extended. If you change the orientation and the size, you have to set these too.
+
+  \qmlproperty Item headerContent
+  \qmlcm this Item will appear in the header. It can be used to create complex custom headers.
+
+  \qmlproperty string orientation
+  \qmlcm this value defines how ExpandingBox is orientated. Possible values are: "horizontal" - expands to lower; "vertical" - expands to the left. Default is 'horizontal'.
+  If you change the orientation and the size during runtime, make sure you change the buttonWidth and buttonHeight too.
 
   \section2 Signals
   \qmlproperty [signal] expandingChanged
@@ -51,6 +64,7 @@
           id: expandingBox
 
           width: 200
+          height: 75
           titleText: "ExpandingBox"
           titleTextColor: "black"
           anchors.centerIn:  parent
@@ -63,8 +77,19 @@
                    id: rect;
 
                    color: "blue";
-                   height: 30; width: parent.width;
+                   height: 50; width: 150
                    anchors.centerIn: parent
+
+                   Button {
+                       text: "Switch"  // switches orientation to vertical
+                       onClicked: {
+                           expandingBox.width = 75
+                           expandingBox.height = 200
+                           expandingBox.buttonWidth = 75
+                           expandingBox.buttonHeight = 200
+                           expandingBox.orientation = "vertical"   // this has to be last, since it triggers the changes
+                       }
+                   }
               }
           }
       }
@@ -84,12 +109,16 @@ Item {
     property Component detailsComponent: null
     property Item detailsItem: null
     property alias iconRow: iconArea.children
-    property int buttonHeight
+    property int buttonHeight: 13
+    property int buttonWidth: 13
+    property alias headerContent: headerContentArea.children
+    property string orientation: "horizontal"
 
     signal expandingChanged( bool expanded )
 
-    width: parent.width
-    height: 20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height ) //pulldownImage.height
+    width: 250
+    height: 45// + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height )
+    clip: true
 
     // if new content is set, destroy any old content and create the new one
     onDetailsComponentChanged: {
@@ -100,6 +129,8 @@ Item {
     // if content has been set, destroy any old content and create the new one
     Component.onCompleted: {
         buttonHeight = height
+        buttonWidth = width
+        pulldownImage.boxReady = true
         if( detailsComponent ) {
             if ( detailsItem ) detailsItem.destroy();
             detailsItem = detailsComponent.createObject( boxDetailsArea )
@@ -108,9 +139,6 @@ Item {
 
     // if the expanded state changes, propagate the change via signal
     onExpandedChanged: {
-        if(expanded){
-            buttonHeight = height
-        }
         expandingBox.expandingChanged( expanded );
     }
 
@@ -120,12 +148,19 @@ Item {
     ThemeImage {
         id: pulldownImage
 
+        property int animationTime: 200
+        property bool boxReady: false
+
         border.right: 75
 
-        height: header.height
-        width: parent.width
+        height: expandingBox.height // buttonHeight// header.height
+        width: expandingBox.width // buttonWidth// header.width
 
-        source: "image://themedimage/widgets/common/combobox/combobox-background"
+        //source: "image://themedimage/widgets/common/combobox/combobox-background"
+        Rectangle {
+            anchors.fill: parent
+            color: "white"
+        }
 
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a GestreuArea to change the expanded state on click
@@ -133,14 +168,16 @@ Item {
             id: header
 
             // the header adapts its height to the height of the title and the button plus some space
-            height: buttonHeight//expandingBox.height //20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height )
-            width: parent.width
+            height: ( expandingBox.orientation == "horizontal" ) ? buttonHeight : parent.height
+            width: ( expandingBox.orientation == "horizontal" ) ? parent.width : buttonWidth
+
             anchors.top:  parent.top
 
             Row {
                 id: iconArea
 
-                anchors { left: parent.left; top: parent.top; bottom: parent.bottom; margins: 5; }
+                anchors { left: parent.left; margins: 5; }
+                anchors.verticalCenter: expandButton.verticalCenter
                 spacing: anchors.margins
             }
 
@@ -156,12 +193,25 @@ Item {
                 anchors.verticalCenter: expandButton.verticalCenter
             }
 
+            Item {
+                id: headerContentArea
+
+                x: 5
+                y: 5
+
+                width: ( expandingBox.orientation == "horizontal" ) ? expandingBox.width - expandButton.width - 6 * 2 - 10 : parent.width - 10
+                height: ( expandingBox.orientation == "horizontal" ) ? parent.height -10 : expandingBox.height - expandButton.height - 6 * 2 - 10
+
+                clip: true
+            }
+
             ThemeImage {
                 id: expandButton
 
-                anchors.right: parent.right
-                anchors.rightMargin: 6
-                anchors.verticalCenter: parent.verticalCenter
+                rotation: ( expandingBox.orientation == "horizontal" ) ? 0 : -90
+
+                x: ( expandingBox.orientation == "horizontal" ) ? expandingBox.width - width - 6 :  (header.width - width) / 2
+                y: ( expandingBox.orientation == "horizontal" ) ? (header.height - height) / 2 :  expandingBox.height - height - 6
                 source:expandingBox.expanded ? "image://themedimage/images/settings/pulldown_arrow_up" : "image://themedimage/images/settings/pulldown_arrow_dn"
             }
 
@@ -178,12 +228,37 @@ Item {
         Item {
             id: boxDetailsArea
 
-            property int itemMargins: 10
+            property int itemMargins: 3
+            opacity: 0
 
-            clip:  true
+            clip: true
             visible: expandingBox.expanded
-            anchors { top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right; margins: itemMargins }
+            anchors {
+                top: ( expandingBox.orientation == "horizontal" ) ? header.bottom : parent.top
+                left: ( expandingBox.orientation == "horizontal" ) ? parent.left : header.right
+                bottom: parent.bottom;
+                right: parent.right;
+                margins: itemMargins
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                color: "lightblue"
+            }
         }
+    }
+
+    onOrientationChanged: {
+        if(!pulldownImage.boxReady)
+            return
+
+        var oldExpanded = expanded
+        pulldownImage.animationTime = 0
+        expanded = false
+        height = buttonHeight
+        width = buttonWidth
+        expanded = oldExpanded
+        pulldownImage.animationTime = 200
     }
 
     states: [
@@ -191,12 +266,8 @@ Item {
             name: "expanded"
 
             PropertyChanges {
-                target: pulldownImage
-                height: header.height + detailsItem.height + boxDetailsArea.itemMargins * 2
-            }
-            PropertyChanges {
                 target: expandingBox
-                height: header.height + detailsItem.height + boxDetailsArea.itemMargins * 2
+                height: buttonHeight + detailsItem.height + boxDetailsArea.itemMargins * 2
             }
 
             PropertyChanges {
@@ -205,43 +276,47 @@ Item {
                 opacity: 1.0
             }
 
-            when: { expandingBox.expanded }
+            when: { expandingBox.expanded && expandingBox.orientation == "horizontal" }
         },
+
         State {
-            name: "normal"
+            name: "expandedVertical"
 
             PropertyChanges {
-                target: pulldownImage
-                height: header.height
+                target: expandingBox
+                width: buttonWidth + detailsItem.width + boxDetailsArea.itemMargins * 2
             }
 
             PropertyChanges {
                 target: boxDetailsArea
-                visible: false
-                opacity: 0
+                visible: true
+                opacity: 1.0
             }
 
-            when: { !expandingBox.expanded }
+            when: { expandingBox.expanded && expandingBox.orientation == "vertical" }
         }
     ]
 
-    property bool toast: true
-
     transitions: [
         Transition {
-           SequentialAnimation {
-               onStarted:{ expandingBox.toast = false }
-                NumberAnimation {
-                    properties: "height"
-                    duration: 200
-                    easing.type: Easing.InCubic
+            SequentialAnimation {
+                ParallelAnimation{
+                    NumberAnimation {
+                        properties: "height"
+                        duration: pulldownImage.animationTime
+                        easing.type: Easing.InCubic
+                    }
+                    NumberAnimation {
+                        properties: "width"
+                        duration: pulldownImage.animationTime
+                        easing.type: Easing.InCubic
+                    }
                 }
                 NumberAnimation {
                     properties: "opacity"
-                    duration: 350
+                    duration: pulldownImage.animationTime
                     easing.type: Easing.OutCubic
                 }
-                onCompleted:{ expandingBox.toast = true}
             }
         }
     ]

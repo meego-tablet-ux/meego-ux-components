@@ -299,7 +299,7 @@ ModalFog {
 
             GestureArea {
                 anchors.fill: realMenu
-                blockMouseEvents: true
+                acceptUnhandledEvents: true
                 Tap{}
                 TapAndHold{}
                 z:-1

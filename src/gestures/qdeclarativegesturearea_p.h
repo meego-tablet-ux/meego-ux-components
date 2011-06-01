@@ -34,34 +34,48 @@ class QDeclarativeGestureArea : public QDeclarativeItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(QDeclarativeListProperty<QObject> handlers READ handlers)
-    Q_PROPERTY( bool blockMouseEvents READ blockMouseEvents WRITE setBlockMouseEvents NOTIFY blockMouseEventsChanged )
-    Q_PROPERTY( bool absolute READ absolute WRITE setAbsolute NOTIFY absoluteChanged )
+    Q_PROPERTY( bool acceptUnhandledEvents READ acceptUnhandledEvents WRITE setAcceptUnhandledEvents NOTIFY acceptUnhandledEventsChanged )
+    Q_PROPERTY( bool absolutePosition READ absolutePosition WRITE setAbsolutePosition NOTIFY absolutePositionChanged )
+    Q_PROPERTY( bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged )
+    Q_PROPERTY( QDeclarativeListProperty<QObject> handlers READ handlers)
     Q_CLASSINFO("DefaultProperty", "handlers")
 
 public:
+
     QDeclarativeGestureArea(QDeclarativeItem *parent=0);
     ~QDeclarativeGestureArea();
-
     QDeclarativeListProperty<QObject> handlers();
+
+    bool acceptUnhandledEvents() const;
+    void setAcceptUnhandledEvents( bool acceptEvents );
+
+    bool absolutePosition() const;
+    void setAbsolutePosition( bool absolute );
+
+    bool enabled() const;
+    void setEnabled( bool enabled );
 
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
 
 protected:
     bool sceneEvent(QEvent *event);
 
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+
 signals:
-    void blockMouseEventsChanged();
-    void absoluteChanged();
+
+    void acceptUnhandledEventsChanged();
+    void absolutePositionChanged();
+    void enabledChanged();
 
 private:
     QDeclarativeGestureAreaPrivate *d_ptr;
-
-    bool absolute() const;
-    void setAbsolute( bool absolute );
-
-    bool blockMouseEvents() const;
-    void setBlockMouseEvents( bool blockMouseEvent );
 
     Q_DISABLE_COPY(QDeclarativeGestureArea)
     Q_DECLARE_PRIVATE_D(QGraphicsItem::d_ptr.data(), QDeclarativeGestureArea)

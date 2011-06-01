@@ -147,7 +147,7 @@ Item {
         GestureArea {
             id: gestureArea
             anchors.fill: parent
-            blockMouseEvents: true
+            acceptUnhandledEvents: true
             Tap {
                 onStarted: {
                     if(fogContainer.fogClickable){

@@ -198,6 +198,12 @@ Item {
             anchors.fill: parent
         }
 
+        GestureArea {
+            id: blocker
+            anchors.fill: spinnerRect
+            acceptUnhandledEvents: true
+        }
+
         PathView {
             id: view
 

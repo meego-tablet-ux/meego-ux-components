@@ -1,4 +1,4 @@
-TEMPLATE = subdirs
+FTEMPLATE = subdirs
 CONFIG += ordered
 
 SUBDIRS += common \

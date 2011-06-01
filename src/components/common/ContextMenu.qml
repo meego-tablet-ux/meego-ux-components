@@ -154,7 +154,7 @@ ModalFog {
 
         GestureArea {
             id: blocker
-            blockMouseEvents: true
+            acceptUnhandledEvents: true
             anchors.fill: parent
             z: -1
 

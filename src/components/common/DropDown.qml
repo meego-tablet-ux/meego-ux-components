@@ -202,7 +202,7 @@ Item {
 
             GestureArea {
                 anchors.fill: parent
-                blockMouseEvents: true
+                acceptUnhandledEvents: true
 
                 Tap {
 		    onFinished: {

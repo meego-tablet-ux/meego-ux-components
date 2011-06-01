@@ -126,7 +126,7 @@ BorderImage {
 
     GestureArea {     // this ensures the text gets focus when only the BorderImage is clicked
         anchors.fill: parent
-        blockMouseEvents: true
+        acceptUnhandledEvents: true
 
         Tap {
             onStarted: {

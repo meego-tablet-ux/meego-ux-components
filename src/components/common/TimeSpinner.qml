@@ -153,6 +153,15 @@ Rectangle {
             opacity: 0.5
         }
 
+        GestureArea {
+            id: blocker
+            anchors.fill: timeSpinner
+            acceptUnhandledEvents: true
+            Tap{}
+            TapAndHold{}
+            Pan{}
+        }
+
         PathView {
             id: tsview
 

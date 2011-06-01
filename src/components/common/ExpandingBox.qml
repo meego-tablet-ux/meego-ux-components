@@ -46,7 +46,7 @@
   \qmlcm this Item will appear in the header. It can be used to create complex custom headers.
 
   \qmlproperty string orientation
-  \qmlcm this value defines how ExpandingBox is orientated. Possible values are: "horizontal" - expands to lower; "vertical" - expands to the left. Default is 'horizontal'.
+  \qmlcm this value defines how ExpandingBox is orientated. Possible values are: "horizontal" - expands to lower; "vertical" - expands to the right. Default is 'horizontal'.
   If you change the orientation and the size during runtime, make sure you change the buttonWidth and buttonHeight too.
 
   \section2 Signals

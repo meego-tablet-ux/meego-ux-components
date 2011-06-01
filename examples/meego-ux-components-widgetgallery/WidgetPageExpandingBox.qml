@@ -26,6 +26,7 @@ WidgetPage {
 
             onTextUpdated: {
                 ebox1.width = value
+                ebox1.buttonWidth = value
             }
         },
         LabeledEntry {
@@ -62,83 +63,211 @@ WidgetPage {
         contentWidth: width > colBox.width ? width : colBox.width
         clip: true
 
-        Column{
+        Row {
             id:colBox
-            anchors.centerIn: parent
 
-        ExpandingBox {
-            id: ebox1
+            spacing: 5
 
-            height: 50
-            width: 400
-            titleText: "Expanding Box"
-            titleTextColor: "black"
+            Column{
+                id:colBox2
 
-            iconRow: [
-                Image {
-                    height: parent.height * 0.9
+                spacing: 2
+
+                ExpandingBox {
+                    id: ebox1
+
+                    height: 50
+                    width: 400
+                    titleText: "Expanding Box"
+                    titleTextColor: "black"
+
+                    iconRow: [
+                        Image {
+                            fillMode: Image.PreserveAspectFit
+                            source: "image://themedimage/icons/toolbar/camera-photo"
+                        }
+                    ]
+
+                    detailsComponent: demoComponent1
+
+                    Component {
+                        id: demoComponent1
+
+                        Rectangle {
+
+                            height: 50
+                            color: "steelblue"
+                            width: parent.width
+
+                            Text {
+                                id: text1
+
+                                text: "Demo Component1"
+                            }
+                        }
+                    }
+                }
+
+                ExpandingBox {
+                    id: ebox2
+
+                    width: widgetPage.width / 3
+                    height: 50
+                    titleTextColor: "black"
+
+                    headerContent: Item {
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.fill: parent
+
+                        Column{
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left:  parent.left
+                            anchors.leftMargin: 5
+                            id: box
+                            Text {
+                                id: text
+                                text: "Example"
+                                font.pixelSize: 20
+                            }
+                            Text {
+                                id: subtext
+                                text: "for custom header"
+                                font.pixelSize: 15
+
+                            }
+                        }
+                        Image {
+                            anchors.left: box.right
+                            anchors.leftMargin: 5
+                            anchors.verticalCenter: parent.verticalCenter
+                            fillMode: Image.PreserveAspectFit
+                            source: "image://themedimage/icons/toolbar/camera-photo"
+                        }
+                        Text {
+                            id: text2
+                            text: "24hrs"
+                            font.pixelSize: 20
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+
+                        }
+                    }
+
+                    detailsComponent: demoComponent2
+
+                    Component {
+                        id: demoComponent2
+
+                        Rectangle {
+
+                            height: 50
+                            color: "lightblue"
+                            width: parent.width
+
+                            Text {
+                                id: text2
+
+                                text: "Demo Component2"
+                            }
+                        }
+                    }
+                }
+            }
+
+            ExpandingBox {
+                id: ebox3
+
+                width: 120
+                height: 200
+                titleTextColor: "black"
+                orientation: "vertical"
+                Button {
+                    y: 2
+                    x: 2
+                    text: "Switch"
+                    onClicked: {
+                        if( ebox3.orientation == "horizontal" ){
+                            ebox3.width = 120
+                            ebox3.height = 200
+                            ebox3.buttonWidth = 120
+                            ebox3.buttonHeight = 200
+                            ebox3.orientation = "vertical"
+                        }
+                        else{
+                            ebox3.width = 200
+                            ebox3.height = 75
+                            ebox3.buttonWidth = 200
+                            ebox3.buttonHeight = 75
+                            ebox3.orientation = "horizontal"
+                        }
+                    }
+                }
+
+                headerContent: Item {
                     anchors.verticalCenter: parent.verticalCenter
-                    fillMode: Image.PreserveAspectFit
-                    source: "image://theme/camera/camera_lens_sm_up"
+                    anchors.fill: parent
+
+                    Column{
+                        anchors.top: parent.top
+                        anchors.topMargin: 5
+                        anchors.left: parent.left
+                        anchors.leftMargin: 5
+                        id: box2
+                        Text {
+                            id: text3
+                            text: "Example"
+                            font.pixelSize: 20
+                        }
+                        Text {
+                            id: subtext3
+                            text: "vertical"
+                            font.pixelSize: 15
+
+                        }
+
+                    }
                 }
-            ]
 
-            detailsComponent: demoComponent1
+                detailsComponent: demoComponent3
 
-            Component {
-                id: demoComponent1
+                Component {
+                    id: demoComponent3
 
-                Rectangle {
+                    Rectangle {
 
-                    height: 50
-                    color: "blue"
-                    width: parent.width
+                        height: 150//parent.height
+                        color: "lightblue"
+                        width: 150
 
-                    Text {
-                        id: text1
+                        Text {
+                            id: text2
 
-                        text: "Demo Component1"
+                            text: "Click me"
+                        }
+                        Button {
+                            anchors.top: text2.bottom
+                            text: "Switch"
+                            onClicked: {
+                                if( ebox3.orientation == "horizontal" ){
+                                    ebox3.width = 120
+                                    ebox3.height = 200
+                                    ebox3.buttonWidth = 120
+                                    ebox3.buttonHeight = 200
+                                    ebox3.orientation = "vertical"
+                                }
+                                else{
+                                    ebox3.width = 200
+                                    ebox3.height = 75
+                                    ebox3.buttonWidth = 200
+                                    ebox3.buttonHeight = 75
+                                    ebox3.orientation = "horizontal"
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }
-
-        ExpandingBox {
-            id: ebox2
-
-            width: 400
-            height: 50
-            titleText: "Dummy Box"
-            titleTextColor: "black"
-
-//            iconRow: [
-//                Image {
-//                    height: parent.height * 0.9
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    fillMode: Image.PreserveAspectFit
-//                    source: "image://theme/camera/camera_lens_sm_up"
-//                }
-//            ]
-
-            detailsComponent: demoComponent1
-
-            Component {
-                id: demoComponent2
-
-                Rectangle {
-
-                    height: 50
-                    color: "blue"
-                    width: parent.width
-
-                    Text {
-                        id: text2
-
-                        text: "Demo Component1"
-                    }
-                }
-            }
-        }}
+        }// end row
     }
 
     TopItem {

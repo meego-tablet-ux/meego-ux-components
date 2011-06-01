@@ -44,7 +44,7 @@ public:
     QDeclarativeGestureAreaPrivate(QDeclarativeGestureArea *q) : q_ptr(q), defaultHandler(0) {
         absolutePosition = false;
         enabled = true;
-        acceptUnhandledEvents = true;
+        acceptUnhandledEvents = false;
         handlerActive = false;
         orientation = 0;
 
@@ -54,12 +54,11 @@ public:
         unhandledGestures << Qt::PinchGesture;
         unhandledGestures << Qt::SwipeGesture;
         unhandledGestures << Qt::CustomGesture;
-
     }
 
     QDeclarativeGestureArea *q_ptr;
 
-    QList<Qt::GestureType> unhandledGestures;
+    QSet<Qt::GestureType> unhandledGestures;
     QList<QObject *> handlers;
     QObject *defaultHandler;
     bool absolutePosition;
@@ -69,6 +68,7 @@ public:
     int orientation;
 
     static void handlers_append(QDeclarativeListProperty<QObject> *prop, QObject *handler) {
+
         QDeclarativeGestureAreaPrivate *d = static_cast<QDeclarativeGestureAreaPrivate *>(prop->data);
         QDeclarativeGestureArea *q = d->q_ptr;
         int type = handler->property("gestureType").toInt();
@@ -93,31 +93,26 @@ public:
         d->handlers.append(handler);
         if (GestureAreaQmlPlugin::self){
             GestureAreaQmlPlugin::self->allGestures << gestureType;
-            d->removeGestureType( gestureType );
+            d->unhandledGestures.remove( gestureType );
+
         }
         if (type == 0 && GestureAreaQmlPlugin::self) {
             d->defaultHandler = handler;
             GestureAreaQmlPlugin::self->allDefaultAreas << QWeakPointer<QDeclarativeGestureArea>(q);
             foreach (Qt::GestureType gestureType, GestureAreaQmlPlugin::self->allGestures) {
 
-                d->removeGestureType( gestureType );
                 foreach (QWeakPointer<QDeclarativeGestureArea> area, GestureAreaQmlPlugin::self->allDefaultAreas) {
                     if (area)
                         area.data()->grabGesture(gestureType);
                 }
             }
         } else {
-            d->removeGestureType( gestureType );
             q->grabGesture(gestureType);
         }
-
-        if( d->acceptUnhandledEvents )
-            d->grabUnhandledGestureTypes( d->acceptUnhandledEvents );
     }
     static void handlers_clear(QDeclarativeListProperty<QObject> *prop) {
         QDeclarativeGestureAreaPrivate *d = static_cast<QDeclarativeGestureAreaPrivate *>(prop->data);
         d->handlers.clear();
-        d->grabUnhandledGestureTypes( false );
     }
     static int handlers_count(QDeclarativeListProperty<QObject> *prop) {
         QDeclarativeGestureAreaPrivate *d = static_cast<QDeclarativeGestureAreaPrivate *>(prop->data);
@@ -128,17 +123,17 @@ public:
         return d->handlers.at(index);
     }
 
-    void removeGestureType( Qt::GestureType gestureType );
     bool evaluate(QGestureEvent *event, QGesture *gesture, QObject *handler);
     bool gestureEvent(QGestureEvent *event);
-
-    void grabUnhandledGestureTypes( bool grab );
 
     QGesture* mapGesture( QGesture* gesture, const QGestureEvent *event);
     QPointF correctPoint( QPointF point, const QGestureEvent *event );
     qreal correctAngle( qreal angle );
     QPointF correctOffset( QPointF offset );
     void getOrientation();
+
+    void lockGestureArea();
+    void unlockGestureArea();
 
 };
 
@@ -214,12 +209,63 @@ QDeclarativeGestureArea::QDeclarativeGestureArea(QDeclarativeItem *parent) :
     d_ptr = new QDeclarativeGestureAreaPrivate(this);
     setAcceptedMouseButtons(Qt::LeftButton);
     setAcceptTouchEvents(true);
+    setAcceptUnhandledEvents( true );
 
 }
 
 QDeclarativeGestureArea::~QDeclarativeGestureArea()
 {
     delete d_ptr; d_ptr = 0;
+}
+
+void QDeclarativeGestureAreaPrivate::lockGestureArea()
+{
+    QDeclarativeGestureArea *q = q_ptr;
+    q->setKeepMouseGrab(true);
+
+    foreach( Qt::GestureType gestureType , unhandledGestures )
+    {
+        q->grabGesture( gestureType );
+        /* if(  GestureAreaQmlPlugin::self ) {
+            GestureAreaQmlPlugin::self->allDefaultAreas << QWeakPointer<QDeclarativeGestureArea>(q);
+            GestureAreaQmlPlugin::self->allGestures << gestureType;
+            foreach (Qt::GestureType gestureType, GestureAreaQmlPlugin::self->allGestures) {
+                foreach (QWeakPointer<QDeclarativeGestureArea> area, GestureAreaQmlPlugin::self->allDefaultAreas) {
+                    if (area)
+                        area.data()->grabGesture(gestureType);
+                }
+            }
+        }*/
+    }
+}
+
+void QDeclarativeGestureAreaPrivate::unlockGestureArea()
+{
+    QDeclarativeGestureArea *q = q_ptr;
+    q->setKeepMouseGrab(false);
+
+    QList<Qt::GestureType> handlersTypes;
+    foreach(QObject *handler, handlers) {
+        Qt::GestureType type(Qt::GestureType(handler->property("gestureType").toInt()));
+        handlersTypes.append(type);
+    }
+
+    foreach( Qt::GestureType gestureType , unhandledGestures ) {
+        if( !handlersTypes.contains( gestureType ) ) {
+;
+            q->ungrabGesture( gestureType );
+
+            /*if(  GestureAreaQmlPlugin::self ) {
+                GestureAreaQmlPlugin::self->allDefaultAreas << QWeakPointer<QDeclarativeGestureArea>(q);
+                foreach (Qt::GestureType gestureType, GestureAreaQmlPlugin::self->allGestures) {
+                    foreach (QWeakPointer<QDeclarativeGestureArea> area, GestureAreaQmlPlugin::self->allDefaultAreas) {
+                        if (area)
+                            area.data()->ungrabGesture(gestureType);
+                    }
+                }
+            }*/
+        }
+    }
 }
 
 QDeclarativeListProperty<QObject> QDeclarativeGestureArea::handlers()
@@ -241,24 +287,6 @@ bool QDeclarativeGestureArea::sceneEvent(QEvent *event)
     case QEvent::GraphicsSceneMousePress:
     case QEvent::MouseButtonPress:
     case QEvent::TouchBegin:
-        if( d->enabled ) {
-            event->accept();
-            rv = true;
-        }
-        break;
-    case QEvent::Gesture:
-        qDebug() << "gesture:" << event->type();
-        if( d->enabled ) {
-            rv = d->gestureEvent(static_cast<QGestureEvent *>(event));
-        }
-        break;
-
-    case QEvent::GestureOverride:
-        qDebug() << "override:" << event->type();
-        if( d->enabled ) {
-            rv = d->gestureEvent(static_cast<QGestureEvent *>(event));
-        }
-        break;
     case QEvent::MouseMove:
     case QEvent::MouseTrackingChange:
     case QEvent::MouseButtonDblClick:
@@ -272,131 +300,49 @@ bool QDeclarativeGestureArea::sceneEvent(QEvent *event)
     case QEvent::GraphicsSceneDragLeave:
     case QEvent::TouchUpdate:
     case QEvent::TouchEnd:
-
-        if( d->enabled && d->acceptUnhandledEvents ) {
+    case QEvent::GrabMouse:
+    case QEvent::UngrabMouse:
+        if( d->enabled ) {
             event->accept();
             rv = true;
         }
-        qDebug() << "handled:" << event->type();
+        break;
+    case QEvent::Gesture: {
+            if( d->enabled ) {
+                QGestureEvent * ge = static_cast<QGestureEvent *>(event);
+                rv = d->gestureEvent( ge );
+                foreach ( Qt::GestureType gestureType, d->unhandledGestures ) {
+                    ge->accept(gestureType);
+                }
+            }
+        }
         break;
 
+    case QEvent::GestureOverride:
+    {
+        QGestureEvent * ge = static_cast<QGestureEvent *>(event);
+        foreach ( Qt::GestureType gestureType, d->unhandledGestures ) {
+            ge->accept(gestureType);
+        }
+        rv = true;
+
+    }
+    break;
+
     default:
-        qDebug() << "unhandled:" << event->type();
         break;
     }
 
     return rv;
 }
 
-void QDeclarativeGestureArea::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    Q_D(QDeclarativeGestureArea);
-    if( !d->handlerActive && !d->acceptUnhandledEvents )
-        QDeclarativeItem::mousePressEvent(event);
-    else event->accept() ;
-
-}
-
-void QDeclarativeGestureArea::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    GESTUREHANDLER_D(QDeclarativeGestureArea);
-    if( !d->handlerActive && !d->acceptUnhandledEvents )
-        QDeclarativeItem::mouseMoveEvent( event );
-    else event->accept() ;
-}
-
-void QDeclarativeGestureArea::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    GESTUREHANDLER_D(QDeclarativeGestureArea);
-    if( !d->handlerActive && !d->acceptUnhandledEvents )
-        QDeclarativeItem::mouseReleaseEvent(event);
-    else event->accept() ;
-
-}
-
-void QDeclarativeGestureArea::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-{
-    GESTUREHANDLER_D(QDeclarativeGestureArea);
-    if( !d->handlerActive && !d->acceptUnhandledEvents )
-        QDeclarativeItem::mouseDoubleClickEvent(event);
-    else event->accept() ;
-
-}
-
-void QDeclarativeGestureArea::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-    GESTUREHANDLER_D(QDeclarativeGestureArea);
-    if( !d->handlerActive && !d->acceptUnhandledEvents )
-        QDeclarativeItem::hoverEnterEvent(event);
-    else event->accept() ;
-
-}
-
-void QDeclarativeGestureArea::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
-{
-    GESTUREHANDLER_D(QDeclarativeGestureArea);
-    if( !d->handlerActive && !d->acceptUnhandledEvents )
-        QDeclarativeItem::hoverEnterEvent(event);
-    else event->accept() ;
-}
-
-void QDeclarativeGestureArea::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
-{
-    GESTUREHANDLER_D(QDeclarativeGestureArea);
-    if( !d->handlerActive && !d->acceptUnhandledEvents )
-        QDeclarativeItem::hoverLeaveEvent(event);
-    else event->accept() ;
-}
-
-void QDeclarativeGestureAreaPrivate::grabUnhandledGestureTypes( bool grab )
-{
-    QDeclarativeGestureArea *q = q_ptr;
-    if( grab ) {
-        qDebug() << "grabUnhandledGestureTypes, true" << unhandledGestures.count();
-        foreach ( Qt::GestureType gestureType, unhandledGestures ) {
-
-            qDebug() << "grabUnhandledGestureTypes" << gestureType;
-            q->grabGesture( gestureType );
-
-            if (GestureAreaQmlPlugin::self){
-                GestureAreaQmlPlugin::self->allGestures << gestureType;
-            }
-            foreach (QWeakPointer<QDeclarativeGestureArea> area, GestureAreaQmlPlugin::self->allDefaultAreas) {
-                if (area)
-                    area.data()->grabGesture(gestureType);
-            }
-        }
-    } else {
-        foreach ( Qt::GestureType gestureType, unhandledGestures ) {
-            q->ungrabGesture( gestureType );
-            foreach (QWeakPointer<QDeclarativeGestureArea> area, GestureAreaQmlPlugin::self->allDefaultAreas) {
-                if (area)
-                    area.data()->ungrabGesture(gestureType);
-            }
-        }
-    }
-}
-
-void QDeclarativeGestureAreaPrivate::removeGestureType( Qt::GestureType gestureType )
-{
-    if( unhandledGestures.contains( gestureType ) )
-    {
-        qDebug() << "remove" << gestureType;
-        unhandledGestures.removeOne( gestureType );
-    }
-    qDebug() << "remove count " << unhandledGestures.count();
-}
-
 bool QDeclarativeGestureAreaPrivate::gestureEvent(QGestureEvent *event)
 {
     if ( handlers.isEmpty() ) {
-        if( acceptUnhandledEvents ) {
-            foreach(Qt::GestureType gestureType, unhandledGestures ) {
-                event->accept( gestureType );
-            }
-            return true;
+        foreach(Qt::GestureType gestureType, unhandledGestures ) {
+            event->accept( gestureType );
         }
-        return false;
+        return true;
     }
 
     bool active = false;
@@ -405,7 +351,7 @@ bool QDeclarativeGestureAreaPrivate::gestureEvent(QGestureEvent *event)
     foreach(QObject *handler, handlers) {
         Qt::GestureType type(Qt::GestureType(handler->property("gestureType").toInt()));
         handlersTypes.append(type);
-        if( !acceptUnhandledEvents )
+        if( !acceptUnhandledEvents && !handlerActive)
             event->ignore(type);
         else
             event->accept(type);
@@ -436,14 +382,15 @@ bool QDeclarativeGestureAreaPrivate::gestureEvent(QGestureEvent *event)
         }
     }
 
-    handlerActive = active;
+    if( acceptUnhandledEvents ) {
+        lockGestureArea();
+    } else if( active != handlerActive) {
+        handlerActive = active;
 
-    if( acceptUnhandledEvents || handlerActive ) {
-        foreach (Qt::GestureType gestureType, GestureAreaQmlPlugin::self->allGestures) {
-            event->accept(gestureType);
-        }
-        foreach(Qt::GestureType gestureType, unhandledGestures ) {
-            event->accept( gestureType );
+        if(handlerActive) {
+            lockGestureArea();
+        } else {
+            unlockGestureArea();
         }
     }
 
@@ -469,7 +416,6 @@ bool QDeclarativeGestureAreaPrivate::evaluate(QGestureEvent *event, QGesture *ge
             qmlInfo(q_ptr) << expr.error();
             return false;
         }
-
         if (!result.toBool())
             return false;
     }
@@ -600,8 +546,6 @@ void QDeclarativeGestureArea::setAcceptUnhandledEvents( bool acceptEvents )
     Q_D(QDeclarativeGestureArea);
     d->acceptUnhandledEvents = acceptEvents;
     acceptUnhandledEventsChanged();
-    d->grabUnhandledGestureTypes( d->acceptUnhandledEvents );
-
 }
 bool QDeclarativeGestureArea::enabled() const
 {

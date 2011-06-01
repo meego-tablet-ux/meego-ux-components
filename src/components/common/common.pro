@@ -42,6 +42,7 @@ QML_FILES = qmldir \
         TimeSpinner.qml \
         ToggleButton.qml \
         TopItem.qml \
+        VerticalLayout.qml \
         VerticalSlider.qml \
         Window.qml
 

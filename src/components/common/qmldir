@@ -35,5 +35,6 @@ ThemeImage 0.1          ThemeImage.qml
 TimeSpinner 0.1         TimeSpinner.qml
 ToggleButton 0.1        ToggleButton.qml
 TopItem 0.1             TopItem.qml
+VerticalLayout 0.1      VerticalLayout.qml
 VerticalSlider 0.1      VerticalSlider.qml
 Window 0.1              Window.qml

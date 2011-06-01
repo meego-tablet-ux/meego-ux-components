@@ -33,6 +33,7 @@ Theme 0.1 ../Ux/Components/Common/Theme.qml
 TimeSpinner 0.1 ../Ux/Components/Common/TimeSpinner.qml
 ToggleButton 0.1 ../Ux/Components/Common/ToggleButton.qml
 TopItem 0.1 ../Ux/Components/Common/TopItem.qml
+VerticalLayout 0.1 ../Ux/Components/Common/VerticalLayout.qml
 VerticalSlider 0.1 ../Ux/Components/Common/VerticalSlider.qml
 Window 0.1 ../Ux/Components/Common/Window.qml
 

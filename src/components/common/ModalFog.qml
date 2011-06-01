@@ -15,6 +15,10 @@
          in the back. It provides the complete in and out fading as well as the
          basic signals.
 
+  \section2 Important
+  \qmlcm The z-value is set to 0 by default and must not be changed. This is important for the stacking of multiple
+  overlay items. It will be reset to 0 on each show().
+
   \section2  API Properties
 
   \qmlproperty item modalSurface
@@ -93,6 +97,8 @@ Item {
         visible = true
         fadeIn.running = true
         focus = true
+        // This ensures the ModalFog item is always on z = 0. This is very important for stacking of multiple overlay items!
+        z = 0
     }
 
     function hide(){
@@ -118,7 +124,6 @@ Item {
     }
 
     anchors.centerIn: autoCenter? parent : undefined
-    z: 0
 
     visible: false
     opacity:  0
@@ -158,7 +163,6 @@ Item {
             }
         }
     }
-
 
     // this item only sets up an orientation point for the content.
     // if autoCenter is off, origin is up left, otherwise it's centered.

@@ -15,7 +15,7 @@ import MeeGo.Components 0.1
 AppPage {
     id: mainPage
 
-    state: "setters"
+    state: "common"
 
     pageTitle: qsTr("Book 1, widget gallery")
 
@@ -63,10 +63,11 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; right: settersButton.left }
-            text: qsTr("Buttons")
+            text: qsTr("common")
+            active: true
 
             onClicked: {
-                mainPage.state = "buttons"
+                mainPage.state = "common"
                 active = true
                 settersButton.active = false
                 pickersButton.active = false
@@ -78,13 +79,10 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; horizontalCenter: parent.horizontalCenter }
-
-            text: qsTr("Widgets")
-
-            active: true
+            text: qsTr("media")
 
             onClicked: {
-                mainPage.state = "setters"
+                mainPage.state = "media"
                 active = true
                 pickersButton.active = false
                 buttonsButton.active = false
@@ -96,10 +94,10 @@ AppPage {
 
             width:  parent.buttonWidth; height: parent.buttonHeight
             anchors { margins: parent.buttonMargins; left: settersButton.right }
-            text: qsTr("Dialogs")
+            text: qsTr("datetime")
 
             onClicked: {
-                mainPage.state = "pickers"
+                mainPage.state = "datetime"
                 active = true
                 settersButton.active = false
                 buttonsButton.active = false
@@ -113,30 +111,30 @@ AppPage {
         anchors { top: contentButtons.bottom; bottom: parent.bottom; left: parent.left; right: parent.right }
     }
 
-    ButtonContent { id: buttonContent; anchors.fill: contentSpace }
-    SettersContent { id: settersContent; anchors.fill: contentSpace }
-    PickerContent { id: pickerContent; anchors.fill:  contentSpace }
+    CommonContent { id: commonContent; anchors.fill: contentSpace }
+    MediaContent { id: mediaContent; anchors.fill: contentSpace }
+    DateTimeContent { id: datetimeContent; anchors.fill:  contentSpace }
 
     Rectangle { z: -1; anchors.fill: parent; color: "grey" } //background
 
     states:  [
         State {
-            name: "buttons"
-            PropertyChanges { target: buttonContent; visible: true }
-            PropertyChanges { target: settersContent; visible: false }
-            PropertyChanges { target: pickerContent; visible: false }            
+            name: "common"
+            PropertyChanges { target: commonContent; visible: true }
+            PropertyChanges { target: mediaContent; visible: false }
+            PropertyChanges { target: datetimeContent; visible: false }
         },
         State {
-            name: "setters"
-            PropertyChanges { target: buttonContent; visible: false }
-            PropertyChanges { target: settersContent; visible: true }
-            PropertyChanges { target: pickerContent; visible: false }        
+            name: "media"
+            PropertyChanges { target: commonContent; visible: false }
+            PropertyChanges { target: mediaContent; visible: true }
+            PropertyChanges { target: datetimeContent; visible: false }
         },
         State {
-            name: "pickers"
-            PropertyChanges { target: buttonContent; visible: false }
-            PropertyChanges { target: settersContent; visible: false }
-            PropertyChanges { target: pickerContent; visible: true }         
+            name: "datetime"
+            PropertyChanges { target: commonContent; visible: false }
+            PropertyChanges { target: mediaContent; visible: false }
+            PropertyChanges { target: datetimeContent; visible: true }
         }
 
     ]

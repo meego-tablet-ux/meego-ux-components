@@ -61,19 +61,12 @@
   \qmlproperty bool disableSearch
   qmlcm disables the searchbar on true, enables it on false. Default is false.
 
- \qmlproperty string lockOrientationIn
- \qmlcm this property can be used to lock the window in a given orientation.
- Possible values are:
- \qml
- "landscape"
- "portrait"
- "invertedLandscape"
- "invertedPortrait"
- Every other value will unlock the orientation. Default is "".
- \endqml
+  \qmlproperty bool allowActionMenuSignal: true
+  qmlcm allows the page to receive actionMenuTriggered() signals
 
-    property bool allowActionMenuSignal: true
-    property bool fastPageSwitch: false
+  \qmlproperty bool fastPageSwitch: false
+  qmlcm on false, the page switch in the window waits until the animation has finished until a new page can be added.
+  On true, you can add as many pages as you want and the window will show the latest.
 
   \section2 Signals
 
@@ -146,7 +139,7 @@ Item {
 
     width:  parent ? parent.width : 0
     height: parent ? parent.height : 0
-    z: 50
+
     visible: false
     
     property string pageTitle: ""
@@ -168,7 +161,7 @@ Item {
     property bool fastPageSwitch: false
     property bool pageActive: false
 
-    property string lockOrientationIn: "" // FIXME: strings right now. Should be: enum of qApp
+    property string lockOrientationIn: "" // DEPRECATED
 
     signal actionMenuTriggered( variant selectedItem )
     signal actionMenuIconClicked( int mouseX, int mouseY )

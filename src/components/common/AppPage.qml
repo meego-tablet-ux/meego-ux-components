@@ -215,8 +215,10 @@ Item {
         pageActive = true
     }
 
-    onDeactivating: pageActive = false // from PageStack.qml
-
+    onDeactivating: {
+        actionMenuSelectedIndex = -1
+        pageActive = false // from PageStack.qml
+    }
     onPageTitleChanged: newPageTitle( pageTitle )
 
     onFastPageSwitchChanged: newFastPageSwitchChanged( fastPageSwitch )

@@ -431,40 +431,66 @@ Item {
         StatusBar {
             id: statusBar
 
-            x: 0
-            y: if( fullScreen ){
-                - statusBar.height - clipBox.height
-            }
-            else if( fullContent ){
-                - statusBar.height
-            }
-            else{
-                0
-            }
-            width: window_content_topitem.width
-            height: 30
+            anchors.bottom: clipBox.top
 
-            active: window.isActiveWindow
+            property bool fullScreen: window.fullScreen
+            property bool fullContent: window.fullContent
 
-            Behavior on y {
-                PropertyAnimation {
-                    duration: theme.dialogAnimationDuration
-                    easing.type: "OutSine"
+            onFullContentChanged: {
+                estimateVisibility()
+            }
+            onFullScreenChanged: {
+                estimateVisibility()
+            }
+            function estimateVisibility() {
+                if( fullScreen || fullContent) {
+                    hide();
+                } else {
+                    show();
                 }
             }
+            width: window_content_topitem.width
+            height: hintHeight
+            active: window.isActiveWindow
+
         } //end of statusBar
 
         //the toolbar consists of a searchbar and the titlebar. The latter contains menus for navigation and actions.
         Item {
             id: clipBox
 
-            anchors.top: statusBar.bottom
+            anchors.top: window_content_topitem.top
+            anchors.topMargin: statusBar.height
             width: parent.width
             height: toolBar.height + toolBar.offset
-
             clip: true
 
+            property bool fullScreen: window.fullScreen
+            property bool fullContent: window.fullContent
+
+            onFullContentChanged: {
+                estimateVisibility()
+            }
+            onFullScreenChanged: {
+                estimateVisibility()
+            }
+            function estimateVisibility() {
+                if( fullScreen ) {
+                    anchors.topMargin = 0 - statusBar.hintHeight - clipBox.height
+                } else if( fullContent ) {
+                    anchors.topMargin = 0
+                } else {
+                    anchors.topMargin = statusBar.hintHeight
+                }
+            }
+
             Behavior on height {
+                NumberAnimation{
+                    duration: theme.dialogAnimationDuration
+                }
+            }
+
+            Behavior on anchors.topMargin {
                 NumberAnimation{
                     duration: theme.dialogAnimationDuration
                 }

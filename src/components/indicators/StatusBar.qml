@@ -2,6 +2,44 @@ import Qt 4.7
 import MeeGo.Components 0.1
 import MeeGo.Ux.Gestures 0.1
 
+/*!
+  \qmlclass StatusBar
+  \title StatusBar
+  \section1 StatusBar
+
+  \section2 API properties
+      \qmlproperty bool active
+      \qmlcm indicates if the statusbar is active or not.
+
+      \qmlproperty bool showClock
+      \qmlcm the top most item's width.
+
+      \qmlproperty int hintHeight
+      \qmlcm the desired Height of the statusbar.
+
+      \qmlproperty bool triggered
+      \qmlcm true if a pan or a tab
+
+  \section2 Signals
+  \qmlfn panned
+  \qmlcm is sent when the GestureArea was panned.
+
+  \qmlfn tapAndHolded
+  \qmlfn is sent when the GestureArea was holded.
+
+  \section2 Signals
+  \qmlfn show()
+  \qmlcm triggers a show of the
+
+  \qmlfn tapAndHolded
+  \qmlfn is sent when the GestureArea was holded.
+
+  \section2 Example
+  \qml
+        // used in Window.qml only
+  \endqml
+*/
+
 Item {
     id: container
     property variant networkIndicator: null
@@ -10,8 +48,28 @@ Item {
     property bool active: true
     property alias backgroundOpacity: background.opacity
     property bool showClock: true
-
+    property int hintHeight: 30
     property bool triggered: false
+
+    signal panned()
+    signal tapAndHolded()
+
+    function hide()
+    {
+        //nop in this implementation
+    }
+
+    function show()
+    {
+        //nop in this implementation
+    }
+
+    Behavior on height {
+        PropertyAnimation {
+            duration: theme.dialogAnimationDuration
+            easing.type: "OutSine"
+        }
+    }
 
     Item {
         id: privateData
@@ -195,6 +253,13 @@ Item {
         id: gestureArea
         anchors.fill: parent
 
+        TapAndHold {
+            onFinished: {
+                container.triggered = true
+                tapAndHolded();
+            }
+        }
+
         Pan {
             onStarted: {
 
@@ -203,6 +268,7 @@ Item {
                 if( gesture.offset.y  > 10 && !container.triggered ) {
                     mainWindow.triggerSystemUIMenu();
                     container.triggered = true;
+                    panned();
                 }
             }
             onCanceled: {

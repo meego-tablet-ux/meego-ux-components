@@ -476,7 +476,7 @@ Item {
             }
             function estimateVisibility() {
                 if( fullScreen ) {
-                    anchors.topMargin = 0 - statusBar.hintHeight - clipBox.height
+                    anchors.topMargin = 0 - clipBox.height
                 } else if( fullContent ) {
                     anchors.topMargin = 0
                 } else {

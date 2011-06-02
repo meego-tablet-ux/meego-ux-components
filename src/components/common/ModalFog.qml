@@ -154,7 +154,7 @@ Item {
             anchors.fill: parent
             acceptUnhandledEvents: true
             Tap {
-                onStarted: {
+                onFinished: {
                     if(fogContainer.fogClickable){
                         fogContainer.hide()
                         fogContainer.rejected()

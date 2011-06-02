@@ -219,13 +219,11 @@ ModalFog {
             id: blocker
             acceptUnhandledEvents: true
             anchors.fill: parent
-            z: -1
-
             Tap {}
-            TapAndHold {}
-            Pan {}
-            Pinch {}
-            Swipe {}
+            TapAndHold{}
+            Pan{}
+            Pinch{}
+            Swipe{}
         }
 
         Text {

@@ -202,6 +202,11 @@ Item {
             id: blocker
             anchors.fill: spinnerRect
             acceptUnhandledEvents: true
+            Tap{}
+            TapAndHold{}
+            Pan{}
+            Swipe{}
+            Pinch{}
         }
 
         PathView {

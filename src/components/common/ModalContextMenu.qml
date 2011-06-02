@@ -300,8 +300,11 @@ ModalFog {
             GestureArea {
                 anchors.fill: realMenu
                 acceptUnhandledEvents: true
-                Tap{}
+                Tap {}
                 TapAndHold{}
+                Pan{}
+                Pinch{}
+                Swipe{}
                 z:-1
             }
 

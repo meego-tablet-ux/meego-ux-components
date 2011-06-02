@@ -47,8 +47,8 @@ AppPage {
 
                 anchors.fill: parent
 
-                absolutePosition: true
-                acceptUnhandledEvents: false
+                absolutePosition: false
+                acceptUnhandledEvents: true
 
                 Tap {
                     onStarted: {
@@ -187,8 +187,6 @@ AppPage {
 
                 id: mouseArea
                 anchors.fill: parent
-
-
 
             }
 

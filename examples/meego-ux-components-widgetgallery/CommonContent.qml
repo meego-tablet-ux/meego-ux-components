@@ -11,6 +11,7 @@
 
 import Qt 4.7
 import MeeGo.Components 0.1
+import MeeGo.Ux.Gestures 0.1
 
 Item {
     id: buttonContent
@@ -69,24 +70,24 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: buttonItem
-                        z: 1
-
-                        onClicked: addPage( buttonComponent )
-                    }
-
                     Item {
                         id: button
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
+                        height: flickContainer.height
                         Button {
                             text:  qsTr("Button")
 
                             width: parent.width
                             anchors.centerIn: parent
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap {
+                                onFinished: { addPage( buttonComponent ) }
+                            }
                         }
                     }
 
@@ -111,7 +112,6 @@ Item {
                     height:  flickContainer.itemHeight
 
                     anchors.left: parent.left
-
                     anchors.right: parent.right
 
                     border.width: 1
@@ -120,23 +120,24 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: bottomItem
-                        z: 1
-
-                        onClicked: addPage( bottomPage )
-                    }
-
                     Item {
+                        id: bottomsubitem
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
+                        height: flickContainer.height
                         Button {
                             text:  "BottomBar"
 
                             width: parent.width
                             anchors.centerIn: parent
                             elideText: true
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap {
+                                onFinished: { addPage( bottomPage ) }
+                            }
                         }
                     }
 
@@ -161,9 +162,7 @@ Item {
                     height:  flickContainer.itemHeight
 
                     anchors.left: parent.left
-
                     anchors.right: parent.right
-
                     border.width: 1
                     border.color: "grey"
 
@@ -175,7 +174,7 @@ Item {
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.height
                         CheckBox {
                             anchors.centerIn: parent
                         }
@@ -197,7 +196,7 @@ Item {
                     id: contextItem
 
                     width: parent.width
-                    height:  flickContainer.itemHeight
+                    height: flickContainer.itemHeight
 
                     anchors.left: parent.left
 
@@ -209,23 +208,22 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: contextItem
-                        z: 1
-
-                        onClicked: addPage( contextPage )
-                    }
-
                     Item {
+                        id: contextmenuitem
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
+                        height: flickContainer.itemHeight
                         Button {
                             text:  "ContextMenu"
 
                             width: parent.width
                             anchors.centerIn: parent
                             elideText: true
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( contextPage ) }
                         }
                     }
 
@@ -255,20 +253,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: dropDownBoxItem
-                        z: 1
-
-                        onClicked: addPage( dropDownComponent )
-                    }
-
                     Item{
                         id: dropDownBox
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.itemHeight
                         DropDown {
                             width:  parent.width
                             anchors.centerIn: parent
@@ -278,13 +269,16 @@ Item {
                             title: "DropDown"
                             titleColor: "black"
                         }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( dropDownComponent ) }
+                        }
                     }
 
                     Text {
                         x: parent.width / 2
                         width: parent.width * flickContainer.rightFactor
                         height: parent.height
-
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
                         font.pixelSize: flickContainer.textSize
@@ -306,20 +300,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: expandingBoxItem
-                        z: 1
-
-                        onClicked: addPage( expandingComponent )
-                    }
-
                     Item{
                         id: expandingBox
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.itemHeight
                         ExpandingBox {
 
                             width:  parent.width
@@ -342,6 +329,10 @@ Item {
                                     Rectangle { id: rect3; color: "orange"; height: 30; width: parent.width; anchors{ top: rect1.bottom; horizontalCenter: parent.horizontalCenter } }
                                 }
                             }
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( expandingComponent ) }
                         }
                     }
 
@@ -374,23 +365,20 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: iconButtonItem
-                        z: 1
-
-                        onClicked: addPage( iconButtonComponent )
-                    }
-
                     Item {
                         id: iconButton
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.height
                         IconButton {
                             width: parent.width
                             anchors.centerIn: parent
                             icon: "image://themedimage/images/media/icn_addtoalbum_up"
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( iconButtonComponent ) }
                         }
                     }
 
@@ -420,20 +408,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: infoItem
-                        z: 1
-
-                        onClicked: addPage( infoComponent )
-                    }
-
                     Item{
                         id: infoButton
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.itemHeight
                         InfoBar {
                             width: parent.width
                             anchors.centerIn: parent
@@ -443,6 +424,10 @@ Item {
                             Component.onCompleted: {
                                 show()
                             }
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( infoComponent ) }
                         }
                     }
 
@@ -472,25 +457,22 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: labelItem
-                        z: 1
-
-                        onClicked: addPage( labelComponent )
-                    }
-
                     Item{
                         id: label
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.itemHeight
                         Label {
                             width:  parent.width
                             anchors.centerIn: parent
 
                             text: "Label"
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( labelComponent ) }
                         }
                     }
 
@@ -520,25 +502,22 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: layoutTextItem
-                        z: 1
-
-                        onClicked: addPage( layoutTextItemComponent )
-                    }
-
                     Item{
                         id: layoutTextButton
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.itemHeight
                         LayoutTextItem {
                             maxWidth: parent.width
                             anchors.centerIn: parent
 
                             text: "LayoutTextItem"
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( layoutTextItemComponent ) }
                         }
                     }
 
@@ -572,25 +551,23 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: messagenItem
-                        z: 1
-
-                        onClicked: addPage( messageBoxPage )
-                    }
-
                     Item {
                         id: messageItem
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
+                        height: parent.height
                         Button {
                             text:  "message"
 
                             width: parent.width
                             anchors.centerIn: parent
                             elideText: true
+                        }
+                        GestureArea {
+                            anchors.fill: messageItem
+                            Tap { onFinished: addPage( messageBoxPage ) }
                         }
                     }
 
@@ -620,20 +597,13 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: modalSpinnerItem
-                        z: 1
-
-                        onClicked: addPage( modalSpinnerComponent )
-                    }
-
                     Item{
                         id: modalSpinnerButton
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.itemHeight
                         Item{
                             id: spinner
 
@@ -655,7 +625,12 @@ Item {
                                 smooth: true
                             }
                         }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished:{ addPage( modalSpinnerComponent ) } }
+                        }
                     }
+
                     Text {
                         x: parent.width / 2
                         width: parent.width * flickContainer.rightFactor
@@ -682,26 +657,22 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: popupListItem
-                        z: 1
-
-                        onClicked: addPage( popupComponent )
-                    }
-
                     Item{
                         id: popupListButton
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.height
                         Button {
                             width: parent.width
                             anchors.centerIn: parent
-
                             text: "PopupList"
                             elideText: true
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( popupComponent ) }
                         }
                     }
 
@@ -731,23 +702,20 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: progressBarItem
-                        z: 1
-
-                        onClicked: addPage( progressBarComponent )
-                    }
-
                     Item{
                         id: progressBar
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
+                        height: flickContainer.height
                         ProgressBar {
                             anchors.centerIn: parent
-
                             width:  parent.width
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( progressBarComponent ) }
                         }
                     }
 
@@ -772,7 +740,6 @@ Item {
                     height:  flickContainer.itemHeight
 
                     anchors.left: parent.left
-
                     anchors.right: parent.right
 
                     border.width: 1
@@ -781,24 +748,20 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: radioItem
-                        z: 1
-
-                        onClicked: addPage( radioComponent )
-                    }
-
                     Item {
                         id: radio
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.height
                         RadioButton {
                             anchors.centerIn: parent
-
                             text: qsTr("Radio")
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( radioComponent ) }
                         }
                     }
 
@@ -832,23 +795,21 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: sliderItem
-                        z: 1
-
-                        onClicked: addPage( sliderComponent )
-                    }
-
                     Item{
                         id: slider
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
+                        height: flickContainer.itemHeight
                         Slider {
-
                             anchors.centerIn: parent
                             width: parent.width
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: { addPage( sliderComponent ) }
+                            }
                         }
                     }
 
@@ -879,13 +840,6 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: spinnerItem
-                        z: 1
-
-                        onClicked: addPage( spinnerComponent )
-                    }
-
                     Item{
                         id: spinnerButton
 
@@ -913,6 +867,11 @@ Item {
                                 height: sourceSize.height
                                 smooth: true
                             }
+
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( spinnerComponent ) }
                         }
                     }
 
@@ -942,26 +901,23 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: textEntryItem
-                        z: 1
-
-                        onClicked: addPage( textEntryComponent )
-                    }
-
                     Item{
                         id: textEntry
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.height
                         TextEntry{
 
                             width:  parent.width
                             anchors.centerIn: parent
 
                             text: "Write in this box..."
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( textEntryComponent ) }
                         }
                     }
 
@@ -991,28 +947,24 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: textFieldItem
-                        z: 1
-
-                        onClicked: addPage( textFieldComponent )
-                    }
-
                     Item{
                         id: textField
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.height
                         TextField{
                             anchors.centerIn: parent
                             width:  parent.width
 
                             text: "TextField, for multiple lines of text."
                         }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( textFieldComponent ) }
+                        }
                     }
-
                     Text {
                         x: parent.width / 2
                         width: parent.width * flickContainer.rightFactor
@@ -1043,25 +995,21 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: toggleButtonItem
-                        z: 1
-
-                        onClicked: addPage( toggleButtonComponent )
-                    }
-
                     Item{
                         id: toggleButton
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width ) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
-
+                        height: flickContainer.height
                         ToggleButton {
                             anchors.centerIn: parent
                         }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( toggleButtonComponent ) }
+                        }
                     }
-
                     Text {
                         x: parent.width / 2
                         width: parent.width * flickContainer.rightFactor
@@ -1088,25 +1036,22 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: vsliderItem
-                        z: 1
-
-                        onClicked: addPage( vsliderComponent )
-                    }
-
                     Item{
                         id: vslider
 
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width  * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
+                        height: flickContainer.height
                         Slider {
                             anchors.centerIn: parent
                             width:  parent.width
                         }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( vsliderComponent ) }
+                        }
                     }
-
                     Text {
                         x: parent.width / 2
                         width: parent.width * flickContainer.rightFactor
@@ -1133,13 +1078,6 @@ Item {
                     color: flickContainer.backColor
                     clip:  true
 
-                    MouseArea {
-                        anchors.fill: verticalLayoutItem
-                        z: 1
-
-                        onClicked: addPage( layoutPage )
-                    }
-
                     Item{
                         id: verticalLayout
 
@@ -1152,6 +1090,10 @@ Item {
                             width: parent.width
                             anchors.centerIn: parent
                             elideText: true
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( layoutPage ) }
                         }
                     }
 

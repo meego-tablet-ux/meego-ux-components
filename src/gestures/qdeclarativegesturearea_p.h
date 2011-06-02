@@ -34,16 +34,17 @@ class QDeclarativeGestureArea : public QDeclarativeItem
 {
     Q_OBJECT
 
+    Q_PROPERTY( QDeclarativeListProperty<QObject> handlers READ handlers)
     Q_PROPERTY( bool acceptUnhandledEvents READ acceptUnhandledEvents WRITE setAcceptUnhandledEvents NOTIFY acceptUnhandledEventsChanged )
     Q_PROPERTY( bool absolutePosition READ absolutePosition WRITE setAbsolutePosition NOTIFY absolutePositionChanged )
     Q_PROPERTY( bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged )
-    Q_PROPERTY( QDeclarativeListProperty<QObject> handlers READ handlers)
     Q_CLASSINFO("DefaultProperty", "handlers")
 
 public:
 
     QDeclarativeGestureArea(QDeclarativeItem *parent=0);
     ~QDeclarativeGestureArea();
+
     QDeclarativeListProperty<QObject> handlers();
 
     bool acceptUnhandledEvents() const;

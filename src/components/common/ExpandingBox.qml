@@ -124,6 +124,8 @@ Item {
     onDetailsComponentChanged: {
         if( detailsItem ) detailsItem.destroy();
         detailsItem = detailsComponent.createObject( boxDetailsArea )
+        pulldownImage.componentCompleted  = true
+
     }
 
     // if content has been set, destroy any old content and create the new one
@@ -131,9 +133,9 @@ Item {
         buttonHeight = height
         buttonWidth = width
         pulldownImage.boxReady = true
-        if( detailsComponent ) {
+        if( detailsComponent && !pulldownImage.componentCompleted ) {
             if ( detailsItem ) detailsItem.destroy();
-            detailsItem = detailsComponent.createObject( boxDetailsArea )
+            detailsItem = detailsComponent.boxDetailsArea( boxDetailsArea )
         }
     }
 
@@ -148,6 +150,7 @@ Item {
     ThemeImage {
         id: pulldownImage
 
+        property bool componentCompleted: false
         property int animationTime: 200
         property bool boxReady: false
 
@@ -156,7 +159,6 @@ Item {
         height: expandingBox.height // buttonHeight// header.height
         width: expandingBox.width // buttonWidth// header.width
 
-        //source: "image://themedimage/widgets/common/combobox/combobox-background"
         Rectangle {
             anchors.fill: parent
             color: "white"

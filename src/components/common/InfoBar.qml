@@ -54,10 +54,12 @@ Item{
     property int animationTime: 200
 
     function show(){
+        disappear.running = false
         showUp.running = true
     }
 
     function hide(){
+        showUp.running  = false
         disappear.running = true
     }
 

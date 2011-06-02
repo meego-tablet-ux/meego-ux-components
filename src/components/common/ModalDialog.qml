@@ -164,8 +164,8 @@ ModalFog {
     property int buttonWidth: width / 2.5     // deprecated
     property int buttonHeight: width * 0.2     // deprecated
 
-    property real buttonMaxWidth: width / 2.5
-    property real buttonMinWidth: width * 0.2
+    property real buttonMaxWidth: width / 2.1
+    property real buttonMinWidth: width * 0.25
 
     property real buttonMaxHeight: 50   // ToDo replace magic numbers with theme values
     property real buttonMinHeight: 50
@@ -293,7 +293,7 @@ ModalFog {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
             height: inner.border.bottom
-            spacing: 18
+            spacing: 16
             anchors.horizontalCenter: parent.horizontalCenter
             clip: true
 

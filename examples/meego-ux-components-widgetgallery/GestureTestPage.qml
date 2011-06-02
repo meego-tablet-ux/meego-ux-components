@@ -48,7 +48,6 @@ AppPage {
                 anchors.fill: parent
 
                 absolutePosition: false
-                acceptUnhandledEvents: true
 
                 Tap {
                     onStarted: {
@@ -389,8 +388,6 @@ AppPage {
                 }
             }
         }
-
-
     }
 }
 

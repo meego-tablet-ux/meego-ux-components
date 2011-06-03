@@ -96,7 +96,7 @@
 */
 
 import Qt 4.7
-import MeeGo.Media 0.1 as Models
+import MeeGo.Media 0.1 as Labs
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -168,7 +168,7 @@ ModalDialog {
         acceptButtonEnabled = false
     }
 
-    content: MucMediaGridView {
+    content: Labs.MediaGridView {
         id: gridView
 
         // the MucMediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
@@ -193,6 +193,7 @@ ModalDialog {
 
         cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
                                                   : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
+        cellHeight: cellWidth
 
         onClicked: {
             if( photoPicker.multiSelection ) {
@@ -237,13 +238,13 @@ ModalDialog {
     TopItem { id: topItem }
     Theme { id: theme }
 
-    Models.PhotoListModel {
+    Labs.PhotoListModel {
         id: theModel
 
         limit: 0
-        sort: Models.PhotoListModel.SortByDefault
+        sort: Labs.PhotoListModel.SortByDefault
 
-        type: photoPicker.albumSelectionMode ? Models.PhotoListModel.ListofUserAlbums : Models.PhotoListModel.ListofPhotos
+        type: photoPicker.albumSelectionMode ? Labs.PhotoListModel.ListofUserAlbums : Labs.PhotoListModel.ListofPhotos
     }
 }
 

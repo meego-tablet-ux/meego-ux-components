@@ -234,9 +234,7 @@ Flickable {
                             container.triggered( delegateThingy.myIndex )
                             container.selectedIndex = delegateThingy.myIndex
 
-                            if( !highlightSelectedItem ) {
-                                container.currentItem = null
-                            }
+                            container.currentItem = null
                         }
 
                         onStarted: {

@@ -123,7 +123,7 @@
 */
 
 import Qt 4.7
-import MeeGo.Media 0.1 as Models
+import MeeGo.Media 0.1 as Labs
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -279,7 +279,7 @@ ModalDialog {
             }
         }
 
-        MucMediaGridView {
+        Labs.MediaGridView {
             id: musicGridView
 
             // the MucMediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
@@ -308,6 +308,7 @@ ModalDialog {
 
             cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
                                                       : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
+            cellHeight: cellWidth
 
             onClicked: {
                 if( musicPicker.selectSongs ) {
@@ -415,39 +416,39 @@ ModalDialog {
     TopItem { id: topItem }
     Theme { id: theme }
 
-    Models.MusicListModel {
+    Labs.MusicListModel {
         id: musicAlbumsOnly
 
-        type: Models.MusicListModel.ListofAlbums
+        type: Labs.MusicListModel.ListofAlbums
         limit: 0
-        sort: Models.MusicListModel.SortByTitle
-        mixtypes: Models.MusicListModel.Albums
+        sort: Labs.MusicListModel.SortByTitle
+        mixtypes: Labs.MusicListModel.Albums
     } // MusicListModel
 
-    Models.MusicListModel {
+    Labs.MusicListModel {
         id: musicPlaylistsOnly
 
-        type: Models.MusicListModel.ListofPlaylists
+        type: Labs.MusicListModel.ListofPlaylists
         limit: 0
-        sort: Models.MusicListModel.SortByTitle
-        mixtypes: Models.MusicListModel.Playlists
+        sort: Labs.MusicListModel.SortByTitle
+        mixtypes: Labs.MusicListModel.Playlists
     } // MusicListModel
 
-    Models.MusicListModel {
+    Labs.MusicListModel {
         id: musicAlbumsAndPlaylistsMixed
 
-        type: Models.MusicListModel.MixedList
+        type: Labs.MusicListModel.MixedList
         limit: 0
-        sort: Models.MusicListModel.SortByTitle
-        mixtypes: Models.MusicListModel.Albums| Models.MusicListModel.Playlists
+        sort: Labs.MusicListModel.SortByTitle
+        mixtypes: Labs.MusicListModel.Albums| Labs.MusicListModel.Playlists
     } // MusicListModel
 
-    Models.MusicListModel {
+    Labs.MusicListModel {
         id: songsFromAlbum
 
-        type: Models.MusicListModel.ListofSongsForAlbum
+        type: Labs.MusicListModel.ListofSongsForAlbum
         album: selectedAlbumName == undefined ? "" : selectedAlbumName
         limit: 0
-        sort: Models.MusicListModel.SortByDefault
+        sort: Labs.MusicListModel.SortByDefault
     }
 }

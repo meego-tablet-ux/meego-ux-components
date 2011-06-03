@@ -84,63 +84,61 @@ Item {
             value = min
         if(value > max)
             value = max
-        centerItem.x = ((value - min) / (max - min)) * (fillArea.width - container.height / 4)
+
+        centerItem.y = (( ( max - value ) - min) / (max - min)) * (fillArea.height - container.width / 4)
     }
 
-    width: 200
-    height: 40
+    width: 40
+    height: 200
 
-    onWidthChanged: {
+    onHeightChanged: {
         if(value < min)
             value = min
         if(value > max)
             value = max
-        centerItem.x = ((value - min) / (max - min)) * (fillArea.width - container.height / 4)
+
+        centerItem.y = ((value - min) / (max - min)) * (fillArea.height - container.width / 4)
     }
+
 
     ThemeImage {
         id: fillArea
 
-        function setPosition( delta ) {
-
-            var newCenterItem = centerItem.x + delta
-
-            if( newCenterItem < 0)
-                newCenterItem = 0
-
-            if(newCenterItem > fillArea.width - container.height / 4) {
-                newCenterItem = fillArea.width - container.height / 4
+        function setPosition( val ) {
+            var clamped = val
+            if( clamped < 0 ) {
+                clamped = 0
             }
-            centerItem.x = newCenterItem
-            value = min + (centerItem.x / (fillArea.width - container.height / 4)) * (max - min)
+            if( clamped > fillArea.height ) {
+                clamped = fillArea.height
+            }
+            value =  min + ( ( fillArea.height - clamped ) / fillArea.height ) * ( max - min )
             container.sliderChanged( value )
         }
 
-        rotation: -90
-        source: "image://themedimage/widgets/common/slider/slider-background"
+        source: "image://themedimage/widgets/common/slider/slider-background-vertical"
 
-        anchors.left: parent.left
-        anchors.leftMargin: marker.width / 4
-        anchors.right: parent.right
-        anchors.rightMargin: marker.width / 4
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: marker.height / 2
+        anchors.top: parent.top
+        anchors.topMargin: marker.height / 2
+        anchors.horizontalCenter: parent.horizontalCenter
 
         ThemeImage {
             id: progressBar
 
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            width: if( percentage < border.left + border.right ) {
-                       return border.left + border.right
+            height: if( percentage < border.bottom + border.top ) {
+                       return border.bottom + border.top
                    }else if( percentage > 100 ) {
-                       return parent.width
+                       return parent.height
                    }else {
-                       return parent.width * percentage / 100
+                       return parent.height * percentage / 100
                    }
 
-
-            source: "image://themedimage/widgets/common/slider/slider-bar"
+            source: "image://themedimage/widgets/common/slider/slider-bar-vertical"
             opacity: 0.5
         }
 
@@ -148,61 +146,40 @@ Item {
         ThemeImage {
             id: sliderFill
 
-            source: "image://themedimage/widgets/common/slider/slider-bar"
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            width: marker.x + marker.width * 0.5
+            source: "image://themedimage/widgets/common/slider/slider-bar-vertical"
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: centerItem.bottom
         }
 
         Item {
             id: centerItem
 
-            width: parent.height
-            height: parent.height
-            anchors.verticalCenter: parent.verticalCenter
+            y: parent.height - height
+            width: parent.width
+            height: width
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
         //marks the actual position on the slider
         Image {
             id: marker
 
+            opacity:  0.5
             anchors.centerIn: centerItem
-            source: "image://themedimage/widgets/common/slider/slider-handle" //"image://themedimage/widgets/common/scrub_head_lrg"
+            source: "image://themedimage/widgets/common/slider/slider-handle"
             width: sourceSize.width
             height: width
             smooth: true
-
-            GestureArea {
-                id: gestureArea
-
-                anchors.fill: parent
-
-                Pan {
-                    onStarted: {
-                        container.pressed = true
-                    }
-                    onUpdated: {
-                        fillArea.setPosition( gesture.delta.y * -1 )
-                    }
-                    onFinished: {
-                        fillArea.setPosition( gesture.delta.y * -1 )
-                        container.pressed = false
-                    }
-                    onCanceled: {
-                        fillArea.setPosition( gesture.delta.y * -1 )
-                        container.pressed = false
-                    }
-                }
-            }
         }
 
         //shows the selected value while the slider is dragged or clicked
         Item {
             id: textoverlay
 
-            anchors { bottom: marker.top; bottomMargin: 5; horizontalCenter: marker.horizontalCenter }
-            width: overlaytext.height * 1.25
-            height: overlaytext.width * 1.25
+            anchors { right: marker.left; rightMargin: 5; verticalCenter: marker.verticalCenter }
+            width: overlaytext.width * 1.25
+            height: overlaytext.height * 1.25
             visible: textOverlayAlwaysVisible
             opacity: (textOverlayVisible || textOverlayAlwaysVisible) ? 1 : 0 // Workaround: setting visible to textOverlayVisible in state has repaints issues
 
@@ -211,13 +188,7 @@ Item {
             Rectangle {
                 id: overlaybackground
 
-                /* chose a radius smaller than rect size to avoid bug mentioned at sliderFill.
-                   Didn't apply sliderFill solution since overlaybackground is outside of the
-                   slider and therefore has a varying background color shining through the
-                   opacity ( = impossible to set a color without opacity which has the same
-                   visual appearance everywhere. Decision on how to deal with this is up to
-                   the design team I think. */
-                radius: container.textOverlayVertical ? height * 0.25 : width * 0.25  //5
+                radius: container.textOverlayVertical ? height * 0.25 : width * 0.25
                 anchors.fill: parent
                 color: "#68838B"
             }
@@ -225,9 +196,64 @@ Item {
             Text {
                 id: overlaytext
 
-                rotation: fillArea.rotation * -1
                 anchors.centerIn: overlaybackground
-                text: value
+                text: container.value
+            }
+        }
+    }
+
+    GestureArea {
+        id: gestureArea
+
+        property int newPosition: 0
+        property int startY: 0
+        property bool slide: false
+        property int markerOffset: 0
+        property int markerTop: marker.y + fillArea.anchors.topMargin
+        property int markerBottom: markerTop + marker.height
+        property int markerCenter: markerTop + marker.height / 2
+
+        anchors.fill: parent
+
+        Tap {
+            onStarted:{
+                gestureArea.startY = gesture.position.y
+            }
+
+            onFinished: {
+                fillArea.setPosition( gestureArea.startY - fillArea.anchors.topMargin )
+            }
+        }
+
+        Pan {
+            onStarted: {
+                if( gestureArea.startY >= gestureArea.markerTop && gestureArea.startY <= gestureArea.markerBottom ) {
+                    container.pressed = true
+                    gestureArea.markerOffset = - ( gestureArea.startY - gestureArea.markerCenter )
+                    gestureArea.slide = true
+                }
+            }
+            onUpdated: {
+                if( gestureArea.slide ) {
+                    gestureArea.newPosition = gestureArea.startY + gesture.offset.y + gestureArea.markerOffset - fillArea.anchors.topMargin;
+                    fillArea.setPosition( gestureArea.newPosition )
+                }
+            }
+            onFinished: {
+                if( gestureArea.slide ) {
+                    gestureArea.newPosition = gestureArea.startY + gesture.offset.y + gestureArea.markerOffset - fillArea.anchors.topMargin;
+                    fillArea.setPosition( gestureArea.newPosition )
+                }
+                container.pressed = false
+                gestureArea.slide = false
+            }
+            onCanceled: {
+                if( gestureArea.slide ) {
+                    gestureArea.newPosition = gestureArea.startY + gesture.offset.y + gestureArea.markerOffset - fillArea.anchors.topMargin;
+                    fillArea.setPosition( gestureArea.newPosition )
+                }
+                container.pressed = false
+                gestureArea.slide = false
             }
         }
     }

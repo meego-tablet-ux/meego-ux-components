@@ -118,22 +118,25 @@ Item {
     ThemeImage {
         id: fillArea
 
-        function setPosition( delta ) {
-
-            var maxX = fillArea.width - container.height / 4
-            centerItem.x = Math.min( maxX, Math.max( 0, (centerItem.x + delta) ) )
-            value = min + (centerItem.x / (fillArea.width - container.height/4)) * (max - min)
+        function setPosition( val ) {
+            var clamped = val
+            if( clamped < 0 ) {
+                clamped = 0
+            }
+            if( clamped > fillArea.width ) {
+                clamped = fillArea.width
+            }
+            value = min + ( clamped / fillArea.width ) * ( max - min )
             container.sliderChanged( value )
-
         }
 
         source: "image://themedimage/widgets/common/slider/slider-background"
         border.left:  6
         border.right: 6
         anchors.left: parent.left
-        anchors.leftMargin: marker.width / 4
+        anchors.leftMargin: marker.width / 2 - centerItem.width / 2 //4
         anchors.right: parent.right
-        anchors.rightMargin: marker.width / 4
+        anchors.rightMargin: marker.width / 2 - centerItem.width / 2 //4
         anchors.verticalCenter: parent.verticalCenter
 
         ThemeImage {
@@ -182,34 +185,10 @@ Item {
             id: marker
 
             anchors.centerIn: centerItem
-            source: "image://themedimage/widgets/common/slider/slider-handle" //"image://themedimage/widgets/common/scrub_head_lrg"
+            source: "image://themedimage/widgets/common/slider/slider-handle"
             width: sourceSize.width
             height: width
             smooth: true
-
-            GestureArea {
-                id: gestureArea
-
-                anchors.fill: parent
-
-                Pan {
-                    onStarted: {
-                        container.pressed = true
-                    }
-                    onUpdated: {
-                        fillArea.setPosition( gesture.delta.x )
-                    }
-                    onFinished: {
-                        fillArea.setPosition( gesture.delta.x )
-                        container.pressed = false
-                    }
-                    onCanceled: {
-                        fillArea.setPosition( gesture.delta.x )
-                        container.pressed = false
-                    }
-                }
-            }
-
         }
 
         //shows the selected value while the slider is dragged or clicked
@@ -227,13 +206,7 @@ Item {
             Rectangle {
                 id: overlaybackground
 
-                /* chose a radius smaller than rect size to avoid bug mentioned at sliderFill.
-                   Didn't apply sliderFill solution since overlaybackground is outside of the
-                   slider and therefore has a varying background color shining through the
-                   opacity ( = impossible to set a color without opacity which has the same
-                   visual appearance everywhere. Decision on how to deal with this is up to
-                   the design team I think. */
-                radius: container.textOverlayVertical ? height * 0.25 : width * 0.25  //5
+                radius: container.textOverlayVertical ? height * 0.25 : width * 0.25
                 anchors.fill: parent
                 color: "#68838B"
             }
@@ -243,6 +216,62 @@ Item {
 
                 anchors.centerIn: overlaybackground
                 text: value
+            }
+        }
+    }
+
+    GestureArea {
+        id: gestureArea
+
+        property int newPosition: 0
+        property int startX: 0
+        property bool slide: false
+        property int markerOffset: 0
+        property int markerLeft: marker.x + fillArea.anchors.leftMargin
+        property int markerRight: markerLeft + marker.width
+        property int markerCenter: markerLeft + marker.width / 2
+
+        anchors.fill: parent
+
+        Tap {
+            onStarted:{
+                gestureArea.startX = gesture.position.x
+            }
+
+            onFinished: {
+                fillArea.setPosition( gestureArea.startX - fillArea.anchors.leftMargin )
+            }
+        }
+
+        Pan {
+            onStarted: {
+                container.pressed = true
+                if( gestureArea.startX >= gestureArea.markerLeft && gestureArea.startX <= gestureArea.markerRight ) {
+                    gestureArea.markerOffset = - ( gestureArea.startX - gestureArea.markerCenter )
+                    gestureArea.slide = true
+                }
+            }
+            onUpdated: {
+                if( gestureArea.slide ) {
+                    gestureArea.newPosition = gestureArea.startX + gesture.offset.x + gestureArea.markerOffset - fillArea.anchors.leftMargin;
+                    fillArea.setPosition( gestureArea.newPosition )
+                }
+            }
+            onFinished: {
+                if( gestureArea.slide ) {
+                    gestureArea.newPosition = gestureArea.startX + gesture.offset.x + gestureArea.markerOffset - fillArea.anchors.leftMargin;
+                    fillArea.setPosition( gestureArea.newPosition )
+                }
+                container.pressed = false
+                gestureArea.slide = false
+            }
+            onCanceled: {
+                if( gestureArea.slide ) {
+                    gestureArea.newPosition = gestureArea.startX + gesture.offset.x + gestureArea.markerOffset - fillArea.anchors.leftMargin;
+                    fillArea.setPosition( gestureArea.newPosition )
+                }
+                container.pressed = false
+                gestureArea.slide = false
             }
         }
     }

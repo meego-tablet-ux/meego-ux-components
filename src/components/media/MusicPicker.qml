@@ -304,6 +304,8 @@ ModalDialog {
             width: cellWidth * estimateColumnCount
             anchors.horizontalCenter: parent.horizontalCenter
 
+            theGridView.cacheBuffer: 5000
+
             cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
                                                       : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
             cellHeight: cellWidth

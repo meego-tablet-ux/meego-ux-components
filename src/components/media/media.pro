@@ -4,7 +4,6 @@ TARGETPATH = MeeGo/Ux/Components/Media
 
 QML_FILES = qmldir \
         pickerArray.js \
-        MucMediaGridView.qml \
         MusicPicker.qml \
         PhotoPicker.qml \
         VideoPicker.qml

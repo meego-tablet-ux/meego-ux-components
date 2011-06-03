@@ -98,7 +98,7 @@
   \endcode
 */
 import Qt 4.7
-import MeeGo.Media 0.1 as Labs
+import MeeGo.Media 0.1 as Media
 import MeeGo.Components 0.1
 import "pickerArray.js" as PickerArray
 
@@ -175,7 +175,7 @@ ModalDialog {
 
     title: qsTr("Pick a video")
 
-    content: Labs.MediaGridView {
+    content: Media.MediaGridView {
         id: gridView
 
         // the MucMediaGridView needs a width to be centered correctly inside its parent. To achieve this the estimateColumnCount computes
@@ -236,12 +236,12 @@ ModalDialog {
     TopItem{ id: topItem }
     Theme { id: theme }
 
-    Labs.VideoListModel {
+    Media.VideoListModel {
         id: allAlbumsListModel
 
-        type: Labs.VideoListModel.ListofVideos
+        type: Media.VideoListModel.ListofVideos
         limit: 0
-        sort: Labs.VideoListModel.SortByTitle
+        sort: Media.VideoListModel.SortByTitle
     }
 }
 

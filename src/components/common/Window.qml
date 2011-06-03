@@ -428,20 +428,32 @@ Item {
         width: (rotation == 90 || rotation == -90) ? parent.height : parent.width
         height: (rotation == 90 || rotation == -90) ? parent.width : parent.height
 
+
         StatusBar {
             id: statusBar
 
-            anchors.bottom: clipBox.top
+            x: 0
+            y: if( fullScreen ){
+                   - statusBar.height - clipBox.height
+               }
+               else if( fullContent ){
+                   - statusBar.height
+               }
+               else{
+                   0
+               }
+            width: window_content_topitem.width
+            height: 30
 
-            property bool fullScreen: window.fullScreen
-            property bool fullContent: window.fullContent
+            active: window.isActiveWindow
 
-            onFullContentChanged: {
-                estimateVisibility()
+            Behavior on y {
+                PropertyAnimation {
+                    duration: theme.dialogAnimationDuration
+                    easing.type: "OutSine"
+                }
             }
-            onFullScreenChanged: {
-                estimateVisibility()
-            }
+
             function estimateVisibility() {
                 if( fullScreen || fullContent) {
                     hide();
@@ -449,47 +461,37 @@ Item {
                     show();
                 }
             }
-            width: window_content_topitem.width
-            height: hintHeight
-            active: window.isActiveWindow
 
+            Connections {
+                target: window
+                onFullScreenChanged: {
+                    estimateVisibility()
+                }
+                onFullContentChanged: {
+                    estimateVisibility()
+                }
+            }
+
+            Component.onCompleted: {
+                estimateVisibility()
+            }
         } //end of statusBar
 
         //the toolbar consists of a searchbar and the titlebar. The latter contains menus for navigation and actions.
         Item {
             id: clipBox
 
-            anchors.top: window_content_topitem.top
-            anchors.topMargin: statusBar.height
+            anchors.top: statusBar.bottom
             width: parent.width
             height: toolBar.height + toolBar.offset
+
             clip: true
-
-            property bool fullScreen: window.fullScreen
-            property bool fullContent: window.fullContent
-
-            onFullContentChanged: {
-                estimateVisibility()
-            }
-            onFullScreenChanged: {
-                estimateVisibility()
-            }
-            function estimateVisibility() {
-                if( fullScreen ) {
-                    anchors.topMargin = 0 - clipBox.height
-                } else if( fullContent ) {
-                    anchors.topMargin = 0
-                } else {
-                    anchors.topMargin = statusBar.hintHeight
-                }
-            }
 
             Behavior on height {
                 NumberAnimation{
                     duration: theme.dialogAnimationDuration
                 }
             }
-
             Behavior on anchors.topMargin {
                 NumberAnimation{
                     duration: theme.dialogAnimationDuration
@@ -564,7 +566,7 @@ Item {
                                         toolBar.showSearch = true
                                     }
                                 } else if ( gesture.offset.y < 20 ) {
-                                     toolBar.showSearch = false
+                                    toolBar.showSearch = false
                                 }
                             }
                         }
@@ -887,7 +889,7 @@ Item {
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
     }
 
-     // Repositions the context menu after the windows width and/or height have changed.
+    // Repositions the context menu after the windows width and/or height have changed.
     onWidthChanged: {
         pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 3 )
         bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
@@ -926,9 +928,9 @@ Item {
         pageStack.emitActionMenuIconClicked( mouseX, mouseY )
     }
 
-//    onSearch: if( pageActive ) appPage.search( needle )
-//    onSearchExtended: if( pageActive ) appPage.searchExtended()
-//    onSearchRetracted: if( pageActive ) appPage.searchRetracted()
+    //    onSearch: if( pageActive ) appPage.search( needle )
+    //    onSearchExtended: if( pageActive ) appPage.searchExtended()
+    //    onSearchRetracted: if( pageActive ) appPage.searchRetracted()
 
     // Meego-qml-launcher handling
     Scene {

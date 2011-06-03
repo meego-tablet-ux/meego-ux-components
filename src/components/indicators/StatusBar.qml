@@ -63,6 +63,12 @@ Item {
     {
         //nop in this implementation
     }
+    Behavior on y {
+        PropertyAnimation {
+            duration: theme.dialogAnimationDuration
+            easing.type: "OutSine"
+        }
+    }
 
     Behavior on height {
         PropertyAnimation {

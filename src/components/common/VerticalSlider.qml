@@ -165,7 +165,6 @@ Item {
         Image {
             id: marker
 
-            opacity:  0.5
             anchors.centerIn: centerItem
             source: "image://themedimage/widgets/common/slider/slider-handle"
             width: sourceSize.width

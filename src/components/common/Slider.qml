@@ -245,8 +245,8 @@ Item {
 
         Pan {
             onStarted: {
-                container.pressed = true
                 if( gestureArea.startX >= gestureArea.markerLeft && gestureArea.startX <= gestureArea.markerRight ) {
+                    container.pressed = true
                     gestureArea.markerOffset = - ( gestureArea.startX - gestureArea.markerCenter )
                     gestureArea.slide = true
                 }

@@ -274,6 +274,8 @@ Flickable {
         contentY = 0    // reset position
 
         opacity = visible ? 1 : 0 // force repaint
+
+        topItem.calcTopParent()
     }
 
     states: [

@@ -132,17 +132,17 @@ AppPage {
         }
     }
 
-    Button {
-        id: modalButton
-        text: qsTr( "show modal context menu" )
-        x: parent.width * 0.05
-        y: parent.height * 0.6
+//    Button {
+//        id: modalButton
+//        text: qsTr( "show modal context menu" )
+//        x: parent.width * 0.05
+//        y: parent.height * 0.6
 
-        onClicked: {
-            contextMenu.setPosition( modalButton.x + modalButton.width, modalButton.y + modalButton.height )
-            contextMenu.show()
-        }
-    }
+//        onClicked: {
+//            contextMenu.setPosition( modalButton.x + modalButton.width, modalButton.y + modalButton.height )
+//            contextMenu.show()
+//        }
+//    }
 
     TopItem{ id: topItem }
 

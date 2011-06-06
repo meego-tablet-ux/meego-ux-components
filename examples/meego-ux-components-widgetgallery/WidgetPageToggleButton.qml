@@ -51,8 +51,14 @@ WidgetPage {
 
     statusContent: [
         StatusEntry {
-            label: "toggleButton status:"
-            value: togglebutton.on ? togglebutton.onLabel : togglebutton.offLabel
+            id: toggle1
+            label: "toggleButton1 signal:"
+            value: "-"
+        },
+        StatusEntry {
+            id: toggle2
+            label: "toggleButton2 signal:"
+            value: "-"
         }
     ]
 
@@ -79,7 +85,7 @@ WidgetPage {
             anchors.verticalCenterOffset: -25
             on: false
             onToggled: {
-                toggleButtonNoText.on = isOn
+                toggle1.value = isOn ? "toggled(true)" : "toggled(false)"
             }
         }
 
@@ -94,7 +100,7 @@ WidgetPage {
             onLabel: ""
             offLabel: ""
             onToggled: {
-                togglebutton.on = isOn
+                toggle2.value = isOn ? "toggled(true)" : "toggled(false)"
             }
         }
     }

@@ -236,7 +236,6 @@ Image {
             when: toggleButton.enabled
             onFinished: {
                 toggleButton.on = !toggleButton.on
-                toggleButton.toggled( toggleButton.on )
             }
         }
     }

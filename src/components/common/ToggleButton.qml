@@ -200,12 +200,6 @@ Image {
 
             anchors.fill: parent
 
-            Tap {
-                when: toggleButton.enabled
-                onFinished: {
-                    toggleButton.on = !toggleButton.on
-                }
-            }
             Pan {
                 when: toggleButton.enabled
                 onStarted: {

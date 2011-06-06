@@ -164,6 +164,7 @@ Image {
             anchors.fill: parent
 
             Tap {
+                when: toggleButton.enabled
                 onFinished: {
                     toggleButton.on = !toggleButton.on
                     toggleButton.toggled( toggleButton.on )
@@ -193,6 +194,20 @@ Image {
                     toggleElement.gestureStarted = false
                     toggleButton.toggled( toggleButton.on )
                 }
+            }
+        }
+    }
+
+    // Click anywhere in the toggle button activates it
+    GestureArea {
+        acceptUnhandledEvents: false
+        anchors.fill: parent
+
+        Tap {
+            when: toggleButton.enabled
+            onFinished: {
+                toggleButton.on = !toggleButton.on
+                toggleButton.toggled( toggleButton.on )
             }
         }
     }

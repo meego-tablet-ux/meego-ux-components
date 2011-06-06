@@ -80,7 +80,14 @@ Image {
 
     function toggle() {
         toggleButton.on = !toggleButton.on
-        toggleButton.toggled( toggleButton.on );
+    }
+
+    onOnChanged:  {
+        if( toggleButton.on ) {
+            toTrue.start()
+        }else {
+            toFalse.start()
+        }
     }
 
     width: sourceSize.width
@@ -148,6 +155,38 @@ Image {
     Image {
         id: toggleElement
 
+        property int animationDuration: 0
+
+        SequentialAnimation{
+            id: toFalse
+            NumberAnimation{
+                target: toggleElement
+                property: "x"
+                duration: 200//toggleElement.animationDuration
+                easing.type: Easing.InCubic
+                from: toggleButton.width - toggleElement.width
+                to: 0
+            }
+            onCompleted: {
+                toggleButton.toggled( false )
+            }
+        }
+
+        SequentialAnimation{
+            id: toTrue
+            NumberAnimation{
+                target: toggleElement
+                property: "x"
+                duration: 200//toggleElement.animationDuration
+                easing.type: Easing.InCubic
+                from: 0
+                to: toggleButton.width - toggleElement.width
+            }
+            onCompleted: {
+                toggleButton.toggled( true )
+            }
+        }
+
         z: 1
         source: ( toggleButton.enabled ) ? "image://themedimage/widgets/common/lightswitch/lightswitch-handle" : "image://themedimage/widgets/common/lightswitch/lightswitch-handle-disabled"
         anchors.verticalCenter: parent.verticalCenter
@@ -167,7 +206,6 @@ Image {
                 when: toggleButton.enabled
                 onFinished: {
                     toggleButton.on = !toggleButton.on
-                    toggleButton.toggled( toggleButton.on )
                 }
             }
             Pan {
@@ -192,7 +230,6 @@ Image {
                 }
                 onFinished: {
                     toggleElement.gestureStarted = false
-                    toggleButton.toggled( toggleButton.on )
                 }
             }
         }
@@ -214,32 +251,4 @@ Image {
 
     Theme { id: theme }
 
-    states: [
-        State {
-            name: "on"
-            PropertyChanges {
-                target: toggleElement
-                x: parent.width - toggleElement.width
-            }
-            when: toggleButton.on == true
-        },
-        State {
-            name: "off"
-            PropertyChanges {
-                target: toggleElement
-                x: 0
-            }
-            when: toggleButton.on == false
-        }
-    ]
-
-    transitions: [
-        Transition {
-            NumberAnimation {
-                properties: "x"
-                duration: 200
-                easing.type: Easing.InCubic
-            }
-        }
-    ]
 } // end ToggleButton

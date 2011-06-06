@@ -82,6 +82,11 @@ Image {
         toggleButton.on = !toggleButton.on
     }
 
+    width: sourceSize.width
+    height: sourceSize.height
+
+    source: ( enabled ) ? "image://themedimage/widgets/common/lightswitch/lightswitch-background" : "image://themedimage/widgets/common/lightswitch/lightswitch-background-disabled"
+
     onOnChanged:  {
         if( toggleButton.on ) {
             toTrue.start()
@@ -89,11 +94,6 @@ Image {
             toFalse.start()
         }
     }
-
-    width: sourceSize.width
-    height: sourceSize.height
-
-    source: ( enabled ) ? "image://themedimage/widgets/common/lightswitch/lightswitch-background" : "image://themedimage/widgets/common/lightswitch/lightswitch-background-disabled"
 
     Item {
         id: itemOn
@@ -155,14 +155,12 @@ Image {
     Image {
         id: toggleElement
 
-        property int animationDuration: 0
-
         SequentialAnimation{
             id: toFalse
             NumberAnimation{
                 target: toggleElement
                 property: "x"
-                duration: 200//toggleElement.animationDuration
+                duration: 200
                 easing.type: Easing.InCubic
                 from: toggleButton.width - toggleElement.width
                 to: 0
@@ -177,7 +175,7 @@ Image {
             NumberAnimation{
                 target: toggleElement
                 property: "x"
-                duration: 200//toggleElement.animationDuration
+                duration: 200
                 easing.type: Easing.InCubic
                 from: 0
                 to: toggleButton.width - toggleElement.width

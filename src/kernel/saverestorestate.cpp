@@ -31,6 +31,7 @@ public:
     QList<SaveRestoreState*> qList;
     QSet<SaveRestoreState*>  alwaysValid;
     QSet<SaveRestoreState*>  invalid;
+    QSet<QString>            alreadyRestored;
 
     const QString            c_savingFinishedKey;
     const QString            c_elapsedTimeKey;
@@ -138,6 +139,23 @@ void SaveRestoreState::sync()
         d->settings->setValue(d->c_lastSavedKey, static_cast<long long>(savingFinished.tv_sec));
         d->settings->sync();
 
+        // TODO: after the final sync and flushing io buffers, do the
+        // atomic trick: rename the file with the correct saverestore
+        // file name. Invalidate should correspondingly unlink the
+        // file. The current approach might still cause failure in
+        // case of sudden power off or sigkill.
+    }
+}
+
+QVariant SaveRestoreState::restoreOnce(const QString &key, const QVariant &defaultValue)
+{
+    if (!d->settings) d->init();
+    if (!d->mustRestore || d->alreadyRestored.contains(key))
+    {
+        return defaultValue;
+    } else {
+        d->alreadyRestored.insert(key);
+        return value(key, defaultValue);
     }
 }
 

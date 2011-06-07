@@ -29,7 +29,7 @@ Slider 0.1 ../Ux/Components/Common/Slider.qml
 Spinner 0.1 ../Ux/Components/Common/Spinner.qml
 TextEntry 0.1 ../Ux/Components/Common/TextEntry.qml
 TextField 0.1 ../Ux/Components/Common/TextField.qml
-Theme 0.1 ../Ux/Components/Common/Theme.qml
+Theme 0.1 ../Ux/Kernel/Theme.qml
 TimeSpinner 0.1 ../Ux/Components/Common/TimeSpinner.qml
 ToggleButton 0.1 ../Ux/Components/Common/ToggleButton.qml
 TopItem 0.1 ../Ux/Components/Common/TopItem.qml

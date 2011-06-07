@@ -152,17 +152,6 @@ ModalFog {
     modalSurface: Item {
         id: menuContainer
 
-        GestureArea {
-            id: blocker
-            acceptUnhandledEvents: true
-            anchors.fill: parent
-            Tap {}
-            TapAndHold{}
-            Pan{}
-            Pinch{}
-            Swipe{}
-        }
-
         /* Menu Container
          * This is the actual contextmenu.
          *
@@ -348,13 +337,8 @@ ModalFog {
                 z:-1
             }
 
-            BorderImage {
+            ThemeImage {
                 id: realMenu
-
-                border.left:   10
-                border.top:    10
-                border.bottom: 10
-                border.right:  10
 
                 source: "image://themedimage/widgets/common/menu/menu-background"
 
@@ -372,6 +356,17 @@ ModalFog {
 
                 width: backgroundImage.width
                 height: backgroundImage.height
+
+                GestureArea {
+                    id: blocker
+                    acceptUnhandledEvents: true
+                    anchors.fill: parent
+                    Tap {}
+                    TapAndHold{}
+                    Pan{}
+                    Pinch{}
+                    Swipe{}
+                }
 
                 BorderImage {
                     id: shadow

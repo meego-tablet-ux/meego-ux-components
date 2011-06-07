@@ -106,28 +106,34 @@ AppPage {
 
         Tap {
             onFinished: {
-                if( activeModel == 0 )
-                    bookMenu.model = model0
-                if( activeModel == 1 )
-                    bookMenu.model = model1
-                if( activeModel == 2 )
-                    bookMenu.model = model2
+                console.log( "  ", pageDummy.activeModel )
+                if( pageDummy.activeModel == 0 ){
+                    bookMenu.model = pageDummy.model0
+                }
+                if( pageDummy.activeModel == 1 ){
+                    console.log("muuuuh")
+                    bookMenu.model = pageDummy.model1
+                    console.log("muuuuh")
+                }
+                if( pageDummy.activeModel == 2 ){
+                    bookMenu.model = pageDummy.model2
+                }
 
-                contextMenu.setPosition( mapToItem( topItem.topItem, gesture.position.x, gesture.position.y ).x, mapToItem( topItem.topItem, gesture.position.x, gesture.position.y ).y )
-                contextMenu.show()
+                modalContextMenu.setPosition( mapToItem( topItem.topItem, gesture.position.x, gesture.position.y ).x, mapToItem( topItem.topItem, gesture.position.x, gesture.position.y ).y )
+                modalContextMenu.show()
             }
         }
         TapAndHold {
             onFinished: {
-                if( activeModel == 0 )
-                    bookMenu.model = model0
-                if( activeModel == 1 )
-                    bookMenu.model = model1
-                if( activeModel == 2 )
-                    bookMenu.model = model2
+                if( pageDummy.activeModel == 0 )
+                    bookMenu.model = pageDummy.model0
+                if( pageDummy.activeModel == 1 )
+                    bookMenu.model = pageDummy.model1
+                if( pageDummy.activeModel == 2 )
+                    bookMenu.model = pageDummy.model2
 
-                contextMenu.setPosition( mapToItem( topItem.topItem, gesture.position.x, gesture.position.y ).x, mapToItem( topItem.topItem, gesture.position.x, gesture.position.y ).y )
-                contextMenu.show()
+                modalContextMenu.setPosition( mapToItem( topItem.topItem, gesture.position.x, gesture.position.y ).x, mapToItem( topItem.topItem, gesture.position.x, gesture.position.y ).y )
+                modalContextMenu.show()
             }
         }
     }
@@ -145,57 +151,6 @@ AppPage {
 //    }
 
     TopItem{ id: topItem }
-
-    ContextMenu {
-        id: contextMenu
-
-        forceFingerMode: -1
-
-        //title: "Context"
-
-        subMenuModel: [ qsTr("Very long first entry"),
-            qsTr("Second entry"),
-            qsTr("Third entry"),
-            qsTr("Fourth entry"),
-            qsTr("Back") ]
-
-        onSubMenuTriggered: {
-            if( index == 4 ){
-                contextMenu.subMenuVisible = false
-            }
-            else{
-                contextMenu.hide()
-            }
-        }
-
-        content: ActionMenu {
-            id: modalBookMenu
-
-            maxWidth: 200
-            minWidth: 100
-            maxHeight: contextMenu.sizeHintMaxHeight
-
-            model: model2
-
-            onTriggered: {
-                if( index == 0 ){
-                    activeModel = 0
-                }
-                if( index == 1 ){
-                    activeModel = 1
-                }
-                if( index == 2 ){
-                    activeModel = 2
-                }
-                if( index == 3 ){
-                    contextMenu.subMenuVisible = true
-                }
-
-                if( index != 3 )
-                    contextMenu.hide()
-            }
-        }
-    }
 
     ContextMenu {
         id: contextActionMenu
@@ -255,12 +210,10 @@ AppPage {
         }
     }
 
-    ModalContextMenu {
+    ContextMenu {
         id: modalContextMenu
 
         forceFingerMode: -1
-
-        //title: "Context"
 
         subMenuModel: [ qsTr("Very long first entry"),
             qsTr("Second entry"),
@@ -270,10 +223,10 @@ AppPage {
 
         onSubMenuTriggered: {
             if( index == 4 ){
-                contextMenu.subMenuVisible = false
+                modalContextMenu.subMenuVisible = false
             }
             else{
-                contextMenu.hide()
+                modalContextMenu.hide()
             }
         }
 
@@ -282,7 +235,7 @@ AppPage {
 
             maxWidth: 200
             minWidth: 100
-            maxHeight: contextMenu.sizeHintMaxHeight
+            maxHeight: modalContextMenu.sizeHintMaxHeight
 
             model: model2
 
@@ -297,7 +250,7 @@ AppPage {
                     activeModel = 2
                 }
                 if( index == 3 ){
-                    contextMenu.subMenuVisible = true
+                    modalContextMenu.subMenuVisible = true
                 }
 
                 // This tests the resizing behaviour.
@@ -311,7 +264,7 @@ AppPage {
                 // end of test for the resizing behaviour.
 
                 if( index != 3 )
-                    contextMenu.hide()
+                    modalContextMenu.hide()
             }
         }
 

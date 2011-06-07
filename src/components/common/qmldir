@@ -13,7 +13,7 @@ IconButton 0.1          IconButton.qml
 InfoBar 0.1             InfoBar.qml
 Label 0.1               Label.qml
 LayoutTextItem 0.1      LayoutTextItem.qml
-ModalContextMenu 0.1    ModalContextMenu.qml
+ModalContextMenu 0.1    ContextMenu.qml
 ModalDialog 0.1         ModalDialog.qml
 ModalFog 0.1            ModalFog.qml
 ModalMessageBox 0.1     ModalMessageBox.qml

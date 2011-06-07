@@ -236,7 +236,6 @@ Flickable {
 
                             if( !highlightSelectedItem ) {
                                 container.currentItem = null
-                                container.oldItem = null
                             }
                         }
 

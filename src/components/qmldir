@@ -29,7 +29,6 @@ Slider 0.1                      Common/Slider.qml
 Spinner 0.1                     Common/Spinner.qml
 TextEntry 0.1                   Common/TextEntry.qml
 TextField 0.1                   Common/TextField.qml
-Theme 0.1                       Common/Theme.qml
 ThemeImage 0.1                  Common/ThemeImage.qml
 TimeSpinner 0.1                 Common/TimeSpinner.qml
 ToggleButton 0.1                Common/ToggleButton.qml

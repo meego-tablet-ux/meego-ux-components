@@ -7,7 +7,9 @@
  */
 
 import Qt 4.7
-import Qt.labs.gestures 2.0
+
+import MeeGo.Ux.Kernel 0.1
+import MeeGo.Ux.Gestures 0.1
 
 Item {
     id: container

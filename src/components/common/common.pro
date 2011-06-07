@@ -37,7 +37,6 @@ QML_FILES = qmldir \
         StatusBar.qml \
         TextEntry.qml \
         TextField.qml \
-        Theme.qml \
         ThemeImage.qml \
         TimeSpinner.qml \
         ToggleButton.qml \

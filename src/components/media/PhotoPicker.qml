@@ -187,13 +187,10 @@ ModalDialog {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        height: cellWidth
-        width: cellWidth * estimateColumnCount
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
-                                                  : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
-        cellHeight: cellWidth
+        width: topItem.width
+        anchors.bottomMargin: 1
+        anchors.left: parent.left
+        anchors.leftMargin: (topItem.width - Math.floor(topItem.width / cellWidth)*cellWidth) / 2
 
         onClicked: {
             if( photoPicker.multiSelection ) {
@@ -235,7 +232,7 @@ ModalDialog {
         }
     }
 
-    TopItem { id: topItem }
+    TopItem { id: topItem; anchors.fill: parent }
     Theme { id: theme }
 
     Media.PhotoListModel {

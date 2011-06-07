@@ -1,1 +1,2 @@
-plugin meego-ux-kernel
+plugin      meego-ux-kernel
+Theme 0.1   Theme.qml

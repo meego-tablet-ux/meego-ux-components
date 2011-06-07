@@ -47,7 +47,8 @@ HEADERS += contextproperty.h \
         borderimagedecorator.h \
         saverestorestate.h
 
-QML_FILES = qmldir
+QML_FILES = Theme.qml \
+            qmldir
 
 qmlfiles.files = $$QML_FILES
 qmlfiles.sources = $$QML_FILES

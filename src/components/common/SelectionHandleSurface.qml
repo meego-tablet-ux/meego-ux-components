@@ -78,7 +78,7 @@ Item {
             property int yOffset: 0
             property bool ignoreRelease: false
             property bool ignorePressAndHold: true
-            property int minimumTouchSize: 40   // This value should be set by the theme and units
+            property int minimumTouchSize: 80   // This value should be set by the theme and units
 
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -156,8 +156,10 @@ Item {
                 if (selectedHandle) {
                     // Store the offset so that we can stick the handle to
                     // the mouse pointer to get the correct positioning
-                    xOffset = mouse.x - selectedHandle.x;
-                    yOffset = mouse.y - selectedHandle.y;
+                    // Adding a fourth of the height makes you grab the handle in the middle of the letter.
+                    // This gives you more freedom in fingermovement before the y-position changes
+                    xOffset = mouse.x - selectedHandle.x
+                    yOffset = mouse.y - selectedHandle.y + selectedHandle.height / 4;
                 }
             }
 

@@ -76,8 +76,6 @@ MouseArea {
         clipboardContextMenu.setPosition(  cx, cy )
         clipboardContextMenu.show()
 
-//        ccpMenu.opacity = box.pasteOnly && box.pasteEmpty ? 0.5 : 1
-
         var map = mapFromItem (top.topItem, cx, cy)
         box.mouseX = map.x
         box.mouseY = map.y
@@ -93,6 +91,18 @@ MouseArea {
     // It looks like the user is dragging the handles and that controls the
     // selection, but it is actually the opposite way round
     function setStartPosition (px, py) {
+
+        // check if you are too low and set y to last row to ease selection when you're at the same height as the selectionEnd
+        var rect = editor.positionToRectangle (selectionEnd);
+        console.log(py)
+        if( rect.y + rect.height / 2 < py ){
+            py = rect.y + rect.height / 2
+        }
+        // check if you are too high and set y to 1 to ease selection of parts of the firts row
+        if( py <= 0 ){
+            py = 1
+        }
+
         var s = editor.positionAt (px, py);
         if (s > selectionEnd) {
             s = selectionEnd;
@@ -101,13 +111,25 @@ MouseArea {
         editor.select (s, selectionEnd);
         selectionStart = s;
 
-        var rect = editor.positionToRectangle (selectionStart);
+        rect = editor.positionToRectangle (selectionStart);
 
         var map = mapToItem (top.topItem, rect.x, rect.y);
         selectionHandleSurface.startHandle.setPosition (map.x, map.y, rect.height);
     }
 
     function setEndPosition (px, py) {
+        // check if you are higher than the start and set y to fit the start height to ease selection
+        var rect = editor.positionToRectangle (selectionStart);
+        if( rect.y + rect.height / 2 > py ){
+            py = rect.y + rect.height / 2
+        }
+
+        // check if you've reached the end of the text and set y appropriately to ease selection
+        rect = editor.positionToRectangle( editor.positionAt (px, py) )
+        if( py > rect.y + rect.height / 2 ){
+            py = rect.y + rect.height / 2
+        }
+
         var e = editor.positionAt (px, py);
         if (e < selectionStart) {
             e = selectionStart;
@@ -116,7 +138,8 @@ MouseArea {
         editor.select (selectionStart, e);
         selectionEnd = e;
 
-        var rect = editor.positionToRectangle (selectionEnd);
+        rect = editor.positionToRectangle (selectionEnd);
+
         var map = mapToItem (top.topItem, rect.x, rect.y);
         selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
     }
@@ -195,13 +218,7 @@ MouseArea {
             return;
         }
 
-        selectionEnd = editor.positionAt (mouse.x, mouse.y);
-        editor.select (selectionStart, selectionEnd);
-
-        var rect = editor.positionToRectangle (selectionEnd);
-        var map = mapToItem (top.topItem, rect.x, rect.y);
-
-        selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
+        setEndPosition( mouse.x, mouse.y )
     }
 
     onPressAndHold: {

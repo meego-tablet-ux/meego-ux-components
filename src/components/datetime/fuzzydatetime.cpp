@@ -73,7 +73,7 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
                     dtDate.toString("d"),
                     dtDate.toString("yy"),
                     QString::number(int(dtDate.daysTo(nowDate)/7)));
-        } else if (dtDate.addMonths(1).month() >= nowDate) {
+        } else if (dtDate.addMonths(1) >= nowDate) {
             //: reorder according to the date format of a language:  1 is numeric month, 2 is numeric day, 3 is numeric year; Last month is a fuzzy description
             return tr("%1/%2/%3 - Last month").arg(
                     dtDate.toString("M"),

@@ -77,16 +77,6 @@ public:
     void reset(QGesture *state);
 };
 
-class QDoubleTapGestureRecognizer : public QGestureRecognizer
-{
-public:
-    QDoubleTapGestureRecognizer();
-
-    QGesture *create(QObject *target);
-    QGestureRecognizer::Result recognize(QGesture *state, QObject *watched, QEvent *event);
-    void reset(QGesture *state);
-};
-
 QT_END_NAMESPACE
 
 #endif // QT_NO_GESTURES

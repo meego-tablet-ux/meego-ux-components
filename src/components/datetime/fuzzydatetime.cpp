@@ -66,14 +66,14 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
                     dtDate.toString("M"),
                     dtDate.toString("d"),
                     dtDate.toString("yy"));
-        } else if (dtDate.month() == nowMonth) {
+        } else if ( ( dtDate.month() == nowMonth ) && ( dtDate.year() == nowDate.year() ) ) {
             //: reorder according to the date format of a language:  1 is numeric month, 2 is numeric day, 3 is numeric year, 4 is number of weeks; weeks ago is a fuzzy description
             return tr("%1/%2/%3 - %4 weeks ago").arg(
                     dtDate.toString("M"),
                     dtDate.toString("d"),
                     dtDate.toString("yy"),
                     QString::number(int(dtDate.daysTo(nowDate)/7)));
-        } else if (dtDate.addMonths(1).month() == nowMonth) {
+        } else if (dtDate.addMonths(1).month() >= nowDate) {
             //: reorder according to the date format of a language:  1 is numeric month, 2 is numeric day, 3 is numeric year; Last month is a fuzzy description
             return tr("%1/%2/%3 - Last month").arg(
                     dtDate.toString("M"),
@@ -96,7 +96,7 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
                     dtDate.toString("d"),
                     dtDate.toString("yy"),
                     QString::number(nowMonth2-dtDate.month()));
-        } else if (dtDate.addMonths(23) >= nowDate) {
+        } else if (dtDate.addMonths( 11 + nowDate.month() ) >= nowDate) {
             //: reorder according to the date format of a language:  1 is numeric month, 2 is numeric day, 3 is numeric year; Last year is a fuzzy description
             return tr("%1/%2/%3 - Last year").arg(
                     dtDate.toString("M"),

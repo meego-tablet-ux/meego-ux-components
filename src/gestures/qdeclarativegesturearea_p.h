@@ -58,6 +58,8 @@ public:
 
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
 
+    void componentCompleted();
+
 protected:
     bool sceneEvent(QEvent *event);
 

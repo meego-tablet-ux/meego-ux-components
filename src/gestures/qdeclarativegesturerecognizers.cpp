@@ -772,6 +772,118 @@ void QTapAndHoldGestureRecognizer::reset(QGesture *state)
     QGestureRecognizer::reset(state);
 }
 
+
+//
+// QDoubleTapGestureRecognizer
+//
+
+QDoubleTapGestureRecognizer::QDoubleTapGestureRecognizer()
+{
+}
+
+QGesture *QDoubleTapGestureRecognizer::create(QObject *target)
+{
+    if (target) {
+        if (target->isWidgetType())
+            static_cast<QWidget *>(target)->setAttribute(Qt::WA_AcceptTouchEvents);
+        else
+            return 0;
+    }
+    return new QTapGesture;
+}
+
+QGestureRecognizer::Result
+QDoubleTapGestureRecognizer::recognize(QGesture *state, QObject *object,
+                                        QEvent *event)
+{
+    QTapGesture *q = static_cast<QTapGesture *>(state);
+
+    QGestureRecognizer::Result result = QGestureRecognizer::CancelGesture;
+
+    switch (event->type()) {
+    case QEvent::TouchBegin: {
+        if (debugGestures) qDebug() << "tap: touch begin";
+        q->setProperty("gotTouched", true);
+        const QTouchEvent *ev = static_cast<const QTouchEvent *>(event);
+        q->setPosition(ev->touchPoints().at(0).pos());
+        q->setHotSpot(ev->touchPoints().at(0).screenPos());
+        result = QGestureRecognizer::TriggerGesture;
+        break;
+    }
+    case QEvent::TouchUpdate:
+    case QEvent::TouchEnd: {
+        if (debugGestures) qDebug() << "tap: touch end";
+        const QTouchEvent *ev = static_cast<const QTouchEvent *>(event);
+        if (q->state() != Qt::NoGesture && ev->touchPoints().size() == 1) {
+            QTouchEvent::TouchPoint p = ev->touchPoints().at(0);
+            QPoint delta = p.pos().toPoint() - p.startPos().toPoint();
+            enum { TapRadius = 40 };
+            if (delta.manhattanLength() <= TapRadius) {
+                if (event->type() == QEvent::TouchEnd)
+                    result = QGestureRecognizer::FinishGesture;
+                else
+                    result = QGestureRecognizer::TriggerGesture;
+            }
+        }
+        break;
+    }
+
+    case QEvent::MouseButtonPress:
+        if (!q->property("gotTouched").toBool()) {
+            if (debugGestures) qDebug() << "tap: mouse press";
+            QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+            if (!(ev->modifiers() & Qt::ControlModifier)) {
+                state->setProperty("position", ev->globalPos());
+                state->setHotSpot(ev->globalPos());
+                event->accept();
+                return QGestureRecognizer::TriggerGesture;
+            }
+        }
+        return QGestureRecognizer::Ignore;
+
+    case QEvent::MouseMove:
+        return QGestureRecognizer::Ignore;
+
+    case QEvent::MouseButtonRelease:
+        if (!q->property("gotTouched").toBool()) {
+            if (debugGestures) qDebug() << "tap: mouse release";
+            if (state->state() == Qt::GestureStarted) {
+                return QGestureRecognizer::FinishGesture;
+            }
+        }
+        return QGestureRecognizer::Ignore;
+
+    case QEvent::Gesture: {
+        // We check for other gesture events: TapAndHold and Pan both cancel the simple Tap
+        QGestureEvent *ge = static_cast<QGestureEvent *>(event);
+        if (ge->gesture(Qt::PanGesture) || ge->gesture(Qt::TapAndHoldGesture)) {
+            if (state->state() == Qt::GestureStarted || state->state() == Qt::GestureUpdated)
+                return QGestureRecognizer::CancelGesture;
+        }
+        return QGestureRecognizer::Ignore;
+    }
+
+    default:
+        result = QGestureRecognizer::Ignore;
+        break;
+    }
+    return result;
+}
+
+void QDoubleTapGestureRecognizer::reset(QGesture *state)
+{
+    if (!state)
+        return;
+    QTapGesture *q = static_cast<QTapGesture *>(state);
+
+    q->setPosition(QPointF());
+    if (q->property("timerId").toInt())
+        q->killTimer(q->property("timerId").toInt());
+    q->setProperty("timerId",0);
+
+    QGestureRecognizer::reset(state);
+}
+
 QT_END_NAMESPACE
 
 #endif // QT_NO_GESTURES

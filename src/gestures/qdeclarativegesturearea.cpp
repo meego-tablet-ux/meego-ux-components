@@ -212,8 +212,20 @@ QDeclarativeGestureArea::QDeclarativeGestureArea(QDeclarativeItem *parent) :
 
 QDeclarativeGestureArea::~QDeclarativeGestureArea()
 {
+    d_ptr->unlockGestureArea();
     delete d_ptr;
     d_ptr = 0;
+}
+
+void QDeclarativeGestureArea::componentCompleted()
+{
+    if( d_ptr->acceptUnhandledEvents ) {
+
+        foreach( Qt::GestureType gestureType, d_ptr->unhandledGestures )
+        {
+            grabGesture( gestureType );
+        }
+    }
 }
 
 void QDeclarativeGestureAreaPrivate::lockGestureArea()
@@ -300,6 +312,10 @@ bool QDeclarativeGestureArea::sceneEvent(QEvent *event)
         if( d_ptr->enabled ) {
             event->accept();
             rv = true;
+
+            if ( d_ptr->handlerActive )
+                setKeepMouseGrab(true);
+
         }
         break;
     case QEvent::Gesture: {
@@ -406,12 +422,21 @@ bool QDeclarativeGestureAreaPrivate::gestureEvent(QGestureEvent *event)
     }
 
     if( !acceptUnhandledEvents && active != handlerActive) {
+
         handlerActive = active;
 
         if(handlerActive) {
             lockGestureArea();
         } else {
             unlockGestureArea();
+        }
+
+    }
+    if ( acceptUnhandledEvents ) {
+
+        foreach (Qt::GestureType type, unhandledGestures)
+        {
+            event->accept(type);
         }
     }
 

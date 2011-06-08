@@ -111,9 +111,7 @@ AppPage {
                     bookMenu.model = pageDummy.model0
                 }
                 if( pageDummy.activeModel == 1 ){
-                    console.log("muuuuh")
                     bookMenu.model = pageDummy.model1
-                    console.log("muuuuh")
                 }
                 if( pageDummy.activeModel == 2 ){
                     bookMenu.model = pageDummy.model2

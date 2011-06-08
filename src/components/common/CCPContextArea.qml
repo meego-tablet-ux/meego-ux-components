@@ -30,17 +30,13 @@ MouseArea {
     // drag
     property bool currentlySelecting: false
 
+    // this stores whether the CCP area is pressed. We can't use MouseArea's pressed because
+    //  we have to consider the SelectionHandleSurface's state too.
+    property bool isPressed: false
+
     property bool copyOnly: false
     property bool pasteOnly: false
     property bool pasteEmpty: false
-
-    // The mouse area needs to expand outside of the parent
-    // so that the selection handles can be clicked when they
-    // are in the gutter
-    x: 0
-    y: 0
-    width: parent.width
-    height: parent.height
 
     // Shows the context menu at cx,cy. cx & cy are in the root windows
     // coordinate space, not the CCPContextArea's.
@@ -79,6 +75,7 @@ MouseArea {
         var map = mapFromItem (top.topItem, cx, cy)
         box.mouseX = map.x
         box.mouseY = map.y
+        editor.forceActiveFocus ();
     }
 
     function ensureSelection() {
@@ -186,6 +183,8 @@ MouseArea {
         // then the click count will be reset
         doubleClickTimer.start ();
 
+        box.isPressed = true
+
         if (clickCount == 2) {
             state = "selection"
 
@@ -206,11 +205,12 @@ MouseArea {
     }
 
     onReleased: {
-        currentlySelecting = false;
 
         if (state == "selection") {
             ensureSelection()
         }
+        currentlySelecting = false;
+        box.isPressed = false
     }
 
     onPositionChanged: {
@@ -222,6 +222,8 @@ MouseArea {
     }
 
     onPressAndHold: {
+
+        box.isPressed = true
         if (currentlySelecting == true) {
             return;
         }
@@ -229,8 +231,32 @@ MouseArea {
         selectionHandleSurface.initiate()
         var map = mapToItem (top.topItem, mouse.x, mouse.y);
 
-
         showContextMenu (map.x, map.y);
+    }
+
+    // The mouse area needs to expand outside of the parent
+    // so that the selection handles can be clicked when they
+    // are in the gutter
+    x: 0
+    y: 0
+    width: parent.width
+    height: parent.height
+
+    Connections {
+        target: editor
+
+        onTextChanged: {
+            // QML's TextEdit emits textChanged() even when the cursor moves or focus changes,
+            // so we have to ignore textChanged() while interacting with the CCPContextArea
+            if (box.isPressed) {    // if the area is not pressed
+                return;
+            }
+            box.state = "";         // reset the states and hide
+            box.selectionStart = 0;
+            box.selectionEnd = 0;
+
+            clipboardContextMenu.hide()
+        }
     }
 
     ContextMenu {
@@ -253,6 +279,7 @@ MouseArea {
                    }
 
             onTriggered: {
+
                 editor.select ( box.selectionStart, box.selectionEnd);
                 switch (index) {
                 case 0:
@@ -278,19 +305,17 @@ MouseArea {
 
                 box.state = "";
                 editor.select (box.editor.cursorPosition, box.editor.cursorPosition);
-                editor.cursorPosition = box.selectionStart;
 
                 box.selectionStart = 0;
                 box.selectionEnd = 0;
 
                 clipboardContextMenu.hide()
             }
+        }
 
-            MouseArea {
-                anchors.fill: parent
-                z: 1
-                visible: box.pasteOnly && box.pasteEmpty
-            }
+        onOpacityChanged: {
+            if(opacity == 1)
+                box.isPressed = false
         }
     }
 
@@ -306,6 +331,10 @@ MouseArea {
             parent.editor.cursorPosition = selectionStart;
             selectionStart = 0;
             selectionEnd = 0;
+        }
+
+        onPressedChanged: {
+            box.isPressed = pressed
         }
     }
 

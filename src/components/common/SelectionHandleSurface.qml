@@ -17,6 +17,7 @@ Item {
 
     property alias startHandle: startHandle
     property alias endHandle: endHandle
+    property bool pressed: false
 
     property Item editor: null
 
@@ -142,6 +143,7 @@ Item {
 
             onPressed: {
                 ignorePressAndHold = false;
+                container.pressed = true
                 // We store the handle that the mouse pointer was over
                 // so we can drag the correct end of the selection
                 // on movement.
@@ -164,6 +166,7 @@ Item {
             }
 
             onReleased: {
+                container.pressed = false
                 if (ignoreRelease) {
                     ignoreRelease = false;
                     return;
@@ -189,6 +192,7 @@ Item {
                 // Now a menu is popped up we don't want the release to
                 // close the selection
                 ignoreRelease = true;
+                container.pressed = true
             }
 
             onPositionChanged: {

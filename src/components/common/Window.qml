@@ -770,6 +770,8 @@ Item {
         PageStack {
             id: pageStack
 
+            property bool pageUsingFullScreen: currentPage.pageUsingFullScreen
+
             pageSwitchDirection: window.pageSwitchDirection
             z: -2
             y: currentPage.pageUsingFullScreen ? window.contentVerticalShift : window.contentVerticalShift + topDecorationHeight - barsHeight
@@ -792,10 +794,10 @@ Item {
         Item {
             id: overlayArea
             z: -1
-            y: pageStack.y  + window.topDecorationHeight
+            y: pageStack.pageUsingFullScreen ? pageStack.y : pageStack.y + window.barsHeight
 
             width: parent.width
-            height: pageStack.height - window.topDecorationHeight
+            height: pageStack.pageUsingFullScreen ? pageStack.height : pageStack.height - window.barsHeight
         }
 
         states:  [            

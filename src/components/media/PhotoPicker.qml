@@ -187,10 +187,10 @@ ModalDialog {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        width: topItem.width
+        width: parent.width
         anchors.bottomMargin: 1
         anchors.left: parent.left
-        anchors.leftMargin: (topItem.width - Math.floor(topItem.width / cellWidth)*cellWidth) / 2
+        anchors.leftMargin: (parent.width - Math.floor(parent.width / cellWidth)*cellWidth) / 2
 
         onClicked: {
             if( photoPicker.multiSelection ) {
@@ -232,7 +232,7 @@ ModalDialog {
         }
     }
 
-    TopItem { id: topItem; anchors.fill: parent }
+    TopItem { id: topItem }
     Theme { id: theme }
 
     Media.PhotoListModel {

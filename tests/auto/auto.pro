@@ -16,8 +16,8 @@ HEADERS +=      tst_auto.h
 DEFINES +=      QUICK_TEST_SOURCE_DIR=\"\\\"$$PWD\\\"\"
 DESTDIR =       build
 
-OTHER_FILES +=  ../components/*.qml \
-                ../kernel/*.qml \
+OTHER_FILES +=  ../kernel/*.qml \
+		../components/*.qml \
                 ../models/*.qml
 
 

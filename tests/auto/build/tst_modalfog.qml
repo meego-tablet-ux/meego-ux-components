@@ -49,7 +49,6 @@ Rectangle {
         id: modalFog
         autoCenter: true
         fogClickable: true
-        contentVerticalCenterOffset: 0
 
         modalSurface: Rectangle {
             id: content
@@ -83,12 +82,6 @@ Rectangle {
             compare( qtest_compareInternal( modalFog.fogMaskVisible, false ) , true );
             modalFog.fogMaskVisible = true;
             compare( qtest_compareInternal( modalFog.fogMaskVisible, true ) , true );
-
-            console.log( "contentVerticalCenterOffset" )
-            modalFog.contentVerticalCenterOffset = 10;
-            compare( qtest_compareInternal( modalFog.contentVerticalCenterOffset, 10 ) , true );
-            modalFog.contentVerticalCenterOffset = 0;
-            compare( qtest_compareInternal( modalFog.contentVerticalCenterOffset, 0 ) , true );
         }
     }
 

@@ -86,10 +86,10 @@ DatePicker {
             tempDate.setMonth(10)   //10 corresponds to November
             tempDate.setFullYear(2010)
 
-            tempDate = datePicker.prevMonth( tempDate );
+            tempDate.setMonth( datePicker.prevMonth( tempDate ) );
             compare( datePicker.shortMonths[ tempDate.getMonth() ], "Oct", "prevMonth failed" )
 
-            tempDate = datePicker.nextMonth( tempDate );
+            tempDate.setMonth( datePicker.nextMonth( tempDate ) );
             compare( datePicker.shortMonths[ tempDate.getMonth() ], "Nov", "nextMonth failed" )
         }
     }

@@ -36,107 +36,125 @@ Window {
     Component { id: book1Component; AppPage { id: page1 } }
     Component { id: book2Component; AppPage { id: page2 } }
 
-    TestCase {
-        id: testOrientation
-        name: "test_WindowOrientation"
+//    TestCase {
+//        id: testOrientation
+//        name: "test_WindowOrientation"
 
-        function test_orientation() {
+//        function test_orientation() {
 
-            //ck todo signalspy
-            //ck todo from all states to all states
-            console.log( "test orientation" )
+//            //ck todo signalspy
+//            //ck todo from all states to all states
+//            console.log( "test orientation" )
 
-            help_toPortrait();
+//            help_toPortrait();
 
-            compare( qtest_compareInternal( window.inPortrait, true )   , true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
-            //compare( qtest_compareInternal( window.window_content_topitem.width, qApp.screenHeight ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.window_content_topitem.height, qApp.screenWidth ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.window_content_topitem.rotation, -90 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, true )   , true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, false )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, false ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.window_content_topitem.width, qApp.screenHeight ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.window_content_topitem.height, qApp.screenWidth ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.window_content_topitem.rotation, -90 ), true, "rotation" );
 
-            help_toLandscape();
+//            help_toLandscape();
 
-            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, true ) , true, "inLandscape" );
-            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.rotation, 0 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, true ) , true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, false )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, false ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.rotation, 0 ), true, "rotation" );
 
-            help_toInvertedPortrait();
+//            help_toInvertedPortrait();
 
-            compare( qtest_compareInternal( window.inPortrait, true )   , true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
-            //compare( qtest_compareInternal( window.width, qApp.screenHeight ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.height, qApp.screenWidth ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.rotation, 90 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, true )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, false ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.width, qApp.screenHeight ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.height, qApp.screenWidth ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.rotation, 90 ), true, "rotation" );
 
-            help_toInvertedLandscape();
+//            help_toInvertedLandscape();
 
-            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, true ) , true, "inLandscape" );
-            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.rotation, 180 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, false )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, true ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.rotation, 180 ), true, "rotation" );
 
-            help_toLandscape();
+//            help_toLandscape();
 
-            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, true ) , true, "inLandscape" );
-            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.rotation, 0 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, true ) , true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, false )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, false ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.rotation, 0 ), true, "rotation" );
 
-            help_toInvertedPortrait();
+//            help_toInvertedPortrait();
 
-            compare( qtest_compareInternal( window.inPortrait, true ) , true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
-            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.rotation, 90 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, false ) , true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, true )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, false ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.rotation, 90 ), true, "rotation" );
 
-            help_toLandscape();
+//            help_toLandscape();
 
-            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, true ) , true, "inLandscape" );
-            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.rotation, 0 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, false )   , true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, true ) , true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, false )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, false ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.rotation, 0 ), true, "rotation" );
 
-            help_toPortrait();
+//            help_toPortrait();
 
-            compare( qtest_compareInternal( window.inPortrait, true )   , true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
-            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.rotation, -90 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, true )   , true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, false ) , true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, false )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, false ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.rotation, -90 ), true, "rotation" );
 
-            help_toPortrait();
+//            help_toPortrait();
 
-            compare( qtest_compareInternal( window.inPortrait, true ), true, "inPortrait" );
-            compare( qtest_compareInternal( window.inLandscape, false ), true, "inLandscape" );
-            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
-            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
-            //compare( qtest_compareInternal( window.rotation, -90 ), true, "rotation" );
+//            compare( qtest_compareInternal( window.inPortrait, true ), true, "inPortrait" );
+//            compare( qtest_compareInternal( window.inLandscape, false ), true, "inLandscape" );
+//            compare( qtest_compareInternal( window.inInvertedPortrait, false )   , true, "inInvertedPortrait" );
+//            compare( qtest_compareInternal( window.inInvertedLandscape, false ) , true, "inInvertedLandscape" );
+//            //compare( qtest_compareInternal( window.width, qApp.screenWidth ), true, "screenHeight" );
+//            //compare( qtest_compareInternal( window.height, qApp.screenHeight  ), true, "screenWidth" );
+//            //compare( qtest_compareInternal( window.rotation, -90 ), true, "rotation" );
 
-        }
+//        }
 
-        function help_toPortrait() {
-            qApp.setOrientation( 2 );
-            help_wait( 2 );
-        }
-        function help_toInvertedPortrait() {
-            qApp.setOrientation( 0 );
-            help_wait( 2 );
-        }
-        function help_toLandscape() {
-            qApp.setOrientation( 1 );
-            help_wait( 2 );
-        }
-        function help_toInvertedLandscape() {
-            qApp.setOrientation( 3 );
-            help_wait( 2 );
-        }
-    }
+//        function help_toPortrait() {
+//            qApp.setOrientation( 2 );
+//            help_wait( 2 );
+//        }
+//        function help_toInvertedPortrait() {
+//            qApp.setOrientation( 0 );
+//            help_wait( 2 );
+//        }
+//        function help_toLandscape() {
+//            qApp.setOrientation( 1 );
+//            help_wait( 2 );
+//        }
+//        function help_toInvertedLandscape() {
+//            qApp.setOrientation( 3 );
+//            help_wait( 2 );
+//        }
+//    }
 
     TestCase {
         id: testProperties
@@ -186,31 +204,6 @@ Window {
             compare(qtest_compareInternal(window.fullScreen, false), true);
             window.fullScreen = true;
             compare(qtest_compareInternal(window.fullScreen, true), true);
-
-            console.log( "inPortrait" )
-            window.inPortrait = true;
-            compare(qtest_compareInternal(window.inPortrait, true), true);
-            window.inPortrait = false;
-            compare(qtest_compareInternal(window.inPortrait, false), true);
-            window.inPortrait = true;
-            compare(qtest_compareInternal(window.inPortrait, true), true);
-
-            console.log( "inLandscape" )
-            window.inLandscape = true;
-            compare(qtest_compareInternal(window.inLandscape, true), true);
-            window.inLandscape = false;
-            compare(qtest_compareInternal(window.inLandscape, false), true);
-            window.inLandscape = true;
-            compare(qtest_compareInternal(window.inLandscape, true), true);
-
-            console.log( "inPortrait" )
-            window.inPortrait = true;
-            compare(qtest_compareInternal(window.inPortrait, true), true);
-            window.inPortrait = false;
-            compare(qtest_compareInternal(window.inPortrait, false), true);
-            window.inPortrait = true;
-            compare(qtest_compareInternal(window.inPortrait, true), true);
-
         }
     }
 

@@ -48,8 +48,8 @@ Rectangle {
         showCancelButton: true
         showAcceptButton: true
 
-        cancelButtonActive: true
-        acceptButtonActive: true
+        cancelButtonEnabled: true
+        acceptButtonEnabled: true
     }
 
     TestCase {

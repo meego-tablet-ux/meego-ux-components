@@ -114,6 +114,7 @@ Item {
     property int buttonWidth: 13
     property alias headerContent: headerContentArea.children
     property string orientation: "horizontal"
+    property bool lazyCreation : false
 
     signal expandingChanged( bool expanded )
 
@@ -126,7 +127,7 @@ Item {
         if( detailsItem ) {
             detailsItem.destroy();
         }
-        if (expanded) {
+        if (expanded || !lazyCreation) {
             detailsItem = detailsComponent.createObject( boxDetailsArea )
         }
         pulldownImage.componentCompleted  = true
@@ -137,6 +138,10 @@ Item {
         buttonHeight = height
         buttonWidth = width
         pulldownImage.boxReady = true
+        if( !lazyCreation && detailsComponent && !pulldownImage.componentCompleted ) {
+            if ( detailsItem ) detailsItem.destroy();
+            detailsItem = detailsComponent.boxDetailsArea( boxDetailsArea )
+        }
     }
 
     // if the expanded state changes, propagate the change via signal

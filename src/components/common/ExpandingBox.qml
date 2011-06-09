@@ -123,10 +123,13 @@ Item {
 
     // if new content is set, destroy any old content and create the new one
     onDetailsComponentChanged: {
-        if( detailsItem ) detailsItem.destroy();
-        detailsItem = detailsComponent.createObject( boxDetailsArea )
+        if( detailsItem ) {
+            detailsItem.destroy();
+        }
+        if (expanded) {
+            detailsItem = detailsComponent.createObject( boxDetailsArea )
+        }
         pulldownImage.componentCompleted  = true
-
     }
 
     // if content has been set, destroy any old content and create the new one
@@ -134,14 +137,15 @@ Item {
         buttonHeight = height
         buttonWidth = width
         pulldownImage.boxReady = true
-        if( detailsComponent && !pulldownImage.componentCompleted ) {
-            if ( detailsItem ) detailsItem.destroy();
-            detailsItem = detailsComponent.boxDetailsArea( boxDetailsArea )
-        }
     }
 
     // if the expanded state changes, propagate the change via signal
     onExpandedChanged: {
+        if (expanded) {
+            if( !detailsItem ) {
+                detailsItem = detailsComponent.createObject( boxDetailsArea )
+            }
+        }
         expandingBox.expandingChanged( expanded );
     }
 

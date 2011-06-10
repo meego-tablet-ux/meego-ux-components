@@ -2,20 +2,58 @@
  * Copyright 2011 Intel Corporation.
  *
  * This program is licensed under the terms and conditions of the
- * Apache License, version 2.0.  The full text of the Apache License is at 
+ * Apache License, version 2.0.  The full text of the Apache License is at
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-/*! 
+/*!
   \qmlclass SaveRestoreState
   \title SaveRestoreState
+
+  \section1 Purpose
+  Minimized applications are in many cases doing nothing while the
+  user is not interacting with them.  From time to time, system
+  resources can become scarce.
+
+  The SaveRestoreState allows for applications to persist and recover
+  their internal state so that they can be killed and restarted with
+  no visible difference to the user.
+
+  The SaveRestoreState does not kill applications.  It only gives
+  applications a set of tools to persist and recover their state.
+
+  \section2 Considerations
+
+  One must carefully consider the necessary information that is
+  required to properly resume an application.  While much of the data
+  for an application is usually persisted in a back-end (for example,
+  a PIM database), there is often unconsidered presentation state
+  information.  If, for example, a dialog is open, it would be
+  expected for the same dialog to be open when the application is
+  restored.  Developers must be careful to note when they are adding
+  presentation layer state and when it is reasonable to persist such
+  information.
+
+  Of course, some presentation state need not be
+  persisted.  If such information relates to a transient condition that
+  will be invalid when the application is restored, such state is best
+  skipped.  One such example is a dialog of a connection timeout.
+
+  \section2 Other information
+  The save/restore information is currently being saved at
+  /home/meego/.cache/name-of-app/saverestore.ini. This file is per-
+  application (therefore, different applications do not have to worry
+  about namespace collision with each other). The saveRequired signal
+  is normally called 0.5 seconds after the application has been
+  minimized or sent to be background. To test an application's restore
+  functionality, run the application via meego-qml-launcher and with
+  the argument "--cmd restore" (no quotes).
+
   \section1 SaveRestoreState
-  SaveRestoreState provides tools for saving and restoring
-  states of applications.
-  
   SaveRestoreState emits saveRequired when the application should save
-  its state. State is saved using setValue(key, value) and by finally
-  calling sync().
+  its state. This signal is emitted when the application is no longer
+  the in the foreground.  State is saved using setValue(key, value)
+  and by finally calling sync().
 
   The restoreRequired property is true if the application should
   restore its saved state. The value will not change when the
@@ -39,7 +77,7 @@
   SaveRestoreState instances whose alwaysValid is false have called
   sync(). State becomes inconsistent when on saveRequired, or when the
   application calls setValue() or invalidate().
-  
+
   \section2 API Properties
     \qmlproperty bool restoreRequired
     \qmlcm true if application is required to restore its state on
@@ -71,7 +109,7 @@
        \endparam
 
     \qmlfn value
-    \qmlcm returns the value stored with the key.
+    \qmlcm returns the value stored with the key in a form of a string.
            If no value has been stored with the key, returns the
            default value.
        \param QString key
@@ -91,7 +129,11 @@
        \endparam
 
     \qmlfn sync
-    \qmlcm confirms that saving values has been finished.
+    \qmlcm confirms that saving values has been finished. This is required in
+           order for the save/restore file to be marked valid. Calling
+           setValue() without sync() may cause the restoreRequired property
+           to be set to "false" even when the application is launched with the
+           restore command.
 
     \qmlfn invalidate
     \qmlcm changes the previously saved state invalid.
@@ -153,7 +195,7 @@ class SaveRestoreStatePrivate;
 class SaveRestoreState : public QObject
 {
     Q_OBJECT;
-    
+
     Q_PROPERTY(bool restoreRequired READ restoreRequired NOTIFY restoreRequiredChanged);
     Q_PROPERTY(bool alwaysValid READ alwaysValid WRITE setAlwaysValid);
 

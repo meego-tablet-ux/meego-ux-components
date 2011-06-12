@@ -33,7 +33,7 @@ WidgetPage {
 
             onTextUpdated: {
                 if( value >= 0 ){
-                    photoPicker.width = value
+                    photoPicker.width = +value
                 }
             }
         },
@@ -46,7 +46,7 @@ WidgetPage {
 
             onTextUpdated: {
                 if( value >= 0 ){
-                    photoPicker.height = value
+                    photoPicker.height = +value
                 }
             }
         },

@@ -666,7 +666,10 @@ Item {
                                     bookContextMenu.hide()
                                 }
 
-                                SaveRestoreState { //TODO: Move this higher up in the hierarchy; but only when we have a better idea of what to save and not to save
+                                //TODO: Move this higher up in the hierarchy; 
+                                // but only when we have a better idea of what to save and not to save
+
+                                SaveRestoreState {
                                     id: saveRestoreBookMenu
                                     onSaveRequired: {
                                         setValue("meego.ux.components.bookMenu.visible", bookMenu.visible);
@@ -675,7 +678,8 @@ Item {
                                 }
 
                                 Component.onCompleted: {
-                                    if(saveRestoreBookMenu.restoreRequired && (saveRestoreBookMenu.value("meego.ux.components.bookMenu.visible") == "true")) {
+                                    if(saveRestoreBookMenu.restoreRequired &&
+                                       (saveRestoreBookMenu.value("meego.ux.components.bookMenu.visible") == "true")) {
                                         bookContextMenu.show();
                                     }
                                 }

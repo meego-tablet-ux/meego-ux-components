@@ -191,7 +191,7 @@ ModalDialog {
         width: parent.width - (anchors.leftMargin * 2)
         anchors.bottomMargin: 1
         anchors.left: parent.left
-        anchors.leftMargin: 10
+        anchors.leftMargin: albumSelectionMode? 10 : ((parent.width - (estimateColumnCount * cellWidth)) / 2)
         theGridView.cacheBuffer: parent.height * 4
 
         onClicked: {

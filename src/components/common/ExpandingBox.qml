@@ -77,9 +77,9 @@
               id: expandingBoxComponent
 
               Rectangle {
-                   id: rect;
+                   id: rect
 
-                   color: "blue";
+                   color: "blue"
                    height: 50; width: 150
                    anchors.centerIn: parent
 
@@ -128,7 +128,8 @@ Item {
     // if new content is set, destroy any old content and create the new one
     onDetailsComponentChanged: {
         if( detailsItem ) {
-            detailsItem.destroy();
+            detailsItem.destroy()
+            detailsItem = null
         }
         if (expanded || !lazyCreation) {
             //console.log("Creating expanding box!") 
@@ -143,7 +144,7 @@ Item {
         buttonWidth = width
         pulldownImage.boxReady = true
         if( !lazyCreation && detailsComponent && !pulldownImage.componentCompleted ) {
-            if ( detailsItem ) detailsItem.destroy();
+            if ( detailsItem ) detailsItem.destroy()
             detailsItem = detailsComponent.boxDetailsArea( boxDetailsArea )
         }
     }
@@ -156,7 +157,7 @@ Item {
                 detailsItem = detailsComponent.createObject( boxDetailsArea )
             }
         }
-        expandingBox.expandingChanged( expanded );
+        expandingBox.expandingChanged( expanded )
     }
 
     Theme { id: theme }
@@ -193,7 +194,7 @@ Item {
             Row {
                 id: iconArea
 
-                anchors { left: parent.left; margins: 5; }
+                anchors { left: parent.left; margins: 5 }
                 anchors.verticalCenter: expandButton.verticalCenter
                 spacing: anchors.margins
             }
@@ -253,8 +254,8 @@ Item {
             anchors {
                 top: ( expandingBox.orientation == "horizontal" ) ? header.bottom : parent.top
                 left: ( expandingBox.orientation == "horizontal" ) ? parent.left : header.right
-                bottom: parent.bottom;
-                right: parent.right;
+                bottom: parent.bottom
+                right: parent.right
                 margins: itemMargins
             }
 

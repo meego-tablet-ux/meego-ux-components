@@ -49,6 +49,9 @@
   \qmlcm this value defines how ExpandingBox is orientated. Possible values are: "horizontal" - expands to lower; "vertical" - expands to the right. Default is 'horizontal'.
   If you change the orientation and the size during runtime, make sure you change the buttonWidth and buttonHeight too.
 
+  \qmlproperty bool lazyCreation
+  \qmlcm this value defines how ExpandingBox is created. By default (false), content to expand is created when the ExpandingBox is first instantiated.  Setting this property to true delays content created if and until the box is expanded.
+
   \section2 Signals
   \qmlproperty [signal] expandingChanged
   \qmlcm emitted if the box switches between expanded and not expanded
@@ -114,7 +117,7 @@ Item {
     property int buttonWidth: 13
     property alias headerContent: headerContentArea.children
     property string orientation: "horizontal"
-    property bool lazyCreation : false
+    property bool lazyCreation: false
 
     signal expandingChanged( bool expanded )
 
@@ -128,6 +131,7 @@ Item {
             detailsItem.destroy();
         }
         if (expanded || !lazyCreation) {
+            //console.log("Creating expanding box!") 
             detailsItem = detailsComponent.createObject( boxDetailsArea )
         }
         pulldownImage.componentCompleted  = true
@@ -148,6 +152,7 @@ Item {
     onExpandedChanged: {
         if (expanded) {
             if( !detailsItem ) {
+                //console.log("Creating expanding box!") 
                 detailsItem = detailsComponent.createObject( boxDetailsArea )
             }
         }

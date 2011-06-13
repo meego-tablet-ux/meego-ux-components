@@ -15,6 +15,8 @@ import MeeGo.Components 0.1
 WidgetPage {
     id: widgetPage
 
+    property bool lazyExpandingBoxCreation: false
+
     pageTitle: "Expanding Box"
 
     controlContent: [
@@ -75,6 +77,7 @@ WidgetPage {
 
                 ExpandingBox {
                     id: ebox1
+                    lazyCreation: widgetPage.lazyExpandingBoxCreation
 
                     height: 50
                     width: 400
@@ -110,6 +113,7 @@ WidgetPage {
 
                 ExpandingBox {
                     id: ebox2
+                    lazyCreation: widgetPage.lazyExpandingBoxCreation
 
                     width: widgetPage.width / 3
                     height: 50
@@ -176,6 +180,7 @@ WidgetPage {
 
             ExpandingBox {
                 id: ebox3
+                lazyCreation: widgetPage.lazyExpandingBoxCreation
 
                 width: 120
                 height: 200

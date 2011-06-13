@@ -183,7 +183,7 @@ ModalDialog {
         // for this, a value which can't be retrieved via parent.width. So the computation has to be in the picker.
 
         property int estimateHeight: Math.ceil( model.count / estimateColumnCount ) * cellHeight
-        property int estimateColumnCount: Math.floor( ( videoPicker.width - videoPicker.leftMargin - videoPicker.rightMargin ) / cellWidth )
+        property int estimateColumnCount: Math.floor( parent.width / cellWidth )
         property string selectedItem: ""
 
         defaultThumbnail: "image://themedimage/images/media/video_thumb_med"
@@ -194,12 +194,11 @@ ModalDialog {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        width: cellWidth * estimateColumnCount
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        cellWidth: (topItem.topWidth > topItem.topHeight) ? Math.floor((parent.width-1)  / theme.thumbColumnCountLandscape) - 2
-                                                  : Math.floor((parent.width-1) / theme.thumbColumnCountPortrait) - 2
-        cellHeight: cellWidth
+        width: parent.width - (anchors.leftMargin * 2)
+        anchors.bottomMargin: 1
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        theGridView.cacheBuffer: parent.height * 4
 
         //if an item is clicked, update the current data with that item's data
         onClicked: {

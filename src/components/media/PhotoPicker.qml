@@ -175,8 +175,8 @@ ModalDialog {
         // the the number of columns and the width is then set to estimateColumnCount x cellWidth. Unfortunately, the pickers width is needed
         // for this, a value which can't be retrieved via parent.width. So the computation has to be in the picker.
 
-        property int estimateHeight: Math.ceil( model.count / estimateColumnCount ) * cellHeight
-        property int estimateColumnCount: Math.floor( ( photoPicker.width - photoPicker.leftMargin - photoPicker.rightMargin ) / cellWidth )
+        property int estimateHeight: Math.min(Math.ceil( model.count / estimateColumnCount ) * cellHeight)
+        property int estimateColumnCount: Math.floor( parent.width / cellWidth )
         property string selectedItem: ""
 
         defaultThumbnail: "image://themedimage/images/media/photo_thumb_default"
@@ -188,10 +188,11 @@ ModalDialog {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        width: parent.width
+        width: parent.width - (anchors.leftMargin * 2)
         anchors.bottomMargin: 1
         anchors.left: parent.left
-        anchors.leftMargin: (parent.width - Math.floor(parent.width / cellWidth)*cellWidth) / 2
+        anchors.leftMargin: 10
+        theGridView.cacheBuffer: parent.height * 4
 
         onClicked: {
             if( photoPicker.multiSelection ) {

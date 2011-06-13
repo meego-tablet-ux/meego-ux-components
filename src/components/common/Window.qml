@@ -294,8 +294,8 @@ Item {
     property alias inhibitScreenSaver: scene.inhibitScreenSaver
     property alias inLandscape: scene.inLandscape
     property alias inPortrait: scene.inPortrait
-    property alias inInvertedLandscape: scene.inLandscape
-    property alias inInvertedPortrait: scene.inPortrait
+    property alias inInvertedLandscape: scene.inInvertedLandscape
+    property alias inInvertedPortrait: scene.inInvertedPortrait
     property alias orientationString: scene.orientationString
 
     property bool backButtonLocked: false

@@ -175,7 +175,7 @@ ModalFog {
 
     property int decorationHeight: header.height + footer.height + topMargin + bottomMargin
 
-    property int verticalOffset: topItem.topDecorationHeight
+    property int verticalOffset: topItem.topDecorationHeight + topItem.shift
 
     width: if( sizeHintWidth < topItem.topWidth * 0.95 ){
                if( sizeHintWidth < topItem.topWidth * 0.2 ){
@@ -395,6 +395,18 @@ ModalFog {
         }
     }
 
+    Connections {
+        target: window
+
+        onContentVerticalShiftChanged:{
+            // This moves the dialog upwards if a text input inside it would be covered by the visual keyboard.
+            topItem.shift = contentVerticalShift
+        }
+    }
+
     Theme { id: theme }
-    TopItem { id: topItem }
+    TopItem {
+        id: topItem
+        property real shift: 0
+    }
 }

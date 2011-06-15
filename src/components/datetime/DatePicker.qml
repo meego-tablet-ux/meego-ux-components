@@ -768,8 +768,8 @@ ModalDialog {
                 Text {
                     id: monthAndYear
 
+                    //: 1 is full month name, 2 is full numerical year.  E.g. "January 2011".  Reorder as approriate to current language"
                     text: qsTr("%1 %2").arg(fullMonths[ calendarView.calendarShown.getMonth() ]).arg(calendarView.calendarShown.getFullYear())
-                        // fullMonths[ calendarView.calendarShown.getMonth() ] + " " + calendarView.calendarShown.getFullYear()
                     font.pixelSize: monthHeader.fontPixelSize;
                     verticalAlignment: "AlignVCenter"; horizontalAlignment: "AlignHCenter"
                     anchors { top: parent.top; bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }

@@ -176,7 +176,7 @@ Item {
         active: container.active
         onNotify: {
             //: %1 is notification summary, %2 is notification body
-            var msg = qsTr("%1: %2").arg(summary).arg(body)
+            var msg = qsTr("%1: %2", "SummaryBody").arg(summary).arg(body)
             showBanner(msg.replace(/\n/g, ' '));
         }
     }

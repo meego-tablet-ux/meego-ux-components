@@ -29,12 +29,9 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
         if (dt.addSecs(60) > now) {
             //: Fuzzy date description
             return tr("Just now");
-        } else if (dt.addSecs(2 * 60) > now) {
-            //: Fuzzy date description
-            return tr("1 min ago");
         } else if (dt.addSecs(29 * 60) > now) {
-            //: Fuzzy date description - %1 is a number
-            return tr("%1 mins ago").arg(QString::number(int(dt.secsTo(now)/60)));
+            //: Fuzzy date description - %n is a number
+            return tr("%n min(s) ago", "", int(dt.secsTo(now)/60));
         } else if (dt.addSecs(59 * 60) > now) {
             //: Fuzzy date description
             return tr("Half an hour ago");
@@ -45,9 +42,8 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
             //: Fuzzy date description
             return tr("A couple of hours ago");
         } else {
-            //: Fuzzy date description - %1 is a number
-            return tr("%1 hours ago").arg(
-                    QString::number(int(dt.secsTo(now)/(60 * 60))));
+            //: Fuzzy date description - %n is a number
+            return tr("%n hour(s) ago", "", int(dt.secsTo(now)/(60 * 60)));
         }
     } else {
         //: QDateTime format string: M is numeric month, d is num. day, yy is year; e.g. 1/31/11
@@ -70,9 +66,9 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
             //: Fuzzy date description
             return fuzzyDateFormat.arg(formattedDate, tr("A couple of weeks ago"));
         } else if ( ( dtDate.month() == nowMonth ) && ( dtDate.year() == nowDate.year() ) ) {
-            //: Fuzzy date description - %1 is a number
+            //: Fuzzy date description - %n is a number
             int weeks = dtDate.daysTo(nowDate) / 7;
-            return fuzzyDateFormat.arg(formattedDate, tr("%1 weeks ago").arg(weeks));
+            return fuzzyDateFormat.arg(formattedDate, tr("%n week(s) ago", "", weeks));
         } else if ( dtDate.addMonths(1) >= nowDate ) {
             //: Fuzzy date description
             return fuzzyDateFormat.arg(formattedDate, tr("Last month"));
@@ -84,15 +80,15 @@ const QString FuzzyDateTime::getFuzzy(const QDateTime &dt) const
             //If this is true, we're wrapping around a year, add 12
             if (months < 0)
                 months += 12;
-            //: Fuzzy date description - %1 is a number
-            return fuzzyDateFormat.arg(formattedDate, tr("%1 months ago").arg(months));
+            //: Fuzzy date description - %n is a number
+            return fuzzyDateFormat.arg(formattedDate, tr("%n month(s) ago", "", months));
         } else if (dtDate.addMonths(11 + nowDate.month()) >= nowDate) { //23
             //: Fuzzy date description
             return fuzzyDateFormat.arg(formattedDate, tr("Last year"));
         } else {
             int years = nowDate.year() - dtDate.year();
-            //: Fuzzy date description - %1 is a number
-            return fuzzyDateFormat.arg(formattedDate, tr("%1 years ago").arg(years));
+            //: Fuzzy date description - %n is a number
+            return fuzzyDateFormat.arg(formattedDate, tr("%n year(s) ago", "", years));
         }
     }
 }

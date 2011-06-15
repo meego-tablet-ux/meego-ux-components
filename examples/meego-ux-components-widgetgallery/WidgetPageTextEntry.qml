@@ -91,6 +91,16 @@ WidgetPage {
             onCheckedChanged: {
                 button.readOnly = checked
             }
+        },
+        LabeledEntry {
+            id: defaultTextEntry
+
+            label:  "defaultText: "
+            defaultValue: button.defaultText
+
+            onTextUpdated: {
+                button.defaultText = value
+            }
         }
     ]
 

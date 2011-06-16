@@ -154,6 +154,9 @@
  \qmlproperty bool actionMenuPresent
  \qmlcm bool, this notifies the action and bookmenu buttons if they should be in 'pressed'
 
+ \qmlproperty bool fastPageSwitch
+ \qmlcm if set to true, switchBook/addPage/popPage can be called even if the pageStack is busy
+
   \section1  Signals:
 
   \qmlproperty [signal] searchExtended
@@ -355,7 +358,7 @@ Item {
 
     //switches between "books"
     function switchBook( pageComponent ) {
-        if( !pageStack.busy ){
+        if( !pageStack.busy || fastPageSwitch ){
             pageStack.clear();  //first remove all pages from the stack
             pageStack.push( pageComponent ) //then add the new page
         }

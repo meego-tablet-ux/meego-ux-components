@@ -643,6 +643,7 @@ Item {
 
                         anchors.right: spacer2.left
                         visible: bookMenu.height > 0
+                        opacity: visible ? 1 : 0    // force repaint
 
                         icon: bookContextMenu.visible? "image://themedimage/icons/toolbar/view-change-selected" : "image://themedimage/icons/toolbar/view-change"
                         iconDown: "image://themedimage/icons/toolbar/view-change-selected"
@@ -713,6 +714,7 @@ Item {
 
                         anchors.right: parent.right
                         visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
+                        opacity: visible ? 1 : 0    // force repaint
 
                         icon: window.actionMenuPresent? "image://themedimage/icons/toolbar/view-actions-selected" : "image://themedimage/icons/toolbar/view-actions"
                         iconDown: "image://themedimage/icons/toolbar/view-actions-selected"

@@ -116,6 +116,10 @@
        \param QVariant defaultValue (optional)
        \qmlcm if not given, defaultValue defaults to QVariant().\endparam
 
+    \qmlfn allKeys
+    \qmlcm returns a list of all keys with same semantics as
+           QSettings::allKeys
+
     \qmlfn restoreOnce
     \qmlcm returns either value stored with the key or defaultValue.
                Stored value is returned if and only if 1) restoring is
@@ -187,6 +191,7 @@ Window {
 #include <QObject>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 #include <qdeclarative.h>
 
 class QSettings;
@@ -207,6 +212,7 @@ public:
 
     Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
     Q_INVOKABLE QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
+    Q_INVOKABLE QStringList allKeys() const;
     Q_INVOKABLE void sync();
 
     Q_INVOKABLE QVariant restoreOnce(const QString &key, const QVariant &defaultValue);

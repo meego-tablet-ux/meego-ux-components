@@ -116,6 +116,12 @@ QVariant SaveRestoreState::value(const QString &key, const QVariant &defaultValu
     return d->settings->value(key, defaultValue);
 }
 
+QStringList SaveRestoreState::allKeys() const
+{
+    if (!d->settings) d->init();
+    return d->settings->allKeys();
+}
+
 void SaveRestoreState::sync()
 {
     if (!d->settings) d->init();

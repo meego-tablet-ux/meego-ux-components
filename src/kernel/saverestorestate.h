@@ -131,6 +131,13 @@
        \param QString key
        \param QVariant defaultValue
        \endparam
+    \qmlfn restoreOnceAndRemove
+
+    \qmlcm returns either value stored with key or defaultValue.  If
+           the key is present, it calls remove() on that key
+       \param QString key
+       \param QVariant defaultValue
+       \endparam    
 
     \qmlfn remove
     \qmlcm removes the given key from the store.
@@ -221,6 +228,7 @@ public:
     Q_INVOKABLE void sync();
 
     Q_INVOKABLE QVariant restoreOnce(const QString &key, const QVariant &defaultValue);
+    Q_INVOKABLE QVariant restoreOnceAndRemove(const QString &key, const QVariant &defaultValue);
 
     Q_INVOKABLE void remove(const QString &key);
 

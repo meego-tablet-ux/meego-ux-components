@@ -165,6 +165,17 @@ QVariant SaveRestoreState::restoreOnce(const QString &key, const QVariant &defau
     }
 }
 
+QVariant SaveRestoreState::restoreOnceAndRemove(const QString &key, const QVariant &defaultValue)
+{
+    if (!d->settings) d->init();
+    QVariant ret = restoreOnce(key, defaultValue);
+    if (d->alreadyRestored.contains(key))
+    {
+      d->settings->remove(key);
+    }
+    return ret;
+}
+
 void SaveRestoreState::remove(const QString &key)
 {
     if (!d->settings) d->init();

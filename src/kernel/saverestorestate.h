@@ -132,6 +132,11 @@
        \param QVariant defaultValue
        \endparam
 
+    \qmlfn remove
+    \qmlcm removes the given key from the store.
+       \param QString key
+    \endparam
+
     \qmlfn sync
     \qmlcm confirms that saving values has been finished. This is required in
            order for the save/restore file to be marked valid. Calling
@@ -216,6 +221,8 @@ public:
     Q_INVOKABLE void sync();
 
     Q_INVOKABLE QVariant restoreOnce(const QString &key, const QVariant &defaultValue);
+
+    Q_INVOKABLE void remove(const QString &key);
 
     Q_INVOKABLE void setAlwaysValid(bool);
     Q_INVOKABLE bool alwaysValid();

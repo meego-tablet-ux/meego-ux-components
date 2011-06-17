@@ -190,6 +190,7 @@ ModalDialog {
 
         model: allAlbumsListModel
 
+        selectionMode: true
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 

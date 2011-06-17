@@ -184,6 +184,7 @@ ModalDialog {
         model: theModel
         type: albumSelectionMode ? photoalbumtype : phototype
 
+        selectionMode: true
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 

@@ -152,6 +152,7 @@ Flickable {
                 onSelectedIndexChanged: {
                     if( index == selectedIndex ) {
                         container.oldItem = highlight
+                        container.currentItem = null 
                     }
                 }
 
@@ -176,7 +177,9 @@ Flickable {
                     height: parent.height + 1
                     anchors.verticalCenterOffset: -1
 
-                    opacity: ( index == selectedIndex ) ?  (highlightSelectedItem?1:0) : (highlight == container.currentItem ? 0.5 : 0) // this forces a repaint
+                    opacity: ( index == selectedIndex ) ? (highlightSelectedItem ? 1 : 0) 
+                                                        : (highlight == container.currentItem ? 0.5 
+                                                                                              : 0) // this forces a repaint
                     visible: opacity != 0
 
                 }

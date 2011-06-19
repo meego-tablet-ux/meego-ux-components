@@ -222,6 +222,12 @@
            \param AppPage pageComponent
            \qmlpcm first page of the selected book to switch to \endparam
 
+  \qmlfn switchBookByIndex
+  \qmlcm clears the page stack and loads the page given as parameter.
+                    See also switchBook()
+           \param int index
+           \qmlpcm zero-based index in to the bookMenuPayload array \endparam
+
   \qmlfn addPage
   \qmlcm adds a page to the page stack and sets it as the current page.
            \param  AppPage pageComponent
@@ -352,15 +358,18 @@ Item {
         if( !pageStack.busy ){
             pageStack.clear();  //first remove all pages from the stack
             pageStack.push( pageComponent ) //then add the new page
-            bookMenu.selectedIndex = (pageStack.depth - 1)
         }
+    }
+
+    function switchBookByIndex( index ) {
+        bookMenu.selectedIndex = index
+        switchBook(bookMenuPayload[index])
     }
 
     //adds a new page of a "book"
     function addPage( pageComponent ) {
         if( !pageStack.busy || fastPageSwitch ){
             pageStack.push( pageComponent )
-            bookMenu.selectedIndex = (pageStack.depth - 1)
         }//add the new page
     }
 
@@ -655,7 +664,6 @@ Item {
                                 highlightSelectedItem: true
 
                                 onTriggered: {
-                                    console.log( index )
                                     if(automaticBookSwitching ) {
                                         switchBook( payload[index] )
                                     }
@@ -1005,7 +1013,7 @@ Item {
             scene.activeWinId = qApp.foregroundWindow;
             scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
 
-            console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
+            //console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
         }
         onOrientationChanged: {
             scene.orientation = qApp.orientation;

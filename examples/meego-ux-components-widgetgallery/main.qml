@@ -41,5 +41,5 @@ Window {
     Component { id: book3; Book3 { name: qsTr("Book 3") } }
     Component { id: fullScreenPage; WidgetPageFullScreen { name: qsTr("Fullscreen Test") } }
     Component { id: orientationPage; WidgetPageOrientation { name: qsTr("Orientation Test") } }
-    Component { id: gestureTestPage; GestureTestPage { onClicked: { switchBook( gallery ) }  } }
+    Component { id: gestureTestPage; GestureTestPage { onClicked: { switchBookByIndex( 0 ) }  } }
 }

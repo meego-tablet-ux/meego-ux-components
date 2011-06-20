@@ -92,7 +92,7 @@ Item {
         repeat: true
 
         onTriggered: {
-            spinnerImage.x = ( spinnerImage.x - spinnerImage.height ) % - ( spinnerImage.height * 11 )
+            spinnerImage.x = ( spinnerImage.x - spinnerImage.height ) % - ( spinnerImage.width )
         }
     }
 

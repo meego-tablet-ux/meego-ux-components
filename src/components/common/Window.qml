@@ -418,6 +418,9 @@ Item {
 
     onSearchRetracted: {
         searchBox.text = ""
+        if( mainWindow ) {
+            mainWindow.dismissKeyboard()
+        }
     }
 
     Theme { id: theme }

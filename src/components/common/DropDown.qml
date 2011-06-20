@@ -192,13 +192,11 @@ Item {
             ThemeImage {
                 id: expandButton
 
-                visible: false //FIXME when Design is uptodate
-                width: 30  //FIXME when Design is uptodate
                 anchors.right: parent.right
                 anchors.rightMargin: 6
                 anchors.verticalCenter: parent.verticalCenter
-                source:dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-background" :
-                "image://themedimage/widgets/common/combobox/combobox-background-active"
+                source:dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-item-open-active" :
+                "image://themedimage/widgets/common/combobox/combobox-item-open"
             }
 
             GestureArea {

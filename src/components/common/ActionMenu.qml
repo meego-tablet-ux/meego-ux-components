@@ -238,8 +238,8 @@ Flickable {
                             container.triggered( delegateThingy.myIndex )
                             container.selectedIndex = delegateThingy.myIndex
 
+                            container.currentItem = null
                             if( !highlightSelectedItem ) {
-                                container.currentItem = null
                                 container.oldItem = null
                             }
                         }

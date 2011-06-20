@@ -39,5 +39,9 @@ BorderImage {
 	id: themeImageBorder
     }
 
+    Component.onCompleted: {
+        container.sourceSizeChanged( container.sourceSize )
+    }
+
 }
 

@@ -154,9 +154,6 @@
  \qmlproperty bool actionMenuPresent
  \qmlcm bool, this notifies the action and bookmenu buttons if they should be in 'pressed'
 
- \qmlproperty bool fastPageSwitch
- \qmlcm if set to true, switchBook/addPage/popPage can be called even if the pageStack is busy
-
   \section1  Signals:
 
   \qmlproperty [signal] searchExtended
@@ -323,8 +320,6 @@ Item {
     // height of tool and status bar. This is needed for the AppPages and overlayItem to compute their size
     property int barsHeight: titleBar.height + statusBar.height + statusBar.y
 
-    property bool fastPageSwitch: false
-
     // this shifts the content if a text input would be covered by the visual keyboard
     property real contentVerticalShift: 0
 
@@ -358,9 +353,18 @@ Item {
 
     //switches between "books"
     function switchBook( pageComponent ) {
-        if( !pageStack.busy || fastPageSwitch ){
+        if( !pageStack.busy ){
             pageStack.clear();  //first remove all pages from the stack
-            pageStack.push( pageComponent ) //then add the new page
+            if (Array.prototype.isPrototypeOf(pageComponent)) {
+                // function was called with an array of page components
+                for (page in pageComponent) {
+                    pageStack.push( pageComponent )
+                }
+            }
+            else {
+                // function was called with a single page (or at least it wasn't an array)
+                pageStack.push( pageComponent ) //then add the new page
+            }
         }
     }
 
@@ -371,14 +375,14 @@ Item {
 
     //adds a new page of a "book"
     function addPage( pageComponent ) {
-        if( !pageStack.busy || fastPageSwitch ){
+        if( !pageStack.busy ){
             pageStack.push( pageComponent )
         }//add the new page
     }
 
     // pop the current Page from the stack
     function popPage() {
-        if( !pageStack.busy || fastPageSwitch ){ pageStack.pop() }// pops the page
+        if( !pageStack.busy ){ pageStack.pop() }// pops the page
     }
 
     //called by a TextEntry or TextField when the virtual keyboard comes up. Shifts the content up
@@ -815,7 +819,6 @@ Item {
             height: parent.height
 
             onNewPageTitle: window.toolBarTitle = newPageTitle
-            onNewFastPageSwitch: window.fastPageSwitch = newFastPageSwitch
             onNewFullScreen: window.fullScreen = newFullScreen
             onNewFullContent: window.fullContent = newFullContent
             onNewActionMenuOpen: window.actionMenuPresent = newActionMenuOpen

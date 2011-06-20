@@ -477,15 +477,15 @@ Item {
             Connections {
                 target: window
                 onFullScreenChanged: {
-                    estimateVisibility()
+                    statusBar.estimateVisibility()
                 }
                 onFullContentChanged: {
-                    estimateVisibility()
+                    statusBar.estimateVisibility()
                 }
             }
 
             Component.onCompleted: {
-                estimateVisibility()
+                statusBar.estimateVisibility()
             }
         } //end of statusBar
 

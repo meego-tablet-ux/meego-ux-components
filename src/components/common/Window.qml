@@ -214,13 +214,14 @@
         \qmlpcm sets the book menus payload \endparam
 
   \qmlfn switchBook
-  \qmlcm clears the page stack and loads the page given as parameter.
+  \qmlcm clears the page stack and loads the page or page array given as parameter.
                     Usually you don't need to call that function at all if you just
                     hand a proper model and payload to the bookContextMenu. But
                     if you want to switch between books by other means, you can use
                     this function.
-           \param AppPage pageComponent
-           \qmlpcm first page of the selected book to switch to \endparam
+           \param AppPage/Array pageComponent
+           \qmlpcm Either the first page of the selected book to switch to (in scalar context) or an ordered list of 
+                   pages that make up a book to switch to.  The last page in the array will be visible.\endparam
 
   \qmlfn switchBookByIndex
   \qmlcm clears the page stack and loads the page given as parameter.
@@ -229,9 +230,11 @@
            \qmlpcm zero-based index in to the bookMenuPayload array \endparam
 
   \qmlfn addPage
-  \qmlcm adds a page to the page stack and sets it as the current page.
+  \qmlcm adds a page or array of pages to the page stack and changes the current page.
            \param  AppPage pageComponent
            \qmlpcm page which sould be added \endparam
+           \qmlpcm Either a page that should be added or an array of pages to be added.  In either case, the last new 
+                   page added will be visible.\endparam
 
   \qmlfn popPage
   \qmlcm pops a page to the page stack and sets the last page as the current page.
@@ -354,17 +357,8 @@ Item {
     //switches between "books"
     function switchBook( pageComponent ) {
         if( !pageStack.busy ){
-            pageStack.clear();  //first remove all pages from the stack
-            if (Array.prototype.isPrototypeOf(pageComponent)) {
-                // function was called with an array of page components
-                for (page in pageComponent) {
-                    pageStack.push( pageComponent )
-                }
-            }
-            else {
-                // function was called with a single page (or at least it wasn't an array)
-                pageStack.push( pageComponent ) //then add the new page
-            }
+            pageStack.clear()  //first remove all pages from the stack
+            addPage(pageComponent)
         }
     }
 
@@ -376,7 +370,16 @@ Item {
     //adds a new page of a "book"
     function addPage( pageComponent ) {
         if( !pageStack.busy ){
-            pageStack.push( pageComponent )
+            if (Array.prototype.isPrototypeOf(pageComponent)) {
+                // function was called with an array of page components
+                for (page in pageComponent) {
+                    pageStack.push( page )
+                }
+            }
+            else {
+                // function was called with a single page (or at least it wasn't an array)
+                pageStack.push( pageComponent ) //then add the new page
+            }
         }//add the new page
     }
 

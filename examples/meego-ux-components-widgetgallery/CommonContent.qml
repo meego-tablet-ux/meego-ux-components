@@ -643,6 +643,7 @@ Item {
                     }
 
                     Component{ id: modalSpinnerComponent; WidgetPageModalSpinner{} }
+
                 }
 
                 Rectangle {

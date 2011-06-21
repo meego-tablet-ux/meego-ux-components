@@ -1,6 +1,8 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-TARGET =+ meego-ux-components
+
+VERSION = 0.2.9.15
+PROJECT_NAME = meego-ux-components
 
 SUBDIRS += src \
            examples
@@ -12,8 +14,6 @@ OTHER_FILES += README
 SOURCES += src
 
 TRANSLATIONS += $${SOURCES} $${OTHER_FILES} $${HEADERS}
-VERSION = 0.2.9.14
-PROJECT_NAME = meego-ux-components
 
 dist.commands += rm -fR $${PROJECT_NAME}-$${VERSION} &&
 dist.commands += [ ! -e .git/refs/tags/$${VERSION} ] || git tag -d $${VERSION} &&

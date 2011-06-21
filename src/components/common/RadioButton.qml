@@ -89,14 +89,6 @@ Item {
         anchors.fill: parent
         
         Tap {
-	   onStarted: {	      
-              image.source = bgSourceDn
-	      container.pressed = true
-	   }
-	   onCanceled: {
-              image.source = bgSourceUp
-              container.pressed = false
-	   }
 	   onFinished: {
              if (!checked && group) { group.check(root); }
 	   }

@@ -68,7 +68,6 @@
       \o Examples
         \list
         \o MeeGo-Ux-Components-Widgetgallery
-        \o \l { MeeGo-Ux-Components-App-Photo }
         \o MeeGo-Ux-Components-Tutorial
         \endlist
     \endlist
@@ -118,7 +117,6 @@
     On the ExoPc, in the terminal started from home desktop:
     \code
     meego-qml-launcher --fullscreen --opengl --app meego-ux-components-widgetgallery
-    meego-qml-launcher --fullscreen --opengl --app meego-ux-components-app-photo
     \endcode
 
     \section2 Widget gallery
@@ -130,14 +128,6 @@
     All currently available  meego-ux-components can be found here. 'Widgets' shows basic interface items,
     'Modal Dialogs' shows high level widgets like the PhotoPicker.
 
-    \section2 Photo App
-
-    An actual example for an  meego-ux-components based application is the photos application which found under:
-    \code
-    git repository:   meego-ux-components/examples/meego-ux-components-app-photos
-    \endcode
-    Note: Due to bugs in the branched photo models the 'favorite' functionality was disabled. These bugs do not appear in the current meego-ux-staging.
-    
     \section2 Tutorial
     
     We provide a basic step by step tutorial for the Window-Book-Page concept and the usage of  meego-ux-components.

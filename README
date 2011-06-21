@@ -49,8 +49,6 @@ You can start the examples with:
   export DISPLAY=:0
   meego-qml-launcher --fullscreen --opengl \
                      --app meego-ux-components-widgetgallery
-  meego-qml-launcher --fullscreen --opengl \
-                     --app meego-ux-components-app-photos
 
 
 - Widget gallery -
@@ -62,12 +60,6 @@ All currently available meego-ux-components can be found
 here. 'Widgets' shows basic interface items, 'Modal Dialogs' shows
 high level widgets like the PhotoPicker.
 
-
-- Photo App -
-----------------------
-An actual example for an meego-ux-components based application is the
-photos application found under:
-git repository: meego-ux-components/examples/meego-ux-components-app-photos
 
 - Tutorial -
 ----------------------

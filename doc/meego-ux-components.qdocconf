@@ -7,14 +7,12 @@ url = 		"http://meego.com"
 sourcedirs = 	../doc \
 		../src \
                 ../tests \
-                ../examples/meego-ux-components-tutorial \
-                ../examples/meego-ux-components-app-photos
+                ../examples/meego-ux-components-tutorial
 
 headerdirs = 	../doc \
 		../src \
                 ../tests \
-                ../examples/meego-ux-components-tutorial \
-                ../examples/meego-ux-components-app-photos
+                ../examples/meego-ux-components-tutorial
 
 sources.fileextensions = "*.cpp *.doc *.qdoc *.h *.qml *.js"
 

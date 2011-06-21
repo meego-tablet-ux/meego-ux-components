@@ -47,11 +47,6 @@
   \qmlproperty bool backButtonLocked
   \qmlcm set to true to lock the backButton
 
-  \qmlproperty bool fastPageSwitch
-  \qmlcm if true, allows multiple addPage and popPage. If false, addPage
-         and popPage calls are ignored while the page switch animation is
-         busy. Default is false.
-
   \qmlproperty string actionMenuTitle
   \qmlcm holds the title of the actionMenu
 
@@ -63,10 +58,6 @@
 
   \qmlproperty bool allowActionMenuSignal: true
   qmlcm allows the page to receive actionMenuTriggered() signals
-
-  \qmlproperty bool fastPageSwitch: false
-  qmlcm on false, the page switch in the window waits until the animation has finished until a new page can be added.
-  On true, you can add as many pages as you want and the window will show the latest.
 
   \section2 Signals
 
@@ -159,7 +150,7 @@ Item {
     property bool allowActionMenuSignal: false
     property bool showSearch: false
     property bool disableSearch: false
-    property bool fastPageSwitch: false
+    property bool fastPageSwitch: false  // DEPRECATED
     property bool pageActive: false
 
     property string lockOrientationIn: "" // DEPRECATED

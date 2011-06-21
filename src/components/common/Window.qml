@@ -333,6 +333,9 @@ Item {
     //: page switch direction. Don't translate to other languages, instead change the string to "right-to-left" for languages where right to left reading directions are desired
     property string pageSwitchDirection: qsTr("left-to-right")
 
+    // DEPRECATED - Functionality replaced by switchBook(Array) and addPage(Array)
+    property bool fastPageSwitch: false
+
     signal searchExtended()
     signal searchRetracted()
     signal search( string needle )

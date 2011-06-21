@@ -1022,6 +1022,23 @@ Item {
 
         }
     }
+    Item {
+        anchors.left: parent.left
+        anchors.top: parent.top
+        Rectangle {
+            id: debugTextBackground
+            color: "white"
+            opacity: 0.8
+            width: debugTextText.width
+            height: debugTextText.height
+        }
+        Text {
+            id: debugTextText
+            color: "black"
+            text: mainWindow.debugInfo
+            height: statusBar.height
+        }
+    }
 
     Connections {
         target: qApp

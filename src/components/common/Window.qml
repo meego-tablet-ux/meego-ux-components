@@ -288,8 +288,9 @@ Item {
 
     property bool fullContent: false
     property bool fullScreen: false
+    property bool backgroundVisible: false
 
-    property bool actionMenuPresent: false
+    property bool actionMenuPresent: true
 
     property string lockOrientationIn: "noLock" // deprecated see orientationLock
 
@@ -441,6 +442,12 @@ Item {
     Translator {
         id: translator
         catalog: "meego-ux-components"
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        visible: backgroundVisible
     }
 
     Item {

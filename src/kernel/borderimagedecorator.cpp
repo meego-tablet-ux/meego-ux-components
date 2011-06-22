@@ -20,30 +20,11 @@ BorderImageDecorator::~BorderImageDecorator()
     pTarget = 0;
 }
 
-void BorderImageDecorator::onSourceChanged()
-{
-    // qDebug() << "sourceChanged for";
-    if( pTarget != 0 )
-    {
-        QVariant var = pTarget->property("source");
-        if( var.type() == QVariant::Url ) {
-            m_source = var.toUrl();
-        }
-        else {
-            m_source.clear();
-        }
-
-    } else {
-        m_source.clear();
-    }
-
-    getBorder();
-}
-
 QDeclarativeItem* BorderImageDecorator::object() const
 {
     return pTarget;
 }
+
 void BorderImageDecorator::setObject(QDeclarativeItem *target)
 {
     pTarget = target;
@@ -61,8 +42,41 @@ void BorderImageDecorator::setObject(QDeclarativeItem *target)
 }
 
 void BorderImageDecorator::componentComplete()
-{
+{    
+    if( pTarget ) {
+        QVariant var = pTarget->property("source");
+        if( var.type() == QVariant::Url ) {
+            m_source = var.toUrl();
+
+            if( !providerInstance->existImage( m_source.toString() ) )
+                overrideSource();
+        }
+    }
+
     getBorder();
+
+    emit isValidSourceChanged();
+}
+
+void BorderImageDecorator::setDefaultSource( const QUrl& defaultSource )
+{
+    m_defaultSource = defaultSource;
+    emit isValidSourceChanged();
+    emit defaultSourceChanged();
+}
+
+QUrl BorderImageDecorator::defaultSource() const
+{
+    return m_defaultSource;
+}
+
+bool BorderImageDecorator::isValidSource() const
+{
+    bool existSource = providerInstance->existImage( m_source.toString() );
+    bool existdefaultSource = providerInstance->existImage( m_defaultSource.toString() );
+    if( existSource || existdefaultSource )
+        return true;
+    return false;
 }
 
 void BorderImageDecorator::getBorder()
@@ -85,12 +99,11 @@ void BorderImageDecorator::getBorder()
         }
     }
 
-    if( m_source.isValid() ) {
+    if( m_source.isValid() &&  providerInstance->existImage( m_source.toString() ) ) {
 
         if( providerInstance ) {
 
-            providerInstance->requestBorderGrid( m_source.toString(), m_borderTop, m_borderBottom, m_borderLeft, m_borderRight );
-            //qDebug() << "border for: " <<  m_source.toString() << m_borderTop << " " << m_borderBottom << " " << m_borderLeft<< " " << m_borderRight;
+            providerInstance->requestBorderGrid( m_source.toString(), m_borderTop, m_borderBottom, m_borderLeft, m_borderRight );            
 
         } else {
 
@@ -120,3 +133,46 @@ int BorderImageDecorator::borderLeft() const
     return m_borderLeft;
 }
 
+void BorderImageDecorator::onSourceChanged()
+{
+    if( pTarget != 0 )
+    {
+        QVariant var = pTarget->property("source");
+        if( var.type() == QVariant::Url ) {
+
+            m_source = var.toUrl();
+            if( !providerInstance->existImage( m_source.toString() ) )
+                overrideSource();
+
+        } else {
+            m_source.clear();
+            overrideSource();
+        }
+
+    } else {
+        m_source.clear();
+        overrideSource();
+    }
+
+    emit isValidSourceChanged();
+    getBorder();
+}
+
+void BorderImageDecorator::overrideSource()
+{
+    if( !m_defaultSource.isEmpty() ) {
+
+        m_source = m_defaultSource;
+
+        if( pTarget != 0 )
+        {
+            QVariant newSource( m_source );
+            pTarget->setProperty( "source", newSource );
+
+        }
+
+        emit isValidSourceChanged();
+        getBorder();
+
+    }
+}

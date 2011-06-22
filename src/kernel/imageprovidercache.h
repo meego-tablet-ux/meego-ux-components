@@ -87,19 +87,26 @@ public:
     /*! this method returns a requested QImage*/
     QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize = QSize() );
 
+    bool existImage( const QString &id );
+
+    bool existSciFile( const QString &id );
+
     void requestBorderGrid( const QString &id, int &borderTop, int &borderBottom, int &borderLeft, int &borderRight );
     void setPath( const QString path) { m_path = path; }
 
     //FIXME to be removed
     void bulk();
 
+private slots:
+    void clearCache();
+    void releaseCache();
+
 private:
 
     // ~~~~~~~ Private Implementation
 
-    bool existImage( const QString &id, const QSize &size );
-    bool existPixmap( const QString &id, const QSize &size );
-    bool existSciFile( const QString &id );
+    bool containsImage( const QString &id, const QSize &size );
+    bool containsPixmap( const QString &id, const QSize &size );
 
     QImage requestImage( const QString &id, bool saveToMemory, QSize *size, const QSize &requestedSize = QSize() );
 
@@ -141,7 +148,8 @@ private:
 
     void attachSharedMemory();
     void detachSharedMemory();
-    void createShareMemory();
+    void createSharedMemory();
+    void clearSharedMemory();
 
     void calcDataSize();
 

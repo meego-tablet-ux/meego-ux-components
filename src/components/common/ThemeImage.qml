@@ -12,6 +12,9 @@
    \section1 ThemeImage
    This is a workaround for settings also the border pixels of a BorderImage by the Theme.
       
+
+
+
   \section2 Example
   \qml
       ThemeImage {
@@ -34,6 +37,9 @@ BorderImage {
     border.top:     themeImageBorder.borderTop;
     border.left:    themeImageBorder.borderLeft
     border.right:   themeImageBorder.borderRight;
+
+    property alias defaultSource: themeImageBorder.defaultSource
+    property alias isValidSource: themeImageBorder.isValidSource
 
     ThemeImageBorder { // from kernel
 	id: themeImageBorder

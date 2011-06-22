@@ -54,6 +54,10 @@ class BorderImageDecorator : public QDeclarativeItem
     Q_OBJECT
     /*! target: parentItem by Default */
     Q_PROPERTY( QDeclarativeItem *target READ object WRITE setObject NOTIFY targetChanged )
+
+    Q_PROPERTY( QUrl defaultSource READ defaultSource WRITE setDefaultSource NOTIFY defaultSourceChanged )
+    Q_PROPERTY( bool isValidSource READ isValidSource NOTIFY isValidSourceChanged )
+
     Q_PROPERTY( int borderTop READ borderTop NOTIFY borderChanged);
     Q_PROPERTY( int borderBottom READ borderBottom NOTIFY borderChanged);
     Q_PROPERTY( int borderLeft READ borderLeft NOTIFY borderChanged);
@@ -67,6 +71,11 @@ public:
     QDeclarativeItem *object() const;
     void setObject(QDeclarativeItem *);
 
+    void setDefaultSource( const QUrl& defaultSource );
+    QUrl defaultSource() const;
+
+    bool isValidSource() const;
+
     void componentComplete();
 
     int borderTop() const;
@@ -77,17 +86,22 @@ public:
 signals:
     void borderChanged();
     void targetChanged();
+    void defaultSourceChanged();
+    void isValidSourceChanged();
 
 public slots:
     void onSourceChanged();
 
 private:
 
+    void overrideSource();
+
     void getBorder();
 
     QDeclarativeItem* pTarget;
     ImageProviderCache *providerInstance;
     QUrl m_source;
+    QUrl m_defaultSource;
 
     int m_borderTop;
     int m_borderBottom;

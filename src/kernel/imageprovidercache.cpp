@@ -43,7 +43,7 @@ QPixmap ImageProviderCache::requestPixmap( const QString& id, QSize* size, const
     //qDebug() << "request Pixmap " << id << " " << requestedSize;
     QPixmap pixmap;
 
-    if( existPixmap( id, requestedSize ) ) {
+    if( containsPixmap( id, requestedSize ) ) {
 
         if( saveToMemory == m_pixmapHandling ) {
 
@@ -123,7 +123,7 @@ void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, i
     QString path = m_path + id;
     path.remove( QString::fromLatin1("image://themedimage/") );
 
-    if( existImage ( path, QSize() ) ) {
+    if( containsImage( path, QSize() ) ) {
 
         for( int i = 0; i < m_imageTable.size(); i++ ) {
             if( m_imageTable[i].equal( path ) ) {
@@ -158,9 +158,35 @@ void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, i
     return;
 }
 
+bool ImageProviderCache::existImage( const QString& id )
+{
+    QString path = m_path + id;
+    path.remove( QString::fromLatin1("image://themedimage/") );
+
+    if( containsImage( path, QSize() ) )
+        return true;
+    if( containsPixmap( path, QSize() ) )
+        return true;
+    if( existSciFile( id ) )
+        return true;
+
+    QString filename = QString("%1%2").arg( id, QString::fromLatin1( ".png" ) );
+    if( QFile::exists( filename ) )
+        return true;
+
+    filename = QString("%1%2").arg( id, QString::fromLatin1( ".svg" ) );
+    if( QFile::exists( filename ) )
+        return true;
+
+    if( QFile::exists( id ) )
+        return true;
+
+    return false;
+}
+
 // ~~~~~~ Private
 
-bool ImageProviderCache::existImage( const QString & id, const QSize& size )
+bool ImageProviderCache::containsImage( const QString & id, const QSize& size )
 {
     if( m_bMemoryReady ) {
 
@@ -183,7 +209,7 @@ bool ImageProviderCache::existImage( const QString & id, const QSize& size )
     return false;
 }
 
-bool ImageProviderCache::existPixmap( const QString & id, const QSize& size )
+bool ImageProviderCache::containsPixmap( const QString & id, const QSize& size )
 {
     if( m_bMemoryReady ) {
 
@@ -222,7 +248,7 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
 {
     QImage image;
 
-    if( existImage ( id , requestedSize ) ) {
+    if( containsImage ( id , requestedSize ) ) {
 
         image = loadImageFromMemory( id, requestedSize );
 
@@ -921,7 +947,7 @@ void ImageProviderCache::attachSharedMemory()
     } else {
 
         //qDebug() << "shared memory created: " << m_key;
-        createShareMemory();
+        createSharedMemory();
         m_bMemoryReady = true;
         loadPreLoadFile();
 
@@ -948,7 +974,7 @@ void ImageProviderCache::detachSharedMemory()
     }
 }
 
-void ImageProviderCache::createShareMemory()
+void ImageProviderCache::createSharedMemory()
 {
     m_memory.lock();
 

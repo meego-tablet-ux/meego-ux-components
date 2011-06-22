@@ -199,7 +199,7 @@ ModalFog {
             // 2 - top
             // 3 - bottom
 
-            top.calcTopParent() 
+            top.calcTopParent()
             var pw = top.topWidth;
             var ph = top.topHeight;
             var mw = menu.width;
@@ -221,20 +221,38 @@ ModalFog {
 
             if( container.forceFingerMode < 0 ){
                 if (mouseX + mw + fingerSize > pw) {    // if the menu would touch the right edge
-                    fmode = 1;
+                    if (mouseX - mw -fingerSize <= 0) {    // if the menu would touch the left edge
+                        fmode = 4;  // indicate that the menus max height must be changed
+                    }
+                    else{
+                        fmode = 1;
+                    }
                 }
 
-                // Check vertically
-                  // if the menu would touch the lower edge and doesn't touch the top
-                if (mouseY + (mh / 2) > ph && mouseY - mh - fingerSize > 0 + top.topDecorationHeight ) {
-                    // Switch to bottom
-                    fmode = 3;
+                if( fmode == 4 ){
+                    // ==4 means the menu is too wide and must be positioned above or below
+                    // and the sizeHintMaxHeight must be updated?
+                    if( mouseY > ph / 2 ){  // tap was in the lower half
+                        fmode = 3
+                    }
+                    else{  // tap was in the upper half
+                        fmode = 2
+                    }
                 }
+                else{
+                    sizeHintMaxHeight = top.topHeight - headerText.height - realMenu.border.bottom - menuContainer.fingerSize - top.topDecorationHeight
+                    // Check vertically
+                      // if the menu would touch the lower edge and doesn't touch the top
+                    if (mouseY + (mh / 2) > ph && mouseY - mh - fingerSize > 0 + top.topDecorationHeight ) {
+                        // Switch to bottom
+                        fmode = 3;
+                    }
 
-                   // if the menu would touch the top edge and doesn't touch the lower. If it's too big,
-                if (mouseY - (mh / 2) < 0  && (mouseY + mh + fingerSize < ph )){ // || mh + menuContainer.fingerSize > ph ) ) {
-                    // Switch to top
-                    fmode = 2;
+                       // if the menu would touch the top edge and doesn't touch the lower. If it's too big,
+                    if (mouseY - top.topDecorationHeight - (mh / 2) < 0  && (mouseY + mh + fingerSize < ph )){ // || mh + menuContainer.fingerSize > ph ) ) {
+                        // Switch to top
+                        fmode = 2;
+                    }
                 }
             }
             else{

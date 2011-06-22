@@ -106,7 +106,6 @@ AppPage {
 
         Tap {
             onFinished: {
-                console.log( "  ", pageDummy.activeModel )
                 if( pageDummy.activeModel == 0 ){
                     bookMenu.model = pageDummy.model0
                 }

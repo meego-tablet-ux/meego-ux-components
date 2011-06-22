@@ -10,10 +10,23 @@
    \qmlclass ThemeImage
    \title ThemeImage
    \section1 ThemeImage
-   This is a workaround for settings also the border pixels of a BorderImage by the Theme.
+   This component is derived from BorderImage and contains some functions that are usefull when using meego-ux-components and meego-ux theme.
+   
+   \section2 General API
+   see BorderImage.qml
+   
+   \section2  API properties
+      \qmlproperty property alias defaultSource: themeImageBorder.defaultSource
+      The defaultSource will be loaded if the source could not be found.
       
+      \qmlproperty property alias isValidSource: themeImageBorder.isValidSource
+      determines if the source and the defaultSource strings are valid.
+      
+  \section2  Signals
+      \qmlnone
 
-
+  \section2 Functions
+      \qmlnone
 
   \section2 Example
   \qml

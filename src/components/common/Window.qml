@@ -821,11 +821,11 @@ Item {
         PageStack {
             id: pageStack
 
-            property bool pageUsingFullScreen: currentPage.pageUsingFullScreen
+            property bool pageUsingFullScreen: currentPage ? currentPage.pageUsingFullScreen : false
 
             pageSwitchDirection: window.pageSwitchDirection
             z: -2
-            y: currentPage.pageUsingFullScreen ? window.contentVerticalShift : window.contentVerticalShift + topDecorationHeight - barsHeight
+            y: pageUsingFullScreen ? window.contentVerticalShift : window.contentVerticalShift + topDecorationHeight - barsHeight
 
             width: parent.width
             height: parent.height

@@ -448,6 +448,13 @@ Item {
     Item {
         id: window_content_topitem
 
+        Rectangle {
+            anchors.fill: parent
+            color: "white"
+            visible: pageStack.depth > 0
+            z: -3
+        }
+
         property string oldState: ""
 
         anchors.centerIn: parent

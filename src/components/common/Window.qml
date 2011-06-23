@@ -1022,22 +1022,31 @@ Item {
 
         }
     }
-    Item {
+
+    Rectangle {
+        id: debugInfo
+
         anchors.left: parent.left
         anchors.top: parent.top
-        Rectangle {
-            id: debugTextBackground
-            color: "white"
-            opacity: 0.8
-            width: debugTextText.width
-            height: debugTextText.height
-        }
+        width: debugInfoText.width ? debugInfoText.width + 3*2 : 0
+        height: debugInfoText.height
+
+        color: "white"
+        opacity: 0.7
+
         Text {
-            id: debugTextText
-            color: "black"
-            text: mainWindow.debugInfo
+            id: debugInfoText
+
+            anchors.left: parent.left
+            anchors.top:  parent.top
+            anchors.margins: 3
+            width: paintedWidth
             height: statusBar.height
-        }
+
+            color: "purple"
+            verticalAlignment: Text.AlignVCenter
+            text: mainWindow.debugInfo
+        } //debugInfo
     }
 
     Connections {

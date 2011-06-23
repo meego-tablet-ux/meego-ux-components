@@ -23,6 +23,7 @@ class SaveRestoreStatePrivate
 public:
     SaveRestoreStatePrivate();
     void                     init();
+    bool                     shouldInit();
 
     QSettings               *settings;
     bool                     mustRestore;
@@ -85,6 +86,15 @@ void SaveRestoreStatePrivate::init()
     settings->sync();
 }
 
+bool SaveRestoreStatePrivate::shouldInit()
+{
+  if (!qApp->property("preinit").toBool()) {
+    init();
+    return true;
+  }
+  return false;
+}
+
 SaveRestoreStatePrivate* SaveRestoreState::d = NULL;
 
 SaveRestoreState::SaveRestoreState()
@@ -105,26 +115,26 @@ SaveRestoreState::~SaveRestoreState()
 
 void SaveRestoreState::setValue(const QString &key, const QVariant &value)
 {
-    if (!d->settings) d->init();
+    if (!d->shouldInit()) return;
     invalidate();
     d->settings->setValue(key, value);
 }
 
 QVariant SaveRestoreState::value(const QString &key, const QVariant &defaultValue) const
 {
-    if (!d->settings) d->init();
+    if (!d->shouldInit()) return QVariant();
     return d->settings->value(key, defaultValue);
 }
 
 QStringList SaveRestoreState::allKeys() const
 {
-    if (!d->settings) d->init();
+    if (!d->shouldInit()) return QStringList();
     return d->settings->allKeys();
 }
 
 void SaveRestoreState::sync()
 {
-    if (!d->settings) d->init();
+    if (!d->shouldInit()) return;
 
     d->invalid.remove(this);
 
@@ -155,7 +165,7 @@ void SaveRestoreState::sync()
 
 QVariant SaveRestoreState::restoreOnce(const QString &key, const QVariant &defaultValue)
 {
-    if (!d->settings) d->init();
+    if (!d->shouldInit()) return QVariant();
     if (!d->mustRestore || d->alreadyRestored.contains(key))
     {
         return defaultValue;
@@ -167,7 +177,7 @@ QVariant SaveRestoreState::restoreOnce(const QString &key, const QVariant &defau
 
 QVariant SaveRestoreState::restoreOnceAndRemove(const QString &key, const QVariant &defaultValue)
 {
-    if (!d->settings) d->init();
+    if (!d->shouldInit()) return QVariant();
     QVariant ret = restoreOnce(key, defaultValue);
     if (d->alreadyRestored.contains(key))
     {
@@ -178,7 +188,7 @@ QVariant SaveRestoreState::restoreOnceAndRemove(const QString &key, const QVaria
 
 void SaveRestoreState::remove(const QString &key)
 {
-    if (!d->settings) d->init();
+    if(!d->shouldInit()) return;
     d->settings->remove(key);
 }
 
@@ -204,7 +214,7 @@ bool SaveRestoreState::alwaysValid()
 
 void SaveRestoreState::invalidate()
 {
-    if (!d->settings) d->init();
+    if (!d->shouldInit()) return;
 
     if (!d->savingInProcess)
     {
@@ -220,7 +230,7 @@ void SaveRestoreState::invalidate()
 
 bool SaveRestoreState::restoreRequired() const
 {
-    if (!d->settings) d->init();
+    if (!d->shouldInit()) return false;
     return d->mustRestore;
 }
 

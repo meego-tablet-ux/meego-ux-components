@@ -359,10 +359,8 @@ Item {
 
     //switches between "books"
     function switchBook( pageComponent ) {
-        if( !pageStack.busy ){
-            pageStack.clear()  //first remove all pages from the stack
-            addPage(pageComponent)
-        }
+        pageStack.clear()  //first remove all pages from the stack
+        addPage(pageComponent)
     }
 
     function switchBookByIndex( index ) {
@@ -372,23 +370,21 @@ Item {
 
     //adds a new page of a "book"
     function addPage( pageComponent ) {
-        if( !pageStack.busy ){
-            if (Array.prototype.isPrototypeOf(pageComponent)) {
-                // function was called with an array of page components
-                for (page in pageComponent) {
-                    pageStack.push( page )
-                }
+        if (Array.prototype.isPrototypeOf(pageComponent)) {
+            // function was called with an array of page components
+            for (page in pageComponent) {
+                pageStack.push( page )
             }
-            else {
-                // function was called with a single page (or at least it wasn't an array)
-                pageStack.push( pageComponent ) //then add the new page
-            }
-        }//add the new page
+        }
+        else {
+            // function was called with a single page (or at least it wasn't an array)
+            pageStack.push( pageComponent ) //then add the new page
+        }
     }
 
     // pop the current Page from the stack
     function popPage() {
-        if( !pageStack.busy ){ pageStack.pop() }// pops the page
+        pageStack.pop()
     }
 
     //called by a TextEntry or TextField when the virtual keyboard comes up. Shifts the content up
@@ -397,13 +393,13 @@ Item {
         var offset
         if( vkbHeight < vkbWidth ) {
             offset = vkbHeight - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
-        }else {
+        } else {
             offset = vkbWidth - ( window_content_topitem.height - textItemBottom + contentVerticalShift )
         }
 
         if( offset > 0 ) {
             contentVerticalShift = -offset
-        }else {
+        } else {
             contentVerticalShift = 0
         }
     }

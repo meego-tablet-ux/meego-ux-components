@@ -288,9 +288,8 @@ Item {
 
     property bool fullContent: false
     property bool fullScreen: false
-    property bool backgroundVisible: false
 
-    property bool actionMenuPresent: true
+    property bool actionMenuPresent: false
 
     property string lockOrientationIn: "noLock" // deprecated see orientationLock
 
@@ -447,7 +446,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: "black"
-        visible: backgroundVisible
+        visible: pageStack.depth > 0
     }
 
     Item {

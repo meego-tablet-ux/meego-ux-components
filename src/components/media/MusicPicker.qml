@@ -220,11 +220,7 @@ ModalDialog {
                 topHeight
             }
             else {
-                if( musicGridView.estimateHeight + decorationHeight > musicGridView.cellWidth ) {
-                    musicGridView.estimateHeight + decorationHeight
-                } else {
-                   musicGridView.cellWidth + decorationHeight
-                }
+                musicGridView.estimateHeight + decorationHeight
             }
 
     content: Item {

@@ -121,12 +121,7 @@ ModalDialog {
     height:  if( gridView.estimateHeight + decorationHeight > topHeight ){
                  topHeight
              } else {
-                 if( gridView.estimateHeight + decorationHeight > gridView.cellWidth ){
-                     gridView.estimateHeight + decorationHeight
-                 }
-                else{
-                     gridView.cellWidth + decorationHeight
-                 }
+                 gridView.estimateHeight + decorationHeight
              }
 
     onAccepted:{

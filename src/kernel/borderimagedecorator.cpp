@@ -46,7 +46,6 @@ void BorderImageDecorator::setObject(QDeclarativeItem *target)
 
 void BorderImageDecorator::setSource( const QUrl& source )
 {
-    qDebug() << "serSource " << source.toString();
     if( m_source != source )
     {
         m_source = source;
@@ -65,12 +64,10 @@ QUrl BorderImageDecorator::source() const
 
 void BorderImageDecorator::checkSource()
 {
-    qDebug() << "onSourceChanged";
     if( !providerInstance->existImage( m_source.toString() ) ) {
         if( !m_defaultSource.isEmpty() )
             m_source = m_defaultSource;
     }
-    qDebug() << m_source.toString() << m_defaultSource.toString();
 
     getBorder();
 }
@@ -78,8 +75,14 @@ void BorderImageDecorator::checkSource()
 void BorderImageDecorator::setDefaultSource( const QUrl& defaultSource )
 {
     if( m_defaultSource != defaultSource ) {
+
+        if ( m_defaultSource == m_source );
+            m_source.clear();
+
         m_defaultSource = defaultSource;
+
         checkSource();
+
         emit isValidSourceChanged();
         emit defaultSourceChanged();
     }

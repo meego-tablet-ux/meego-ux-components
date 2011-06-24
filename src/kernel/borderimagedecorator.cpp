@@ -1,4 +1,4 @@
-//#include <QDebug>
+#include <QDebug>
 #include "borderimagedecorator.h"
 #include "themeimageprovider.h"
 #include "imageprovidercache.h"
@@ -17,6 +17,7 @@ BorderImageDecorator::~BorderImageDecorator()
 {
     providerInstance = 0;
     m_source.clear();
+    m_defaultSource.clear();
     pTarget = 0;
 }
 
@@ -26,7 +27,7 @@ QDeclarativeItem* BorderImageDecorator::object() const
 }
 
 void BorderImageDecorator::setObject(QDeclarativeItem *target)
-{
+{    
     pTarget = target;
 
     if( pTarget == 0 ) {
@@ -37,32 +38,51 @@ void BorderImageDecorator::setObject(QDeclarativeItem *target)
         connect( pTarget, SIGNAL( sourceChanged() ), this, SLOT( onSourceChanged() ) );
     }
 
+    m_source = pTarget->property("source").toUrl();
+
     targetChanged();
     getBorder();
 }
 
-void BorderImageDecorator::componentComplete()
-{    
-    if( pTarget ) {
-        QVariant var = pTarget->property("source");
-        if( var.type() == QVariant::Url ) {
-            m_source = var.toUrl();
+void BorderImageDecorator::setSource( const QUrl& source )
+{
+    qDebug() << "serSource " << source.toString();
+    if( m_source != source )
+    {
+        m_source = source;
 
-            if( !providerInstance->existImage( m_source.toString() ) )
-                overrideSource();
-        }
+        checkSource();
+
+        emit sourceChanged();
+        emit isValidSourceChanged();
     }
+}
+
+QUrl BorderImageDecorator::source() const
+{
+    return m_source;
+}
+
+void BorderImageDecorator::checkSource()
+{
+    qDebug() << "onSourceChanged";
+    if( !providerInstance->existImage( m_source.toString() ) ) {
+        if( !m_defaultSource.isEmpty() )
+            m_source = m_defaultSource;
+    }
+    qDebug() << m_source.toString() << m_defaultSource.toString();
 
     getBorder();
-
-    emit isValidSourceChanged();
 }
 
 void BorderImageDecorator::setDefaultSource( const QUrl& defaultSource )
 {
-    m_defaultSource = defaultSource;
-    emit isValidSourceChanged();
-    emit defaultSourceChanged();
+    if( m_defaultSource != defaultSource ) {
+        m_defaultSource = defaultSource;
+        checkSource();
+        emit isValidSourceChanged();
+        emit defaultSourceChanged();
+    }
 }
 
 QUrl BorderImageDecorator::defaultSource() const
@@ -131,48 +151,4 @@ int BorderImageDecorator::borderRight() const
 int BorderImageDecorator::borderLeft() const
 {
     return m_borderLeft;
-}
-
-void BorderImageDecorator::onSourceChanged()
-{
-    if( pTarget != 0 )
-    {
-        QVariant var = pTarget->property("source");
-        if( var.type() == QVariant::Url ) {
-
-            m_source = var.toUrl();
-            if( !providerInstance->existImage( m_source.toString() ) )
-                overrideSource();
-
-        } else {
-            m_source.clear();
-            overrideSource();
-        }
-
-    } else {
-        m_source.clear();
-        overrideSource();
-    }
-
-    emit isValidSourceChanged();
-    getBorder();
-}
-
-void BorderImageDecorator::overrideSource()
-{
-    if( !m_defaultSource.isEmpty() ) {
-
-        m_source = m_defaultSource;
-
-        if( pTarget != 0 )
-        {
-            QVariant newSource( m_source );
-            pTarget->setProperty( "source", newSource );
-
-        }
-
-        emit isValidSourceChanged();
-        getBorder();
-
-    }
 }

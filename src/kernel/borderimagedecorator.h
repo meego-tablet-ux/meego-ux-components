@@ -55,12 +55,19 @@ class BorderImageDecorator : public QDeclarativeItem
     /*! target: parentItem by Default */
     Q_PROPERTY( QDeclarativeItem *target READ object WRITE setObject NOTIFY targetChanged )
 
+    Q_PROPERTY( QUrl source READ source WRITE setSource NOTIFY sourceChanged )
+    /*! \qmlproperty defaultSource allows to enter a default source if source can not be found */
     Q_PROPERTY( QUrl defaultSource READ defaultSource WRITE setDefaultSource NOTIFY defaultSourceChanged )
+    /*! \qmlproperty isValidSource: */
     Q_PROPERTY( bool isValidSource READ isValidSource NOTIFY isValidSourceChanged )
 
+    /*! \qmlproperty borderTop: topBorder pixel of the BorderImage */
     Q_PROPERTY( int borderTop READ borderTop NOTIFY borderChanged);
+    /*! \qmlproperty borderBottom: topBorder pixel of the BorderImage */
     Q_PROPERTY( int borderBottom READ borderBottom NOTIFY borderChanged);
+    /*! \qmlproperty borderLeft: topBorder pixel of the BorderImage */
     Q_PROPERTY( int borderLeft READ borderLeft NOTIFY borderChanged);
+    /*! \qmlproperty borderRight: topBorder pixel of the BorderImage */
     Q_PROPERTY( int borderRight READ borderRight NOTIFY borderChanged);
 
 public:
@@ -71,12 +78,13 @@ public:
     QDeclarativeItem *object() const;
     void setObject(QDeclarativeItem *);
 
+    void setSource( const QUrl& defaultSource );
+    QUrl source() const;
+
     void setDefaultSource( const QUrl& defaultSource );
     QUrl defaultSource() const;
 
     bool isValidSource() const;
-
-    void componentComplete();
 
     int borderTop() const;
     int borderBottom() const;
@@ -87,19 +95,16 @@ signals:
     void borderChanged();
     void targetChanged();
     void defaultSourceChanged();
+    void sourceChanged();
     void isValidSourceChanged();
-
-public slots:
-    void onSourceChanged();
 
 private:
 
-    void overrideSource();
-
+    void checkSource();
     void getBorder();
 
     QDeclarativeItem* pTarget;
-    ImageProviderCache *providerInstance;
+    ImageProviderCache *providerInstance;    
     QUrl m_source;
     QUrl m_defaultSource;
 

@@ -55,12 +55,21 @@ BorderImage {
     property alias isValidSource: themeImageBorder.isValidSource
 
     ThemeImageBorder { // from kernel
-	id: themeImageBorder
+        id: themeImageBorder
+
+        Component.onCompleted: {
+            container.source = themeImageBorder.source;
+        }
+        onSourceChanged: {
+            container.source = themeImageBorder.source;
+        }
     }
 
     Component.onCompleted: {
         container.sourceSizeChanged( container.sourceSize )
     }
-
+    onSourceChanged: {
+        themeImageBorder.source = source
+    }
 }
 

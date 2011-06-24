@@ -76,7 +76,7 @@ void BorderImageDecorator::setDefaultSource( const QUrl& defaultSource )
 {
     if( m_defaultSource != defaultSource ) {
 
-        if ( m_defaultSource == m_source );
+        if ( m_defaultSource == m_source )
             m_source.clear();
 
         m_defaultSource = defaultSource;

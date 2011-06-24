@@ -18,8 +18,8 @@ Scene::Scene(QObject *parent) :
     m_lockCurrentOrientation( false ),
     m_bSceneActive( true ),
     m_bBlockOrientationWhenInactive( true ),
-    m_activeWinId( 0 ),
-    m_myWinId( 0 ),
+    m_activeWinId( -1 ),
+    m_myWinId( -1 ),
     m_saveRestoreState(new SaveRestoreState)
 {
     m_saveRestoreState->setAlwaysValid(true);
@@ -255,7 +255,7 @@ int Scene::winId() const
 
 void Scene::setWinId( int winId )
 {
-    if( m_myWinId == 0 ) {
+    if( m_myWinId != winId ) {
 
         m_myWinId = winId;
         if( m_myWinId == m_activeWinId ) {

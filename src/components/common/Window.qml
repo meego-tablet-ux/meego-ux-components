@@ -1017,18 +1017,38 @@ Item {
 
         Component.onCompleted: {
 
-            if( mainWindow ) {
-                scene.winId = mainWindow.winId;
-            } else {
-                scene.winId = 0;
-            }
+            console.log( "winid " + mainWindow.winId )
+            scene.winId = mainWindow.winId;
+            scene.activeWinId = qApp.foregroundWindow;
+        }
+    }
 
-            if( qApp ) {
+    Connections {
+        target: qApp
+        onForegroundWindowChanged: {
+
+            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
+
+            if( scene.activeWinId != qApp.foregroundWindow ) {
                 scene.activeWinId = qApp.foregroundWindow;
-            } else {
-                scene.activeWinId = 0;
+                // console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
             }
-
+        }
+        onOrientationChanged: {
+            scene.orientation = qApp.orientation;
+        }
+    }
+    Connections {
+        target: mainWindow
+        onWinIdChanged: {
+            scene.winId = mainWindow.winId;
+        }
+        onVkbHeight: {
+            currentVkbHeight = height;
+            currentVkbWidth = width;
+            if( height == 0 ) {
+                contentVerticalShift = 0;
+            }
         }
     }
 
@@ -1058,30 +1078,4 @@ Item {
         } //debugInfo
     }
 
-    Connections {
-        target: qApp
-        onForegroundWindowChanged: {
-
-            scene.activeWinId = qApp.foregroundWindow;
-            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
-
-            //console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
-        }
-        onOrientationChanged: {
-            scene.orientation = qApp.orientation;
-        }
-    }
-    Connections {
-        target: mainWindow
-        onWinIdChanged: { //FIXME not catched yet
-            scene.winId = mainWindow.winId;
-        }
-        onVkbHeight: {
-            currentVkbHeight = height;
-            currentVkbWidth = width;
-            if( height == 0 ) {
-                contentVerticalShift = 0;
-            }
-        }
-    }
 }

@@ -92,6 +92,12 @@ Flickable {
         currentItem = null
     }
 
+    onSelectedIndexChanged: {
+        if( selectedIndex == -1 ){
+            oldItem = null
+        }
+    }
+
     Connections {
         target: topItem.topItem
 
@@ -152,7 +158,7 @@ Flickable {
                 onSelectedIndexChanged: {
                     if( index == selectedIndex ) {
                         container.oldItem = highlight
-                        container.currentItem = null 
+                        container.currentItem = null
                     }
                 }
 
@@ -177,8 +183,8 @@ Flickable {
                     height: parent.height + 1
                     anchors.verticalCenterOffset: -1
 
-                    opacity: ( index == selectedIndex ) ? (highlightSelectedItem ? 1 : 0) 
-                                                        : (highlight == container.currentItem ? 0.5 
+                    opacity: ( index == selectedIndex ) ? (highlightSelectedItem ? 1 : 0)
+                                                        : (highlight == container.currentItem ? 0.5
                                                                                               : 0) // this forces a repaint
                     visible: opacity != 0
 
@@ -252,7 +258,7 @@ Flickable {
                             container.currentItem = null
                         }
                     }
-                }             
+                }
             }
 
             onModelChanged: {       // if the model changed, the width has to be calculated again, so reset values

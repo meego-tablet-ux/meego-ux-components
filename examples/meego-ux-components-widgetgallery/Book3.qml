@@ -21,6 +21,10 @@ PageDummy {
     buttonLabel: "Page 2"
     pageTitle: "Dummy book 3"
 
+    actionMenuHighlightSelection: true
+    actionMenuModel: ["Choice 1", "Choice 2", "Choice 3"]
+    actionMenuPayload: ["Choice 1", "Choice 2", "Choice 3"]
+
     onClicked: {
         addPage( page2 )
     }
@@ -36,6 +40,10 @@ PageDummy {
             showButton: true
             buttonLabel: "Page 3"
             pageTitle: "book 3, page 2"
+
+            actionMenuHighlightSelection: true
+            actionMenuModel: ["Choice 1", "Choice 2", "Choice 3", "Choice 4"]
+            actionMenuPayload: ["Choice 1", "Choice 2", "Choice 3", "Choice 4"]
 
             onClicked: { addPage( page3 )
             }

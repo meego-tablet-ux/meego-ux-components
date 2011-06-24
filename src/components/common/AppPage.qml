@@ -119,7 +119,7 @@
            // and '1' or '2' returned in selectedItem
        }
     }
-  \endqml   
+  \endqml
  */
 
 import Qt 4.7
@@ -133,7 +133,7 @@ Item {
     height: parent ? parent.height : 0
 
     visible: false
-    
+
     property string pageTitle: ""
     property variant actionMenuModel: []
     property variant actionMenuPayload: []
@@ -160,7 +160,7 @@ Item {
     signal activating // emitted by PageStack.qml
     signal activated // emitted by PageStack.qml
     signal deactivating // emitted by PageStack.qml
-    signal deactivated // emitted by PageStack.qml    
+    signal deactivated // emitted by PageStack.qml
     signal focusChanged(bool appPageHasFocus)
 
     signal searchExtended()
@@ -190,27 +190,29 @@ Item {
 
         window.actionMenuHighlightSelection = actionMenuHighlightSelection
 
-        newActionMenuSelectedIndex( actionMenuSelectedIndex )
         newBackButtonLocked( backButtonLocked )
 
         window.lockOrientationIn = lockOrientationIn
         window.showToolBarSearch = showSearch
         window.disableToolBarSearch = disableSearch
     }
-    
+
     onActivated: { // from PageStack.qml
         window.customActionMenu = enableCustomActionMenu
 
         newActionMenuModel( actionMenuModel )
         newActionMenuPayload( actionMenuPayload )
         newActionMenuTitle( actionMenuTitle)
+        newActionMenuSelectedIndex( actionMenuSelectedIndex )
         pageActive = true
     }
 
     onDeactivating: {
-        actionMenuSelectedIndex = -1
+        actionMenuSelectedIndex = window.actionMenuSelectedIndex
+        window.actionMenuSelectedIndex = -1
         pageActive = false // from PageStack.qml
     }
+
     onPageTitleChanged: newPageTitle( pageTitle )
 
     onFastPageSwitchChanged: newFastPageSwitchChanged( fastPageSwitch )

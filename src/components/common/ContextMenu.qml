@@ -169,8 +169,7 @@ ModalFog {
         property int mouseX: 0
         property int mouseY: 0
 
-        // this is magic until the arrow images are quadratic. Then is should be the images width/height.
-        property int fingerSize: 30
+        property int fingerSize: finger.width
 
         property int fingerMode: 0
         property int fingerX: 0
@@ -243,13 +242,13 @@ ModalFog {
                     sizeHintMaxHeight = top.topHeight - headerText.height - realMenu.border.bottom - menuContainer.fingerSize - top.topDecorationHeight
                     // Check vertically
                       // if the menu would touch the lower edge and doesn't touch the top
-                    if (mouseY + (mh / 2) > ph && mouseY - mh - fingerSize > 0 + top.topDecorationHeight ) {
+                    if ( mouseY + (mh / 2) > ph && mouseY - mh - fingerSize > 0 + top.topDecorationHeight && mouseY > ph - fingerSize ) {
                         // Switch to bottom
                         fmode = 3;
                     }
 
                        // if the menu would touch the top edge and doesn't touch the lower. If it's too big,
-                    if (mouseY - top.topDecorationHeight - (mh / 2) < 0  && (mouseY + mh + fingerSize < ph )){ // || mh + menuContainer.fingerSize > ph ) ) {
+                    if (mouseY - top.topDecorationHeight - (mh / 2) < 0  && (mouseY + mh + fingerSize < ph ) && mouseY < fingerSize + top.topDecorationHeight){
                         // Switch to top
                         fmode = 2;
                     }
@@ -266,7 +265,6 @@ ModalFog {
             // for the menu, keeping it onscreen.
             switch (menuContainer.fingerMode) {
                 case 0:
-                    mouseX += menuContainer.fingerSize / 2;
 
                 case 1:
 
@@ -295,7 +293,7 @@ ModalFog {
                     mouseY -= menuContainer.fingerSize
 
                 case 3:
-                    mouseY += menuContainer.fingerSize
+                    mouseY += menuContainer.fingerSize / 2
 
                     // Clamp mouseX so that at the edges of the screen we don't
                     // try putting the finger at a location where the
@@ -305,15 +303,15 @@ ModalFog {
                     // top or bottom menuContainer.fingerMode, and so it becomes a
                     // mouseX issue
 
-                    menuContainer.x = clamp (mouseX - mw / 2, 0 + space, (pw - mw - space));
+                    menuContainer.x = clamp (mouseX - mw / 2, space, (pw - mw - space));
 
                     if (menuContainer.fingerMode == 2) {
                         menuContainer.y = mouseY;
                         menuContainer.fingerY = mouseY - menuContainer.y;
                     }
                     else {
-                        menuContainer.y = mouseY - mh + 1 - (menuContainer.fingerSize * 1.5);
-                        menuContainer.fingerY = mouseY - menuContainer.y - menuContainer.fingerSize;
+                        menuContainer.y = mouseY - realMenu.height - (menuContainer.fingerSize );
+                        menuContainer.fingerY = menuContainer.height + menuContainer.fingerSize;
                     }
                     break;
             }

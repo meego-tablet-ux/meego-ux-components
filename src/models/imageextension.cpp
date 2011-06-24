@@ -99,7 +99,7 @@ int ImageExtension::orientation() const
 
 void ImageExtension::setOrientation(int orientation)
 {
-    if (orientation >= TopUp && orientation <= RightUp && m_fileOrientation != orientation) {
+    if (orientation >= TopUp && orientation <= RightUp && m_orientation != orientation) {
         m_orientation = orientation;
         emit orientationChanged();
     }

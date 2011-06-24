@@ -1011,8 +1011,8 @@ Item {
         }
 
         onInhibitScreenSaverChanged: {
-            if( mainWindow )
-                mainWindow.inhibitScreenSaver = scene.inhibitScreenSaver
+
+            mainWindow.inhibitScreenSaver = scene.inhibitScreenSaver
         }
 
         Component.onCompleted: {

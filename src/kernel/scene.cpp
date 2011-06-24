@@ -331,18 +331,16 @@ bool Scene::inhibitScreenSaver() const
 }
 
 void Scene::setInhibitScreenSaver( bool inhibit )
-{
-    if( m_bInhibitScreenSaver != inhibit )
-    {
-        if( m_bSceneActive ) {
+{    
+    if( m_bSceneActive ) {
 
-            m_bInhibitScreenSaver = inhibit;
-            emit inhibitScreenSaverChanged();
+        m_bInhibitScreenSaver = inhibit;
 
-        } else {
+    } else {
 
-            m_bActiveInhibitScreenSaver = inhibit;
+        m_bActiveInhibitScreenSaver = inhibit;
 
-        }
     }
+    emit inhibitScreenSaverChanged();
+
 }

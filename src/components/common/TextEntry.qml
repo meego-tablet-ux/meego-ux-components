@@ -132,7 +132,7 @@ BorderImage {
 
         Tap {
             onStarted: {
-                 container.focus = true
+                input.focus = true
             }
         }
     }

@@ -64,6 +64,9 @@
  \qmlproperty int bookMenuSelectedIndex
  \qmlcm int, sets the selected index for the book menu.
 
+ \qmlproperty bool bookMenuActive
+ \qmlcm activates/deactivates the book menu
+
  \qmlproperty fullContent
  \qmlcm bool, hides the statusbar and the toolbar if true.
 
@@ -192,6 +195,7 @@
         \qmlpcm provides the new orientation \endparam
         \param string oldOrientation
         \qmlpcm provides the old orientation \endparam
+
   \qmlproperty [signal] orientationChangeStarted
    \qmlcm Signals the start of the orientation change
 
@@ -274,11 +278,12 @@ Item {
     property alias disableToolBarSearch: toolBar.disableSearch
     property alias actionMenuActive: toolBar.appFilterMenuActive
 
-    property alias bookMenuModel: bookMenu.model
+    property variant bookMenuModel: []
     property alias bookMenuPayload: bookMenu.payload
     property alias bookMenuTitle: bookContextMenu.title
     property alias bookMenuHighlightSelection: bookMenu.highlightSelectedItem
     property alias bookMenuSelectedIndex: bookMenu.selectedIndex
+    property bool  bookMenuActive: true
 
     property alias actionMenuModel: actionMenu.model
     property alias actionMenuPayload: actionMenu.payload
@@ -353,8 +358,8 @@ Item {
 
     //sets the content of the book menu
     function setBookMenuData( model, payload ) {
-        bookMenu.model = model
-        bookMenu.payload = payload
+        bookMenuModel = model
+        bookMenuPayload = payload
     }
 
     //switches between "books"
@@ -365,6 +370,7 @@ Item {
 
     function switchBookByIndex( index ) {
         bookMenu.selectedIndex = index
+        sideBar.selectedIndex = index
         switchBook(bookMenuPayload[index])
     }
 
@@ -610,7 +616,7 @@ Item {
                         id: backButton
 
                         anchors.left:  parent.left
-                        visible:  toolBar.showBackButton
+                        visible:  bookMenuActive && (pageStack.depth > 1)
 
                         icon: "image://themedimage/icons/toolbar/go-back"
                         iconDown: "image://themedimage/icons/toolbar/go-back-selected"
@@ -664,7 +670,7 @@ Item {
                         id: applicationMenuButton
 
                         anchors.right: spacer2.left
-                        visible: bookMenu.height > 0
+                        visible: bookMenuActive && (bookMenu.height > 0)
                         opacity: visible ? 1 : 0    // force repaint
 
                         icon: bookContextMenu.visible? "image://themedimage/icons/toolbar/view-change-selected" : "image://themedimage/icons/toolbar/view-change"
@@ -687,6 +693,7 @@ Item {
                             content:  ActionMenu{
                                 id: bookMenu
 
+                                model: bookMenuModel
                                 highlightSelectedItem: true
 
                                 onTriggered: {
@@ -726,7 +733,7 @@ Item {
                         id: spacer2
 
                         anchors.right: windowMenuButton.left
-                        visible: windowMenuButton.visible || applicationMenuButton.visible
+                        visible: bookMenuActive && (windowMenuButton.visible || applicationMenuButton.visible)
                         source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
                     }
 
@@ -735,7 +742,7 @@ Item {
                         id: windowMenuButton
 
                         anchors.right: parent.right
-                        visible: actionMenu.height > 0 || customActionMenu  // hide action button when actionMenu is empty
+                        visible: bookMenuActive && (actionMenu.height > 0 || customActionMenu)  // hide action button when actionMenu is empty
                         opacity: visible ? 1 : 0    // force repaint
 
                         icon: window.actionMenuPresent? "image://themedimage/icons/toolbar/view-actions-selected" : "image://themedimage/icons/toolbar/view-actions"
@@ -818,22 +825,267 @@ Item {
 
                 } //end titleBar
             } //end toolBar
-        }
+        } //end clipBox
 
-        //add a page stack to manage pages
-        PageStack {
-            id: pageStack
+        Item {
+            id: contentBackground
+            visible: !bookMenuActive
+
+            anchors {
+                top:  clipBox.bottom
+                bottom: parent.bottom
+                left: parent.left
+                right: parent.right
+            }
+
+            ThemeImage {
+                anchors.fill:  parent
+                source: "image://themedimage/widgets/common/backgrounds/global-background-texture"
+                horizontalTileMode: BorderImage.Repeat
+                verticalTileMode: BorderImage.Repeat
+            }
+            ThemeImage {
+                anchors.fill:  parent
+                source: "image://themedimage/widgets/common/backgrounds/global-background-gradient"
+            }
+
+            Flickable {
+                id: sideBarFlick
+
+                anchors {
+                    top:  parent.top
+                    bottom: parent.bottom
+                    left:  parent.left
+                }
+
+                //visible: width>0
+                width: (! bookMenuActive && ! fullScreen) ? (sideBarBackground.width + 10) : 0
+                contentHeight: sideBarBackground.height + 10*2
+
+                Behavior on width {
+                    NumberAnimation { duration: theme.dialogAnimationDuration }
+                }
+
+                interactive: contentHeight > height
+                clip: true
+                flickDeceleration: 250
+
+                ThemeImage {
+                    id: sideBarBackground
+
+                    anchors {
+                        top:  parent.top
+                        left:  parent.left
+                        topMargin: 10
+                        leftMargin: 10
+                        bottomMargin: 10
+                    }
+                    width:  sideBarInnerBackground.width + 2*2
+                    height: Math.max(contentBackground.height - 10*2, sideBarInnerBackground.height + 2*2)
+
+                    source: "image://themedimage/widgets/common/backgrounds/content-background"
+
+                    Item {
+                        id: sideBarInnerBackground
+                        anchors {
+                            top:  parent.top
+                            left:  parent.left
+                            margins: 2
+                        }
+                        width:  sideBar.width
+                        height:  sideBar.height
+
+                        //color: "red"
+                        //opacity: 0.3
+
+                        WindowSideBar {
+                            id: sideBar
+
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            // height is determined by the contents
+                            width: (contentBackground.width - 10*3) / 3
+
+                            Behavior on width {
+                                NumberAnimation { duration: theme.dialogAnimationDuration }
+                            }
+
+                            selectedIndex: bookMenuSelectedIndex
+                            model: bookMenuModel
+
+                            onTriggered: {
+                                selectedIndex = index;
+                                if(automaticBookSwitching ) {
+                                    switchBook( bookMenuPayload[index] )
+                                }
+                                else {
+                                    bookMenuTriggered( index )
+                                }
+                           }
+
+                        } //end sideBar
+                    } //end sideBarInnerBackground
+                } //end  sideBarBackground
+            } //end sideBarFlick
+
+            Flickable {
+                id: pageFlick
+
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    left: sideBarFlick.right
+                    right: parent.right
+                }
+
+                contentWidth: width
+                contentHeight: pageBackground.height + 10*2
+
+                interactive: contentHeight > height
+                clip: true
+                flickDeceleration: 250
+
+                ThemeImage {
+                    id: pageBackground
+
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                        topMargin: 10
+                        leftMargin: 10
+                        rightMargin: 10
+                    }
+                    height: Math.max(contentBackground.height - 10*2, pageInnerBackground.height + 2*2)
+
+                    source: "image://themedimage/widgets/common/backgrounds/content-background"
+
+                    //Rectangle {color:"red";anchors.fill: parent; opacity: 0.3; z:99}
+
+                    Item {
+                        id: pageInnerBackground
+                        anchors {
+                            top: parent.top
+                            left: parent.left
+                            right: parent.right
+                            topMargin: 2
+                            bottomMargin: 2
+                            rightMargin: 2
+                            leftMargin: 2
+                        }
+                        height: pageTitleBar.height + pageStack.height + 2*2
+
+                        Item  {
+                            id: pageTitleBar
+
+                            anchors.top:  parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            visible: ! bookMenuActive && ! fullScreen
+                            height: visible ? pageTitleBackButton.height : 0
+
+                            IconButton {
+                                id: pageTitleBackButton
+
+                                anchors.left:  parent.left
+                                visible:  pageStack.depth > 1
+
+                                icon: "image://themedimage/icons/toolbar/content-back"
+                                iconDown: "image://themedimage/icons/toolbar/content-back-active"
+
+                                bgSourceDn: "image://themedimage/widgets/common/action-item/action-item-content-background-back-active"
+                                bgSourceUp: ""
+
+                                onClicked: {
+                                    if( !pageStack.busy ) {
+                                        window.backButtonPressed( window.backButtonLocked )
+                                        if( !window.backButtonLocked ) {
+                                            pageStack.pop()
+                                        }
+                                    }
+                                }
+                            }
+
+                            Image {
+                                id: pageTitleSpacer
+
+                                visible: pageStack.depth > 1
+                                anchors.left: pageTitleBackButton.right
+                                source: "image://themedimage/widgets/common/toolbar/toolbar-item-separator"
+                                height: pageTitleBackButton.height
+                            }
+
+                            Text {
+                                id: pageToolbarTitleLabel
+
+                                anchors {
+                                    top:  parent.top
+                                    bottom:  parent.bottom
+                                    left: (pageStack.depth > 1) ? pageTitleSpacer.left : pageTitleBar.left
+                                    right: parent.right
+                                    leftMargin: 10
+                                    rightMargin: 10
+                                }
+
+                                text: "Book Title Goes Here"
+
+                                color: "black"
+                                font.pixelSize: theme.fontPixelSizeLarge
+                                elide: Text.ElideRight
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft  // TODO: right-to-left text
+                            }
+                        } //end pageTitleBar
+
+                        Item {
+                            id: pageStackContainerLandscape
+
+                            //property bool pageUsingFullScreen: currentPage ? currentPage.pageUsingFullScreen : false
+                            //z: -2
+                            //y: pageUsingFullScreen ? window.contentVerticalShift : window.contentVerticalShift + topDecorationHeight - barsHeight
+
+                            anchors {
+                                top: pageTitleBar.bottom
+                                left:  parent.left
+                                right: parent.right
+                            }
+                            height: pageStack.height
+                        }  //pageStackContainerLandscape
+                    }
+
+                } //end pageParent
+            } //end pageFlick
+
+        } //end contentBackground
+
+        Item {
+            id: pageStackContainerOriginal
 
             property bool pageUsingFullScreen: currentPage ? currentPage.pageUsingFullScreen : false
-
-            pageSwitchDirection: window.pageSwitchDirection
             z: -2
             y: pageUsingFullScreen ? window.contentVerticalShift : window.contentVerticalShift + topDecorationHeight - barsHeight
 
             width: parent.width
             height: parent.height
 
-            onNewPageTitle: window.toolBarTitle = newPageTitle
+        }  //pageStackContainerOriginal
+
+        //add a page stack to manage pages
+        PageStack {
+            id: pageStack
+            bookMenuActive: window.bookMenuActive
+            parent: bookMenuActive ? pageStackContainerOriginal : pageStackContainerLandscape
+
+            pageSwitchDirection: window.pageSwitchDirection
+
+            onNewPageTitle: {
+                if (bookMenuActive) {
+                    window.toolBarTitle = newPageTitle
+                }
+                else {
+                    pageToolbarTitleLabel.text = newPageTitle
+                }
+            }
             onNewFullScreen: window.fullScreen = newFullScreen
             onNewFullContent: window.fullContent = newFullContent
             onNewActionMenuOpen: window.actionMenuPresent = newActionMenuOpen
@@ -842,7 +1094,7 @@ Item {
             onNewActionMenuPayload: window.actionMenuPayload = newActionMenuPayload
             onNewActionMenuTitle:  window.actionMenuTitle = newActionMenuTitle
             onNewBackButtonLocked: window.backButtonLocked = newBackButtonLocked
-        }
+        }  //end pageStack
 
         Item {
             id: overlayArea
@@ -851,7 +1103,7 @@ Item {
 
             width: parent.width
             height: pageStack.pageUsingFullScreen ? pageStack.height : pageStack.height - window.barsHeight
-        }
+        } //end overlayArea
 
         states:  [            
             State {

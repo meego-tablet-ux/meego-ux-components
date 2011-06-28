@@ -70,6 +70,9 @@ Item {
 
     property string pageSwitchDirection: ""
 
+    // private
+    property bool bookMenuActive: true
+
     signal newPageTitle( string newPageTitle )
     signal newFastPageSwitch( bool newFastPageSwitch )
     signal newFullScreen( bool newFullScreen )
@@ -96,7 +99,8 @@ Item {
     }
 
     width: parent ? parent.width : 0
-    height: parent ? parent.height : 0
+    height: bookMenuActive ? (parent ? parent.height : 0)
+                           : (currentPage ? currentPage.height : 0)
 
     // Page stack depth.
     property int depth: StackEngine.getDepth()

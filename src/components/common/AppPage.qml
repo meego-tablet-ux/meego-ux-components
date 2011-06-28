@@ -178,8 +178,14 @@ Item {
     signal newActionMenuTitle( string actionMenuTitle )
     signal newBackButtonLocked( bool backButtonLocked )
 
-    anchors.fill:  parent
-    anchors.topMargin: pageUsingFullScreen? 0 : top.windowBarsHeight
+    //anchors.fill:  parent
+    anchors.topMargin: pageStack.bookMenuActive ? (pageUsingFullScreen? 0 : top.windowBarsHeight) : 0
+    anchors {
+        left: parent.left
+        right: parent.right
+        top: parent.top
+        bottom: pageStack.bookMenuActive ? parent.bottom : null
+    }
 
     TopItem{ id: top }
 

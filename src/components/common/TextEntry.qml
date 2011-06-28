@@ -82,8 +82,9 @@ import MeeGo.Ux.Gestures 0.1
 import MeeGo.Ux.Components.Common 0.1
 
 
-BorderImage {
-    id: container
+// the focus scope ensures that only one item actually gets the focus
+FocusScope {
+    id: scope
 
     property alias acceptableInput: input.acceptableInput
     property alias cursorPosition: input.cursorPosition
@@ -97,7 +98,14 @@ BorderImage {
     property alias validator: input.validator
     property alias color: input.color
     property alias textFocus: input.focus
-    property int horizontalMargins: 6
+    property alias source: container.source
+    property alias horizontalMargins: container.horizontalMargins
+    property alias border: container.border
+    property alias progress: container.progress
+    property alias smooth:  container.smooth
+    property alias status:  container.status
+    property alias horizontalTileMode:  container.horizontalTileMode
+    property alias verticalTileMode:  container.verticalTileMode
 
     //TODO: remove this, it breaks encapsulation
     property alias textInput: input
@@ -109,90 +117,95 @@ BorderImage {
         return input.positionAt(x)
     }
 
-    border.top: 6
-    border.bottom: 6
-    border.left: 6
-    border.right: 6
-
     height: 50
-    source: (input.focus && !readOnly) ? "image://themedimage/widgets/common/text-area/text-area-background-active" : "image://themedimage/widgets/common/text-area/text-area-background"
-    clip: true
-
     opacity: readOnly ? 0.5 : 1.0
 
-    Theme{ id: theme }
-    
-    onFocusChanged: {
-        input.focus = focus
-    }
-
-    GestureArea {     // this ensures the text gets focus when only the BorderImage is clicked
+    GestureArea {     // this ensures the text gets focus via FocusScope when only the BorderImage is clicked
         anchors.fill: parent
         acceptUnhandledEvents: true
 
         Tap {
             onStarted: {
-                input.focus = true
+                scope.focus = true
             }
         }
     }
 
-    TextInput {
-        id: input
+    BorderImage {
+        id: container
+        property int horizontalMargins: 6
 
-        x: horizontalMargins
+        border.top: 6
+        border.bottom: 6
+        border.left: 6
+        border.right: 6
 
-        width: parent.width - horizontalMargins * 2
+        anchors.fill:  parent
 
-        anchors.verticalCenter: parent.verticalCenter
-
-        font.pixelSize: theme.fontPixelSizeLarge
-
-        onTextChanged: {
-            container.textChanged()
-        }
-        
-        onAccepted: {
-            container.accepted()
-        }
-
-        CCPContextArea {
-            editor: parent
-            visible: !input.readOnly
-        }
-    }
-
-    Text {
-        id: fakeText
-
-        x: horizontalMargins
-
-        width: parent.width - horizontalMargins * 2
+        source: (input.activeFocus && !readOnly) ? "image://themedimage/widgets/common/text-area/text-area-background-active" : "image://themedimage/widgets/common/text-area/text-area-background"
         clip: true
-        anchors.verticalCenter: parent.verticalCenter
 
-        font: input.font
-        color: input.color
-        opacity: 0.6
+        Theme{ id: theme }
 
-        visible: ( input.text == ""  && !input.focus ) || ( input.text == "" && input.readOnly )
+        TextInput {
+            id: input
+
+            focus:  true
+
+            x: horizontalMargins
+
+            width: parent.width - horizontalMargins * 2
+
+            anchors.verticalCenter: parent.verticalCenter
+
+            font.pixelSize: theme.fontPixelSizeLarge
+
+            onTextChanged: {
+                scope.textChanged()
+            }
+
+            onAccepted: {
+                scope.accepted()
+            }
+
+            CCPContextArea {
+                editor: parent
+                visible: !input.readOnly
+            }
+        }
+
+        Text {
+            id: fakeText
+
+            x: horizontalMargins
+
+            width: parent.width - horizontalMargins * 2
+            clip: true
+            anchors.verticalCenter: parent.verticalCenter
+
+            font: input.font
+            color: input.color
+            opacity: 0.6
+
+            visible: ( input.text == ""  && !input.activeFocus ) || ( input.text == "" && input.readOnly )
+
+            Connections {
+                target: input
+                onTextChanged: {
+                    fakeText.visible = (input.text == "")
+                }
+            }
+        }
+
+        TopItem { id: topItem }
 
         Connections {
-            target: input
-            onTextChanged: {
-                fakeText.visible = (input.text == "")
-            }
-        }
-    }
-
-    TopItem { id: topItem }
-
-    Connections {
-        target: mainWindow
-        onVkbHeight: {
-            if( window ) {
-                if( input.activeFocus && height > 0 ) {
-                    window.adjustForVkb( mapToItem( topItem.topItem, 0, container.height * 2 ).y, width, height )
+            target: mainWindow
+            onVkbHeight: {
+                if( window ) {
+                    if( input.activeFocus && height > 0 ) {
+                        window.adjustForVkb( mapToItem( topItem.topItem, 0, scope.height * 2 ).y, width, height )
+                    }
                 }
             }
         }

@@ -170,15 +170,10 @@ Item {
         property int animationTime: 200
         property bool boxReady: false
 
-        border.right: 75
 
         height: expandingBox.height // buttonHeight// header.height
         width: expandingBox.width // buttonWidth// header.width
-
-        Rectangle {
-            anchors.fill: parent
-            color: "white"
-        }
+        source: "image://themedimage/widgets/common/expandobox/expandobox-background"
 
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a GestreuArea to change the expanded state on click
@@ -259,9 +254,9 @@ Item {
                 margins: itemMargins
             }
 
-            Rectangle {
+            ThemeImage {
                 anchors.fill: parent
-                color: "lightblue"
+                source: "image://themedimage/widgets/common/expandobox/expandobox-background-active"
             }
         }
     }

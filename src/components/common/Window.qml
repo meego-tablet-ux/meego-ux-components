@@ -1017,7 +1017,7 @@ Item {
 
         Component.onCompleted: {
 
-            console.log( "winid " + mainWindow.winId )
+            //console.log( "winid " + mainWindow.winId )
             scene.winId = mainWindow.winId;
             scene.activeWinId = qApp.foregroundWindow;
         }

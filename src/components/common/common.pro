@@ -43,7 +43,9 @@ QML_FILES = qmldir \
         TopItem.qml \
         VerticalLayout.qml \
         VerticalSlider.qml \
-        Window.qml
+        Window.qml \
+        WindowSideBar.qml \
+        WindowSideBarDelegate.qml
 
 QML_DIRS = images
 

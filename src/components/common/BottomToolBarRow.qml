@@ -7,45 +7,79 @@
  */
 
 /*!
-  \qmlclass BottomToolBar
-  \title BottomToolbar
-  \section1 BottomToolbar
-  \qmlcm This is a base qml for bottomToolBard widgets.
+  \qmlclass BottomToolBarRow
+  \title BottomToolbarRow
+  \section1 BottomToolBarRow
+  \qmlcm The BottonToolbarRow is one layout implementation for the BottomToolBar, which contains a left, center and a
+  right content field.
 
   \section2  API Properties
-
-  \qmlproperty item contents
-  \qmlcm this property holds the child widget of the BottomToolBar, most likely a BottomToolBarRow
-
-  \qmlproperty bool fogClickable
-  \qmlcm wether the ModalFog closes if the fog was clicked
-
-  \qmlproperty bool fogMaskVisible
-  \qmlcm hides the fog, but still maintains a invisible mouse area
+    \qmlproperty alias leftContent
+    \qmlcm the alias to the left content of the row
+    \qmlproperty alias centerContent
+    \qmlcm the alias to the centered content of the row
+    \qmlproperty alias rightContent
+    \qmlcm the alias to the right content of the row
+    \qmlproperty int contentVerticalMargins
+    \qmlcm the vertical margin of the content areas
+    \qmlproperty int contentHorizontalMargins
+    \qmlcm the horizontal margin of the content areas
+    \qmlproperty int spacing
+    \qmlcm ths spacing between the content areas
 
   \section2 Signal
-
-  \qmlproperty [signal] visible
-  \qmlcm emitted on fully visibility
-
-  \qmlproperty [signal] hidden
-  \qmlcm emitted on completly hidden toolbar
-
-  \qmlproperty [signal] showCalled
-  \qmlcm notifies the children that the BottomToolBar is about to show
-
-  \section2  Functions
-
-  \qmlfn  show
-  \qmlcm fades the BottomToolBar in
-
-  \qmlfn hide
-  \qmlcm fades the BottomToolBar out
+  \qmlnone
 
   \section2 Example
   \qml
+        BottomToolBar {
 
-  \endqml
+            content: BottomToolBarRow {
+
+                id: bottomToolbarRow
+
+                leftContent: [
+                    IconButton {
+                        id: button1
+                        icon: "image://themedimage/images/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/images/media/icn_addtoalbum_dn"
+                        width: 60
+                        hasBackground: false
+                    },
+                    IconButton {
+                        id: button2
+                        icon: "image://themedimage/images/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/images/media/icn_addtoalbum_dn"
+                        width: 60
+                        hasBackground: false
+                    }
+                ]
+                centerContent: [
+                    Slider {
+                        id: slider
+                        width: 320
+                        textOverlayVisible: false
+                    }
+                ]
+                rightContent: [
+                    IconButton {
+                        id: button5
+                        icon: "image://themedimage/images/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/images/media/icn_addtoalbum_dn"
+                        width: 60
+                        hasBackground: false
+                    },
+                    IconButton {
+                        id: button6
+                        icon: "image://themedimage/images/media/icn_addtoalbum_up"
+                        iconDown: "image://themedimage/images/media/icn_addtoalbum_dn"
+                        width: 60
+                        hasBackground: false
+                    }
+                ]
+            }
+        }
+    \endqml
 */
 
 import Qt 4.7

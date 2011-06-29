@@ -22,6 +22,7 @@
         \list
         \o  \l { AppPage }
         \o  \l { BottomToolBar }
+        \o  \l { BottomToolBarRow }
         \o  \l { Button }
         \o  \l { CheckBox }
         \o  \l { DropDown }

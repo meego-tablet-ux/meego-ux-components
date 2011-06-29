@@ -10,7 +10,7 @@
   \qmlclass BottomToolBar
   \title BottomToolBar
   \section1 BottomToolBar
-  \qmlcm This is a generic BottomToolBar.
+  \qmlcm This is a generic BottomToolBar. For a standard layout a BottomToolBarRow can be used.
 
   \section2  API Properties
 

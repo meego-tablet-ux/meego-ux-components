@@ -24,8 +24,13 @@ qmlfiles.sources = $$QML_FILES
 qmlfiles.path = $$[QT_INSTALL_IMPORTS]/$$TARGETPATH
 
 target.path = $$[QT_INSTALL_IMPORTS]/$$TARGETPATH
+target.depends += link
 
-system(mkdir -p $$[QT_INSTALL_IMPORTS]/MeeGo/Components/    && ln -fs ../Ux/Units/lib$${TARGET}.so $$[QT_INSTALL_IMPORTS]/MeeGo/Components/lib$${TARGET}.so)
-system(mkdir -p $$[QT_INSTALL_IMPORTS]/MeeGo/Ux/Components/ && ln -fs ../Units/lib$${TARGET}.so $$[QT_INSTALL_IMPORTS]/MeeGo/Ux/Components/lib$${TARGET}.so)
+link.commands += mkdir -p ${INSTALL_ROOT}$$[QT_INSTALL_IMPORTS]/MeeGo/Components/ && 
+link.commands += ln -fs ../Ux/Units/lib$${TARGET}.so ${INSTALL_ROOT}$$[QT_INSTALL_IMPORTS]/MeeGo/Components/lib$${TARGET}.so &&
+link.commands += mkdir -p ${INSTALL_ROOT}$$[QT_INSTALL_IMPORTS]/MeeGo/Ux/Components/ && 
+link.commands += ln -fs ../Units/lib$${TARGET}.so ${INSTALL_ROOT}$$[QT_INSTALL_IMPORTS]/MeeGo/Ux/Components/lib$${TARGET}.so
+QMAKE_EXTRA_TARGETS += link
 
 INSTALLS += target qmlfiles
+

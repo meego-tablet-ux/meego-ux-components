@@ -1,16 +1,22 @@
 project = 	meego-ux-components
-version = 	0.2.9.2
+version = 	0.2.9.19
 
 description = 	MeeGo Ux Components Documentation
 url = 		"http://meego.com"
 
 sourcedirs = 	../doc \
-		../src \
+		../src/components \
+		../src/kernel \
+		../src/models \
+		../src/units \
                 ../tests \
                 ../examples/meego-ux-components-tutorial
 
 headerdirs = 	../doc \
-		../src \
+		../src/components \
+		../src/kernel \
+		../src/models \
+		../src/units \
                 ../tests \
                 ../examples/meego-ux-components-tutorial
 
@@ -49,5 +55,5 @@ macro.todo.HTML         = "<br/>Todo: "
 # HTML.templatedir = $MeeGoUxComponents/doc/src/meego/template
 
 HTML.stylesheets = meego-ux-components.css
-HTML.postheader = "<div class=\"header\"> | MeeGo UX Components 0.2.9.2 | <a href=\"index.html\">Home</a> | <a href=\"meego-ux-components-list.html\">Components</a> | <a href=\"meego-ux-components-tutorial.html\">Tutorial</a> | <a href=\"meego-ux-components-test.html\">Tests</a></div>"
+HTML.postheader = "<div class=\"header\"> | MeeGo UX Components 0.2.9.19 | <a href=\"index.html\">Home</a> | <a href=\"meego-ux-components-list.html\">Components</a> | <a href=\"meego-ux-components-tutorial.html\">Tutorial</a> | <a href=\"meego-ux-components-test.html\">Tests</a></div>"
 HTML.footer = "<div class=\"footer\"><a href=\"index.html#\">Top</a></div>"

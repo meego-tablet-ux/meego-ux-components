@@ -50,8 +50,9 @@ VideoPicker 0.1 ../Ux/Components/Media/VideoPicker.qml
 
 Units 0.1       ../Ux/Units/Units.qml
 
-plugin meego-ux-components-datetime   ../Ux/Components/DateTime
-plugin meego-ux-components-indicators ../Ux/Components/Indicators
-plugin meego-ux-kernel 		      ../Ux/Kernel
-plugin meego-ux-models 		      ../Ux/Models
-plugin meego-ux-units                 ../Ux/Units
+plugin meego-ux-components-datetime
+plugin meego-ux-components-indicators
+plugin meego-ux-kernel 		     
+plugin meego-ux-models 		     
+plugin meego-ux-units                
+plugin meego-ux-gestures                

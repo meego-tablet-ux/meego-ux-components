@@ -47,5 +47,5 @@ PhotoPicker 0.1                 Media/PhotoPicker.qml
 VideoPicker 0.1                 Media/VideoPicker.qml
 MucMediaGridView 0.1            Media/MucMediaGridView.qml
 
-plugin meego-ux-components-datetime DateTime
-plugin meego-ux-components-indicators Indicators
+plugin meego-ux-components-datetime
+plugin meego-ux-components-indicators

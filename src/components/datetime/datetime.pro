@@ -24,7 +24,7 @@ qmlfiles.path = $$[QT_INSTALL_IMPORTS]/$$TARGETPATH
 
 target.path = $$[QT_INSTALL_IMPORTS]/$$TARGETPATH
 
-system(ln -fs ../Ux/Components/DateTime/lib$${TARGET}.so $$[QT_INSTALL_IMPORTS]/MeeGo/Components/lib$${TARGET}.so)
-system(ln -fs ./DateTime/lib$${TARGET}.so $$[QT_INSTALL_IMPORTS]/MeeGo/Ux/Components/lib$${TARGET}.so)
+system(mkdir -p $$[QT_INSTALL_IMPORTS]/MeeGo/Components/    && ln -fs ../Ux/Components/DateTime/lib$${TARGET}.so $$[QT_INSTALL_IMPORTS]/MeeGo/Components/lib$${TARGET}.so)
+system(mkdir -p $$[QT_INSTALL_IMPORTS]/MeeGo/Ux/Components/ && ln -fs ./DateTime/lib$${TARGET}.so $$[QT_INSTALL_IMPORTS]/MeeGo/Ux/Components/lib$${TARGET}.so)
 
 INSTALLS += target qmlfiles

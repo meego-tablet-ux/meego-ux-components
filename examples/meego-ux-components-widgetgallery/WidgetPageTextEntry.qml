@@ -130,8 +130,9 @@ WidgetPage {
             defaultText: "Type here"
 
             onAccepted: { lastSignalBox.value = "onAccepted" }
-            onTextChanged: { lastSignalBox.value = "onTextChanged" }    }
-        }
+            onTextChanged: { lastSignalBox.value = "onTextChanged" } 
+            onTextFocusChanged: { lastSignalBox.value = "onTextFocusChanged ("+button.focus+")" }    
 
-
+        }  
+    }
 }

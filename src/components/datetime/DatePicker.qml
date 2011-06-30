@@ -31,27 +31,6 @@
   \qmlproperty int endYear
   \qmlcm sets the last year available in the year spinner, needs a positive value bigger or equal to startYear.
 
-  \qmlproperty int minYear
-  \qmlcm sets the first selectable year, needs a positive value smaller or equal to maxYear.
-
-  \qmlproperty int minMonth
-  \qmlcm sets the first selectable month, needs a value from 1 to 12.
-
-  \qmlproperty int minDay
-  \qmlcm sets the first selectable day, needs a value from 1 to 31.
-
-  \qmlproperty int maxYear
-  \qmlcm sets the last selectable year, needs a positive value bigger or equal to minYear.
-
-  \qmlproperty int maxMonth
-  \qmlcm sets the last selectable month, needs a value from 1 to 12.
-
-  \qmlproperty int maxDay
-  \qmlcm sets the last selectable day, needs a value from 1 to 31.
-
-  \qmlproperty bool isDateInRange
-  \qmlcm true if the selected date is in range of the min and max values.
-
   \section1  Private properties (for internal use only)
 
   \qmlproperty list<string> daysOfWeek
@@ -152,13 +131,6 @@
          the years from minYear to maxYear and sets the selected year into that range if needed.
          At the end updateSelectedDate is called to propagate the new date and selection.
 
-  \qmlfn checkSelectedDate
-  \qmlcm checks if the given date is in the range given by the properties minYear, minMonth,
-         minDay, maxYear, maxMonth and maxDay
-  \param   int  d    the given day \endparam
-  \param   int  m    the given month \endparam
-  \param   int  y    the given year \endparam
-
   \section1  Example
   \code
       //a button labeled with the selected date
@@ -191,13 +163,13 @@ ModalDialog {
     property int startYear: 1700
     property int endYear: 2300
 
-    property int minYear: startYear
-    property int minMonth: 1
-    property int minDay: 1
-    property int maxYear: endYear
-    property int maxMonth: 12
-    property int maxDay: 31
-    property bool isDateInRange: true
+    property int minYear: startYear //DEPRECATED
+    property int minMonth: 1 //DEPRECATED
+    property int minDay: 1 //DEPRECATED
+    property int maxYear: endYear //DEPRECATED
+    property int maxMonth: 12 //DEPRECATED
+    property int maxDay: 31 //DEPRECATED
+    property bool isDateInRange: true //DEPRECATED
 
     property variant daysOfWeek: [ qsTr("Sun"),
                                    qsTr("Mon"),
@@ -409,7 +381,6 @@ ModalDialog {
         calendarView.calendarShown = tempDate
 
         setFuturePast() //check if the selected date is in the future or past
-        isDateInRange = checkSelectedDate( newDay, m + 1, y ) //check if the selected date is in the range given by minYear, ..., maxYear
 
         allowUpdates = true
     }
@@ -435,6 +406,7 @@ ModalDialog {
         }
     }
 
+    //DEPRECATED
     function checkSelectedDate( d, m, y ) {
         var day = d
         var month = m
@@ -482,6 +454,13 @@ ModalDialog {
         if( !selectedDate ) {
             selectedDate = today();
         }
+    }
+
+    onStartYearChanged: {
+        setYears()
+    }
+    onEndYearChanged: {
+        setYears()
     }
 
     //when the DatePicker shows up, store the current date
@@ -930,8 +909,7 @@ ModalDialog {
 
                         color: if( doTag ){
                                    return theme.datePickerSelectedColor
-                               }else if( calendarGrid.indexToDay( index ) == -1
-                                        || !checkSelectedDate( ( index + 1 ) - calendarGrid.startDay( calendarView.calendarShown.getMonth(), calendarView.calendarShown.getFullYear() ), calendarView.calendarShown.getMonth() + 1, calendarView.calendarShown.getFullYear() ) ) {
+                               }else if( calendarGrid.indexToDay( index ) == -1 ) {
                                    return theme.datePickerUnselectableColor
                                }else {
                                    return theme.datePickerUnselectedColor

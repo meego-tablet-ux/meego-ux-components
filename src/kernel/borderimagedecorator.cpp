@@ -52,7 +52,6 @@ void BorderImageDecorator::setSource( const QUrl& source )
 
         checkSource();
 
-        emit sourceChanged();
         emit isValidSourceChanged();
     }
 }
@@ -67,17 +66,19 @@ void BorderImageDecorator::checkSource()
     if( !providerInstance->existImage( m_source.toString() ) ) {
         if( !m_defaultSource.isEmpty() )
             m_source = m_defaultSource;
+            emit sourceChanged();
     }
 
     getBorder();
 }
 
 void BorderImageDecorator::setDefaultSource( const QUrl& defaultSource )
-{
+{    
     if( m_defaultSource != defaultSource ) {
 
-        if ( m_defaultSource == m_source )
-            m_source.clear();
+        if ( m_defaultSource == m_source ) {
+            m_source.clear();    
+        }
 
         m_defaultSource = defaultSource;
 
@@ -97,8 +98,20 @@ bool BorderImageDecorator::isValidSource() const
 {
     bool existSource = providerInstance->existImage( m_source.toString() );
     bool existdefaultSource = providerInstance->existImage( m_defaultSource.toString() );
+
     if( existSource || existdefaultSource )
         return true;
+    return false;
+}
+
+bool BorderImageDecorator::needReplacement() const
+{
+    bool existSource = providerInstance->existImage( m_source.toString() );
+    bool existdefaultSource = providerInstance->existImage( m_defaultSource.toString() );
+
+    if( !existSource && existdefaultSource )
+        return true;
+
     return false;
 }
 

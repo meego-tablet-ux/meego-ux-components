@@ -61,6 +61,9 @@ class BorderImageDecorator : public QDeclarativeItem
     /*! \qmlproperty isValidSource: */
     Q_PROPERTY( bool isValidSource READ isValidSource NOTIFY isValidSourceChanged )
 
+    /*! \qmlproperty needReplacement: */
+    Q_PROPERTY( bool needReplacement READ needReplacement )
+
     /*! \qmlproperty borderTop: topBorder pixel of the BorderImage */
     Q_PROPERTY( int borderTop READ borderTop NOTIFY borderChanged);
     /*! \qmlproperty borderBottom: topBorder pixel of the BorderImage */
@@ -85,6 +88,7 @@ public:
     QUrl defaultSource() const;
 
     bool isValidSource() const;
+    bool needReplacement() const;
 
     int borderTop() const;
     int borderBottom() const;

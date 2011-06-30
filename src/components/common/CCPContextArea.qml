@@ -202,6 +202,10 @@ MouseArea {
         } else {
             pendingCursorPosition = editor.positionAt (mouse.x, mouse.y);
         }
+
+	// Forward through to QML component so it can call
+	// mouseHandler() on the input context.
+	mouse.accepted = false;
     }
 
     onReleased: {

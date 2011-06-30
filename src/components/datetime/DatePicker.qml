@@ -503,12 +503,10 @@ ModalDialog {
 
     acceptButtonEnabled: isDateInRange
 
-    width: height * 0.6
+    sizeHintWidth: height * 0.6
     height: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95
 
     alignTitleCenter: true
-
-    buttonWidth: width / 2.5
 
     content: BorderImage {
         id: outer

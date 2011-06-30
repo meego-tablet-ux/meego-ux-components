@@ -117,7 +117,7 @@ ModalDialog {
 
     title: albumSelectionMode ? qsTr("Pick an album") : qsTr("Pick a photo")
 
-    width:  topItem.topItem.width * 0.95
+    sizeHintWidth:  topItem.topItem.width * 0.95
     height:  if( gridView.estimateHeight + decorationHeight > topHeight ){
                  topHeight
              } else {

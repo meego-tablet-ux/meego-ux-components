@@ -78,9 +78,8 @@ ModalDialog {
     title: qsTr("Pick a time")
     alignTitleCenter: true
 
-    buttonWidth: tPicker.width / 2.5
     height: tPicker.height + decorationHeight
-    width: tPicker.width
+    sizeHintWidth: 300
 
     // Input "use24" is true if displaying 24 hour time; "h" is from 0-23.
     // Return is 1-12.
@@ -144,7 +143,7 @@ ModalDialog {
         id: tPicker
 
         clip: true
-        width: 300
+        width: timePicker.width
         height:  spinnerBox.height + ( hr24 ? 0 : ampmToggleBox.height )
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
 

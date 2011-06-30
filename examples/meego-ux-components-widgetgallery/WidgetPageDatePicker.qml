@@ -350,8 +350,6 @@ WidgetPage {
         maxYear: 2012; maxMonth: 9; maxDay: 20
 
         title: "Pick a date"
-//        width: height * 0.6
-//        height: topItem.topItem.height * 0.9
 
         onDateSelected: {
             stateEntry.value = date.getFullYear() + "." + ( date.getMonth() + 1 ) + "." + date.getDate()

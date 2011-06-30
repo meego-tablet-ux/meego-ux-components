@@ -81,6 +81,27 @@ WidgetPage {
             id: timeSystemBox
 
             label: "hr24:"
+        },
+
+        LabeledEntry {
+            id: cancelText
+
+            label:  "cancel text: "
+            defaultValue: timePicker.cancelButtonText
+
+            onTextUpdated: {
+                timePicker.cancelButtonText = value
+            }
+        },
+        LabeledEntry {
+            id: acceptText
+
+            label:  "accept text: "
+            defaultValue: timePicker.acceptButtonText
+
+            onTextUpdated: {
+                timePicker.acceptButtonText = value
+            }
         }
     ]
 
@@ -136,6 +157,9 @@ WidgetPage {
 
         hr24: timeSystemBox.isChecked
         minutesIncrement: +incrementEntry.text
+
+        cancelButtonText: "do not do this at all"
+        acceptButtonText: "sure, why not: let's do it"
 
         onAccepted: {
             timeEntry.value = time

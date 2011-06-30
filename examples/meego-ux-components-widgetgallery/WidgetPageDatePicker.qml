@@ -274,6 +274,26 @@ WidgetPage {
             onTextUpdated: {
                 datePicker.dateUnitFourText = value
             }
+        },
+        LabeledEntry {
+            id: cancelText
+
+            label:  "cancel text: "
+            defaultValue: datePicker.cancelButtonText
+
+            onTextUpdated: {
+                datePicker.cancelButtonText = value
+            }
+        },
+        LabeledEntry {
+            id: acceptText
+
+            label:  "accept text: "
+            defaultValue: datePicker.acceptButtonText
+
+            onTextUpdated: {
+                datePicker.acceptButtonText = value
+            }
         }
 
     ]

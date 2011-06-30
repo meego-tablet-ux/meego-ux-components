@@ -155,8 +155,8 @@ Item {
 
         horizontalTileMode: BorderImage.Stretch
         verticalTileMode: BorderImage.Stretch
-        source: dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-background-active" :
-        "image://themedimage/widgets/common/combobox/combobox-background"
+        source: dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-background-active"
+                                : "image://themedimage/widgets/common/combobox/combobox-background"
 
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a GestureArea to change the expanded state on click
@@ -184,7 +184,7 @@ Item {
                 elide: Text.ElideRight
                 anchors.left: iconArea.right
                 anchors.right: expandButton.left
-                anchors.leftMargin: 5
+                anchors.leftMargin: 15
                 anchors.verticalCenter: expandButton.verticalCenter
                 text: replaceDropDownTitle ? model[selectedIndex] : title
             }
@@ -193,7 +193,7 @@ Item {
                 id: expandButton
 
                 anchors.right: parent.right
-                anchors.rightMargin: 6
+                anchors.rightMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
                 source:dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-item-open-active" :
                 "image://themedimage/widgets/common/combobox/combobox-item-open"

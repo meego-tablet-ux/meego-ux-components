@@ -58,12 +58,13 @@ BorderImage {
         id: themeImageBorder
 
         Component.onCompleted: {
-            if( themeImageBorder.needReplacement )
-                container.source = themeImageBorder.source;
+	    if( themeImageBorder.needReplacement )
+	      container.source = themeImageBorder.source;
+	    
         }
         onSourceChanged: {
-            if( themeImageBorder.needReplacement )
-                container.source = themeImageBorder.source;
+	    if( themeImageBorder.needReplacement )
+	      container.source = themeImageBorder.source;
         }
     }
 

@@ -60,7 +60,6 @@ class BorderImageDecorator : public QDeclarativeItem
     Q_PROPERTY( QUrl defaultSource READ defaultSource WRITE setDefaultSource NOTIFY defaultSourceChanged )
     /*! \qmlproperty isValidSource: */
     Q_PROPERTY( bool isValidSource READ isValidSource NOTIFY isValidSourceChanged )
-
     /*! \qmlproperty needReplacement: */
     Q_PROPERTY( bool needReplacement READ needReplacement )
 

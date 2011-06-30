@@ -51,7 +51,7 @@ BorderImage {
     border.left:    themeImageBorder.borderLeft
     border.right:   themeImageBorder.borderRight;
 
-    property alias defaultSource: themeImageBorder.defaultSource
+    property url defaultSource: ""
     property alias isValidSource: themeImageBorder.isValidSource
 
     ThemeImageBorder { // from kernel
@@ -59,20 +59,24 @@ BorderImage {
 
         Component.onCompleted: {
 	    if( themeImageBorder.needReplacement )
-	      container.source = themeImageBorder.source;
-	    
+              container.source = defaultSource;
         }
         onSourceChanged: {
 	    if( themeImageBorder.needReplacement )
-	      container.source = themeImageBorder.source;
+              container.source = themeImageBorder.defaultSource;
         }
     }
 
     Component.onCompleted: {
         container.sourceSizeChanged( container.sourceSize )
+        themeImageBorder.source = source
+        themeImageBorder.defaultSource = defaultSource
     }
     onSourceChanged: {
         themeImageBorder.source = source
+    }
+    onDefaultSourceChanged: {
+        themeImageBorder.defaultSource = defaultSource
     }
 }
 

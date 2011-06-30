@@ -103,7 +103,6 @@ signals:
 
 private:
 
-    void checkSource();
     void getBorder();
 
     QDeclarativeItem* pTarget;

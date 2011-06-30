@@ -46,12 +46,14 @@ void BorderImageDecorator::setObject(QDeclarativeItem *target)
 
 void BorderImageDecorator::setSource( const QUrl& source )
 {
+    qDebug() << __FUNCTION__ << source;
     if( m_source != source )
     {
         m_source = source;
 
-        checkSource();
+        getBorder();
 
+        qDebug() << __FUNCTION__ << "sourceChanged";
         emit sourceChanged();
         emit isValidSourceChanged();
     }
@@ -62,18 +64,9 @@ QUrl BorderImageDecorator::source() const
     return m_source;
 }
 
-void BorderImageDecorator::checkSource()
-{
-    if( !providerInstance->existImage( m_source.toString() ) ) {
-        if( !m_defaultSource.isEmpty() )
-            m_source = m_defaultSource;
-    }
-
-    getBorder();
-}
-
 void BorderImageDecorator::setDefaultSource( const QUrl& defaultSource )
 {
+    qDebug() << __FUNCTION__ << defaultSource;
     if( m_defaultSource != defaultSource ) {
 
         if ( m_defaultSource == m_source )
@@ -81,7 +74,7 @@ void BorderImageDecorator::setDefaultSource( const QUrl& defaultSource )
 
         m_defaultSource = defaultSource;
 
-        checkSource();
+        getBorder();
 
         emit isValidSourceChanged();
         emit defaultSourceChanged();
@@ -94,27 +87,30 @@ QUrl BorderImageDecorator::defaultSource() const
 }
 
 bool BorderImageDecorator::isValidSource() const
-{
+{    
     bool existSource = providerInstance->existImage( m_source.toString() );
     bool existdefaultSource = providerInstance->existImage( m_defaultSource.toString() );
-    if( !existSource && existdefaultSource )
+    if( existSource || existdefaultSource ) {
+
+        qDebug() << " isValid ";
         return true;
+    }
+    qDebug() << " isNotValid ";
     return false;
 }
 
 bool BorderImageDecorator::needReplacement() const
 {
+    if( m_defaultSource.isEmpty() )
+        return false;
+
     bool existSource = providerInstance->existImage( m_source.toString() );
     bool existdefaultSource = providerInstance->existImage( m_defaultSource.toString() );
-    if( existSource || existdefaultSource )
+
+    if( !existSource && existdefaultSource ) {
+        qDebug() << "needreplacement!";
         return true;
-    return false;
-}() const
-{
-    bool existSource = providerInstance->existImage( m_source.toString() );
-    bool existdefaultSource = providerInstance->existImage( m_defaultSource.toString() );
-    if( existSource || existdefaultSource )
-        return true;
+    }
     return false;
 }
 

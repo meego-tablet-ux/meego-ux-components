@@ -14,6 +14,9 @@ PKGCONFIG += mlite \
         xcomposite \
         xdamage
 
+MOC_DIR = .moc
+OBJECTS_DIR = .obj
+
 SOURCES += contextproperty.cpp \
         imageprovidercache.cpp \
         imagereference.cpp \

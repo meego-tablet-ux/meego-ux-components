@@ -4,7 +4,8 @@ CONFIG += ordered
 VERSION = 0.2.9.19
 PROJECT_NAME = meego-ux-components
 
-SUBDIRS += src \
+SUBDIRS += lib \
+           src \
            examples
 
 include(doc/doc.pri)

@@ -204,7 +204,6 @@ Window {
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <qdeclarative.h>
 
 class QSettings;
 class SaveRestoreStatePrivate;
@@ -249,7 +248,5 @@ signals:
 private:
     static SaveRestoreStatePrivate *d;
 };
-
-QML_DECLARE_TYPE(SaveRestoreState)
 
 #endif

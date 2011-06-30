@@ -37,7 +37,7 @@ WidgetPage {
 
             onTextUpdated: {
                 if( value >= 0 ){
-                    datePicker.width = value
+                    datePicker.width = +value
                 }
             }
         },
@@ -50,7 +50,7 @@ WidgetPage {
 
             onTextUpdated: {
                 if( value >= 0 ){
-                    datePicker.height = value
+                    datePicker.height = +value
                 }
             }
         },
@@ -63,7 +63,7 @@ WidgetPage {
 
             onTextUpdated: {
                 if( value >= 0 && value <= datePicker.endYear ){
-                    datePicker.startYear = value
+                    datePicker.startYear = +value
                 }
             }
         },
@@ -76,7 +76,7 @@ WidgetPage {
 
             onTextUpdated: {
                 if( value >= 0 && value >= datePicker.startYear ){
-                    datePicker.endYear = value
+                    datePicker.endYear = +value
                 }
             }
         },

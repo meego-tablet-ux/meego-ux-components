@@ -33,7 +33,7 @@ WidgetPage {
                     text = "23"
                     timePicker.hours = 23
                 }else{
-                    timePicker.hours = value
+                    timePicker.hours = +value
                 }
             }
         },
@@ -52,7 +52,7 @@ WidgetPage {
                     text = "60"
                     timePicker.minutes = 60
                 }else{
-                    timePicker.minutes = value
+                    timePicker.minutes = +value
                 }
             }
         },
@@ -72,7 +72,7 @@ WidgetPage {
                     text = "60"
                     timePicker.minutesIncrement = 60
                 }else{
-                    timePicker.minutesIncrement = value
+                    timePicker.minutesIncrement = +value
                 }
             }
         },
@@ -157,9 +157,6 @@ WidgetPage {
 
         hr24: timeSystemBox.isChecked
         minutesIncrement: +incrementEntry.text
-
-        cancelButtonText: "do not do this at all"
-        acceptButtonText: "sure, why not: let's do it"
 
         onAccepted: {
             timeEntry.value = time

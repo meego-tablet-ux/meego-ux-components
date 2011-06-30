@@ -1,15 +1,25 @@
+/*
+ * Copyright 2011 Intel Corporation.
+ *
+ * This program is licensed under the terms and conditions of the
+ * LGPL, version 2.1.  The full text of the LGPL Licence is at
+ * http://www.gnu.org/licenses/lgpl.html
+ */
+
 #include "translator.h"
 
 #include <QLocale>
 #include <QTranslator>
 #include <QLibraryInfo>
 #include <QCoreApplication>
+#include <meegolocale.h>
 
 Translator::Translator(QObject *parent) :
     QObject(parent),
-    mTranslator(new QTranslator(this)),
-    mLangCode(QLocale::system().name())
+    mTranslator(new QTranslator(this))
 {
+    meego::Locale l;
+    mLangCode = l.locale();
 }
 
 QString Translator::getCatalog() const

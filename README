@@ -20,6 +20,7 @@ Or build yourself by installing the dependencies:
  $ zypper in mlite-devel
  $ zypper in pkgconfig
  $ zypper in pulseaudio-devel
+ $ zypper in meegolabs-ux-components-liblocale-devel
 
 And then you can compile and install:
 

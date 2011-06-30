@@ -12,7 +12,12 @@ CONFIG += plugin \
 PKGCONFIG += mlite \
         x11 \
         xcomposite \
-        xdamage
+        xdamage \
+        meegolocale
+
+MOC_DIR = .moc
+OBJECTS_DIR = .obj
+
 
 SOURCES += contextproperty.cpp \
         imageprovidercache.cpp \

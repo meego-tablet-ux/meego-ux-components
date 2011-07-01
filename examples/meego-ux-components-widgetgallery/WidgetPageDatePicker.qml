@@ -84,11 +84,22 @@ WidgetPage {
         LabeledEntry {
             id: dateOrderEntry
 
-            label: "dateOrder: "
-            defaultValue: "day-month-year"
+            label: "dateFormat (0=YMD, 1=DMY, 2=MDY): "
+            defaultValue: "2"
 
             onTextUpdated: {
-                datePicker.dateOrder = value
+                datePicker.dateFormat = +value
+            }
+        },
+
+        LabeledEntry {
+            id: firstDayEntry
+
+            label: "firstDayOfWeek (1=Monday .. 7=Sunday): "
+            defaultValue: "7"
+
+            onTextUpdated: {
+                datePicker.firstDayOfWeek = +value
             }
         },
 

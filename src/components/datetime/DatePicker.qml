@@ -51,6 +51,24 @@
   \qmlproperty variant yearModel
   \qmlcm contains a listModel for the years.
 
+  \qmlproperty int dateFormat
+  \qmlcm contains the dateFormat to use.  (Same values as in meegolabs-ux-components/lib/locale)
+         NB: you should not need to change this because it is hooked up to system settings by default
+         Year/Month/Day = 0
+         Day/Month/Year = 1
+         Month/Day/Year = 2  
+
+  \qmlproperty int firstDayOfWeek
+  \qmlcm contains the code for what day is the first of the week.  (Same values as in meegolabs-ux-components/lib/locale)
+         NB: you should not need to change this because it is hooked up to system settings by default
+         Monday    = 1
+         Tuesday   = 2
+         Wednesday = 3
+         Thursday  = 4
+         Friday    = 5
+         Saturday  = 6
+         Sunday    = 7  (en_US default)
+
   \section1  Signals
   \qmlproperty [signal] dateSelected
   \qmlcm emitted when ok button is clicked, propagates the selected date.
@@ -155,6 +173,9 @@
 import Qt 4.7
 import MeeGo.Components 0.1
 
+// This is temporary until LocaleHelper migrates to components.
+import MeeGo.Labs.Components 0.1
+
 ModalDialog {
     id: datePicker
 
@@ -216,16 +237,18 @@ ModalDialog {
     property int day: -1
     property int year: -1
 
+    property int dateFormat: localeHelper.dateFormat
+    property int firstDayOfWeek: localeHelper.firstDayOfWeek
+
     property variant oldDate
 
     property bool allowUpdates: true
 
     property bool acceptBlocked: false
 
-    //these five properties are only meant to be used in the widgetgallery for
+    //these properties are only meant to be used in the widgetgallery for
     //demonstration purposes. Don't use them in your applications since they
     //could be removed at any time.
-    property alias dateOrder: popupRow.dateOrder
     property alias dateUnitOneText: dateUnitOne.text
     property alias dateUnitTwoText: dateUnitTwo.text
     property alias dateUnitThreeText: dateUnitThree.text
@@ -408,45 +431,6 @@ ModalDialog {
 
     //DEPRECATED
     function checkSelectedDate( d, m, y ) {
-        var day = d
-        var month = m
-        var year = y
-
-        if( year < minYear || year > maxYear ) { //selected year is not in range
-            return false
-        }else if( minYear == maxYear ) { //selected year is in range and year range has size one
-            if( month < minMonth || month > maxMonth ) { //month outside range
-                return false
-            }else if( minMonth == maxMonth ){ //month is also in range and month range has size one
-                if( day < minDay || day > maxDay ) {
-                    return false
-                }
-            }else if( month == minMonth ) { //month at min range
-                if( day < minDay ) { //day outside range
-                    return false
-                }
-            }else if( month == maxMonth ) { //month at max range
-                if( day > maxDay ) { //day outside range
-                    return false
-                }
-            }
-        }else if( year == minYear ){ //selected year is at min range and the year range is bigger than one
-            if( month < minMonth ) { //month outside range
-                return false
-            }else if( month == minMonth ){ //month at min range
-                if( day < minDay ) { //day outside range
-                    return false
-                }
-            }
-        }else if( year == maxYear ) { //selected year is at max range and the range is bigger than one
-            if( month > maxMonth ) { //month outside range
-                return false
-            }else if( month == maxMonth ){ //month at max range
-                if( day > maxDay ) { //day outside range
-                    return false
-                }
-            }
-        }
         return true
     }
 
@@ -504,8 +488,11 @@ ModalDialog {
         Item {
             id: popupRow
 
-            //: Controls the order in which the three spinners for days, months and years are displayed in the DatePicker. Don't translate this into your language. Instead order the three keywords to match the standards of your language. For example "year-month-day".
-            property string dateOrder: qsTr("day-month-year")
+            QtObject {
+                //: Controls the order in which the three spinners for days, months and years are displayed in the DatePicker. Don't translate this into your language. Instead order the three keywords to match the standards of your language. For example "year-month-day".
+                property string dateOrder: qsTr("day-month-year")  //DEPRECATED
+            }
+            property int dateFormat: datePicker.dateFormat
             property int unitWidth: ( parent.width - 2 * anchors.margins ) / 13 // 3 * 3 units for the popuplists and 4 * 1 units for the dateunits
 
             z: 10
@@ -646,46 +633,25 @@ ModalDialog {
 
             states: [
                 State {
+                    name: "ymd"
+                    PropertyChanges { target: dayButton; anchors.fill: rightSpinnerItem }
+                    PropertyChanges { target: monthButton; anchors.fill: middleSpinnerItem }
+                    PropertyChanges { target: yearButton; anchors.fill: leftSpinnerItem }
+                    when: popupRow.dateFormat == Labs.LocaleHelper.DateFormatYMD
+                },
+                State {
                     name: "dmy"
                     PropertyChanges { target: dayButton; anchors.fill: leftSpinnerItem }
                     PropertyChanges { target: monthButton; anchors.fill: middleSpinnerItem }
                     PropertyChanges { target: yearButton; anchors.fill: rightSpinnerItem }
-                    when: popupRow.dateOrder == "day-month-year"
-                },
-                State {
-                    name: "dym"
-                    PropertyChanges { target: dayButton; anchors.fill: leftSpinnerItem }
-                    PropertyChanges { target: monthButton; anchors.fill: rightSpinnerItem }
-                    PropertyChanges { target: yearButton; anchors.fill: middleSpinnerItem }
-                    when: popupRow.dateOrder == "day-year-month"
+                    when: popupRow.dateFormat == Labs.LocaleHelper.DateFormatDMY
                 },
                 State {
                     name: "mdy"
                     PropertyChanges { target: dayButton; anchors.fill: middleSpinnerItem }
                     PropertyChanges { target: monthButton; anchors.fill: leftSpinnerItem }
                     PropertyChanges { target: yearButton; anchors.fill: rightSpinnerItem }
-                    when: popupRow.dateOrder == "month-day-year"
-                },
-                State {
-                    name: "myd"
-                    PropertyChanges { target: dayButton; anchors.fill: rightSpinnerItem }
-                    PropertyChanges { target: monthButton; anchors.fill: leftSpinnerItem }
-                    PropertyChanges { target: yearButton; anchors.fill: middleSpinnerItem }
-                    when: popupRow.dateOrder == "month-year-day"
-                },
-                State {
-                    name: "ydm"
-                    PropertyChanges { target: dayButton; anchors.fill: middleSpinnerItem }
-                    PropertyChanges { target: monthButton; anchors.fill: rightSpinnerItem }
-                    PropertyChanges { target: yearButton; anchors.fill: leftSpinnerItem }
-                    when: popupRow.dateOrder == "year-day-month"
-                },
-                State {
-                    name: "ymd"
-                    PropertyChanges { target: dayButton; anchors.fill: rightSpinnerItem }
-                    PropertyChanges { target: monthButton; anchors.fill: middleSpinnerItem }
-                    PropertyChanges { target: yearButton; anchors.fill: leftSpinnerItem }
-                    when: popupRow.dateOrder == "year-month-day"
+                    when: popupRow.dateFormat == Labs.LocaleHelper.DateFormatMDY
                 }
             ]
 
@@ -745,12 +711,28 @@ ModalDialog {
                 Text {
                     id: monthAndYear
 
-                    //: 1 is full month name, 2 is full numerical year.  E.g. "January 2011".  Reorder as approriate to current language"
-                    text: qsTr("%1 %2").arg(fullMonths[ calendarView.calendarShown.getMonth() ]).arg(calendarView.calendarShown.getFullYear())
+                    QtObject {
+                        // DEPRECATED
+                        //: 1 is full month name, 2 is full numerical year.  E.g. "January 2011".  Reorder as approriate to current language"
+                        property string oldText: qsTr("%1 %2").arg(fullMonths[ calendarView.calendarShown.getMonth() ]).arg(calendarView.calendarShown.getFullYear())
+                    }
+                    text: localeHelper.formatDate(createDate(calendarView.calendarShown.getFullYear(),
+                                                             calendarView.calendarShown.getMonth(),
+                                                             1 /*dummy day*/ ))
+                    
                     font.pixelSize: monthHeader.fontPixelSize;
                     verticalAlignment: "AlignVCenter"; horizontalAlignment: "AlignHCenter"
                     anchors { top: parent.top; bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }
                     width: parent.width / 2
+
+                    Connections {
+                        target: localeHelper
+                        onDateFormatChanged: {
+                            text = localeHelper.formatDate(createDate(calendarView.calendarShown.getFullYear(),
+                                                           calendarView.calendarShown.getMonth(),
+                                                           1 /*dummy day*/ ))
+                        }
+                    }
                 }
 
                 IconButton {
@@ -834,9 +816,12 @@ ModalDialog {
                 property real cellGridHeight: height / rows
                 property int cellFontSize;
 
-                //: handles with which day the calendar grid starts. Type monday, tuesday, wednesday, thursday, friday, saturday or sunday, without capital letters
-                property string firstDayInWeek: qsTr( "firstDayInWeek" )
-                property int dayOffset: 0
+                QtObject {
+                    //: handles with which day the calendar grid starts. Type monday, tuesday, wednesday, thursday, friday, saturday or sunday, without capital letters
+                    property string firstDayInWeek: qsTr( "firstDayInWeek" ) // DEPRECATED
+                }
+                property int firstDayOfWeek: datePicker.firstDayOfWeek
+                property int dayOffset: firstDayOfWeek % 7
 
                 function startDay ( mm, yyyy ) {
                     var firstDay = new Date( yyyy, mm, 1, 0, 0, 0, 0 )
@@ -871,24 +856,6 @@ ModalDialog {
                 height:  parent.height - ( dayLabel.height + monthHeader.height + monthDivider.height + dayDivider.height )
                 x: ( width - childrenRect.width ) * 0.5
                 rows: 6; columns: 7; spacing: 0
-
-                Component.onCompleted: {
-                    if( firstDayInWeek == "monday" ) {
-                        dayOffset = 1
-                    }else if ( firstDayInWeek == "tuesday" ) {
-                        dayOffset = 2
-                    }else if ( firstDayInWeek == "wednesday" ) {
-                        dayOffset = 3
-                    }else if ( firstDayInWeek == "thursday" ) {
-                        dayOffset = 4
-                    }else if ( firstDayInWeek == "friday" ) {
-                        dayOffset = 5
-                    }else if ( firstDayInWeek == "saturday" ) {
-                        dayOffset = 6
-                    }else {
-                        dayOffset = 0
-                    }
-                }
 
                 Repeater {
                     model: 42

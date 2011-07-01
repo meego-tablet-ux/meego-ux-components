@@ -15,7 +15,7 @@ INSTALL_HEADERS += saverestorestate.h
 headers.files = $$INSTALL_HEADERS
 headers.path = $$INSTALL_ROOT/usr/include
 
-CONFIG += create_pc
+CONFIG += create_pc create_prl
 QMAKE_PKGCONFIG_DESCRIPTION = MeeGo SaveRestore
 QMAKE_PKGCONFIG_INCDIR = $$headers.path
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig

@@ -91,7 +91,6 @@ MouseArea {
 
         // check if you are too low and set y to last row to ease selection when you're at the same height as the selectionEnd
         var rect = editor.positionToRectangle (selectionEnd);
-        console.log(py)
         if( rect.y + rect.height / 2 < py ){
             py = rect.y + rect.height / 2
         }
@@ -203,9 +202,9 @@ MouseArea {
             pendingCursorPosition = editor.positionAt (mouse.x, mouse.y);
         }
 
-	// Forward through to QML component so it can call
-	// mouseHandler() on the input context.
-	mouse.accepted = false;
+        // Forward through to QML component so it can call
+        // mouseHandler() on the input context.
+        mouse.accepted = false;
     }
 
     onReleased: {

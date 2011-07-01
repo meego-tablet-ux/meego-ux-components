@@ -206,7 +206,7 @@ ModalDialog {
     title: ( ( albumSelected ? qsTr("Pick a Song") : ( showPlaylists && showAlbums ) ? qsTr("Pick a Playlist/Album") :
            ( showPlaylists ? qsTr("Pick a Playlist") : qsTr("Pick an Album") ) ) )
 
-    width: topItem.topItem.width * 0.95
+    sizeHintWidth: topItem.topItem.width * 0.95
 
     height: if( selectSongs && albumSelected ) {
                 if( musicListView.estimatedHeight + decorationHeight > topHeight ){

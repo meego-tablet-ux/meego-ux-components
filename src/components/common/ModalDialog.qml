@@ -11,6 +11,9 @@
   \title ModalDialog
   \section1 ModalDialog
   The ModalDialog component is the base component for message boxes and pickers.
+  To allow the ModalDialog to adjust it's width to its title and buttons in order
+  to avoid text being elided, use sizeHintWidth instead of width. Setting width
+  directly will fix the width to the set value.
 
   \section2 API Properties
     \qmlproperty item content
@@ -173,20 +176,43 @@ ModalFog {
     property real sizeHintWidth: 600
     property real sizeHintHeight: 300
 
+    property real maxWidth: topItem.topWidth * 0.95
+    property real minWidth: topItem.topWidth * 0.2
+
+    //these three properties are private only. They're used for resizing the dialog dynamically
+    property real fakeButtonWidth: buttonAccept.visible || buttonCancel.visible
+                                    ?   ( 3 * footer.spacing
+                                        + ( buttonAccept.visible ? ( fakeOkButton.width > buttonMinWidth ? fakeOkButton.width : buttonMinWidth) : 0 )
+                                        + ( buttonCancel.visible ? ( fakeCancelButton.width > buttonMinWidth ? fakeCancelButton.width : buttonMinWidth ) : 0 ) )
+                                    :   fakeCancelButton.width + 2 * footer.spacing
+
+    property real fakeTitleWidth: fakeTitleText.paintedWidth + 2 * header.anchors.leftMargin
+    property real estimatedWidth: ( fakeButtonWidth > fakeTitleWidth ) ? fakeButtonWidth : fakeTitleWidth
+
     property int decorationHeight: header.height + footer.height + topMargin + bottomMargin
 
     property int verticalOffset: topItem.topDecorationHeight + topItem.shift
 
-    width: if( sizeHintWidth < topItem.topWidth * 0.95 ){
-               if( sizeHintWidth < topItem.topWidth * 0.2 ){
-                   topItem.topWidth * 0.2
+    width: if( sizeHintWidth > estimatedWidth ) {
+               if( sizeHintWidth < maxWidth ) {
+                   if( sizeHintWidth < minWidth ) {
+                       return minWidth
+                   }else {
+                       return sizeHintWidth
+                   }
+               }else {
+                   return maxWidth
                }
-               else{
-                   sizeHintWidth
+           }else {
+               if( estimatedWidth < maxWidth ) {
+                   if( estimatedWidth < minWidth ) {
+                       return minWidth
+                   }else {
+                       return estimatedWidth
+                   }
+               }else {
+                   return maxWidth
                }
-           }
-           else{
-               topItem.topWidth * 0.95
            }
 
     height: if( sizeHintHeight < (topItem.topHeight - topItem.topDecorationHeight) * 0.95 ){
@@ -267,7 +293,7 @@ ModalFog {
         Button {
             id: defaultButtonCancel
 
-            maxWidth: modalDialogBox.buttonMaxWidth
+            maxWidth:  modalDialogBox.width - 2 * footer.spacing
             maxHeight: modalDialogBox.buttonMaxHeight
             minWidth: modalDialogBox.buttonMinWidth
             minHeight: modalDialogBox.buttonMinHeight
@@ -353,7 +379,14 @@ ModalFog {
                 Button {
                     id: buttonAccept
 
-                    maxWidth: visible ? modalDialogBox.buttonMaxWidth : 0
+                    maxWidth:  visible  ?
+                                   ( buttonCancel.visible ?
+                                        ( ( fakeCancelButton.width < modalDialogBox.buttonMaxWidth )  ?
+                                             ( modalDialogBox.width - fakeCancelButton.width - 3 * footer.spacing )
+                                        : modalDialogBox.buttonMaxWidth )
+                                   : modalDialogBox.width - 2 * footer.spacing )
+                               : 0
+
                     maxHeight: modalDialogBox.buttonMaxHeight
 
                     minWidth: visible ? modalDialogBox.buttonMinWidth : 0
@@ -374,7 +407,14 @@ ModalFog {
                 Button {
                     id: buttonCancel
 
-                    maxWidth: visible ? modalDialogBox.buttonMaxWidth : 0
+                    maxWidth:  visible ?
+                                   ( buttonAccept.visible ?
+                                        ( ( fakeOkButton.width < modalDialogBox.buttonMaxWidth ) ?
+                                             ( modalDialogBox.width - fakeOkButton.width - 3 * footer.spacing )
+                                        : modalDialogBox.buttonMaxWidth )
+                                   : modalDialogBox.width - 2 * footer.spacing )
+                               : 0
+
                     maxHeight: modalDialogBox.buttonHeight
 
                     minWidth: visible ? modalDialogBox.buttonMinWidth : 0
@@ -409,4 +449,9 @@ ModalFog {
         id: topItem
         property real shift: 0
     }
+
+    //these are invisible elements needed for dynamically resizing the dialog and its defaultbuttons
+    Button { id: fakeOkButton; text: buttonAccept.text; font: buttonAccept.font; visible:  false; elideText: false }
+    Button { id: fakeCancelButton; text: buttonCancel.text; font: buttonCancel.font; visible:  false; elideText: false }
+    Text { id: fakeTitleText; text: header.text; font: header.font; visible: false }
 }

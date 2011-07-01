@@ -33,7 +33,7 @@ WidgetPage {
                     text = "23"
                     timePicker.hours = 23
                 }else{
-                    timePicker.hours = value
+                    timePicker.hours = +value
                 }
             }
         },
@@ -52,7 +52,7 @@ WidgetPage {
                     text = "60"
                     timePicker.minutes = 60
                 }else{
-                    timePicker.minutes = value
+                    timePicker.minutes = +value
                 }
             }
         },
@@ -72,7 +72,7 @@ WidgetPage {
                     text = "60"
                     timePicker.minutesIncrement = 60
                 }else{
-                    timePicker.minutesIncrement = value
+                    timePicker.minutesIncrement = +value
                 }
             }
         },
@@ -81,6 +81,27 @@ WidgetPage {
             id: timeSystemBox
 
             label: "hr24:"
+        },
+
+        LabeledEntry {
+            id: cancelText
+
+            label:  "cancel text: "
+            defaultValue: timePicker.cancelButtonText
+
+            onTextUpdated: {
+                timePicker.cancelButtonText = value
+            }
+        },
+        LabeledEntry {
+            id: acceptText
+
+            label:  "accept text: "
+            defaultValue: timePicker.acceptButtonText
+
+            onTextUpdated: {
+                timePicker.acceptButtonText = value
+            }
         }
     ]
 

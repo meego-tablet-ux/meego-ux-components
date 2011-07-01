@@ -161,7 +161,7 @@ ModalDialog {
     }
 
     //use nearly the whole screen
-    width: topItem.topItem.width * 0.95
+    sizeHintWidth: topItem.topItem.width * 0.95
     height:  if(gridView.estimateHeight + decorationHeight > topHeight ){
                  topHeight
              } else {

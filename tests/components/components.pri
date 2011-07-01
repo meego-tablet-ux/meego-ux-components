@@ -10,4 +10,7 @@ OTHER_FILES += tst_window.qml \
 	      tst_musicpicker.qml \
               tst_photopicker.qml \
               tst_timepicker.qml \
-              tst_datepicker.qml
+              tst_datepicker.qml \
+              tst_themeimage.qml
+
+QML_FILES += OTHER_FILES

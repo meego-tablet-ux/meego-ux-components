@@ -18,7 +18,7 @@
 #include "translator.h"
 #include "windowiconprovider.h"
 #include "borderimagedecorator.h"
-#include "saverestorestate.h"
+#include <saverestorestate.h>
 
 void MeeGoUxKernelPlugin::registerTypes(const char *uri)
 {

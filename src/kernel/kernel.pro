@@ -19,6 +19,9 @@ MOC_DIR = .moc
 OBJECTS_DIR = .obj
 
 
+MOC_DIR = .moc
+OBJECTS_DIR = .obj
+
 SOURCES += contextproperty.cpp \
         imageprovidercache.cpp \
         imagereference.cpp \
@@ -32,8 +35,7 @@ SOURCES += contextproperty.cpp \
         windowelement.cpp \
         windowiconprovider.cpp \
         windowlistener.cpp \
-        borderimagedecorator.cpp \
-        saverestorestate.cpp
+        borderimagedecorator.cpp
 
 HEADERS += contextproperty.h \
         imageprovidercache.h \
@@ -49,8 +51,11 @@ HEADERS += contextproperty.h \
         windowiconprovider.h \
         windowinfo.h \
         windowlistener.h \
-        borderimagedecorator.h \
-        saverestorestate.h
+        borderimagedecorator.h 
+
+LIBS += -L ../../lib/saverestore/ -l meegosaverestore
+INCLUDEPATH += ../../lib/saverestore
+
 
 QML_FILES = Theme.qml \
             qmldir

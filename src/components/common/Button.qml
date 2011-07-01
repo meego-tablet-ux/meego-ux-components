@@ -157,6 +157,7 @@ Item {
         anchors.centerIn: parent
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
+        anchors.verticalCenterOffset: (icon.border.top - icon.border.bottom)/2
 
         maxWidth: container.maxWidth - container.textMargins * 2
         minWidth: container.minWidth - container.textMargins * 2

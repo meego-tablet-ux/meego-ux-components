@@ -184,7 +184,7 @@ Item {
         left: parent.left
         right: parent.right
         top: parent.top
-        bottom: pageStack.bookMenuActive ? parent.bottom : null
+        bottom: pageStack.bookMenuActive ? parent.bottom : undefined
     }
 
     TopItem{ id: top }

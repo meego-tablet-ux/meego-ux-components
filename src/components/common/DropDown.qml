@@ -193,7 +193,7 @@ Item {
                 id: expandButton
 
                 anchors.right: parent.right
-                anchors.rightMargin: 6
+                anchors.rightMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
                 source:dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-item-open-active" :
                 "image://themedimage/widgets/common/combobox/combobox-item-open"

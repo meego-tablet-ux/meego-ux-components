@@ -88,11 +88,11 @@ void SaveRestoreStatePrivate::init()
 
 bool SaveRestoreStatePrivate::shouldInit()
 {
-  if (!qApp->property("preinit").toBool()) {
-    init();
-    return true;
-  }
-  return false;
+    if (!qApp->property("preinit").toBool()) {
+        if (!settings) init();
+        return true;
+    }
+    return false;
 }
 
 SaveRestoreStatePrivate* SaveRestoreState::d = NULL;

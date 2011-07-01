@@ -964,6 +964,7 @@ Item {
 
                     Item {
                         id: pageInnerBackground
+                        clip: true
                         anchors {
                             top: parent.top
                             left: parent.left

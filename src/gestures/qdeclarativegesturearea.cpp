@@ -265,7 +265,8 @@ void QDeclarativeGestureAreaPrivate::unlockGestureArea()
         if( !handlersTypes.contains( gestureType ) ) {
             q->ungrabGesture( gestureType );
 
-            if( acceptUnhandledEvents ) {
+            //if( acceptUnhandledEvents ) {  // BMC#20327: acceptUnhandledEvents is the opposite of what is intended
+            if( not acceptUnhandledEvents ) {
                 if(  GestureAreaQmlPlugin::self ) {
                     GestureAreaQmlPlugin::self->allDefaultAreas << QWeakPointer<QDeclarativeGestureArea>(q);
                     foreach (Qt::GestureType gestureType, GestureAreaQmlPlugin::self->allGestures) {
@@ -589,8 +590,10 @@ bool QDeclarativeGestureArea::absolutePosition() const
 }
 void QDeclarativeGestureArea::setAbsolutePosition( bool absolutePosition )
 {
-    d_ptr->absolutePosition = absolutePosition;
-    absolutePositionChanged();
+    if (d_ptr && (d_ptr->absolutePosition != absolutePosition)) {
+        d_ptr->absolutePosition = absolutePosition;
+        absolutePositionChanged();
+    }
 }
 bool QDeclarativeGestureArea::acceptUnhandledEvents() const
 {
@@ -598,8 +601,10 @@ bool QDeclarativeGestureArea::acceptUnhandledEvents() const
 }
 void QDeclarativeGestureArea::setAcceptUnhandledEvents( bool acceptEvents )
 {
-    d_ptr->acceptUnhandledEvents = acceptEvents;
-    acceptUnhandledEventsChanged();
+    if (d_ptr && (d_ptr->acceptUnhandledEvents != acceptEvents)) {
+        d_ptr->acceptUnhandledEvents = acceptEvents;
+        acceptUnhandledEventsChanged();
+    }
 }
 bool QDeclarativeGestureArea::enabled() const
 {
@@ -607,8 +612,10 @@ bool QDeclarativeGestureArea::enabled() const
 }
 void QDeclarativeGestureArea::setEnabled( bool enabled )
 {
-    d_ptr->enabled = enabled;
-    enabledChanged();
+    if (d_ptr && (d_ptr->enabled != enabled)) {
+        d_ptr->enabled = enabled;
+        enabledChanged();
+    }
 }
 
 QPointF QDeclarativeGestureAreaPrivate::correctPoint( const QPointF point, const QGestureEvent *event )

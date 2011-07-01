@@ -693,7 +693,7 @@ Item {
                             content:  ActionMenu{
                                 id: bookMenu
 
-                                model: bookMenuModel
+                                model: bookMenuActive ? bookMenuModel : undefined
                                 highlightSelectedItem: true
 
                                 onTriggered: {

@@ -238,6 +238,10 @@ Flickable {
                 GestureArea {
                     anchors.fill: parent
 
+                    // This should be false, but the property i broken now
+                    // (https://bugs.meego.com/show_bug.cgi?id=20327)
+                    acceptUnhandledEvents: true
+
                     Tap {
                         // pressed state for the text entry:
                         onFinished: {

@@ -231,9 +231,13 @@ Item {
             GestureArea {
                 anchors.fill: parent
                 
-                Tap{
+                // This should be false, but the property i broken now
+                // (https://bugs.meego.com/show_bug.cgi?id=20327)
+                acceptUnhandledEvents: true
+
+                Tap {
                     onFinished: { expanded = !expanded }
-		}
+        		}
             }
         }
 

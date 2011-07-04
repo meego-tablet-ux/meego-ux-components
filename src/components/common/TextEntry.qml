@@ -118,6 +118,7 @@ FocusScope {
     }
 
     height: 50
+    width: 200
     opacity: readOnly ? 0.5 : 1.0
 
     GestureArea {     // this ensures the text gets focus via FocusScope when only the BorderImage is clicked

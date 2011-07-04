@@ -75,6 +75,7 @@ ThemeImage {
     signal cursorRectangleChanged
 
     height: 50
+    width: 200
     source: (edit.focus && !readOnly) ? "image://themedimage/widgets/common/text-area/text-area-background-active" : "image://themedimage/widgets/common/text-area/text-area-background"
     clip: true
 

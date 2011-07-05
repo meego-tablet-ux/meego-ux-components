@@ -255,7 +255,7 @@ int Scene::winId() const
 
 void Scene::setWinId( int winId )
 {
-    if( m_myWinId != winId ) {
+    if( m_myWinId != winId && 0 != winId ) {
 
         m_myWinId = winId;
         if( m_myWinId == m_activeWinId ) {
@@ -278,7 +278,7 @@ int Scene::activeWinId() const
 
 void Scene::setActiveWinId( int activeWinId )
 {
-    if( activeWinId != m_activeWinId) {
+    if( activeWinId != m_activeWinId ) {
 
         m_activeWinId = activeWinId;
 

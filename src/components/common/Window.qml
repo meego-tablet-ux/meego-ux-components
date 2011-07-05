@@ -1273,6 +1273,7 @@ Item {
             //console.log( "winid " + mainWindow.winId )
             scene.winId = mainWindow.winId;
             scene.activeWinId = qApp.foregroundWindow;
+            scene.orientation = qApp.orientation;
         }
     }
 
@@ -1284,7 +1285,6 @@ Item {
 
             if( scene.activeWinId != qApp.foregroundWindow ) {
                 scene.activeWinId = qApp.foregroundWindow;
-                // console.log( "Window.qml: foreground changed: " + scene.activeWinId + " my winId; " + scene.winId )
             }
         }
         onOrientationChanged: {

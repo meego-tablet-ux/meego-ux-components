@@ -171,9 +171,10 @@ Item {
         property bool boxReady: false
 
 
-        height: expandingBox.height // buttonHeight// header.height
-        width: expandingBox.width // buttonWidth// header.width
-        source: "image://themedimage/widgets/common/expandobox/expandobox-background"
+        height: expandingBox.height
+        width: expandingBox.width
+        source: expandingBox.expanded ? "image://themedimage/widgets/common/expandobox/expandobox-background-active"
+                                      : "image://themedimage/widgets/common/expandobox/expandobox-background"
 
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a GestreuArea to change the expanded state on click
@@ -256,11 +257,6 @@ Item {
                 bottom: parent.bottom
                 right: parent.right
                 margins: itemMargins
-            }
-
-            ThemeImage {
-                anchors.fill: parent
-                source: "image://themedimage/widgets/common/expandobox/expandobox-background-active"
             }
         }
     }

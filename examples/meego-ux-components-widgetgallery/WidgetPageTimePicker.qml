@@ -81,6 +81,11 @@ WidgetPage {
             id: timeSystemBox
 
             label: "hr24:"
+            isChecked:  timePicker.hr24
+
+            onCheckedChanged: {
+                timePicker.hr24 = checked
+            }
         },
 
         LabeledEntry {
@@ -155,7 +160,6 @@ WidgetPage {
     TimePicker {
         id: timePicker
 
-        hr24: timeSystemBox.isChecked
         minutesIncrement: +incrementEntry.text
 
         onAccepted: {

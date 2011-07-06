@@ -85,7 +85,7 @@ WidgetPage {
             id: dateOrderEntry
 
             label: "dateFormat (0=YMD, 1=DMY, 2=MDY): "
-            defaultValue: "2"
+            defaultValue: datePicker.dateFormat
 
             onTextUpdated: {
                 datePicker.dateFormat = +value
@@ -96,7 +96,7 @@ WidgetPage {
             id: firstDayEntry
 
             label: "firstDayOfWeek (1=Monday .. 7=Sunday): "
-            defaultValue: "7"
+            defaultValue: datePicker.firstDayOfWeek
 
             onTextUpdated: {
                 datePicker.firstDayOfWeek = +value

@@ -43,8 +43,8 @@ Item {
         anchors { left: parent.horizontalCenter; top: parent.top; bottom: parent.bottom; margins: 5 }
         width: height
 
-        onIsCheckedChanged: {
-            item.checkedChanged( isChecked )
+        onClicked: {
+            item.checkedChanged( checked )
         }
     }
 }

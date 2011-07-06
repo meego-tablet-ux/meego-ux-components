@@ -184,14 +184,6 @@ ModalDialog {
     property int startYear: 1700
     property int endYear: 2300
 
-    property int minYear: startYear //DEPRECATED
-    property int minMonth: 1 //DEPRECATED
-    property int minDay: 1 //DEPRECATED
-    property int maxYear: endYear //DEPRECATED
-    property int maxMonth: 12 //DEPRECATED
-    property int maxDay: 31 //DEPRECATED
-    property bool isDateInRange: true //DEPRECATED
-
     property variant daysOfWeek: [ qsTr("Sun"),
                                    qsTr("Mon"),
                                    qsTr("Tue"),
@@ -464,8 +456,6 @@ ModalDialog {
         }
     }
 
-    acceptButtonEnabled: isDateInRange
-
     sizeHintWidth: height * 0.6
     height: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95
 
@@ -637,21 +627,21 @@ ModalDialog {
                     PropertyChanges { target: dayButton; anchors.fill: rightSpinnerItem }
                     PropertyChanges { target: monthButton; anchors.fill: middleSpinnerItem }
                     PropertyChanges { target: yearButton; anchors.fill: leftSpinnerItem }
-                    when: popupRow.dateFormat == Labs.LocaleHelper.DateFormatYMD
+                    when: popupRow.dateFormat == LocaleHelper.DateFormatYMD
                 },
                 State {
                     name: "dmy"
                     PropertyChanges { target: dayButton; anchors.fill: leftSpinnerItem }
                     PropertyChanges { target: monthButton; anchors.fill: middleSpinnerItem }
                     PropertyChanges { target: yearButton; anchors.fill: rightSpinnerItem }
-                    when: popupRow.dateFormat == Labs.LocaleHelper.DateFormatDMY
+                    when: popupRow.dateFormat == LocaleHelper.DateFormatDMY
                 },
                 State {
                     name: "mdy"
                     PropertyChanges { target: dayButton; anchors.fill: middleSpinnerItem }
                     PropertyChanges { target: monthButton; anchors.fill: leftSpinnerItem }
                     PropertyChanges { target: yearButton; anchors.fill: rightSpinnerItem }
-                    when: popupRow.dateFormat == Labs.LocaleHelper.DateFormatMDY
+                    when: popupRow.dateFormat == LocaleHelper.DateFormatMDY
                 }
             ]
 
@@ -716,9 +706,7 @@ ModalDialog {
                         //: 1 is full month name, 2 is full numerical year.  E.g. "January 2011".  Reorder as approriate to current language"
                         property string oldText: qsTr("%1 %2").arg(fullMonths[ calendarView.calendarShown.getMonth() ]).arg(calendarView.calendarShown.getFullYear())
                     }
-                    text: localeHelper.formatDate(createDate(calendarView.calendarShown.getFullYear(),
-                                                             calendarView.calendarShown.getMonth(),
-                                                             1 /*dummy day*/ ))
+                    text: dateText()
                     
                     font.pixelSize: monthHeader.fontPixelSize;
                     verticalAlignment: "AlignVCenter"; horizontalAlignment: "AlignHCenter"
@@ -728,10 +716,14 @@ ModalDialog {
                     Connections {
                         target: localeHelper
                         onDateFormatChanged: {
-                            text = localeHelper.formatDate(createDate(calendarView.calendarShown.getFullYear(),
-                                                           calendarView.calendarShown.getMonth(),
-                                                           1 /*dummy day*/ ))
+                            monthAndYear.text = monthAndYear.dateText()
                         }
+                    }
+                    function dateText() {
+                        return localeHelper.localDate(createDate(calendarView.calendarShown.getFullYear(),
+                                                                 calendarView.calendarShown.getMonth(),
+                                                                 1 /*dummy day*/ ),
+                                                      LocaleHelper.DateMonthYear)
                     }
                 }
 
@@ -1009,6 +1001,7 @@ ModalDialog {
         ListElement { tag: "0" }
     }
 
+    LocaleHelper { id: localeHelper }
     TopItem { id: topItem }
     Theme { id: theme }
 }

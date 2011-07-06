@@ -65,10 +65,12 @@
 import Qt 4.7
 import MeeGo.Components 0.1
 
+import MeeGo.Labs.Components 0.1  // for LocaleHelper
+
 ModalDialog {
     id: timePicker
 
-    property bool hr24: false
+    property bool hr24: localeHelper.timeFormat
     property int minutesIncrement: 1
 
     property int hours: 0
@@ -137,6 +139,10 @@ ModalDialog {
         time = qsTr("%1:%2 %3").arg(hourSpinner.value).arg(displayMinutes).arg((hr24 ? "" : ampmToggleBox.label))
 
         hours = fromDisplayHours(hr24, hourSpinner.value, ampmToggleBox.on)
+    }
+
+    LocaleHelper {
+        id: localeHelper
     }
 
     content: Item {

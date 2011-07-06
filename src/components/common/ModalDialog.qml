@@ -29,7 +29,9 @@
     \qmlcm minimum height of buttons
 
     \qmlproperty int buttonMaxWidth
-    \qmlcm maximum width of buttons
+    \qmlcm maximum width of buttons. This only applies if the OK and Cancel buttons would
+           both need more width than given by buttonMaxWidth. Then both buttons are set to
+           the buttonMaxWidth to balance them.
 
     \qmlproperty int buttonMaxHeight
     \qmlcm maximum height of buttons
@@ -169,7 +171,7 @@ ModalFog {
     property int buttonHeight: width * 0.2     // deprecated
 
     property real buttonMaxWidth: width / 2.1
-    property real buttonMinWidth: width * 0.25
+    property real buttonMinWidth: 80
 
     property real buttonMaxHeight: 50   // ToDo replace magic numbers with theme values
     property real buttonMinHeight: 50
@@ -180,11 +182,11 @@ ModalFog {
     property real minWidth: topItem.topWidth * 0.2
 
     //these three properties are private only. They're used for resizing the dialog dynamically
-    property real fakeButtonWidth: buttonAccept.visible || buttonCancel.visible
+    property real fakeButtonWidth: ( buttonAccept.visible || buttonCancel.visible )
                                     ?   ( 3 * footer.spacing
-                                        + ( buttonAccept.visible ? ( fakeOkButton.width > buttonMinWidth ? fakeOkButton.width : buttonMinWidth) : 0 )
+                                        + ( buttonAccept.visible ? ( fakeOkButton.width > buttonMinWidth ? fakeOkButton.width : buttonMinWidth ) : 0 )
                                         + ( buttonCancel.visible ? ( fakeCancelButton.width > buttonMinWidth ? fakeCancelButton.width : buttonMinWidth ) : 0 ) )
-                                    :   fakeCancelButton.width + 2 * footer.spacing
+                                    :   ( fakeCancelButton.width + 2 * footer.spacing )
 
     property real fakeTitleWidth: fakeTitleText.paintedWidth + 2 * header.anchors.leftMargin
     property real estimatedWidth: ( fakeButtonWidth > fakeTitleWidth ) ? fakeButtonWidth : fakeTitleWidth

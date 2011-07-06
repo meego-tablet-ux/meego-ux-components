@@ -90,10 +90,19 @@ Image {
     source: ( enabled ) ? "image://themedimage/widgets/common/lightswitch/lightswitch-background" : "image://themedimage/widgets/common/lightswitch/lightswitch-background-disabled"
 
     onOnChanged:  {
+        if( toggleElement.status == Component.Ready ) {
+            if( toggleButton.on ) {
+                toTrue.start()
+            }else {
+                toFalse.start()
+            }
+        }
+    }
+    
+    Component.onCompleted: {
         if( toggleButton.on ) {
-            toTrue.start()
-        }else {
-            toFalse.start()
+            toggleElement.x = toggleButton.width - toggleElement.width
+            toggleButton.toggled( true )
         }
     }
 

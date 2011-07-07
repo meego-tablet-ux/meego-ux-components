@@ -29,9 +29,7 @@
     \qmlcm minimum height of buttons
 
     \qmlproperty int buttonMaxWidth
-    \qmlcm maximum width of buttons. This only applies if the OK and Cancel buttons would
-           both need more width than given by buttonMaxWidth. Then both buttons are set to
-           the buttonMaxWidth to balance them.
+    \qmlcm maximum width of buttons.
 
     \qmlproperty int buttonMaxHeight
     \qmlcm maximum height of buttons
@@ -170,7 +168,7 @@ ModalFog {
     property int buttonWidth: width / 2.5     // deprecated
     property int buttonHeight: width * 0.2     // deprecated
 
-    property real buttonMaxWidth: width / 2.1
+    property real buttonMaxWidth: 10000
     property real buttonMinWidth: 80
 
     property real buttonMaxHeight: 50   // ToDo replace magic numbers with theme values
@@ -184,9 +182,9 @@ ModalFog {
     //these three properties are private only. They're used for resizing the dialog dynamically
     property real fakeButtonWidth: ( buttonAccept.visible || buttonCancel.visible )
                                     ?   ( 3 * footer.spacing
-                                        + ( buttonAccept.visible ? ( fakeOkButton.width > buttonMinWidth ? fakeOkButton.width : buttonMinWidth ) : 0 )
-                                        + ( buttonCancel.visible ? ( fakeCancelButton.width > buttonMinWidth ? fakeCancelButton.width : buttonMinWidth ) : 0 ) )
-                                    :   ( fakeCancelButton.width + 2 * footer.spacing )
+                                        + ( buttonAccept.visible ? ( fakeOkButton.width > buttonMinWidth ? ( fakeOkButton.width > buttonMaxWidth ? buttonMaxWidth : fakeOkButton.width ) : buttonMinWidth ) : 0 )
+                                        + ( buttonCancel.visible ? ( fakeCancelButton.width > buttonMinWidth ? ( fakeCancelButton.width > buttonMaxWidth ? buttonMaxWidth : fakeCancelButton.width ) : buttonMinWidth ) : 0 ) )
+                                    :   ( buttonMaxWidth < fakeCancelButton.width + 2 * footer.spacing ? buttonMaxWidth : fakeCancelButton.width + 2 * footer.spacing )
 
     property real fakeTitleWidth: fakeTitleText.paintedWidth + 2 * header.anchors.leftMargin
     property real estimatedWidth: ( fakeButtonWidth > fakeTitleWidth ) ? fakeButtonWidth : fakeTitleWidth

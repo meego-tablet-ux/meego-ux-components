@@ -25,7 +25,7 @@ WidgetPage {
             label: "show in corner"
 
             onCheckedChanged: {
-                if( showCornerDropDowns.isChecked == true ) {
+                if( showCornerDropDowns.isChecked ) {
                     ddown2.visible = true
                     ddown3.visible = true
                     ddown4.visible = true
@@ -38,26 +38,45 @@ WidgetPage {
             isChecked: false
         },
         LabeledEntry {
-            id: widthEntry
+            id: minWidthEntry
 
-            label:  "width: "
-            defaultValue: "450"
+            label:  "min width: "
+            defaultValue: "0"
 
             onTextUpdated: {
-                ddown.width = value
+                ddown.minWidth = value
             }
         },
         LabeledEntry {
-            id: heightEntry
+            id: maxWidthEntry
 
-            label:  "height: "
+            label:  "max width: "
+            defaultValue: "10000"
+
+            onTextUpdated: {
+                ddown.maxWidth = value
+            }
+        },
+        LabeledEntry {
+            id: minHeightEntry
+
+            label:  "min height: "
             defaultValue: ddown.height
 
             onTextUpdated: {
-                ddown.height = value
+                ddown.minHeight = value
             }
         },
+	LabeledEntry {
+            id: maxHeightEntry
 
+            label:  "max height: "
+            defaultValue: ddown.height
+
+            onTextUpdated: {
+                ddown.maxHeight = value
+            }
+        },
         LabeledEntry {
             id: titleText
 
@@ -79,17 +98,6 @@ WidgetPage {
                 ddown.selectedIndex = value;
             }
         },
-
-//        CheckBoxEntry {
-//            id: replaceTitleOnSel
-
-//            label: "change title"
-
-//            onCheckedChanged: {
-//                ddown.replaceDropDownTitle = replaceTitleOnSel.isChecked
-//            }
-//            isChecked: true
-//        },
 
         CheckBoxEntry {
             id: showTitle
@@ -122,8 +130,6 @@ WidgetPage {
         contentHeight: height > ddown.height ? height : ddown.height
         contentWidth: width > ddown.width ? width : ddown.width
 
-
-
         clip: true
 
         DropDown {
@@ -134,8 +140,9 @@ WidgetPage {
             title: "DropDown"
             titleColor: "black"
 
-            width: 400
-            maxWidth: 250
+            minWidth: 0
+            maxWidth: 1000
+            minHeight: 32
 
             model: [  qsTr( "First choice" ), qsTr( "Second choice" ), qsTr ( "Third choice" ) , qsTr ( "4th choice very long text that is too long and will be elided" ) ]
             payload: [ 1, 2, 3, 4 ]
@@ -144,10 +151,10 @@ WidgetPage {
 
             iconRow: [
                 Image {
-                    height: parent.height * 0.9
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.PreserveAspectFit
-                    source: "image://themedimage/images/camera/camera_lens_sm_up"
+                    source: "image://themedimage/icons/toolbar/dev-home"
                 }
             ]
 
@@ -169,18 +176,19 @@ WidgetPage {
             title: ddown.title
             titleColor: ddown.titleColor
 
-            width: ddown.width
-            maxWidth: ddown.maxWidth
+            minWidth: 250
+            maxWidth: 500
+            minHeight: 32
 
             model: ddown.model
             payload: ddown.payload
 
             iconRow: [
                 Image {
-                    height: parent.height * 0.9
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.PreserveAspectFit
-                    source: "image://themedimage/images/camera/camera_lens_sm_up"
+                    source: "image://themedimage/icons/toolbar/dev-home"
                 }
             ]
 
@@ -202,18 +210,19 @@ WidgetPage {
             title: ddown.title
             titleColor: ddown.titleColor
 
-            width: ddown.width
-            maxWidth: ddown.maxWidth
+            minWidth: 250
+            maxWidth: 500
+            minHeight: 32
 
             model: ddown.model
             payload: ddown.payload
 
             iconRow: [
                 Image {
-                    height: parent.height * 0.9
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.PreserveAspectFit
-                    source: "image://themedimage/images/camera/camera_lens_sm_up"
+                    source: "image://themedimage/icons/toolbar/dev-home"
                 }
             ]
 
@@ -235,18 +244,20 @@ WidgetPage {
             title: ddown.title
             titleColor: ddown.titleColor
 
-            width: ddown.width
-
             model: ddown.model
-            maxWidth: ddown.maxWidth
+
+            minWidth: 250
+            maxWidth: 500
+            minHeight: 32
+
             payload: ddown.payload
 
             iconRow: [
                 Image {
-                    height: parent.height * 0.9
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.PreserveAspectFit
-                    source: "image://themedimage/images/camera/camera_lens_sm_up"
+                    source: "image://themedimage/icons/toolbar/dev-home"
                 }
             ]
 

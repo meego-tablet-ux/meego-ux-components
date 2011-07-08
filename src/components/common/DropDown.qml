@@ -41,10 +41,10 @@
   \qmlcm area to put a row of icons
 
   \qmlproperty int minWidth
-  \qmlcm  int, the minimum width of the ActionMenu.
+  \qmlcm  int, the minimum width of the ActionMenu and the DropDown.
 
   \qmlproperty int maxWidth
-  \qmlcm  int, the maximum width of the ActionMenu. Text that exceeds the maximum width will be elided.
+  \qmlcm  int, the maximum width of the ActionMenu and the DropDown. Text that exceeds the maximum width will be elided.
 
   \qmlproperty alias selectedIndex
   \qmlcm int which stores the index of the currently selected item. Can be set from outside, but make
@@ -75,7 +75,6 @@
             title: "DropDown"
             titleColor: "black"
 
-            width: 400
             minWidth: 400
             maxWidth: 440
 
@@ -107,7 +106,7 @@ import MeeGo.Ux.Kernel 0.1
 import MeeGo.Ux.Gestures 0.1
 import MeeGo.Ux.Components.Common 0.1
 
-Item {  
+Item {
     id: dropDown
 
     property bool opened: false    
@@ -115,13 +114,6 @@ Item {
     property alias iconRow: iconArea.children    
     property alias model: actionMenu.model
     property alias payload: actionMenu.payload
-    property alias minWidth: actionMenu.minWidth
-    property alias maxWidth: actionMenu.maxWidth
-    property alias currentWidth: actionMenu.currentWidth
-    property alias highlightSelectedItem: actionMenu.highlightSelectedItem
-
-    property bool replaceDropDownTitle: true
-    property bool showTitleInMenu: false
 
     property string title: ""
     property string selectedTitle: "" // DEPRECATED
@@ -129,111 +121,158 @@ Item {
     signal triggered( int index )
     signal expandingChanged( bool expanded )
 
-    property bool enoughSpaceLeft: mapToItem( topItem.topItem, dropDown.x + dropDown.width, dropDown.y ).x > actionMenu.width
+    property alias currentWidth: actionMenu.currentWidth
+    property alias highlightSelectedItem: actionMenu.highlightSelectedItem
 
-    onSelectedIndexChanged: {
-        actionMenu.selectedIndex = selectedIndex
+    property bool replaceDropDownTitle: true
+    property bool showTitleInMenu: false
+
+    property real minWidth: 120
+    property real maxWidth: 10000
+    property real minHeight: 24
+    property real maxHeight: 10000
+
+    property real dynamicWidth: 0 // readOnly
+    property real dynamicHeight: 0 // readOnly
+
+    property int margin: 5 // readOnly
+    property int marginCount: 6 // readOnly
+
+    function updateSize() {
+
+        var valueWidth = iconArea.width + titleText.dynamicWidth + expandButton.width + ( margin * marginCount )
+
+        if( valueWidth > maxWidth ) {
+            dynamicWidth = maxWidth
+        } else if( valueWidth < minWidth ) {
+            dynamicWidth = minWidth
+        } else if( valueWidth != dynamicWidth ) {
+            dynamicWidth = valueWidth
+        }
+
+        var valueHeight = Math.max( ( titleText.dynamicHeight + 2 * dropDown.margin ), iconArea.childrenRect.height )
+
+        if( valueHeight > maxHeight )
+            dynamicHeight = maxHeight
+        else if( valueHeight < minHeight)
+            dynamicHeight = minHeight
+        else if( dynamicHeight != valueHeight )
+            dynamicHeight = valueHeight
+
     }
 
+    width:  dynamicWidth
+    height: dynamicHeight
+
+    onMinWidthChanged:  updateSize()
+    onMaxWidthChanged:  updateSize()
+    onMinHeightChanged: updateSize()
+    onMaxHeightChanged: updateSize()
+    onSelectedIndexChanged: {
+        actionMenu.selectedIndex = selectedIndex
+        updateSize()
+    }  
     Component.onCompleted: {
         highlightSelectedItem = true
         actionMenu.selectedIndex = selectedIndex
+        updateSize()
     }
-
-    width: parent.width
-
-    height: 20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height ) //pulldownImage.height
-
+    
     // the border image is the background graphic for the header and the content
     ThemeImage {
-        id: pulldownImage
+      
+	id: pulldownImage
+	
+        anchors.fill: parent
 
-        property int borderSize: 5       
-
-        height: header.height
-        width: parent.width
-
-        horizontalTileMode: BorderImage.Stretch
-        verticalTileMode: BorderImage.Stretch
         source: dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-background-active"
                                 : "image://themedimage/widgets/common/combobox/combobox-background"
-
+	
         // the header item contains the title, the image for the button which indicates
         // the expanded state and a GestureArea to change the expanded state on click
         Item {
 
             id: header
-
-            // the header adapts its height to the height of the title and the button plus some space
-            height: dropDown.height //20 + ( ( titleText.font.pixelSize > expandButton.height ) ? titleText.font.pixelSize : expandButton.height )
-            width: parent.width
-            anchors.top:  parent.top
-
+            anchors.fill: parent
+            
             Row {
                 id: iconArea
-
-                anchors { left: parent.left; top: parent.top; bottom: parent.bottom; margins: 5; }
-                spacing: anchors.margins
+                anchors { left: parent.left; top: parent.top; bottom: parent.bottom; leftMargin: dropDown.margin; }
+                spacing: dropDown.margin
             }
 
-            Text {
+            LayoutTextItem {
                 id: titleText
 
+                anchors.left: iconArea.right
+                anchors.leftMargin: dropDown.margin
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+
+                property real textMinWidth: dropDown.minWidth - ( iconArea.width + expandButton.width + 25 )
+                property real textMaxWidth: dropDown.maxWidth - ( iconArea.width + expandButton.width + 25 )
+
+                minWidth:  textMinWidth
+                maxWidth:  textMaxWidth
+                minHeight: dropDown.minHeight
+                maxHeight: dropDown.maxHeight
+
+                verticalAlignment: Text.AlignVCenter
                 font.pixelSize: theme.fontPixelSizeLarge
                 color: theme.fontColorHighlight
                 elide: Text.ElideRight
-                anchors.left: iconArea.right
-                anchors.right: expandButton.left
-                anchors.leftMargin: 15
-                anchors.verticalCenter: expandButton.verticalCenter
-                text: replaceDropDownTitle ? model[selectedIndex] : title
+                
+		text: replaceDropDownTitle ? model[selectedIndex] : title
+		
+                onTextChanged: dropDown.updateSize()
+		onFontChanged: dropDown.updateSize()
+                onDynamicWidthChanged: dropDown.updateSize()
             }
 
             ThemeImage {
                 id: expandButton
 
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                anchors.margins: dropDown.margin * 2
                 anchors.verticalCenter: parent.verticalCenter
                 source:dropDown.opened ? "image://themedimage/widgets/common/combobox/combobox-item-open-active" :
                 "image://themedimage/widgets/common/combobox/combobox-item-open"
             }
+        
+	    GestureArea {
+	      anchors.fill: parent
+	      acceptUnhandledEvents: true
 
-            GestureArea {
-                anchors.fill: parent
-                acceptUnhandledEvents: true
-
-                Tap {
-		    onFinished: {
-                        opened = !opened;
-                        if( opened ) {
-                            contextMenu.setPosition(
-                                        mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-                                        mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
-                            contextMenu.show()
-                        } else {
-                            contextMenu.hide()
-                        }
-                        expandingChanged( opened )
-                    }
-		}
-                TapAndHold {
-                    onFinished: {
-                        opened = !opened;
-                        if( opened ) {
-                            contextMenu.setPosition(
-                                        mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-                                        mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
-                            contextMenu.show()
-                        } else {
-                            contextMenu.hide()
-                        }
-                        expandingChanged( opened )
-                    }
-                }
-            }
-        }
-
+	      Tap {
+		  onFinished: {
+		      opened = !opened;
+		      if( opened ) {
+			  contextMenu.setPosition(
+				      mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+				      mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+			  contextMenu.show()
+		      } else {
+			  contextMenu.hide()
+		      }
+		      expandingChanged( opened )
+		  }
+	      }
+	      TapAndHold {
+		  onFinished: {
+		      opened = !opened;
+		      if( opened ) {
+			  contextMenu.setPosition(
+				      mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+				      mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+			  contextMenu.show()
+		      } else {
+			  contextMenu.hide()
+		      }
+		      expandingChanged( opened )
+		  }
+	      }
+	  }
+	}
         ContextMenu {
 
             id: contextMenu
@@ -249,6 +288,10 @@ Item {
 
                 highlightSelectedItem: true
 
+                maxWidth: dropDown.maxWidth
+                minWidth: dropDown.minWidth
+		maxHeight: dropDown.maxHeight
+
                 onTriggered: {
                     dropDown.selectedIndex = index
                     dropDown.triggered( index )
@@ -261,6 +304,7 @@ Item {
                 dropDown.opened = false
             }
         }    
+    	
     }
 
     TopItem {

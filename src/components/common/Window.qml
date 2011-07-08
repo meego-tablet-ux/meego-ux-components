@@ -243,6 +243,9 @@
   \qmlfn popPage
   \qmlcm pops a page to the page stack and sets the last page as the current page.
 
+  \qmlfn replacePage
+  \qmlcm replaces the top page of the page stack with the given page and sets the last page as the current page.
+
   \section1  Example
    \qml
     Window {
@@ -391,6 +394,10 @@ Item {
     // pop the current Page from the stack
     function popPage() {
         pageStack.pop()
+    }
+
+    function replacePage(page) {
+        pageStack.replace(page)
     }
 
     //called by a TextEntry or TextField when the virtual keyboard comes up. Shifts the content up

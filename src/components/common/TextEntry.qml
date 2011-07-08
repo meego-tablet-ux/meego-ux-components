@@ -153,10 +153,6 @@ FocusScope {
 
             focus:  true
 
-            onFocusChanged: {
-                window.toolBarTitle = "focus: " + focus + ", activeFocus: " + activeFocus + ", set by focuschanged"
-            }
-
             x: horizontalMargins
 
             width: parent.width - horizontalMargins * 2
@@ -174,7 +170,6 @@ FocusScope {
             }
 
             onActiveFocusChanged: {
-                window.toolBarTitle = "focus: " + focus + ", activeFocus: " + activeFocus + ", set by activefocuschanged"
                 if( !activeFocus ) {
                     input.closeSoftwareInputPanel();
                 }

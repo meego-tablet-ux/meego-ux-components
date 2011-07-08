@@ -153,6 +153,10 @@ FocusScope {
 
             focus:  true
 
+            onFocusChanged: {
+                window.toolBarTitle = "focus: " + focus + ", activeFocus: " + activeFocus + ", set by focuschanged"
+            }
+
             x: horizontalMargins
 
             width: parent.width - horizontalMargins * 2
@@ -167,6 +171,19 @@ FocusScope {
 
             onAccepted: {
                 scope.accepted()
+            }
+
+            onActiveFocusChanged: {
+                window.toolBarTitle = "focus: " + focus + ", activeFocus: " + activeFocus + ", set by activefocuschanged"
+                if( !activeFocus ) {
+                    input.closeSoftwareInputPanel();
+                }
+            }
+
+            Component.onDestruction: {
+                if( activeFocus ) {
+                    topItem.topItem.forceActiveFocus()
+                }
             }
 
             CCPContextArea {

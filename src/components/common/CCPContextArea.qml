@@ -265,6 +265,8 @@ MouseArea {
     ContextMenu {
         id: clipboardContextMenu
 
+        shouldFocus: false
+
         content: ActionMenu {
             id: ccpMenu
 

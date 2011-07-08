@@ -87,6 +87,8 @@ Item {
     property bool fogMaskVisible: true
     property alias theme: theme
 
+    property bool shouldFocus: true
+
     // general dialog signals
     signal rejected
     signal accepted
@@ -98,7 +100,7 @@ Item {
         showCalled()
         visible = true
         fadeIn.running = true
-        focus = true
+        if( shouldFocus) { focus = true }
         // This ensures the ModalFog item is always on z = 0. This is very important for stacking of multiple overlay items!
         z = 0
     }

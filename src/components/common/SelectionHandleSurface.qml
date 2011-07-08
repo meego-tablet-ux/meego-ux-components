@@ -185,14 +185,27 @@ Item {
                     return;
                 }
 
-                var map = mapToItem (topItem.topItem, mouse.x, mouse.y);
-                container.editor.showContextMenu (map.x, map.y);
-                container.editor.ensureSelection()
-
                 // Now a menu is popped up we don't want the release to
                 // close the selection
                 ignoreRelease = true;
                 container.pressed = true
+
+                var map = mapToItem (container, mouse.x, mouse.y);
+
+                // if the click is not on the handles or the textInput, return
+                if( !insideStartHandle (mouse.x, mouse.y) && !insideEndHandle (mouse.x, mouse.y) ){
+                    if( map.x < 0 || map.x > container.parent.width ){
+                        return
+                    }
+
+                    if( map.y < 0 || map.y > container.parent.height ){
+                        return
+                    }
+                }
+
+                map = mapToItem (topItem.topItem, mouse.x, mouse.y);
+                container.editor.showContextMenu (map.x, map.y);
+                container.editor.ensureSelection()
             }
 
             onPositionChanged: {

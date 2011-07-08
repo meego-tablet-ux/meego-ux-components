@@ -838,6 +838,8 @@ Item {
             id: contentBackground
             visible: !bookMenuActive
 
+            z: -2
+
             anchors {
                 top:  clipBox.bottom
                 bottom: parent.bottom
@@ -863,6 +865,8 @@ Item {
                     top:  parent.top
                     bottom: parent.bottom
                     left:  parent.left
+                    topMargin: -window.contentVerticalShift
+                    bottomMargin: window.contentVerticalShift
                 }
 
                 //visible: width>0
@@ -929,7 +933,7 @@ Item {
                             onTriggered: {
                                 selectedIndex = index;
                                 if(automaticBookSwitching ) {
-                                    if(bookMenuPayload){
+                                    if( bookMenuPayload ){
                                         switchBook( bookMenuPayload[index] )
                                     }
                                 }
@@ -951,6 +955,8 @@ Item {
                     bottom: parent.bottom
                     left: sideBarFlick.right
                     right: parent.right
+                    topMargin: -window.contentVerticalShift
+                    bottomMargin: window.contentVerticalShift
                 }
 
                 onContentHeightChanged: {
@@ -1083,7 +1089,7 @@ Item {
         Item {
             id: pageStackContainerOriginal
 
-            property bool pageUsingFullScreen: currentPage ? currentPage.pageUsingFullScreen : false
+            property bool pageUsingFullScreen: pageStack.currentPage ? pageStack.currentPage.pageUsingFullScreen : false
             z: -2
             y: pageUsingFullScreen ? window.contentVerticalShift : window.contentVerticalShift + topDecorationHeight - barsHeight
 

@@ -289,8 +289,7 @@ Item {
                 highlightSelectedItem: true
 
                 maxWidth: dropDown.maxWidth
-                minWidth: dropDown.minWidth
-		maxHeight: dropDown.maxHeight
+                minWidth: dropDown.minWidth		
 
                 onTriggered: {
                     dropDown.selectedIndex = index

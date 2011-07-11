@@ -234,6 +234,16 @@ QGestureRecognizer::Result QPanGestureRecognizer::recognize(QGesture *state,
         return QGestureRecognizer::CancelGesture;
     }
 
+    case QEvent::Gesture: {
+        // We check for other gesture events: Swipe and Pinch both cancel the Pan
+        QGestureEvent *ge = static_cast<QGestureEvent *>(event);
+        if (ge->gesture(Qt::SwipeGesture ) || ge->gesture(Qt::PinchGesture )) {
+            if (state->state() == Qt::GestureStarted || state->state() == Qt::GestureUpdated)
+                return QGestureRecognizer::CancelGesture;
+        }
+        return QGestureRecognizer::Ignore;
+    }
+
     default:
         result = QGestureRecognizer::Ignore;
         break;

@@ -869,6 +869,11 @@ Item {
                 width: (! bookMenuActive && ! fullScreen) ? (sideBarBackground.width + 10) : 0
                 contentHeight: sideBarBackground.height + 10*2
 
+                onContentHeightChanged: {
+                    if(contentHeight < sideBarFlick.height)
+                        contentY = 0
+                }
+
                 Behavior on width {
                     NumberAnimation { duration: theme.dialogAnimationDuration }
                 }
@@ -969,7 +974,7 @@ Item {
 
                     source: "image://themedimage/widgets/common/backgrounds/content-background"
 
-                    //Rectangle {color:"red";anchors.fill: parent; opacity: 0.3; z:99}
+//                    Rectangle {color:"red";anchors.fill: parent; opacity: 0.3; z:99}
 
                     Item {
                         id: pageInnerBackground
@@ -1096,6 +1101,19 @@ Item {
                     pageToolbarTitleLabel.text = newPageTitle
                 }
             }
+
+            onCurrentPageChanged: { // if a new page appears, reset scrolling
+                if(!bookMenuActive){
+                    pageFlick.contentY = 0
+                }
+            }
+
+            onHeightChanged: {
+                if(!bookMenuActive){
+                    pageFlick.contentY = 0
+                }
+            }
+
             onNewFullScreen: window.fullScreen = newFullScreen
             onNewFullContent: window.fullContent = newFullContent
             onNewActionMenuOpen: window.actionMenuPresent = newActionMenuOpen

@@ -320,6 +320,7 @@ QGestureRecognizer::Result QPinchGestureRecognizer::recognize(QGesture *state,
             }
             QLineF line(p1.screenPos(), p2.screenPos());
             QLineF lastLine(p1.lastScreenPos(),  p2.lastScreenPos());
+            QLineF startLine( p1.startScreenPos(),  p2.startScreenPos() );
             QLineF tmp(line);
             tmp.setLength(line.length() / 2.);
             QPointF centerPoint = tmp.p2();
@@ -328,7 +329,8 @@ QGestureRecognizer::Result QPinchGestureRecognizer::recognize(QGesture *state,
             q->setCenterPoint(centerPoint);
             q->setChangeFlags(q->changeFlags() | QPinchGesture::CenterPointChanged);
 
-            const qreal scaleFactor = line.length() / lastLine.length();
+            const qreal scaleFactor =      line.length() / qMax( lastLine.length(), 0.01 );
+            const qreal totalScaleFactor = line.length() / qMax( startLine.length(), 0.01 );
 
             if (q->property("isNewSequence").toBool()) {
                 q->setLastScaleFactor(scaleFactor);
@@ -336,9 +338,10 @@ QGestureRecognizer::Result QPinchGestureRecognizer::recognize(QGesture *state,
             } else {
                 q->setLastScaleFactor(q->scaleFactor());
             }
-            q->setScaleFactor(scaleFactor);
-            q->setTotalScaleFactor(q->totalScaleFactor()*scaleFactor);
-            q->setChangeFlags(q->changeFlags() | QPinchGesture::ScaleFactorChanged);
+            q->setScaleFactor( scaleFactor );
+            q->setTotalScaleFactor( totalScaleFactor );
+
+            q->setChangeFlags(q->changeFlags() | QPinchGesture::ScaleFactorChanged );
 
             qreal angle = QLineF(p1.screenPos(), p2.screenPos()).angle();
             if (angle > 180)

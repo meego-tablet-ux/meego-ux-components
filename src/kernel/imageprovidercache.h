@@ -97,10 +97,6 @@ public:
     //FIXME to be removed
     void bulk();
 
-private slots:
-    void clearCache();
-    void releaseCache();
-
 private:
 
     // ~~~~~~~ Private Implementation

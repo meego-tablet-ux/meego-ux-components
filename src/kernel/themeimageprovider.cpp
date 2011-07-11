@@ -26,7 +26,7 @@ ImageProviderCache* ThemeImageProvider::m_cache = 0;
 ImageProviderCache* ThemeImageProvider::getCacheInstance()
 {
     if( m_cache == 0 ) {
-        qDebug() << "create ImageProviderInstance";
+        qDebug() << "create ImageProviderInstance" << QString("ImageProviderCache%1").arg(THEME_KEY);
         m_cache = new ImageProviderCache( QString("ImageProviderCache%1").arg(THEME_KEY), 512, 16 );
     }
     return m_cache;
@@ -39,8 +39,7 @@ ThemeImageProvider::ThemeImageProvider() :
 
     MGConfItem* themeItem = new MGConfItem(THEME_KEY);
 
-    if( themeItem ) {
-        qDebug() << themeItem->value().toString();
+    if( themeItem ) {        
 
         if (themeItem->value().isNull() || themeItem->value().toString().isEmpty() ||
             !QFile::exists(QString("/usr/share/themes/") + themeItem->value().toString()))
@@ -73,7 +72,6 @@ ThemeImageProvider::ThemeImageProvider() :
         themeItem = 0;
     }
 
-    qDebug() << m_themePath;
     ThemeImageProvider::m_cache->setPath( m_themePath );
 
 }

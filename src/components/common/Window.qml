@@ -700,7 +700,7 @@ Item {
                             content:  ActionMenu{
                                 id: bookMenu
 
-                                model: bookMenuActive ? bookMenuModel : undefined
+                                model: bookMenuActive ? bookMenuModel : 0
                                 highlightSelectedItem: true
 
                                 onTriggered: {
@@ -918,12 +918,14 @@ Item {
                             }
 
                             selectedIndex: bookMenuSelectedIndex
-                            model: bookMenuModel
+                            model: bookMenuModel ? bookMenuModel : 0
 
                             onTriggered: {
                                 selectedIndex = index;
                                 if(automaticBookSwitching ) {
-                                    switchBook( bookMenuPayload[index] )
+                                    if(bookMenuPayload){
+                                        switchBook( bookMenuPayload[index] )
+                                    }
                                 }
                                 else {
                                     bookMenuTriggered( index )

@@ -12,6 +12,8 @@
 
 #include "imageprovidercache.h"
 
+static const bool debugUxTheme = (getenv("DEBUG_UXTHEME") != NULL);
+
 ImageProviderCache::ImageProviderCache( const QString ThemeName, int maxImages, int sizeInMb, QObject *parent ) :
     QObject(parent),
     m_bMemoryReady( false ),
@@ -40,7 +42,7 @@ ImageProviderCache::~ImageProviderCache()
 
 QPixmap ImageProviderCache::requestPixmap( const QString& id, QSize* size, const QSize& requestedSize )
 {
-    //qDebug() << "request Pixmap " << id << " " << requestedSize;
+    if(debugUxTheme) qDebug() << "request Pixmap " << id << " " << requestedSize;
     QPixmap pixmap;
 
     if( containsPixmap( id, requestedSize ) ) {
@@ -154,7 +156,7 @@ void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, i
         }
     }
 
-    qDebug() << " Image borders for " << path << "not found";
+    if(debugUxTheme) qDebug() << " Image borders for " << path << "not found";
     return;
 }
 
@@ -167,10 +169,14 @@ bool ImageProviderCache::existImage( const QString& id )
         return true;
     if( containsPixmap( path, QSize() ) )
         return true;
-    if( existSciFile( id ) )
+    if( existSciFile( path ) )
         return true;
 
-    QString filename = QString("%1%2").arg( id, QString::fromLatin1( ".png" ) );
+    QString filename = QString("%1%2").arg( path, QString::fromLatin1( ".png" ) );
+    if( QFile::exists( filename ) )
+        return true;
+
+    filename = QString("%1%2").arg( id, QString::fromLatin1( ".png" ) );
     if( QFile::exists( filename ) )
         return true;
 
@@ -432,11 +438,7 @@ QPixmap ImageProviderCache::loadPixmapFromMemory( const QString& id, const QSize
             }
         }
 
-        //qDebug() << "load from memory " << id;
-
         if( found ) {
-
-            //qDebug() << "found!";
 
             m_memory.lock();
 
@@ -454,8 +456,6 @@ QPixmap ImageProviderCache::loadPixmapFromMemory( const QString& id, const QSize
             m_memory.unlock();
 
         } else {
-
-            //qDebug() << "else";
 
             pixmap = m_emptyPixmap;
         }
@@ -521,7 +521,7 @@ ImageReference ImageProviderCache::loadSciFile( const QString& id )
     QFile file( filename );
     if( file.open( QFile::ReadOnly ) ) {
 
-        //qDebug() << "load file: " << filename;
+        if(debugUxTheme) qDebug() << "load file: " << filename;
 
         int l = -1;
         int r = -1;

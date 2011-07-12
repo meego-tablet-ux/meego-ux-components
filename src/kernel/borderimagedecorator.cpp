@@ -5,6 +5,8 @@
 
 #include <QtDeclarative/QtDeclarative>
 
+static const bool debugUxTheme = (getenv("DEBUG_UXTHEME") != NULL);
+
 BorderImageDecorator::BorderImageDecorator(QDeclarativeItem *parent) :
     QDeclarativeItem( parent ) ,
     pTarget( parent ),
@@ -127,17 +129,22 @@ void BorderImageDecorator::getBorder()
         }
     }
 
-    if( m_source.isValid() &&  providerInstance->existImage( m_source.toString() ) ) {
+    if( providerInstance ) {
 
-        if( providerInstance ) {
+        if( providerInstance->existImage( m_source.toString() ) ) {
 
-            providerInstance->requestBorderGrid( m_source.toString(), m_borderTop, m_borderBottom, m_borderLeft, m_borderRight );            
+            providerInstance->requestBorderGrid( m_source.toString(), m_borderTop, m_borderBottom, m_borderLeft, m_borderRight );
 
         } else {
 
-            qWarning() << "Warning, no access to ImageProviderCache possible";
+            if( debugUxTheme ) qWarning() << "Image does not exist: " << m_source.toString();
 
         }
+
+    } else {
+
+       if( debugUxTheme ) qWarning() << "No access to ImageProviderCache possible";
+
     }
 
     emit borderChanged();

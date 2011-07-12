@@ -156,7 +156,7 @@ Item {
         GestureArea {
             id: gestureArea
             anchors.fill: parent
-            acceptUnhandledEvents: true
+//            acceptUnhandledEvents: true // uncommented until it behaves correct
             Tap {
                 onFinished: {
                     if(fogContainer.fogClickable){
@@ -165,6 +165,10 @@ Item {
                     }
                 }
             }
+            TapAndHold {}
+            Swype {}
+            Pan {}
+            Pinch{}
         }
     }
 

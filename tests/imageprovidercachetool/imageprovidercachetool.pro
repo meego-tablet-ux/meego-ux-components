@@ -20,3 +20,6 @@ HEADERS += imageprovidercachectrl.h \
            ../../src/kernel/imageprovidercache.h \
            ../../src/kernel/memoryinfo.h \
            ../../src/kernel/imagereference.h
+
+target.path += $$INSTALL_ROOT/usr/bin
+INSTALLS += target

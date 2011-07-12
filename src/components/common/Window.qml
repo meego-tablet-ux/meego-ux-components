@@ -865,8 +865,8 @@ Item {
                     top:  parent.top
                     bottom: parent.bottom
                     left:  parent.left
-                    topMargin: -window.contentVerticalShift
-                    bottomMargin: window.contentVerticalShift
+                    topMargin: window.contentVerticalShift
+                    bottomMargin: -window.contentVerticalShift
                 }
 
                 //visible: width>0
@@ -955,8 +955,8 @@ Item {
                     bottom: parent.bottom
                     left: sideBarFlick.right
                     right: parent.right
-                    topMargin: -window.contentVerticalShift
-                    bottomMargin: window.contentVerticalShift
+                    topMargin: window.contentVerticalShift
+                    bottomMargin: -window.contentVerticalShift
                 }
 
                 onContentHeightChanged: {

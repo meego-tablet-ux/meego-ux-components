@@ -456,7 +456,7 @@ ModalDialog {
         }
     }
 
-    sizeHintWidth: height * 0.6
+    sizeHintWidth: height * 0.65
     height: (topItem.topItem.height - topItem.topDecorationHeight) * 0.95
 
     alignTitleCenter: true
@@ -483,7 +483,7 @@ ModalDialog {
                 property string dateOrder: qsTr("day-month-year")  //DEPRECATED
             }
             property int dateFormat: datePicker.dateFormat
-            property int unitWidth: ( parent.width - 2 * anchors.margins ) / 13 // 3 * 3 units for the popuplists and 4 * 1 units for the dateunits
+            property int unitWidth: ( parent.width - 2 * anchors.margins ) / 10 // 3 * 2 units for the popuplists and 4 * 1 units for the dateunits
 
             z: 10
             anchors { margins: 10; left: parent.left; top: titleDivider.bottom; right: parent.right }
@@ -499,14 +499,14 @@ ModalDialog {
                 horizontalAlignment: "AlignHCenter"
                 //: Optional! Won't be displayed if left untranslated or if set to more than one or two characters. Positioned left of the left spinner. Meant for displaying units, separators or whatever seems appropiate for a language specific display of the date given by the three spinners.
                 text: qsTr("dateUnitOne")
-                visible: ( paintedWidth < width * 0.9 ) ? true : false
+                visible: ( paintedWidth < width * 0.96 ) ? true : false
             }
 
             Item {
                 id: leftSpinnerItem
 
                 anchors.left: dateUnitOne.right
-                width: parent.unitWidth * 3
+                width: parent.unitWidth * 2
                 height: parent.height
             }
 
@@ -520,14 +520,14 @@ ModalDialog {
                 horizontalAlignment: "AlignHCenter"
                 //: Optional! Won't be displayed if left untranslated or if set to more than one or two characters. Positioned between left and middle spinner. Meant for displaying units, separators or whatever seems appropiate for a language specific display of the date given by the three spinners.
                 text: qsTr("dateUnitTwo")
-                visible: ( paintedWidth < width * 0.9 ) ? true : false
+                visible: ( paintedWidth < width * 0.96 ) ? true : false
             }
 
             Item {
                 id: middleSpinnerItem
 
                 anchors.left: dateUnitTwo.right
-                width: parent.unitWidth * 3
+                width: parent.unitWidth * 2
                 height: parent.height
             }
 
@@ -541,14 +541,14 @@ ModalDialog {
                 horizontalAlignment: "AlignHCenter"
                 //: Optional! Won't be displayed if left untranslated or if set to more than one or two characters. Positioned between middle and right spinner. Meant for displaying units, separators or whatever seems appropiate for a language specific display of the date given by the three spinners.
                 text: qsTr("dateUnitThree")
-                visible: ( paintedWidth < width * 0.9 ) ? true : false
+                visible: ( paintedWidth < width * 0.96 ) ? true : false
             }
 
             Item {
                 id: rightSpinnerItem
 
                 anchors.left: dateUnitThree.right
-                width: parent.unitWidth * 3
+                width: parent.unitWidth * 2
                 height: parent.height
             }
 
@@ -562,7 +562,7 @@ ModalDialog {
                 horizontalAlignment: "AlignHCenter"
                 //: Optional! Won't be displayed if left untranslated or if set to more than one or two characters. Positioned right of the right spinner. Meant for displaying units, separators or whatever seems appropiate for a language specific display of the date given by the three spinners.
                 text: qsTr("dateUnitFour")
-                visible: ( paintedWidth < width * 0.9 ) ? true : false
+                visible: ( paintedWidth < width * 0.96 ) ? true : false
             }
 
 

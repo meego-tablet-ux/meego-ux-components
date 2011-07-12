@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-VERSION = 0.2.9.22
+VERSION = 0.2.9.23
 PROJECT_NAME = meego-ux-components
 
 SUBDIRS += lib \

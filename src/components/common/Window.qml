@@ -870,8 +870,9 @@ Item {
                 contentHeight: sideBarBackground.height + 10*2
 
                 onContentHeightChanged: {
-                    if(contentHeight < sideBarFlick.height)
+                    if(contentHeight <= height) {
                         contentY = 0
+                    }
                 }
 
                 Behavior on width {
@@ -952,11 +953,9 @@ Item {
                     right: parent.right
                 }
 
-                onHeightChanged: {
-                    if(!bookMenuActive){
-                        if( contentHeight <= height ){
-                            contentY = 0
-                        }
+                onContentHeightChanged: {
+                    if( contentHeight <= height ) {
+                        contentY = 0
                     }
                 }
 
@@ -1113,14 +1112,6 @@ Item {
             onCurrentPageChanged: { // if a new page appears, reset scrolling
                 if(!bookMenuActive){
                     pageFlick.contentY = 0
-                }
-            }
-
-            onHeightChanged: {
-                if(!bookMenuActive){
-                    if( pageFlick.contentHeight <= pageFlick.height ){
-                        pageFlick.contentY = 0
-                    }
                 }
             }
 

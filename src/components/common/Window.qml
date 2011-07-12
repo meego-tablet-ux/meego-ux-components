@@ -952,6 +952,14 @@ Item {
                     right: parent.right
                 }
 
+                onHeightChanged: {
+                    if(!bookMenuActive){
+                        if( contentHeight <= height ){
+                            contentY = 0
+                        }
+                    }
+                }
+
                 contentWidth: width
                 contentHeight: pageBackground.height + 10*2
 
@@ -1110,7 +1118,9 @@ Item {
 
             onHeightChanged: {
                 if(!bookMenuActive){
-                    pageFlick.contentY = 0
+                    if( pageFlick.contentHeight <= pageFlick.height ){
+                        pageFlick.contentY = 0
+                    }
                 }
             }
 

@@ -6,7 +6,8 @@ PROJECT_NAME = meego-ux-components
 
 SUBDIRS += lib \
            src \
-           examples
+           examples \
+           tests
 
 include(doc/doc.pri)
 

@@ -1,21 +1,28 @@
+/*
+ * Copyright 2011 Intel Corporation.
+ *
+ * This program is licensed under the terms and conditions of the
+ * LGPL, version 2.1.  The full text of the LGPL Licence is at
+ * http://www.gnu.org/licenses/lgpl.html
+ */
+
 #include <iostream>
 #include <QtCore/QCoreApplication>
 #include <QStringList>
 
-#include "../../src/kernel/imageprovidercachectrl.h"
+#include "imageprovidercachectrl.h"
 
 void printHelp()
 {
-    std::cout << "ImageProviderCacheTool: " << std::endl;
-    std::cout << "-mem --mem -m %name%: name of the sharedMemory, by default 'ImageProviderCache/meego/ux/theme' " << std::endl;
-    std::cout << "-clear --clear -c: clear shared memory:" << std::endl;    
-    std::cout << "-reload --reload -r: reload shared memory" << std::endl;
+    std::cout << "Usage: imageprovidercachetool [options]" << std::endl;
+    std::cout << "  -mem --mem -m %name%: name of the sharedMemory, by default 'ImageProviderCache/meego/ux/theme' " << std::endl;
+    std::cout << "  -clear --clear -c: clear shared memory:" << std::endl;    
+    std::cout << "  -reload --reload -r: reload shared memory" << std::endl;
     //std::cout << "-save --save -s %filename%: save shared memory payload" << std::endl;
     //std::cout << "-load --load -l %filename%: load shared memory payload" << std::endl;
-    std::cout << "-bulk --bulk -b: bulk shared memory" << std::endl;
+    std::cout << "  -bulk --bulk -b: bulk shared memory" << std::endl;
     std::cout << "example: " << std::endl;
-    std::cout << "ImageProviderCacheTool -c ( -mem ImageProviderCache/meego/ux/theme ) " << std::endl;
-    std::cout.flush();
+    std::cout << "  imageprovidercachetool -c --mem ImageProviderCache/meego/ux/theme " << std::endl;
 }
 
 int main(int argc, char *argv[])

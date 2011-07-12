@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-# SUBDIRS = auto
+SUBDIRS = imageprovidercachetool
 
 include(kernel/kernel.pri)
 include(models/models.pri)

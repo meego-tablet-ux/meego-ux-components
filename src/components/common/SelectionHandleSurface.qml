@@ -75,6 +75,8 @@ Item {
 
             property Item selectedHandle: null
 
+            property int initialX: 0
+            property int initialY: 0
             property int xOffset: 0
             property int yOffset: 0
             property bool ignoreRelease: false
@@ -141,7 +143,41 @@ Item {
                 }
             }
 
+            function triggerMenu() {
+                var map = mapToItem (container, mouseArea.initialX, mouseArea.initialY);
+
+                // if the click is not on the handles or the textInput, return
+                if( !mouseArea.insideStartHandle (mouseArea.initialX, mouseArea.initialY) && !mouseArea.insideEndHandle (mouseArea.initialX, mouseArea.initialY) ){
+                    if( map.x < 0 || map.x > container.parent.width ){
+                        return
+                    }
+
+                    if( map.y < 0 || map.y > container.parent.height ){
+                        return
+                    }
+                }
+
+                map = mapToItem (topItem.topItem, mouseArea.initialX, mouseArea.initialY);
+                container.editor.showContextMenu (map.x, map.y);
+                container.editor.ensureSelection()
+            }
+
+            Timer {
+                id: longPressTimer
+
+                interval: 750
+                onTriggered: {
+                    mouseArea.triggerMenu();
+                }
+            }
+
             onPressed: {
+                //if the longPressTimer hasn't been started yet, store the initial position and start the timer
+                if( !longPressTimer.running ) {
+                    mouseArea.initialX = mouse.x
+                    mouseArea.initialY = mouse.y
+                    longPressTimer.start();
+                }
                 ignorePressAndHold = false;
                 container.pressed = true
                 // We store the handle that the mouse pointer was over
@@ -166,6 +202,7 @@ Item {
             }
 
             onReleased: {
+                longPressTimer.stop();
                 container.pressed = false
                 if (ignoreRelease) {
                     ignoreRelease = false;
@@ -209,6 +246,14 @@ Item {
             }
 
             onPositionChanged: {
+                if( longPressTimer.running ) {
+                    //prevent the longPress if the mouse is moved
+                    var distance = Math.abs( mouseArea.initialX - mouse.x ) + Math.abs( mouseArea.initialY - mouse.y )
+                    if( distance > 10 ){
+                        longPressTimer.stop()
+                    }
+                }
+
                 if (selectedHandle) {
                     ignorePressAndHold = true;
                     var nx, ny;

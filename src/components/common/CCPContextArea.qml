@@ -15,8 +15,6 @@ MouseArea {
     property int selectionStart: 0
     property int selectionEnd: 0
 
-    property int initialX: 0
-    property int initialY: 0
     property real xOffset: 0
     property real yOffset: 0
     property int pendingCursorPosition: 0
@@ -142,12 +140,6 @@ MouseArea {
         selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
     }
 
-    function triggerMenu() {
-        var map = mapToItem (topItem.topItem, box.initialX, box.initialY);
-        box.showContextMenu (map.x, map.y);
-        box.ensureSelection()
-    }
-
     TextInput {
         id: pasteCheck
         visible: false
@@ -188,22 +180,7 @@ MouseArea {
     	onTriggered: { parent.ensureSelection(); stop(); }
     }
 
-    Timer {
-        id: longPressTimer
-
-        interval: 750
-        onTriggered: {
-            box.triggerMenu();
-        }
-    }
-
     onPressed: {
-        //if the longPressTimer hasn't been started yet, store the initial position and start the timer
-        if( !longPressTimer.running ) {
-            box.initialX = mouse.x
-            box.initialY = mouse.y
-            longPressTimer.start();
-        }
         doubleClickTimer.stop ();
         clickCount++;
         // Start double click timer
@@ -216,8 +193,7 @@ MouseArea {
         if (clickCount == 2) {
             state = "selection"
 	    doubleClickTimer.stop ();
-	    clickCount = 0;
-            longPressTimer.stop();
+        clickCount = 0;
 
         selectionHandleSurface.initiate()
 
@@ -266,23 +242,15 @@ MouseArea {
     }
 
     onReleased: {
+
         if (state == "selection") {
             ensureSelection()
         }
         currentlySelecting = false;
         box.isPressed = false
-        longPressTimer.stop();
     }
 
     onPositionChanged: {
-        if( longPressTimer.running ) {
-            //prevent the longPress if the mouse is moved
-            var distance = Math.abs( mouseArea.initialX - mouse.x ) + Math.abs( mouseArea.initialY - mouse.y )
-            if( distance > 10 ){
-                longPressTimer.stop()
-            }
-        }
-
         if (state != "selection") {
             return;
         }

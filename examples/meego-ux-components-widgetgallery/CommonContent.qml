@@ -177,6 +177,11 @@ Item {
                         height: flickContainer.height
                         CheckBox {
                             anchors.centerIn: parent
+                            isChecked: true
+                        }
+                        GestureArea {
+                            anchors.fill: parent
+                            Tap { onFinished: addPage( contextPage ) }
                         }
                     }
 
@@ -604,6 +609,7 @@ Item {
                         width:  parent.width * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
                         height: flickContainer.itemHeight
+
                         Item{
                             id: spinner
 
@@ -847,6 +853,7 @@ Item {
                         x: parent.width / 2 - width - ( parent.width / 2 - width) / 2
                         width:  parent.width * flickContainer.leftFactor
                         anchors.verticalCenter: parent.verticalCenter
+                        height: flickContainer.itemHeight
 
                         Item{
                             id: spinner2
@@ -872,7 +879,7 @@ Item {
                         }
                         GestureArea {
                             anchors.fill: parent
-                            Tap { onFinished: addPage( spinnerComponent ) }
+                            Tap { onFinished: { addPage( spinnerComponent ) } }
                         }
                     }
 

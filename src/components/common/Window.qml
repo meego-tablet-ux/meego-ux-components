@@ -458,6 +458,9 @@ Item {
         visible: pageStack.depth > 0
     }
 
+    // For BMC#20259 (bugs.meego.com/show_bug.cgi?id=20259)
+    // Work around for Qt Gestures bug.  If there is no Gesture area to capture
+    // an event, then the next event is lost also.
     GestureArea {
         anchors.fill: parent
         Pan {}

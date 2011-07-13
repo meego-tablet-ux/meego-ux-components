@@ -165,7 +165,7 @@ Item {
                 }
             }
             TapAndHold {}
-            Swype {}
+            Swipe {}
             Pan {}
             Pinch{}
         }

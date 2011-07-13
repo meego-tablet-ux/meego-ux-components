@@ -259,10 +259,10 @@ Item {
         //react on vertical mouse movement to flick the path view
         onMousePositionChanged: {
             if( flickableArea.pressed && outer.allowSignal ) {
-                if( mouseY - firstY > 15 ) {
+                if( mouseY - firstY > 30 ) {
                     firstY = mouseY;
                     view.decrementCurrentIndex();
-                }else if( mouseY - firstY < -15 ) {
+                }else if( mouseY - firstY < -30 ) {
                     firstY = mouseY;
                     view.incrementCurrentIndex();
                 }

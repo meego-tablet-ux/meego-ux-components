@@ -201,10 +201,10 @@ Rectangle {
         //react on vertical mouse movement to flick the path view
         onMousePositionChanged: {
             if( flickableArea.pressed ) {
-                if( mouseY - firstY > 20 ) {
+                if( mouseY - firstY > 30 ) {
                     firstY = mouseY;
                     tsview.decrementCurrentIndex();
-                }else if( mouseY - firstY < -20 ) {
+                }else if( mouseY - firstY < -30 ) {
                     firstY = mouseY;
                     tsview.incrementCurrentIndex();
                 }

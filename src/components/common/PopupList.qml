@@ -140,7 +140,7 @@ Item {
 
            height: itemHeight
            text: ( tag == undefined ) ? index : tag
-           color: "#A0A0A0"
+           color: "#4e4e4e"
            font.bold: isSelected
            verticalAlignment: "AlignVCenter"
 
@@ -195,8 +195,7 @@ Item {
         ThemeImage {
             id: spinner
 
-            source: "image://themedimage/images/pickers/timespinbg"
-            opacity: 0.5
+            source: "image://themedimage/widgets/common/picker/picker-spinwheel-background"
             anchors.fill: parent
         }
 
@@ -213,8 +212,6 @@ Item {
 
         PathView {
             id: view
-
-            //highlightMoveDuration: 150
 
             anchors.fill: spinnerRect
             model: popupListModel
@@ -235,14 +232,6 @@ Item {
                 startX: view.width/2; startY: 0
 
                 PathLine { x: view.width / 2; y: view.height }
-            }
-
-            ThemeImage {
-                id: innerBgImage
-
-                source:"image://themedimage/images/pickers/timespinhi"
-                anchors.fill: parent
-                opacity: 0.25
             }
 
             Component.onCompleted: {

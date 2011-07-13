@@ -110,8 +110,8 @@ Rectangle {
                                 return height - 4
                             }
             text: displayValue(index)
-            height: timeSpinner.itemHeight //font.pixelSize + 10
-            color: "#A0A0A0"
+            height: timeSpinner.itemHeight
+            color: "#8e8e8e"
             verticalAlignment: "AlignVCenter"
 
             GestureArea {
@@ -141,7 +141,7 @@ Rectangle {
     Item {
         id: timeSpinner
 
-        property real itemHeight: height / ( tsview.pathItemCount + 1 ) //30
+        property real itemHeight: height / ( tsview.pathItemCount + 1 )
 
         clip: true
         anchors.fill: parent
@@ -150,9 +150,8 @@ Rectangle {
         ThemeImage {
             id: bgImage
 
-            source: "image://themedimage/images/pickers/timespinbg"
+            source: "image://themedimage/widgets/common/picker/picker-spinwheel-background"
             anchors.fill: parent
-            opacity: 0.5
         }
 
         GestureArea {
@@ -185,14 +184,6 @@ Rectangle {
             preferredHighlightEnd: 0.5
 
             dragMargin: tsview.width/2
-
-            BorderImage {
-                id: innerBgImage
-
-                source: "image://themedimage/images/pickers/timespinhi"
-                anchors.fill: parent
-                opacity:0.25
-            }
         }
     }
 

@@ -90,6 +90,12 @@ Item{
         font.pixelSize: theme.fontPixelSizeSmall
 
         opacity: 0
+
+        onHeightChanged: {
+            if(opacity == 1){
+                infoBar.height = textBox.height + infoBar.verticalMargins * 2
+            }
+        }
     }
 
     SequentialAnimation{

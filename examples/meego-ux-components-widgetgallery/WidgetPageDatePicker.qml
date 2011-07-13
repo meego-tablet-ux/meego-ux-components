@@ -107,7 +107,7 @@ WidgetPage {
             id: dateUnitOneEntry
 
             label: "dateUnitOneText: "
-            defaultValue: ""
+            defaultValue: datePicker.dateUnitOneText
 
             onTextUpdated: {
                 datePicker.dateUnitOneText = value
@@ -118,7 +118,7 @@ WidgetPage {
             id: dateUnitTwoEntry
 
             label: "dateUnitTwoText: "
-            defaultValue: ""
+            defaultValue: datePicker.dateUnitTwoText
 
             onTextUpdated: {
                 datePicker.dateUnitTwoText = value
@@ -129,7 +129,7 @@ WidgetPage {
             id: dateUnitThreeEntry
 
             label: "dateUnitThreeText: "
-            defaultValue: ""
+            defaultValue: datePicker.dateUnitThreeText
 
             onTextUpdated: {
                 datePicker.dateUnitThreeText = value
@@ -140,7 +140,7 @@ WidgetPage {
             id: dateUnitFourEntry
 
             label: "dateUnitFourText: "
-            defaultValue: ""
+            defaultValue: datePicker.dateUnitFourText
 
             onTextUpdated: {
                 datePicker.dateUnitFourText = value

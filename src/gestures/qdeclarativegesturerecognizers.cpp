@@ -236,11 +236,14 @@ QGestureRecognizer::Result QPanGestureRecognizer::recognize(QGesture *state,
 
     case QEvent::Gesture: {
         // We check for other gesture events: Swipe and Pinch both cancel the Pan
+        // FIXME: QGraphicScene keeps old gestureEvents which saying that Pinch/Swipe is active but its not
+        /*
         QGestureEvent *ge = static_cast<QGestureEvent *>(event);
         if (ge->gesture(Qt::SwipeGesture ) || ge->gesture(Qt::PinchGesture )) {
             if (state->state() == Qt::GestureStarted || state->state() == Qt::GestureUpdated)
                 return QGestureRecognizer::CancelGesture;
         }
+        */
         return QGestureRecognizer::Ignore;
     }
 
@@ -648,7 +651,7 @@ QGestureRecognizer::Result QTapGestureRecognizer::recognize(QGesture *state,
         return QGestureRecognizer::Ignore;
 
     case QEvent::Gesture: {
-        // We check for other gesture events: TapAndHold and Pan both cancel the simple Tap
+        // We check for other gesture events: TapAndHold and Pan both cancel the simple Tap        
         QGestureEvent *ge = static_cast<QGestureEvent *>(event);
         if (ge->gesture(Qt::PanGesture) || ge->gesture(Qt::TapAndHoldGesture)) {
             if (state->state() == Qt::GestureStarted || state->state() == Qt::GestureUpdated)

@@ -458,6 +458,15 @@ Item {
         visible: pageStack.depth > 0
     }
 
+    GestureArea {
+        anchors.fill: parent
+        Pan {}
+        Tap {}
+        TapAndHold{}
+        Pinch{}
+        Swipe{}
+    }
+
     Item {
         id: window_content_topitem
 

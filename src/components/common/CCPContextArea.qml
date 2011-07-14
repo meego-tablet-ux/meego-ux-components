@@ -176,13 +176,9 @@ MouseArea {
         }
     }
 
-    Timer {
-    	id: setSelectionTimer
-	    interval: 1
-    	onTriggered: { parent.ensureSelection(); stop(); }
-    }
-
     onPressed: {
+        editor.imMouseEvent("press", mouse)
+
         doubleClickTimer.stop ();
         clickCount++;
         // Start double click timer
@@ -216,13 +212,7 @@ MouseArea {
 		    m = editor.text.substr(selectionStart).match(wordAtStart)
     		selectionEnd = selectionStart + m[0].length
 	    	if (selectionStart != selectionEnd) {
-		        // Cannot simply set the selection here, as we are
-		        // inside an event handler after which the widget
-    		    // will see the event and do its own set-cursor
-	    	    // handling.  Do it after a trip through the event
-		        // loop.
-		        setSelectionTimer.stop()
-    		    setSelectionTimer.start()
+                    ensureSelection()
 	    	}
 	    }
 
@@ -238,13 +228,10 @@ MouseArea {
         } else {
             pendingCursorPosition = editor.positionAt (mouse.x, mouse.y);
         }
-
-        // Forward through to QML component so it can call
-        // mouseHandler() on the input context.
-        mouse.accepted = false;
     }
 
     onReleased: {
+        editor.imMouseEvent("release", mouse)
 
         if (state == "selection") {
             ensureSelection()

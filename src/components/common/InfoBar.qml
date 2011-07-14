@@ -92,7 +92,7 @@ Item{
         opacity: 0
 
         onHeightChanged: {
-            if(opacity == 1){
+            if (opacity > 0) {
                 infoBar.height = textBox.height + infoBar.verticalMargins * 2
             }
         }

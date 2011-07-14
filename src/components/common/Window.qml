@@ -1235,6 +1235,35 @@ Item {
                 }
             }
         } // end transitions
+
+        Item {
+            id: debugInfo
+
+            anchors.left: parent.left
+            anchors.top: parent.top
+            width: debugInfoText.width
+            height: debugInfoText.height
+
+            Rectangle {
+                anchors.fill: parent
+                color: "white"
+                opacity: 0.5
+            }
+            Text {
+                id: debugInfoText
+
+                anchors.left: parent.left
+                anchors.top:  parent.top
+                width: (text.length > 0) ? (paintedWidth + 3*2) : 0
+                height: paintedHeight + 3*2
+
+                color: "purple"
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: mainWindow.debugInfo
+            } //debugInfo
+        }
+
     } // end window_content_topitem
 
     // repositions the context menu after orientation change
@@ -1350,31 +1379,4 @@ Item {
             }
         }
     }
-
-    Rectangle {
-        id: debugInfo
-
-        anchors.left: parent.left
-        anchors.top: parent.top
-        width: debugInfoText.width ? debugInfoText.width + 3*2 : 0
-        height: debugInfoText.height
-
-        color: "white"
-        opacity: 0.7
-
-        Text {
-            id: debugInfoText
-
-            anchors.left: parent.left
-            anchors.top:  parent.top
-            anchors.margins: 3
-            width: paintedWidth
-            height: statusBar.height
-
-            color: "purple"
-            verticalAlignment: Text.AlignVCenter
-            text: mainWindow.debugInfo
-        } //debugInfo
-    }
-
 }

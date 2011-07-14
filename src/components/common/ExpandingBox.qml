@@ -203,7 +203,7 @@ Item {
                 elide: Text.ElideRight
                 anchors.left: iconArea.right
                 anchors.right: expandButton.left
-                anchors.leftMargin: 5
+                anchors.leftMargin: 10
                 anchors.verticalCenter: expandButton.verticalCenter
             }
 

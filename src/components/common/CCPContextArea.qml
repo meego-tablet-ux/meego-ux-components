@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Ux.Kernel 0.1
+import PreeditInjector 1.0 // FIXME: FIND A HOME
 
 MouseArea {
     id: box
@@ -166,19 +167,47 @@ MouseArea {
         }
     }
 
+    PreeditInjector { id: preedit }
+
     Timer {
         id: doubleClickTimer
         interval: 250
         onTriggered: {
             parent.clickCount = 0;
-            editor.cursorPosition = pendingCursorPosition;
             editor.forceActiveFocus ();
+            var predict = !(editor.inputMethodHints & Qt.ImhNoPredictiveText)
+            var word = predict ? wordAtClick (mouseX, mouseY) : [0,0]
+            if(predict && word[0] != word[1]) {
+                preedit.inject (editor, word[0], word[1]-word[0]);
+            } else {
+                editor.cursorPosition = pendingCursorPosition;
+            }
         }
+    }
+
+    // Return the start/end indexes of the "word" underneath a mouse
+    // event.  The regexes match the logic in
+    // QTextEngine::atWordSeparator.  Really it should be augmented:
+    // URL fields need to include extra characters in "words",
+    // password fields should treat all characters as a single word
+    // lest they leak information, ...
+    function wordAtClick (x, y) {
+        var wordAtEnd   =  /[^\s.,?!@#$:;\-<>[\](){}=\/+%&\^*\'\"`~|]*$/
+        var wordAtStart = /^[^\s.,?!@#$:;\-<>[\](){}=\/+%&\^*\'\"`~|]*/
+
+        var start = editor.positionAt (x, y)
+        var end = start
+        var m = editor.text.substr (0, start).match(wordAtEnd)
+        if (m && m[0].length) {
+            start -= m[0].length
+            m = editor.text.substr(start).match(wordAtStart)
+            end = start + m[0].length
+        }
+        return [ start, end ]
     }
 
     onPressed: {
         editor.imMouseEvent("press", mouse)
-
         doubleClickTimer.stop ();
         clickCount++;
         // Start double click timer
@@ -195,24 +224,11 @@ MouseArea {
 
             selectionHandleSurface.initiate()
 
-            // These match the logic in QTextEngine::atWordSeparator.
-            // Really it should be augmented: URL fields need to
-            // include extra characters in "words", password fields
-            // should treat all characters as a single word lest they
-            // leak information, ...
-            var wordAtEnd   =  /[^\s.,?!@#$:;\-<>[\](){}=\/+%&\^*\'\"`~|]*$/
-                var wordAtStart = /^[^\s.,?!@#$:;\-<>[\](){}=\/+%&\^*\'\"`~|]*/
+            var word = wordAtClick (mouse.x, mouse.y)
+            var selectionStart = word[0], selectionEnd = word[1]
 
-            selectionStart = editor.positionAt (mouse.x, mouse.y)
-            var m = editor.text.substr (0, selectionStart).match(wordAtEnd)
-            selectionEnd = selectionStart
-            if (m && m[0].length) {
-                selectionStart -= m[0].length
-                m = editor.text.substr(selectionStart).match(wordAtStart)
-                selectionEnd = selectionStart + m[0].length
-                if (selectionStart != selectionEnd) {
-                    ensureSelection()
-                }
+            if (selectionStart != selectionEnd) {
+                ensureSelection ();
             }
 
             var rect1 = editor.positionToRectangle (selectionStart)
@@ -226,6 +242,8 @@ MouseArea {
             currentlySelecting = true;
         } else {
             pendingCursorPosition = editor.positionAt (mouse.x, mouse.y);
+            mouseX = mouse.x
+            mouseY = mouse.y
         }
     }
 

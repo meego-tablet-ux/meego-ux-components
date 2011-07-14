@@ -190,41 +190,40 @@ MouseArea {
 
         if (clickCount == 2) {
             state = "selection"
-	    doubleClickTimer.stop ();
+            doubleClickTimer.stop ();
             clickCount = 0;
-            box.isPressed = false
 
-        selectionHandleSurface.initiate()
+            selectionHandleSurface.initiate()
 
-	    // These match the logic in QTextEngine::atWordSeparator.
-	    // Really it should be augmented: URL fields need to
-	    // include extra characters in "words", password fields
-	    // should treat all characters as a single word lest they
-	    // leak information, ...
-	    var wordAtEnd   =  /[^\s.,?!@#$:;\-<>[\](){}=\/+%&\^*\'\"`~|]*$/
-        var wordAtStart = /^[^\s.,?!@#$:;\-<>[\](){}=\/+%&\^*\'\"`~|]*/
+            // These match the logic in QTextEngine::atWordSeparator.
+            // Really it should be augmented: URL fields need to
+            // include extra characters in "words", password fields
+            // should treat all characters as a single word lest they
+            // leak information, ...
+            var wordAtEnd   =  /[^\s.,?!@#$:;\-<>[\](){}=\/+%&\^*\'\"`~|]*$/
+                var wordAtStart = /^[^\s.,?!@#$:;\-<>[\](){}=\/+%&\^*\'\"`~|]*/
 
-        selectionStart = editor.positionAt (mouse.x, mouse.y)
-        var m = editor.text.substr (0, selectionStart).match(wordAtEnd)
-        selectionEnd = selectionStart
-        if (m && m[0].length) {
-	    	selectionStart -= m[0].length
-		    m = editor.text.substr(selectionStart).match(wordAtStart)
-    		selectionEnd = selectionStart + m[0].length
-	    	if (selectionStart != selectionEnd) {
+            selectionStart = editor.positionAt (mouse.x, mouse.y)
+            var m = editor.text.substr (0, selectionStart).match(wordAtEnd)
+            selectionEnd = selectionStart
+            if (m && m[0].length) {
+                selectionStart -= m[0].length
+                m = editor.text.substr(selectionStart).match(wordAtStart)
+                selectionEnd = selectionStart + m[0].length
+                if (selectionStart != selectionEnd) {
                     ensureSelection()
-	    	}
-	    }
+                }
+            }
 
-        var rect1 = editor.positionToRectangle (selectionStart)
-        var map1 = mapToItem (top.topItem, rect1.x, rect1.y)
-        selectionHandleSurface.startHandle.setPosition (map1.x, map1.y, rect1.height)
+            var rect1 = editor.positionToRectangle (selectionStart)
+            var map1 = mapToItem (top.topItem, rect1.x, rect1.y)
+            selectionHandleSurface.startHandle.setPosition (map1.x, map1.y, rect1.height)
 
-        var rect2 = editor.positionToRectangle (selectionEnd)
-        var map2 = mapToItem (top.topItem, rect2.x, rect2.y)
-        selectionHandleSurface.endHandle.setPosition (map2.x, map2.y, rect2.height)
+            var rect2 = editor.positionToRectangle (selectionEnd)
+            var map2 = mapToItem (top.topItem, rect2.x, rect2.y)
+            selectionHandleSurface.endHandle.setPosition (map2.x, map2.y, rect2.height)
 
-        currentlySelecting = true;
+            currentlySelecting = true;
         } else {
             pendingCursorPosition = editor.positionAt (mouse.x, mouse.y);
         }

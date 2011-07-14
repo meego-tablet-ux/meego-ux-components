@@ -8,7 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Ux.Kernel 0.1
-import PreeditInjector 1.0 // FIXME: FIND A HOME
+import MeeGo.Ux.Components.InputMethod 0.1
 
 MouseArea {
     id: box

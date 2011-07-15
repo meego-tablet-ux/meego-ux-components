@@ -159,8 +159,10 @@ Item {
             Tap {
                 onFinished: {
                     if(fogContainer.fogClickable){
-                        fogContainer.hide()
-                        fogContainer.rejected()
+                        if(fogContainer.opacity == 1){
+                            fogContainer.hide()
+                            fogContainer.rejected()
+                        }
                     }
                 }
             }

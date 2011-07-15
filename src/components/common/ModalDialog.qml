@@ -309,8 +309,10 @@ ModalFog {
             bgSourceDn: cancelButtonImagePressed
 
             onClicked: {
-                modalDialogBox.rejected()
-                modalDialogBox.hide()
+                if(modalDialogBox.opacity == 1){
+                    modalDialogBox.rejected()
+                    modalDialogBox.hide()
+                }
             }
         }
 
@@ -399,8 +401,10 @@ ModalFog {
                     bgSourceDn: acceptButtonImagePressed
 
                     onClicked: {
-                        modalDialogBox.accepted()
-                        modalDialogBox.hide()
+                        if(modalDialogBox.opacity == 1){
+                            modalDialogBox.accepted()
+                            modalDialogBox.hide()
+                        }
                     }
                 }
 
@@ -427,8 +431,10 @@ ModalFog {
                     bgSourceDn: cancelButtonImagePressed
 
                     onClicked: {
-                        modalDialogBox.rejected()
-                        modalDialogBox.hide()
+                        if(modalDialogBox.opacity == 1){
+                            modalDialogBox.rejected()
+                            modalDialogBox.hide()
+                        }
                     }
                 }
             }
@@ -445,6 +451,7 @@ ModalFog {
     }
 
     Theme { id: theme }
+
     TopItem {
         id: topItem
         property real shift: 0

@@ -4,6 +4,7 @@
 LocalTime::LocalTime(QObject *parent) : QObject(parent)
 {
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(forwardTimeout()));
+    connect(&m_locale, SIGNAL(timeFormatChanged()), this, SLOT(forwardTimeout()));
 }
 
 void LocalTime::setInterval(int interval)

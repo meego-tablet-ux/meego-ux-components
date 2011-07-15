@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QLocale>
 #include <QTimer>
+#include <meegolocale.h>
 
 class LocalTime : public QObject
 {
@@ -19,8 +20,7 @@ public:
     explicit LocalTime(QObject *parent = 0);
 
     QString getShortTime() const {
-        return QDateTime::currentDateTime().time().currentTime()
-                .toString(QLocale::system().timeFormat(QLocale::ShortFormat));
+        return m_locale.currentTime(meego::Locale::TimeFull);
     }
     QString getLongTime() const {
         return QDateTime::currentDateTime().time().currentTime()
@@ -49,6 +49,7 @@ private slots:
 
 private:
     QTimer m_timer;
+    meego::Locale m_locale;
 };
 
 #endif // LOCALTIME_H

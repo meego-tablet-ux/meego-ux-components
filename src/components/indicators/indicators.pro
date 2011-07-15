@@ -13,6 +13,7 @@ CONFIG += plugin \
 PKGCONFIG += contextsubscriber-1.0 \
         libpulse \
         libpulse-mainloop-glib \
+        meegolocale \
         mlite
 
 SOURCES += batteryindicator.cpp \

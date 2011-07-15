@@ -82,6 +82,7 @@ Item {
             property bool ignoreRelease: false
             property bool ignorePressAndHold: true
             property int minimumTouchSize: 80   // This value should be set by the theme and units
+            property bool blockMove: false // This blocks move events after the custom longTap
 
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -160,6 +161,7 @@ Item {
                 map = mapToItem (topItem.topItem, mouseArea.initialX, mouseArea.initialY);
                 container.editor.showContextMenu (map.x, map.y);
                 container.editor.ensureSelection()
+                blockMove = true
             }
 
             Timer {
@@ -180,6 +182,7 @@ Item {
                 }
                 ignorePressAndHold = false;
                 container.pressed = true
+                blockMove = false
                 // We store the handle that the mouse pointer was over
                 // so we can drag the correct end of the selection
                 // on movement.
@@ -246,6 +249,9 @@ Item {
             }
 
             onPositionChanged: {
+                if(blockMove) {
+                    return
+                }
                 if( longPressTimer.running ) {
                     //prevent the longPress if the mouse is moved
                     var distance = Math.abs( mouseArea.initialX - mouse.x ) + Math.abs( mouseArea.initialY - mouse.y )

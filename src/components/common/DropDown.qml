@@ -310,9 +310,11 @@ Item {
         id: topItem
 
         onGeometryChanged: {
-            contextMenu.setPosition(
-                        mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
-                        mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+            if(dropDown.visible){
+                contextMenu.setPosition(
+                            mapToItem( topItem.topItem, expandButton.x + expandButton.width / 2, 0 ).x,
+                            mapToItem( topItem.topItem, 0, expandButton.y + expandButton.height / 2 ).y  )
+            }
         }
     }
 

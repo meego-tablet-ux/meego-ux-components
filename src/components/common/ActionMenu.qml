@@ -128,7 +128,9 @@ Flickable {
         id: topItem
 
         onGeometryChanged: {
-            container.contentY = 0
+            if(container.visible){
+                container.contentY = 0
+            }
         }
     }
 

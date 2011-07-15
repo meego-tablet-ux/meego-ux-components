@@ -148,19 +148,21 @@ MouseArea {
     TopItem {
         id: top
         onGeometryChanged: {
-            var rect = editor.positionToRectangle (selectionStart);
+            if(box.visible){
+                var rect = editor.positionToRectangle (selectionStart);
 
-            var map = mapToItem (top.topItem, rect.x, rect.y);
+                var map = mapToItem (top.topItem, rect.x, rect.y);
 
-            selectionHandleSurface.startHandle.setPosition (map.x, map.y, rect.height);
+                selectionHandleSurface.startHandle.setPosition (map.x, map.y, rect.height);
 
-            rect = editor.positionToRectangle (selectionEnd);
-            map = mapToItem (top.topItem, rect.x, rect.y);
+                rect = editor.positionToRectangle (selectionEnd);
+                map = mapToItem (top.topItem, rect.x, rect.y);
 
-            selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
+                selectionHandleSurface.endHandle.setPosition (map.x, map.y, rect.height);
 
-            map = mapToItem (top.topItem, box.mouseX, box.mouseY);
-            clipboardContextMenu.setPosition ( map.x, map.y )
+                map = mapToItem (top.topItem, box.mouseX, box.mouseY);
+                clipboardContextMenu.setPosition ( map.x, map.y )
+            }
         }
     }
 

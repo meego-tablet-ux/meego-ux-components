@@ -16,9 +16,10 @@
 
 Translator::Translator(QObject *parent) :
     QObject(parent),
-    mTranslator(new QTranslator(this)),
-    mLangCode(QLocale::system().name())
+    mTranslator(new QTranslator(this))
 {
+    meego::Locale locale;
+    mLangCode = locale.locale();
 }
 
 QString Translator::getCatalog() const

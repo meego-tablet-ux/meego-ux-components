@@ -56,7 +56,7 @@
          NB: you should not need to change this because it is hooked up to system settings by default
          Year/Month/Day = 0
          Day/Month/Year = 1
-         Month/Day/Year = 2  
+         Month/Day/Year = 2
 
   \qmlproperty int firstDayOfWeek
   \qmlcm contains the code for what day is the first of the week.  (Same values as in meegolabs-ux-components/lib/locale)
@@ -487,7 +487,7 @@ ModalDialog {
 
             z: 10
             anchors { margins: 10; left: parent.left; top: titleDivider.bottom; right: parent.right }
-            height: datePicker.height / 6
+            height: datePicker.height / 4.5
 
             Text {
                 id: dateUnitOne
@@ -654,9 +654,11 @@ ModalDialog {
             property variant calendarShown: today() // points to a date for the currently shown calendar
 
             anchors { left: parent.left; top: popupRow.bottom;
-                      right: parent.right; bottom: todayButton.top;
+                      right: parent.right;
                       leftMargin: 10; rightMargin: 10; topMargin: 10;
-                      bottomMargin: todayButton.anchors.bottomMargin }
+//                      bottom: todayButton.top; bottomMargin: todayButton.anchors.bottomMargin
+                      bottom: parent.bottom; bottomMargin: 6;
+            }
 
             BorderImage {
                 id: calBg
@@ -707,7 +709,7 @@ ModalDialog {
                         property string oldText: qsTr("%1 %2").arg(fullMonths[ calendarView.calendarShown.getMonth() ]).arg(calendarView.calendarShown.getFullYear())
                     }
                     text: dateText()
-                    
+
                     font.pixelSize: monthHeader.fontPixelSize;
                     verticalAlignment: "AlignVCenter"; horizontalAlignment: "AlignHCenter"
                     anchors { top: parent.top; bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }
@@ -898,40 +900,40 @@ ModalDialog {
             } //end grid
         } // calendar
 
-        Item {
-            id: todayButton
+//        Item {
+//            id: todayButton
 
-            anchors { left:parent.left; right: parent.right; bottom: parent.bottom;
-                      bottomMargin: 6; leftMargin: 10; rightMargin: 10 }
+//            anchors { left:parent.left; right: parent.right; bottom: parent.bottom;
+//                      bottomMargin: 6; leftMargin: 10; rightMargin: 10 }
 
-            height: datePicker.height / 16
+//            height: datePicker.height / 16
 
-            Button {
-                id: tButton
+//            Button {
+//                id: tButton
 
-                anchors.centerIn: parent
-                minHeight:  parent.height
-                maxHeight: parent.height
-                minWidth: parent.width
-                maxWidth: parent.width
-                textMargins: 4
+//                anchors.centerIn: parent
+//                minHeight:  parent.height
+//                maxHeight: parent.height
+//                minWidth: parent.width
+//                maxWidth: parent.width
+//                textMargins: 4
 
-                font.pixelSize: if( theme.fontPixelSizeLargest < parent.height * 0.85 - 2 * textMargins ) {
-                                    return theme.fontPixelSizeLargest
-                                }else {
-                                    return parent.height * 0.85 - 2 * textMargins
-                                }
+//                font.pixelSize: if( theme.fontPixelSizeLargest < parent.height * 0.85 - 2 * textMargins ) {
+//                                    return theme.fontPixelSizeLargest
+//                                }else {
+//                                    return parent.height * 0.85 - 2 * textMargins
+//                                }
 
-                text: qsTr( "Today" );
+//                text: qsTr( "Today" );
 
-                onClicked: {
-                    var todayYear = today().getFullYear()
-                    if( todayYear >= startYear && todayYear <= endYear ) {
-                        updateSelectedDate( today().getDate(), today().getMonth(), today().getFullYear() )
-                    }
-                }
-            }
-        }
+//                onClicked: {
+//                    var todayYear = today().getFullYear()
+//                    if( todayYear >= startYear && todayYear <= endYear ) {
+//                        updateSelectedDate( today().getDate(), today().getMonth(), today().getFullYear() )
+//                    }
+//                }
+//            }
+//        }
     }
 
     function initializeDays(){

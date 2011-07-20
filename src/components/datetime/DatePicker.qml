@@ -656,7 +656,6 @@ ModalDialog {
             anchors { left: parent.left; top: popupRow.bottom;
                       right: parent.right;
                       leftMargin: 10; rightMargin: 10; topMargin: 10;
-//                      bottom: todayButton.top; bottomMargin: todayButton.anchors.bottomMargin
                       bottom: parent.bottom; bottomMargin: 6;
             }
 
@@ -900,40 +899,6 @@ ModalDialog {
             } //end grid
         } // calendar
 
-//        Item {
-//            id: todayButton
-
-//            anchors { left:parent.left; right: parent.right; bottom: parent.bottom;
-//                      bottomMargin: 6; leftMargin: 10; rightMargin: 10 }
-
-//            height: datePicker.height / 16
-
-//            Button {
-//                id: tButton
-
-//                anchors.centerIn: parent
-//                minHeight:  parent.height
-//                maxHeight: parent.height
-//                minWidth: parent.width
-//                maxWidth: parent.width
-//                textMargins: 4
-
-//                font.pixelSize: if( theme.fontPixelSizeLargest < parent.height * 0.85 - 2 * textMargins ) {
-//                                    return theme.fontPixelSizeLargest
-//                                }else {
-//                                    return parent.height * 0.85 - 2 * textMargins
-//                                }
-
-//                text: qsTr( "Today" );
-
-//                onClicked: {
-//                    var todayYear = today().getFullYear()
-//                    if( todayYear >= startYear && todayYear <= endYear ) {
-//                        updateSelectedDate( today().getDate(), today().getMonth(), today().getFullYear() )
-//                    }
-//                }
-//            }
-//        }
     }
 
     function initializeDays(){

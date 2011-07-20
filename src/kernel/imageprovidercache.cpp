@@ -80,8 +80,6 @@ QPixmap ImageProviderCache::requestPixmap( const QString& id, QSize* size, const
             QImage image = requestImage( id, false, size, requestedSize );
             pixmap = QPixmap::fromImage( image );
 
-            //qDebug() << "loaded pixmap: " << id;
-
             if( !requestedSize.isEmpty() && requestedSize != pixmap.size() )
                 pixmap = pixmap.scaled( requestedSize );
 
@@ -270,7 +268,6 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
 
             if( isResizedImageWorthCaching( id ) ) {
 
-                //qDebug() << "adding resized image to shared memory";
                 if( saveToMemory )
                     addImageToMemory( id,  resizedImage );
 
@@ -287,8 +284,7 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
 
             image = reader.read();
 
-            //qDebug() << "adding image to shared memory " << id;
-            if( saveToMemory )
+           if( saveToMemory )
                 addImageToMemory( id, image, imageReference );
 
             if( !requestedSize.isEmpty() && image.size() != requestedSize ) {
@@ -298,7 +294,6 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
                 image = reader.read();
 
                 if( isResizedImageWorthCaching( id ) ) {
-                    //qDebug() << "adding resized image to shared memory";
                     if( saveToMemory )
                         addImageToMemory( id, image );
                 }
@@ -318,12 +313,9 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
         QImageReader reader;
         QString filename = QString("%1%2").arg( id, QString::fromLatin1( ".png" ) );
         reader.setFileName( filename );
-        //qDebug() << "check filename" << filename;
         if ( reader.canRead() ) {
 
             image = reader.read();
-
-            //qDebug() << "Image " << id << " does exist";
 
             if( saveToMemory)
                 addImageToMemory( id, image );
@@ -452,7 +444,6 @@ QPixmap ImageProviderCache::loadPixmapFromMemory( const QString& id, const QSize
             QBuffer buffer;
             QDataStream in( &buffer );
 
-            //qDebug() << "loadImageFromMemory - begin: " << m_memoryInfo.calcPos( tableInfo.memoryPosition ) << " size: " << tableInfo.memorySize;
             char* begin = (char*) m_memoryInfo.calcPos( tableInfo.memoryPosition );
 
             buffer.setData( begin,  tableInfo.memorySize );
@@ -498,8 +489,6 @@ QPixmap ImageProviderCache::loadPixmapFromXServer( const QString &id, const QSiz
         }
 
     }
-
-    //qDebug() << "load pixmap from cache: " << id << " handle:" << handle;
 
     if(handle != 0)
         pixmap = QPixmap::fromX11Pixmap( handle , QPixmap::ExplicitlyShared );

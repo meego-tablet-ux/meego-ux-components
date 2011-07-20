@@ -1222,7 +1222,7 @@ Item {
                     PropertyAnimation {
                         target: window_content_topitem
                         properties: "width,height"
-                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration : 0
+                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration * 10: 0
                         easing.type: "OutSine"
                     }
                 }
@@ -1269,29 +1269,29 @@ Item {
     // repositions the context menu after orientation change
     onOrientationChangeFinished: {
         if(pageContextMenu.visible){
-            pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 3 )
+            pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 10 )
         }
         if(bookContextMenu.visible){
-            bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
+            bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 10 )
         }
     }
 
     // Repositions the context menu after the windows width and/or height have changed.
     onWidthChanged: {
         if(pageContextMenu.visible){
-            pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 3 )
+            pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - windowMenuButton.height / 10 )
         }
         if(bookContextMenu.visible){
-            bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
+            bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 10 )
         }
     }
 
     onHeightChanged: {
         if(pageContextMenu.visible){
-            pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 3 )
+            pageContextMenu.setPosition( windowMenuButton.x + windowMenuButton.width / 2, topDecorationHeight - applicationMenuButton.height / 10 )
         }
         if(bookContextMenu.visible){
-            bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 3 )
+            bookContextMenu.setPosition( applicationMenuButton.x + applicationMenuButton.width / 2  , topDecorationHeight - applicationMenuButton.height / 10 )
         }
     }
 

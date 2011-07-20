@@ -308,8 +308,6 @@ QPixmap ImageProviderCachePrivate::loadPixmapFromXServer( const QString &id, con
 
     }
 
-    //qDebug() << "load pixmap from cache: " << id << " handle:" << handle;
-
     if(handle != 0)
         pixmap = QPixmap::fromX11Pixmap( handle , QPixmap::ExplicitlyShared );
     else
@@ -795,6 +793,7 @@ bool ImageProviderCachePrivate::attachSharedMemory()
 
         m_bMemoryReady = true;
         bRet = true;
+
     } else {
 
         qDebug() << "can not attach";

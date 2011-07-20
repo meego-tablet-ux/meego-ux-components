@@ -4,8 +4,7 @@ CONFIG += ordered
 SUBDIRS += common \
         datetime \
         indicators \
-        media \
-	inputmethod
+        media
 
 TARGETPATH = MeeGo/Ux/Components
 

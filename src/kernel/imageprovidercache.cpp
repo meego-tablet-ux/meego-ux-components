@@ -11,10 +11,11 @@
 #include <QImageReader>
 
 #include "imageprovidercache.h"
-#include <QThread>
+#include <QMutexLocker>
 
 static const bool debugUxTheme = (getenv("DEBUG_UXTHEME") != NULL);
 static const bool debugUxCache = (getenv("DEBUG_UXCACHE") != NULL);
+static int callCount = 0;
 
 ImageProviderCache::ImageProviderCache( const QString ThemeName, int maxImages, int sizeInMb, QObject *parent ) :
     QObject(parent),
@@ -78,6 +79,8 @@ QPixmap ImageProviderCache::requestPixmap( const QString& id, QSize* size, const
 
             QImage image = requestImage( id, false, size, requestedSize );
             pixmap = QPixmap::fromImage( image );
+
+            //qDebug() << "loaded pixmap: " << id;
 
             if( !requestedSize.isEmpty() && requestedSize != pixmap.size() )
                 pixmap = pixmap.scaled( requestedSize );
@@ -251,6 +254,10 @@ bool ImageProviderCache::existSciFile( const QString & id )
 
 QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, QSize* size, const QSize& requestedSize )
 {
+    callCount++;
+
+    if( debugUxTheme ) qDebug() << callCount;
+
     QImage image;
 
     if( containsImage ( id , requestedSize ) ) {
@@ -347,6 +354,8 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
         size->setWidth( image.width() );
     }
 
+    callCount--;
+
     return image;
 
 }
@@ -364,8 +373,7 @@ QImage ImageProviderCache::loadImageFromMemory( const QString& id, const QSize& 
             for( int i = 0; i < m_imageTable.size(); i++ )
             {
                 if( m_imageTable[i].equal( id ) ) {
-                    m_imageTable[i].refCount++;
-                    saveImageInfo( i, m_imageTable[i] );
+                    m_imageTable[i].refCount++;                    
                     tableInfo = m_imageTable[i];
                     break;
                 }
@@ -376,8 +384,7 @@ QImage ImageProviderCache::loadImageFromMemory( const QString& id, const QSize& 
             for( int i = 0; i < m_imageTable.size(); i++ )
             {
                 if( m_imageTable[i].equal( id, size ) ) {
-                    m_imageTable[i].refCount++;
-                    saveImageInfo( i, m_imageTable[i] );
+                    m_imageTable[i].refCount++;                    
                     tableInfo = m_imageTable[i];
                     break;
                 }
@@ -622,8 +629,7 @@ void ImageProviderCache::addImageToMemory( const QString& id, const QImage& imag
             memcpy( to, from, imageReference.memorySize );
 
             m_memoryInfo.dataEnd += size;
-            m_memoryInfo.imageCount++;
-            qDebug() << "imagecount " << m_memoryInfo.imageCount << m_imageTable.size();
+            m_memoryInfo.imageCount++;            
             m_lastUpdate = m_memoryInfo.incUpdate();
 
             if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " saved " << buffer.size();

@@ -785,8 +785,9 @@ void ImageProviderCache::saveMemoryInfo()
 
         if( (uint)m_pixmapTable.size() < m_memoryInfo.pixmapCount ) {
 
+            qWarning() << "Pixmap count is out of Sync. internal Count: " << m_pixmapTable.size()
+                       << " external Count: " << m_memoryInfo.pixmapCount;
             if( debugUxTheme ) {
-                qWarning() << "Pixmap count is out of Sync. internal Count: " << m_pixmapTable.size() << " external Count: " << m_memoryInfo.pixmapCount;
                 qDebug() << "reset pixmap table, changes will not passed to shared memory ";
             }
             readMemoryInfo(); // sharedMemory wins!
@@ -795,8 +796,9 @@ void ImageProviderCache::saveMemoryInfo()
 
         if( (uint)m_imageTable.size() < m_memoryInfo.imageCount ) {
 
+            qWarning() << "Image count is out of Sync. internal Count: " << m_imageTable.size()
+                       << " external Count: " << m_memoryInfo.imageCount;
             if( debugUxTheme ) {
-                qWarning() << "Image count is out of Sync. internal Count: " << m_imageTable.size() << " external Count: " << m_memoryInfo.imageCount;
                 qDebug() << "reset image table, changes will not passed to shared memory ";
             }
             readMemoryInfo(); // sharedMemory wins!

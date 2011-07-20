@@ -21,7 +21,7 @@ public:
     ~ThemeImageProvider();
 
     QImage requestImage( const QString &id, QSize *size, const QSize &requestedSize);
-    QPixmap requestPixmap( const QString &id, QSize *size, const QSize &requestedSize);
+    //QPixmap requestPixmap( const QString &id, QSize *size, const QSize &requestedSize);
 
     // static for borderimage workaround @see borderimagedecorator.h
     static ImageProviderCache* getCacheInstance();

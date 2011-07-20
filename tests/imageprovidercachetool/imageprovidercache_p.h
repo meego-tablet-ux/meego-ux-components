@@ -36,9 +36,9 @@ public:
     // Image and Pixmap loading
 
     /*! this method returns a requested QPixmap*/
-    QPixmap loadPixmap( const QString &id );
+    QPixmap loadPixmap( const QString &id , PixmapReference& pixmapReference );
     /*! this method returns a requested QImage*/
-    QImage loadImage( const QString &id );
+    QImage loadImage( const QString &id, ImageReference& imageReference );
 
     // Image and Pixmap cache
 

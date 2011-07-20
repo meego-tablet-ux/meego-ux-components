@@ -85,9 +85,10 @@ QImage ThemeImageProvider::requestImage( const QString &id, QSize *size, const Q
     QString path = m_themePath + id;   
     return ThemeImageProvider::m_cache->requestImage( path, size, requestedSize );
 }
-
+/*
 QPixmap ThemeImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QString path = m_themePath + id;
     return ThemeImageProvider::m_cache->requestPixmap( path, size, requestedSize );
 }
+*/

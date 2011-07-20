@@ -11,8 +11,10 @@
 #include <QImageReader>
 
 #include "imageprovidercache.h"
+#include <QThread>
 
 static const bool debugUxTheme = (getenv("DEBUG_UXTHEME") != NULL);
+static const bool debugUxCache = (getenv("DEBUG_UXCACHE") != NULL);
 
 ImageProviderCache::ImageProviderCache( const QString ThemeName, int maxImages, int sizeInMb, QObject *parent ) :
     QObject(parent),
@@ -77,8 +79,6 @@ QPixmap ImageProviderCache::requestPixmap( const QString& id, QSize* size, const
             QImage image = requestImage( id, false, size, requestedSize );
             pixmap = QPixmap::fromImage( image );
 
-            //qDebug() << "loaded pixmap: " << id;
-
             if( !requestedSize.isEmpty() && requestedSize != pixmap.size() )
                 pixmap = pixmap.scaled( requestedSize );
 
@@ -124,39 +124,38 @@ void ImageProviderCache::requestBorderGrid( const QString &id, int &borderTop, i
 {
     QString path = m_path + id;
     path.remove( QString::fromLatin1("image://themedimage/") );
+    path.remove( QString::fromLatin1("image://meegotheme/") );
 
-    if( containsImage( path, QSize() ) ) {
+    for( int i = 0; i < m_imageTable.size(); i++ ) {
+        if( m_imageTable[i].equal( path ) ) {
 
-        for( int i = 0; i < m_imageTable.size(); i++ ) {
-            if( m_imageTable[i].equal( path ) ) {
+            borderTop = m_imageTable[i].borderTop;
+            borderBottom = m_imageTable[i].borderBottom;
+            borderLeft = m_imageTable[i].borderLeft;
+            borderRight = m_imageTable[i].borderRight;
 
-                borderTop = m_imageTable[i].borderTop;
-                borderBottom = m_imageTable[i].borderBottom;
-                borderLeft = m_imageTable[i].borderLeft;
-                borderRight = m_imageTable[i].borderRight;
-                return;
-            }
-        }
-
-    } else {
-
-        requestImage( path, true, 0 );
-
-        for( int i = 0; i < m_imageTable.size(); i++ ) {
-
-            if( m_imageTable[i].equal( path ) ) {
-
-                borderTop = m_imageTable[i].borderTop;
-                borderBottom = m_imageTable[i].borderBottom;
-                borderLeft = m_imageTable[i].borderLeft;
-                borderRight = m_imageTable[i].borderRight;
-                return;
-
-            }
+            if(debugUxTheme) qDebug() << __PRETTY_FUNCTION__ << "border for" << path << " found";
+            return;
         }
     }
 
-    if(debugUxTheme) qDebug() << " Image borders for " << path << "not found";
+    if(debugUxTheme) qDebug() << __PRETTY_FUNCTION__ << "loading image for: " << path;
+    requestImage( path, true, 0 );
+
+    for( int i = 0; i < m_imageTable.size(); i++ ) {
+
+        if( m_imageTable[i].equal( path ) ) {
+
+            borderTop = m_imageTable[i].borderTop;
+            borderBottom = m_imageTable[i].borderBottom;
+            borderLeft = m_imageTable[i].borderLeft;
+            borderRight = m_imageTable[i].borderRight;
+            return;
+
+        }
+    }
+
+    if(debugUxTheme) qDebug() << " Image borders for " << path << "not found";   
     return;
 }
 
@@ -347,6 +346,7 @@ QImage ImageProviderCache::requestImage( const QString& id, bool saveToMemory, Q
         size->setHeight( image.height() );
         size->setWidth( image.width() );
     }
+
     return image;
 
 }
@@ -593,7 +593,7 @@ void ImageProviderCache::addImageToMemory( const QString& id, const QImage& imag
 {
     if( m_bMemoryReady ) {
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         readMemoryInfo();
@@ -638,7 +638,7 @@ void ImageProviderCache::addImageToMemory( const QString& id, const QImage& imag
         saveMemoryInfo();
 
         m_memory.unlock();
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
 
     }
 }
@@ -647,7 +647,7 @@ void ImageProviderCache::addPixmapToMemory( const QString &id, const QPixmap &pi
 {
     if( m_bMemoryReady ) {
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         readMemoryInfo();
@@ -681,7 +681,7 @@ void ImageProviderCache::addPixmapToMemory( const QString &id, const QPixmap &pi
 
         } else {
 
-           qWarning() << " ImageProviderCache is full ";
+            qWarning() << " ImageProviderCache is full ";
 
         }
         buffer.close();
@@ -696,7 +696,7 @@ void ImageProviderCache::addPixmapToX11Cache( const QString& id, const QPixmap& 
 {
     if( m_bMemoryReady ) {
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         readMemoryInfo();
@@ -716,6 +716,7 @@ void ImageProviderCache::addPixmapToX11Cache( const QString& id, const QPixmap& 
 
         saveMemoryInfo();
 
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
         m_memory.unlock();
 
     }
@@ -726,11 +727,10 @@ void ImageProviderCache::addPixmapToGlesCache( const QString& id, const QPixmap&
     Q_UNUSED( id );
     Q_UNUSED( pixmap );
     Q_UNUSED( reference );
-   // to be implemented
+    // to be implemented
 }
 
 // ~~~~~~ Shared Memory
-
 void ImageProviderCache::readMemoryInfo()
 {
     if( m_bMemoryReady ) {
@@ -745,14 +745,7 @@ void ImageProviderCache::readMemoryInfo()
         buffer.close();
 
         if( m_memoryInfo.lastUpdate != m_lastUpdate ) {
-
             m_lastUpdate = m_memoryInfo.lastUpdate;
-
-            if( m_memoryInfo.imageCount < (uint)m_imageTable.size() )
-                m_imageTable.clear();
-
-            if( m_memoryInfo.pixmapCount < (uint)m_pixmapTable.size() )
-                m_pixmapTable.clear();
 
             // ~~~~~ imageReferences
             QBuffer imageBuffer;
@@ -762,24 +755,14 @@ void ImageProviderCache::readMemoryInfo()
             imageIn.setDevice( &imageBuffer );
 
             ImageReference referenceTableInfo;
+
+            QList<ImageReference> newImageTable;
             for( uint i = 0; i < m_memoryInfo.imageCount; i++ )
             {
                 referenceTableInfo.loadFromStream( imageIn );
-
-                bool bFound = false;
-                for( int i = 0; i < m_imageTable.size(); i++ )
-                {
-                    if( m_imageTable[i].equal( referenceTableInfo ) ) {
-                        m_imageTable[i].refCount = referenceTableInfo.refCount;
-                        qDebug() << "found";
-                        bFound = true;
-                        break;
-                    }
-                }
-                if( !bFound ) {
-                    m_imageTable.append( referenceTableInfo );
-                }
+                newImageTable.append( referenceTableInfo );
             }
+            m_imageTable = newImageTable;
             imageBuffer.close();
 
             // ~~~~~ pixmapReferences
@@ -788,31 +771,16 @@ void ImageProviderCache::readMemoryInfo()
             pixmapBuffer.setData( (char*) m_memoryInfo.calcPos( m_memoryInfo.pixmapTableBegin ), m_memoryInfo.pixmapTableSize );
             pixmapBuffer.open(QBuffer::ReadOnly);
 
+            QList<PixmapReference> newPixmapTable;
             PixmapReference referenceInfo;
             for( uint i = 0; i < m_memoryInfo.pixmapCount; i++ )
             {
                 referenceInfo.loadFromStream( pixmapIn );
-
-                bool bFound = false;
-                for( int i = 0; i < m_pixmapTable.size(); i++ )
-                {
-                    if( m_pixmapTable[i].equal( referenceInfo ) ) {
-                        bFound = true;
-                        break;
-                    }
-                }
-                if( !bFound ) {
-                    m_pixmapTable.append( referenceInfo );
-                }
+                m_pixmapTable.append( referenceInfo );
             }
+            m_pixmapTable = newPixmapTable;
             pixmapBuffer.close();
         }
-
-        if( m_memoryInfo.pixmapCount != m_pixmapTable.size() )
-            qWarning() << "out of sync";
-        if( m_memoryInfo.imageCount != m_imageTable.size() )
-            qWarning() << "out of sync";
-
     }
 }
 
@@ -899,14 +867,14 @@ void ImageProviderCache::saveImageInfo( int position, ImageReference& refTableIn
 
         int size = buffer.size();
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
-        //char *to = (char*)( m_memoryInfo.calcPos( m_memoryInfo.imageTableBegin ) + ( position * streamImageReferenceSize ) );
-        //const char *from = buffer.data().data();
-        //memcpy( to, from, size );
+        char *to = (char*)( m_memoryInfo.calcPos( m_memoryInfo.imageTableBegin ) + ( position * streamImageReferenceSize ) );
+        const char *from = buffer.data().data();
+        memcpy( to, from, size );
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
         m_memory.unlock();
     }
 }
@@ -923,14 +891,14 @@ void ImageProviderCache::savePixmapInfo( int position, PixmapReference& refTable
 
         int size = buffer.size();
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         char *to = (char*)( m_memoryInfo.calcPos( m_memoryInfo.pixmapTableBegin ) + ( position * streamPixmapReferenceSize ) );
         const char *from = buffer.data().data();
         memcpy( to, from, size );
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
         m_memory.unlock();
     }
 }
@@ -953,7 +921,7 @@ void ImageProviderCache::attachSharedMemory()
 
             m_bMemoryReady = true;
 
-            if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
+            if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
             m_memory.lock();
 
             readMemoryInfo();
@@ -961,7 +929,7 @@ void ImageProviderCache::attachSharedMemory()
             m_memoryInfo.incUpdate();
             saveMemoryInfo();
 
-            if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
+            if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
             m_memory.unlock();
 
         }
@@ -979,14 +947,14 @@ void ImageProviderCache::detachSharedMemory()
 {
     if( m_memory.isAttached() ) {
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         readMemoryInfo();
         m_memoryInfo.clientCount--;
         saveMemoryInfo();
 
-        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << "unlock memory";
+        if( debugUxCache ) qDebug() << __PRETTY_FUNCTION__ << "unlock memory";
         m_memory.unlock();
 
         m_memory.detach();

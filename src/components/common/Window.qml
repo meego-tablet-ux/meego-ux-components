@@ -1222,7 +1222,7 @@ Item {
                     PropertyAnimation {
                         target: window_content_topitem
                         properties: "width,height"
-                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration * 10: 0
+                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration : 0
                         easing.type: "OutSine"
                     }
                 }

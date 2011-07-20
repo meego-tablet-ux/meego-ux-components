@@ -14,10 +14,12 @@ QMAKE_INCDIR += ../../src/kernel
 
 SOURCES += main.cpp \
            imageprovidercachectrl.cpp \
-           ../../src/kernel/imageprovidercache.cpp
+           imageprovidercache_p.cpp
+
+
 
 HEADERS += imageprovidercachectrl.h \
-           ../../src/kernel/imageprovidercache.h \
+           imageprovidercache_p.h \
            ../../src/kernel/memoryinfo.h \
            ../../src/kernel/imagereference.h
 

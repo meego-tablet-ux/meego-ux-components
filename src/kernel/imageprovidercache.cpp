@@ -593,6 +593,7 @@ void ImageProviderCache::addImageToMemory( const QString& id, const QImage& imag
 {
     if( m_bMemoryReady ) {
 
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         readMemoryInfo();
@@ -622,9 +623,10 @@ void ImageProviderCache::addImageToMemory( const QString& id, const QImage& imag
 
             m_memoryInfo.dataEnd += size;
             m_memoryInfo.imageCount++;
+            qDebug() << "imagecount " << m_memoryInfo.imageCount << m_imageTable.size();
             m_lastUpdate = m_memoryInfo.incUpdate();
 
-            //qDebug() << "done";
+            if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " saved " << buffer.size();
 
         } else {
 
@@ -636,8 +638,8 @@ void ImageProviderCache::addImageToMemory( const QString& id, const QImage& imag
         saveMemoryInfo();
 
         m_memory.unlock();
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
 
-        //qDebug() << "done";
     }
 }
 
@@ -645,6 +647,7 @@ void ImageProviderCache::addPixmapToMemory( const QString &id, const QPixmap &pi
 {
     if( m_bMemoryReady ) {
 
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         readMemoryInfo();
@@ -693,6 +696,7 @@ void ImageProviderCache::addPixmapToX11Cache( const QString& id, const QPixmap& 
 {
     if( m_bMemoryReady ) {
 
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         readMemoryInfo();
@@ -744,6 +748,12 @@ void ImageProviderCache::readMemoryInfo()
 
             m_lastUpdate = m_memoryInfo.lastUpdate;
 
+            if( m_memoryInfo.imageCount < (uint)m_imageTable.size() )
+                m_imageTable.clear();
+
+            if( m_memoryInfo.pixmapCount < (uint)m_pixmapTable.size() )
+                m_pixmapTable.clear();
+
             // ~~~~~ imageReferences
             QBuffer imageBuffer;
             QDataStream imageIn(&imageBuffer);
@@ -761,6 +771,7 @@ void ImageProviderCache::readMemoryInfo()
                 {
                     if( m_imageTable[i].equal( referenceTableInfo ) ) {
                         m_imageTable[i].refCount = referenceTableInfo.refCount;
+                        qDebug() << "found";
                         bFound = true;
                         break;
                     }
@@ -797,6 +808,11 @@ void ImageProviderCache::readMemoryInfo()
             pixmapBuffer.close();
         }
 
+        if( m_memoryInfo.pixmapCount != m_pixmapTable.size() )
+            qWarning() << "out of sync";
+        if( m_memoryInfo.imageCount != m_imageTable.size() )
+            qWarning() << "out of sync";
+
     }
 }
 
@@ -805,11 +821,23 @@ void ImageProviderCache::saveMemoryInfo()
     if( m_bMemoryReady ) {
 
         if( (uint)m_pixmapTable.size() < m_memoryInfo.pixmapCount ) {
-            qWarning() << "Pixmap count is out of Sync. internal Count: " << m_pixmapTable.size() << " external Count: " << m_memoryInfo.pixmapCount;
+
+            if( debugUxTheme ) {
+                qWarning() << "Pixmap count is out of Sync. internal Count: " << m_pixmapTable.size() << " external Count: " << m_memoryInfo.pixmapCount;
+                qDebug() << "reset pixmap table, changes will not passed to shared memory ";
+            }
+            readMemoryInfo(); // sharedMemory wins!
+            return;
         }
 
         if( (uint)m_imageTable.size() < m_memoryInfo.imageCount ) {
-            qWarning() << "Image count is out of Sync. internal Count: " << m_imageTable.size() << " external Count: " << m_memoryInfo.imageCount;
+
+            if( debugUxTheme ) {
+                qWarning() << "Image count is out of Sync. internal Count: " << m_imageTable.size() << " external Count: " << m_memoryInfo.imageCount;
+                qDebug() << "reset image table, changes will not passed to shared memory ";
+            }
+            readMemoryInfo(); // sharedMemory wins!
+            return;
         }
 
         // ~~~~~ memoryInfo
@@ -829,7 +857,6 @@ void ImageProviderCache::saveMemoryInfo()
         QBuffer imageBuffer;
         imageBuffer.open(QBuffer::ReadWrite);
         QDataStream imageOut( &imageBuffer );
-
 
         for( int i = 0; i < m_imageTable.size(); i++ )
         {
@@ -864,8 +891,6 @@ void ImageProviderCache::saveImageInfo( int position, ImageReference& refTableIn
 {
     if( m_bMemoryReady ) {
 
-        //qDebug() << "save";
-
         QBuffer buffer;
         buffer.open(QBuffer::ReadWrite);
         QDataStream out(&buffer);
@@ -874,18 +899,14 @@ void ImageProviderCache::saveImageInfo( int position, ImageReference& refTableIn
 
         int size = buffer.size();
 
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
-        //qDebug() << "save";
+        //char *to = (char*)( m_memoryInfo.calcPos( m_memoryInfo.imageTableBegin ) + ( position * streamImageReferenceSize ) );
+        //const char *from = buffer.data().data();
+        //memcpy( to, from, size );
 
-        char *to = (char*)( m_memoryInfo.calcPos( m_memoryInfo.imageTableBegin ) + ( position * streamImageReferenceSize ) );
-        const char *from = buffer.data().data();
-        memcpy( to, from, size );
-
-        //qDebug() << "save";
-
-        // no update of memoryInfo -> clients don't need that info.
-
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
         m_memory.unlock();
     }
 }
@@ -902,12 +923,14 @@ void ImageProviderCache::savePixmapInfo( int position, PixmapReference& refTable
 
         int size = buffer.size();
 
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         char *to = (char*)( m_memoryInfo.calcPos( m_memoryInfo.pixmapTableBegin ) + ( position * streamPixmapReferenceSize ) );
         const char *from = buffer.data().data();
         memcpy( to, from, size );
 
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
         m_memory.unlock();
     }
 }
@@ -920,12 +943,9 @@ void ImageProviderCache::attachSharedMemory()
 
         if( !m_memory.attach() ) {
 
-            //qDebug() << "Attach to shared memory failed: " << m_key;
             m_bMemoryReady = false;
 
         } else {
-
-            //qDebug() << "shared memory attached: " << m_key;
 
             m_memoryInfo.cacheBegin = (uint)(char*)m_memory.data();
             m_memoryInfo.cacheSize = m_memory.size();
@@ -933,23 +953,23 @@ void ImageProviderCache::attachSharedMemory()
 
             m_bMemoryReady = true;
 
+            if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
             m_memory.lock();
 
             readMemoryInfo();
             m_memoryInfo.clientCount++;
+            m_memoryInfo.incUpdate();
             saveMemoryInfo();
 
+            if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " unlock memory";
             m_memory.unlock();
-
 
         }
 
     } else {
 
-        //qDebug() << "shared memory created: " << m_key;
         createSharedMemory();
-        m_bMemoryReady = true;
-        loadPreLoadFile();
+        m_bMemoryReady = true;        
 
     }
 
@@ -959,15 +979,14 @@ void ImageProviderCache::detachSharedMemory()
 {
     if( m_memory.isAttached() ) {
 
-        if(m_memoryInfo.clientCount == 1)
-            savePreLoadFile();
-
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << " lock memory";
         m_memory.lock();
 
         readMemoryInfo();
         m_memoryInfo.clientCount--;
         saveMemoryInfo();
 
+        if( debugUxTheme ) qDebug() << __PRETTY_FUNCTION__ << "unlock memory";
         m_memory.unlock();
 
         m_memory.detach();
@@ -1029,16 +1048,6 @@ void ImageProviderCache::createSharedMemory()
 
 }
 
-void ImageProviderCache::loadPreLoadFile()
-{
-
-}
-
-void ImageProviderCache::savePreLoadFile()
-{
-
-}
-
 void ImageProviderCache::calcDataSize()
 {
     QBuffer buffer;
@@ -1065,52 +1074,5 @@ void ImageProviderCache::calcDataSize()
     newSize = buffer.pos();
     streamImageReferenceSize = newSize - size;
 
-    //qDebug() << "size ofa MemoryInfo: " << streamMemoryInfoSize;
-    //qDebug() << "size of ImageReference: " << streamImageReferenceSize;
-    //qDebug() << "size of PixmapReference: " << streamPixmapReferenceSize;
-
 }
 
-void ImageProviderCache::bulk()
-{
-    readMemoryInfo();
-
-    //qDebug() << "Bulk ____________________________";
-    //qDebug() << " lastUpdate: " << m_memoryInfo.lastUpdate;
-    //qDebug() << " clients: " << m_memoryInfo.clientCount;
-    //qDebug() << " cacheBegin: " << m_memoryInfo.cacheBegin;
-    //qDebug() << " cacheEnd: " << m_memoryInfo.cacheEnd;
-    //qDebug() << " cacheSize: " << m_memoryInfo.cacheSize;
-    //qDebug() << " imageCount: " << m_memoryInfo.imageCount;
-    //qDebug() << " imageMaxCount: " << m_memoryInfo.imageMaxCount;
-    //qDebug() << " relative imageTableBegin: " << m_memoryInfo.imageTableBegin;
-    //qDebug() << " relative imageTableEnd: " << m_memoryInfo.imageTableEnd;
-    //qDebug() << " relative imageTableSize: " << m_memoryInfo.imageTableSize;
-    //qDebug() << " pixmapCout: " << m_memoryInfo.pixmapCount;
-    //qDebug() << " pixmapMaxCount: " << m_memoryInfo.pixmapMaxCount;
-    //qDebug() << " relative pixmapTableBegin: " << m_memoryInfo.pixmapTableBegin;
-    //qDebug() << " relative pixmapTableEnd: " << m_memoryInfo.pixmapTableEnd;
-    //qDebug() << " relative pixmapTableSize: " << m_memoryInfo.pixmapTableSize;
-    //qDebug() << " dataBegin: " << m_memoryInfo.dataBegin;
-    //qDebug() << " dataEnd: " << m_memoryInfo.dataEnd;
-
-    for( int i = 0; i < m_imageTable.size(); i++)
-    {
-        //qDebug() << "____________________________";
-        //qDebug() << i+1 << ". image: " << m_imageTable[i].id();
-        //qDebug() << " memoryPosition: " << m_imageTable[i].memoryPosition;
-        //qDebug() << " memorySize: " << m_imageTable[i].memorySize;
-        //qDebug() << " image width: " << m_imageTable[i].width;
-        //qDebug() << " image height: " << m_imageTable[i].height;
-    }
-
-    for( int i = 0; i < m_pixmapTable.size(); i++)
-    {
-        //qDebug() << "____________________________";
-        //qDebug() << i+1 << ". pixmap: " << m_pixmapTable[i].id();
-        //qDebug() << " image width: " << m_pixmapTable[i].width;
-        //qDebug() << " image height: " << m_pixmapTable[i].height;
-    }
-
-    //qDebug() << "____________________________ End Bulk";
-}

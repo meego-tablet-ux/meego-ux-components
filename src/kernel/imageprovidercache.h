@@ -94,8 +94,6 @@ public:
     void requestBorderGrid( const QString &id, int &borderTop, int &borderBottom, int &borderLeft, int &borderRight );
     void setPath( const QString path) { m_path = path; }
 
-    //FIXME to be removed
-    void bulk();
 
 private:
 
@@ -130,17 +128,6 @@ private:
     void saveImageInfo( int position, ImageReference &refTableInfo );
     /*! save referenceCount of a pixmap */
     void savePixmapInfo( int position, PixmapReference &refTableInfo );
-
-    /*! saves the list of the most referenced images for the next start
-     * \warning only the first client does that!
-     */
-    //FIXME: save List with statistics and aged information
-    void savePreLoadFile();
-    /*! loads the list of the most referenced images and loads them
-     * \warning only the last client does that!
-     */
-    //FIXME: save List with statistics and aged information
-    void loadPreLoadFile();
 
     void attachSharedMemory();
     void detachSharedMemory();

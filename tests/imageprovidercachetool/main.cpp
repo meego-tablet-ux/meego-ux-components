@@ -17,10 +17,12 @@ void printHelp()
     std::cout << "Usage: imageprovidercachetool [options]" << std::endl;
     std::cout << "  -mem --mem -m %name%: name of the sharedMemory, by default 'ImageProviderCache/meego/ux/theme' " << std::endl;
     std::cout << "  -clear --clear -c: clear shared memory:" << std::endl;    
-    std::cout << "  -reload --reload -r: reload shared memory" << std::endl;
-    //std::cout << "-save --save -s %filename%: save shared memory payload" << std::endl;
-    //std::cout << "-load --load -l %filename%: load shared memory payload" << std::endl;
+    std::cout << "  -reload --reload -r: reload/repair shared memory" << std::endl;
+    std::cout << "-save --save -s %filename%: save shared memory payload" << std::endl;
+    std::cout << "-load --load -l %filename%: load shared memory payload" << std::endl;
     std::cout << "  -bulk --bulk -b: bulk shared memory" << std::endl;
+    std::cout << "  -verify --verify -v: verify content memory" << std::endl;
+    std::cout << "  -veo --veo: verify content memory, show only errors" << std::endl;
     std::cout << "example: " << std::endl;
     std::cout << "  imageprovidercachetool -c --mem ImageProviderCache/meego/ux/theme " << std::endl;
 }
@@ -84,16 +86,16 @@ int main(int argc, char *argv[])
     }
 
     if( args.count() == 1 ||
-        args.contains( "--help", Qt::CaseInsensitive ) ||
-        args.contains( "-help", Qt::CaseInsensitive ) ||
-        args.contains( "-h", Qt::CaseInsensitive ) ) {
+            args.contains( "--help", Qt::CaseInsensitive ) ||
+            args.contains( "-help", Qt::CaseInsensitive ) ||
+            args.contains( "-h", Qt::CaseInsensitive ) ) {
 
         printHelp();
         ret = 1;
 
     } else if( args.contains( "--clear", Qt::CaseInsensitive ) ||
-               args.contains( "-clear", Qt::CaseInsensitive ) ||
-               args.contains( "-c", Qt::CaseInsensitive ) ) {
+              args.contains( "-clear", Qt::CaseInsensitive ) ||
+              args.contains( "-c", Qt::CaseInsensitive ) ) {
 
         ImageProviderCacheCtrl ctrl( sharedMemoryName );
 
@@ -113,8 +115,8 @@ int main(int argc, char *argv[])
         }
 
     } else if( args.contains( "--reload", Qt::CaseInsensitive ) ||
-               args.contains( "-reload", Qt::CaseInsensitive ) ||
-               args.contains( "-r", Qt::CaseInsensitive ) ) {
+              args.contains( "-reload", Qt::CaseInsensitive ) ||
+              args.contains( "-r", Qt::CaseInsensitive ) ) {
 
         ImageProviderCacheCtrl ctrl( sharedMemoryName );
 
@@ -134,9 +136,36 @@ int main(int argc, char *argv[])
             std::cout << "error: reload sharedMemory - undefined error" << std::endl;
         }
 
+    } else if( args.contains( "--veo", Qt::CaseInsensitive ) ||
+              args.contains( "-veo", Qt::CaseInsensitive ) ) {
+
+        ImageProviderCacheCtrl ctrl( sharedMemoryName );
+
+        std::cout << "verify sharedMemory: " << sharedMemoryName.toStdString() << std::endl;
+
+        QStringList list = ctrl.verifyCache( true );
+        foreach( QString line, list ) {
+            std::cout << line.toStdString() << std::endl;
+        }
+        ret = 1;
+
+    } else if( args.contains( "--verify", Qt::CaseInsensitive ) ||
+              args.contains( "-verify", Qt::CaseInsensitive ) ||
+              args.contains( "-v", Qt::CaseInsensitive ) ) {
+
+        ImageProviderCacheCtrl ctrl( sharedMemoryName );
+
+        std::cout << "verify sharedMemory: " << sharedMemoryName.toStdString() << std::endl;
+
+        QStringList list = ctrl.verifyCache( false );
+        foreach( QString line, list ) {
+            std::cout << line.toStdString() << std::endl;
+        }
+        ret = 1;
+
     } else if( args.contains( "--bulk", Qt::CaseInsensitive ) ||
-               args.contains( "-bulk", Qt::CaseInsensitive ) ||
-               args.contains( "-b", Qt::CaseInsensitive ) ) {
+              args.contains( "-bulk", Qt::CaseInsensitive ) ||
+              args.contains( "-b", Qt::CaseInsensitive ) ) {
 
         std::cout << "bulk sharedMemory: " << sharedMemoryName.toStdString() << std::endl;
 
@@ -169,8 +198,8 @@ int main(int argc, char *argv[])
         }
 
     } else if( args.contains( "--load", Qt::CaseInsensitive ) ||
-               args.contains( "-load", Qt::CaseInsensitive ) ||
-               args.contains( "-l", Qt::CaseInsensitive ) ) {
+              args.contains( "-load", Qt::CaseInsensitive ) ||
+              args.contains( "-l", Qt::CaseInsensitive ) ) {
 
         std::cout << "load sharedMemory: " << sharedMemoryName.toStdString() << std::endl;
 

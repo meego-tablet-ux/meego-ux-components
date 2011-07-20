@@ -18,8 +18,8 @@ void printHelp()
     std::cout << "  -mem --mem -m %name%: name of the sharedMemory, by default 'ImageProviderCache/meego/ux/theme' " << std::endl;
     std::cout << "  -clear --clear -c: clear shared memory:" << std::endl;    
     std::cout << "  -reload --reload -r: reload/repair shared memory" << std::endl;
-    std::cout << "-save --save -s %filename%: save shared memory payload" << std::endl;
-    std::cout << "-load --load -l %filename%: load shared memory payload" << std::endl;
+    std::cout << "  -save --save -s %filename%: save shared memory payload" << std::endl;
+    std::cout << "  -load --load -l %filename%: load shared memory payload" << std::endl;
     std::cout << "  -bulk --bulk -b: bulk shared memory" << std::endl;
     std::cout << "  -verify --verify -v: verify content memory" << std::endl;
     std::cout << "  -veo --veo: verify content memory, show only errors" << std::endl;

@@ -39,6 +39,9 @@ void NotificationIndicator::setActive(bool active)
 
         m_unreadProperty = new ContextProperty("Notifications.Unread", this);
         connect(m_unreadProperty, SIGNAL(valueChanged()), this, SLOT(updateIcon()));
+
+        // Check any state changes that may have happened while inactive
+        updateIcon();
     }
     else
     {

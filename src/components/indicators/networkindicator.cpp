@@ -69,6 +69,9 @@ void NetworkIndicator::setActive(bool active)
 
         m_signalStrengthProperty = new ContextProperty("Internet.SignalStrength", this);
         connect(m_signalStrengthProperty, SIGNAL(valueChanged()), this, SLOT(updateIcon()));
+
+        // Check any state changes that may have happened while inactive
+        updateIcon();
     }
     else
     {

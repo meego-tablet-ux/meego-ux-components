@@ -59,6 +59,9 @@ void BluetoothIndicator::setActive(bool active)
 
         m_networkTypeProperty = new ContextProperty("Internet.NetworkType", this);
         connect(m_networkTypeProperty, SIGNAL(valueChanged()), this, SLOT(networkTypeUpdated()));
+
+        // Check any state changes that may have happened while inactive
+        updateIcon();
     }
     else
     {

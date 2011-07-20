@@ -453,9 +453,19 @@ Item {
     }
 
     Rectangle {
+        id: nonRotatingBackground
         anchors.fill: parent
         color: "black"
-        visible: pageStack.depth > 0
+        visible: false
+        Connections {
+            target: window
+            onOrientationChangeFinished: {
+                nonRotatingBackground.visible = false
+            }
+            onOrientationChangeStarted: {
+                nonRotatingBackground.visible = (pageStack.depth > 0)
+            }
+        }
     }
 
     // For BMC#20259 (bugs.meego.com/show_bug.cgi?id=20259)
@@ -474,10 +484,20 @@ Item {
         id: window_content_topitem
 
         Rectangle {
+            id: rotatingBackground
             anchors.fill: parent
             color: "white"
-            visible: pageStack.depth > 0
+            visible: false
             z: -3
+            Connections {
+                target: window
+                onOrientationChangeFinished: {
+                    rotatingBackground.visible = false
+                }
+                onOrientationChangeStarted: {
+                    rotatingBackground.visible = (pageStack.depth > 0)
+                }
+            }
         }
 
         property string oldState: ""

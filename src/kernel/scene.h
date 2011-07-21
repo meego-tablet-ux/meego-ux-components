@@ -23,9 +23,9 @@ class Scene : public QObject
     Q_PROPERTY( Scene::Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged )
     Q_PROPERTY( Scene::Orientation sensorOrientation READ sensorOrientation NOTIFY sensorOrientationChanged )
     Q_PROPERTY( Scene::OrientationLock orientationLock READ orientationLock WRITE setOrientationLock NOTIFY orientationLockChanged )
-    Q_PROPERTY( bool orientationLocked READ orientationLocked )
+    Q_PROPERTY( bool orientationLocked READ orientationLocked NOTIFY orientationLockChanged )
     Q_PROPERTY( bool lockCurrentOrientation READ orientationLocked WRITE lockCurrentOrientation )
-    Q_PROPERTY( bool blockOrientationWhenInActive READ blockOrientationWhenInactive WRITE setBlockOrientationWhenInActive )
+    Q_PROPERTY( bool blockOrientationWhenInactive READ blockOrientationWhenInactive WRITE setBlockOrientationWhenInActive ) // DEPRECATED to be removed
     Q_PROPERTY( bool inhibitScreenSaver READ inhibitScreenSaver WRITE setInhibitScreenSaver NOTIFY inhibitScreenSaverChanged )
     Q_PROPERTY( bool isActiveScene READ isActiveScene WRITE setActiveScene NOTIFY activeSceneChanged )
 
@@ -69,8 +69,8 @@ public:
     bool orientationLocked() const;
     void lockCurrentOrientation( bool lock );
 
-    bool blockOrientationWhenInactive() const;
-    void setBlockOrientationWhenInActive( bool block );
+    bool blockOrientationWhenInactive() const; // DEPRECATED to be removed
+    void setBlockOrientationWhenInActive( bool block ); // DEPRECATED to be removed
 
     bool inLandscape() const;
     bool inPortrait() const;
@@ -78,7 +78,7 @@ public:
     bool inInvertedPortrait() const;
 
     bool isActiveScene() const;
-    void setActiveScene( bool active ) { m_bSceneActive = active; }
+    void setActiveScene( bool active );
 
     int winId() const;
     void setWinId( int winId );
@@ -106,7 +106,7 @@ private:
    bool m_bSceneActive;
    bool m_bInhibitScreenSaver;
    bool m_bActiveInhibitScreenSaver;
-   bool m_bBlockOrientationWhenInactive;
+   bool m_bBlockOrientationWhenInactive; // DEPRECATED to be removed
    int m_activeWinId;
    int m_myWinId;
    SaveRestoreState *m_saveRestoreState;

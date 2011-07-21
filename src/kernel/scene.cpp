@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "saverestorestate.h"
 #include <QTimer>
+#include <QDebug>
 
 Scene::Scene(QObject *parent) :
     QObject(parent),
@@ -60,6 +61,8 @@ void Scene::setOrientation( Orientation orientation )
 
     if( m_bSceneActive || !m_bBlockOrientationWhenInactive ) {
 
+        qDebug() << "*********************** set orientation " << orientation;
+
         if( noLock == m_orientationLock ) {
 
             m_orientation = orientation;
@@ -108,8 +111,6 @@ void Scene::setOrientation( Orientation orientation )
             }
         }
     }
-
-    emit orientationChanged();
 }
 Scene::OrientationLock Scene::orientationLock() const
 {
@@ -178,7 +179,9 @@ void Scene::setOrientationLock( OrientationLock orientationLock )
 
 bool Scene::orientationLocked() const
 {
-    if( m_orientationLock != noLock )
+    if( m_orientationLock == noLock ||
+        m_orientationLock == lockAllLandscape ||
+        m_orientationLock == lockAllPortrait )
         return true;
     return false;
 }
@@ -247,6 +250,11 @@ bool Scene::isActiveScene() const
 {
     return m_bSceneActive;
 }
+void Scene::setActiveScene( bool active )
+{
+    m_bSceneActive = active;
+    //setActiveWinId( m_myWinId );
+}
 
 int Scene::winId() const
 {
@@ -285,7 +293,6 @@ void Scene::setActiveWinId( int activeWinId )
         if( m_myWinId != m_activeWinId && m_bSceneActive ) {
 
             //deactivate
-
             m_bSceneActive = false;
             emit activeSceneChanged();
 
@@ -307,8 +314,13 @@ void Scene::setActiveWinId( int activeWinId )
 
         } else if ( m_myWinId == m_activeWinId && !m_bSceneActive ) {
 
-            //activate Window:
+            qDebug() << "*********************** actuvate ";
+            m_bSceneActive = true;
+            qDebug() << "*********************** actuvate set orientation" << m_realOrientation;
 
+            setOrientation( m_realOrientation );
+
+            //activate Window:
             m_bSceneActive = true;
             emit activeSceneChanged();
 
@@ -318,8 +330,7 @@ void Scene::setActiveWinId( int activeWinId )
                 emit inhibitScreenSaverChanged();
 
             }
-            setOrientation( m_realOrientation );
-            emit orientationLockChanged();
+
 
         }
     }

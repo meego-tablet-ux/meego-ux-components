@@ -304,7 +304,7 @@ Item {
     property alias isActiveWindow: scene.isActiveScene
     property alias orientation: scene.orientation
     property alias sensorOrientation: scene.sensorOrientation
-    property alias blockOrientationWhenInactive: scene .blockOrientationWhenInActive
+    property alias blockOrientationWhenInactive: scene .blockOrientationWhenInactive
     property alias orientationLock: scene.orientationLock
     property alias isOrientationLocked: scene.orientationLocked
     property alias lockCurrentOrientation: scene.lockCurrentOrientation     // deprecated
@@ -1237,12 +1237,12 @@ Item {
                     RotationAnimation {
                         target: window_content_topitem
                         direction: RotationAnimation.Shortest;
-                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration : 0
+                        duration: scene.isActiveScene ? theme.dialogAnimationDuration : 0
                     }
                     PropertyAnimation {
                         target: window_content_topitem
                         properties: "width,height"
-                        duration: ( scene.isActiveWindow || !scene.blockOrientationWhenInactive ) ? theme.dialogAnimationDuration : 0
+                        duration: scene.isActiveScene ? theme.dialogAnimationDuration : 0
                         easing.type: "OutSine"
                     }
                 }
@@ -1334,7 +1334,6 @@ Item {
         }
     }
 
-
     onActionMenuTriggered: {
         pageStack.emitActionMenuTriggered( selectedItem )
     }
@@ -1353,49 +1352,40 @@ Item {
 
         onOrientationChanged: {
 
-            if( mainWindow && mainWindow.actualOrientation != orientation)
-                mainWindow.actualOrientation = orientation;
+            if( mainWindow && mainWindow.actualOrientation != scene.orientation)
+                mainWindow.actualOrientation = scene.orientation;
 
         }
 
-        onOrientationLockChanged: {
-
-            if( qApp && qApp.orientationLocked != orientationLocked ) {
-                if( scene.blockOrientationLockInApp ) {
-                    if( scene.orientationLock < 5 ) //  FIXME -> no orientation stop on AllLandscape and AllPortrait lock
-                        qApp.orientationLocked = scene.orientationLocked
-                    else
-                        qApp.orientationLocked = false
-                }
-            }
+        onOrientationLockedChanged: {
+            if( qApp.orientationLocked != orientationLocked ) {
+                qApp.orientationLocked = scene.orientationLocked
         }
 
         onInhibitScreenSaverChanged: {
-
             mainWindow.inhibitScreenSaver = scene.inhibitScreenSaver
         }
 
         Component.onCompleted: {
-
-            //console.log( "winid " + mainWindow.winId )
             scene.winId = mainWindow.winId;
             scene.activeWinId = qApp.foregroundWindow;
-            scene.orientation = qApp.orientation;
+            scene.orientation = qApp.orientation;           
         }
     }
 
     Connections {
         target: qApp
         onForegroundWindowChanged: {
-
-            scene.winId = mainWindow.winId; //FIXME on start the winId is empty, signal must be emitted by meego-qml-launcher
-
+            scene.winId = mainWindow.winId;
             if( scene.activeWinId != qApp.foregroundWindow ) {
-                scene.activeWinId = qApp.foregroundWindow;
+                if( scene.winId == qApp.foregroundWindow )
+                    scene.orientation = qApp.orientation
+                scene.activeWinId = qApp.foregroundWindow
             }
         }
         onOrientationChanged: {
-            scene.orientation = qApp.orientation;
+            console.log( qApp.orientation + "+++++++++++++++++++++++++++++++++++++++++++++++++++" )
+            scene.orientation = qApp.orientation
         }
     }
     Connections {

@@ -14,7 +14,7 @@
 Scene::Scene(QObject *parent) :
     QObject(parent),
     m_orientation( landscape ),
-    m_realOrientation( landscape ),
+    m_sensorOrientation( landscape ),
     m_orientationLock( noLock ),
     m_lockCurrentOrientation( false ),
     m_bSceneActive( true ),
@@ -32,7 +32,7 @@ Scene::Orientation Scene::orientation() const
 }
 Scene::Orientation Scene::sensorOrientation() const
 {
-    return m_realOrientation;
+    return m_sensorOrientation;
 }
 
 QString Scene::orientationString() const
@@ -56,12 +56,10 @@ QString Scene::orientationString() const
 
 void Scene::setOrientation( Orientation orientation )
 {
-    m_realOrientation = orientation;
+    m_sensorOrientation = orientation;
     emit sensorOrientationChanged();
 
     if( m_bSceneActive || !m_bBlockOrientationWhenInactive ) {
-
-        qDebug() << "*********************** set orientation " << orientation;
 
         if( noLock == m_orientationLock ) {
 
@@ -124,8 +122,8 @@ void Scene::setOrientationLock( OrientationLock orientationLock )
 
         if( noLock == m_orientationLock ) {
 
-            if( m_orientation != m_realOrientation ) {
-                m_orientation = m_realOrientation;
+            if( m_orientation != m_sensorOrientation ) {
+                m_orientation = m_sensorOrientation;
                 emit orientationChanged();
             }
         } else if( lockLandscape == m_orientationLock ) {
@@ -237,8 +235,8 @@ void Scene::lockCurrentOrientation( bool lock )
             }
         } else {
             m_orientationLock = noLock;
-            if( m_realOrientation != m_orientation) {
-                m_orientation = m_realOrientation;
+            if( m_sensorOrientation != m_orientation) {
+                m_orientation = m_sensorOrientation;
                 emit orientationChanged();
             }
         }
@@ -253,7 +251,6 @@ bool Scene::isActiveScene() const
 void Scene::setActiveScene( bool active )
 {
     m_bSceneActive = active;
-    //setActiveWinId( m_myWinId );
 }
 
 int Scene::winId() const
@@ -314,11 +311,9 @@ void Scene::setActiveWinId( int activeWinId )
 
         } else if ( m_myWinId == m_activeWinId && !m_bSceneActive ) {
 
-            qDebug() << "*********************** actuvate ";
             m_bSceneActive = true;
-            qDebug() << "*********************** actuvate set orientation" << m_realOrientation;
 
-            setOrientation( m_realOrientation );
+            setOrientation( m_sensorOrientation );
 
             //activate Window:
             m_bSceneActive = true;
@@ -330,8 +325,6 @@ void Scene::setActiveWinId( int activeWinId )
                 emit inhibitScreenSaverChanged();
 
             }
-
-
         }
     }
 }

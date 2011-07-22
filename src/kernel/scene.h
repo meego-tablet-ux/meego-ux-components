@@ -98,8 +98,8 @@ signals:
     void disableSceneChanged();
 
 private:
-   Orientation m_orientation;
-   Orientation m_realOrientation;
+   Orientation     m_orientation;
+   Orientation     m_sensorOrientation;
    OrientationLock m_orientationLock;
 
    bool m_lockCurrentOrientation;

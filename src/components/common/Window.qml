@@ -1349,25 +1349,19 @@ Item {
     // Meego-qml-launcher handling
     Scene {
         id: scene
-
         onOrientationChanged: {
-
-            if( mainWindow && mainWindow.actualOrientation != scene.orientation)
+            if( mainWindow.actualOrientation != scene.orientation)
                 mainWindow.actualOrientation = scene.orientation;
-
         }
-
         onOrientationLockedChanged: {
             if( qApp.orientationLocked != orientationLocked ) {
                 qApp.orientationLocked = scene.orientationLocked
         }
-
         onInhibitScreenSaverChanged: {
             mainWindow.inhibitScreenSaver = scene.inhibitScreenSaver
         }
-
         Component.onCompleted: {
-            scene.winId = mainWindow.winId;
+            scene.winId       = mainWindow.winId;
             scene.activeWinId = qApp.foregroundWindow;
             scene.orientation = qApp.orientation;           
         }
@@ -1384,7 +1378,6 @@ Item {
             }
         }
         onOrientationChanged: {
-            console.log( qApp.orientation + "+++++++++++++++++++++++++++++++++++++++++++++++++++" )
             scene.orientation = qApp.orientation
         }
     }

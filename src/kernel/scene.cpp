@@ -180,8 +180,8 @@ bool Scene::orientationLocked() const
     if( m_orientationLock == noLock ||
         m_orientationLock == lockAllLandscape ||
         m_orientationLock == lockAllPortrait )
-        return true;
-    return false;
+        return false;
+    return true;
 }
 
 

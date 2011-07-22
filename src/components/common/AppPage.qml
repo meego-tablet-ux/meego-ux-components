@@ -91,6 +91,9 @@
   \qmlproperty [signal] searchRetracted
   \qmlcm Signal that fires when the searchbar retracted.
 
+  \qmlproperty [signal] backButtonPressed
+  \qmlcm Signal that fires when the back button was pressed.
+
   \qmlproperty [signal] search
   \qmlcm is sent when a string was typed into the searchbar
         \param string needle

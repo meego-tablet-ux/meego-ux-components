@@ -1353,7 +1353,7 @@ Item {
             if( mainWindow.actualOrientation != scene.orientation)
                 mainWindow.actualOrientation = scene.orientation;
         }
-        onOrientationLockedChanged: {
+        onOrientationLockChanged: {
             if( qApp.orientationLocked != orientationLocked ) {
                 qApp.orientationLocked = scene.orientationLocked
         }

@@ -162,6 +162,7 @@ Item {
     signal deactivating // emitted by PageStack.qml
     signal deactivated // emitted by PageStack.qml
     signal focusChanged(bool appPageHasFocus)
+    signal backButtonPressed( bool backButtonLocked )
 
     signal searchExtended()
     signal searchRetracted()
@@ -247,5 +248,6 @@ Item {
         onSearch: if( pageActive ) appPage.search( needle )
         onSearchExtended: if( pageActive ) appPage.searchExtended()
         onSearchRetracted: if( pageActive ) appPage.searchRetracted()
+        onBackButtonPressed: if( pageActive )  appPage.backButtonPressed( backButtonLocked )
     }
 }

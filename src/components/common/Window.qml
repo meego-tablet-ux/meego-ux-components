@@ -134,8 +134,8 @@
  \qmlproperty bool inhibitScreenSaver
  \qmlcm bool, inhibits activation of the screen saver.
 
- \qmlproperty bool backButtonEnabled
- \qmlcm bool, inhibits if the backButton is enabled or not. if not enabled.
+ \qmlproperty bool backButtonLocked
+ \qmlcm bool, If true, inhibits if the backButton from changing the pacge stack.
 
  \qmlproperty Item content
  \qmlcm the content area where the AppPages are shown. By default the PageStack and the overlayArea are

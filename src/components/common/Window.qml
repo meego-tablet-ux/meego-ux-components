@@ -1356,6 +1356,7 @@ Item {
         onOrientationLockChanged: {
             if( qApp.orientationLocked != orientationLocked ) {
                 qApp.orientationLocked = scene.orientationLocked
+            }
         }
         onInhibitScreenSaverChanged: {
             mainWindow.inhibitScreenSaver = scene.inhibitScreenSaver

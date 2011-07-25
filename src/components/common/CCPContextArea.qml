@@ -195,7 +195,8 @@ MouseArea {
         if (clickCount == 2) {
             state = "selection"
 	    doubleClickTimer.stop ();
-        clickCount = 0;
+            clickCount = 0;
+            box.isPressed = false
 
         selectionHandleSurface.initiate()
 

@@ -556,11 +556,9 @@ ModalFog {
 
         onGeometryChanged: {
             if(container.visible){
-                if (targetContainer != null) {
-                    menuContainer.mouseEventX = baseX * top.topWidth
-                    menuContainer.mouseEventY = baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
-                    menuContainer.rescale()
-                }
+                menuContainer.mouseEventX = container.baseX * top.topWidth
+                menuContainer.mouseEventY = container.baseY * (top.topHeight - top.topDecorationHeight) + top.topDecorationHeight
+                menuContainer.rescale()
             }
         }
     }

@@ -434,6 +434,7 @@ Item {
         }
     }
 
+    visible: ( isActiveWindow || pageStack.depth == 0 )
     width: { try { screenWidth; } catch (err) { 1024; } }
     height: { try { screenHeight;} catch (err) {  576; } }
     clip: true

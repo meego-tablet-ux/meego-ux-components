@@ -42,10 +42,3 @@ void PreeditInjector::inject(QObject* editor, int start, int len)
     if(!ic->filterEvent(&pie))
         ic->sendEvent(QIME(substr, AList()));
 }
-
-void PreeditInjectorPlugin::registerTypes(const char *uri)
-{
-    qmlRegisterType<PreeditInjector>(uri, 0, 1, "PreeditInjector");
-}
-
-Q_EXPORT_PLUGIN2(preeditinjector, PreeditInjectorPlugin);

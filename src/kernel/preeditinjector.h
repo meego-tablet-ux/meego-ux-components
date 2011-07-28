@@ -17,12 +17,4 @@ public:
     Q_INVOKABLE void inject(QObject* editor, int start, int len);
 };
 
-
-class PreeditInjectorPlugin : public QDeclarativeExtensionPlugin
-{
-    Q_OBJECT;
-public:
-    void registerTypes(const char *uri);
-};
-
 #endif // _PREEDITINJECTOR_H
